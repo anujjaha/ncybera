@@ -49,14 +49,17 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Shaishav Shah <i class="caret"></i></span>
+                                <span><?php echo $this->session->userdata['username'];?><i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="<?php echo base_url('assets/img/avatar04.png')?>" class="img-circle" alt="User Image" />
+                                    <?php $profile = $this->session->userdata['profile_pic'];?>
+                                    <img src="<?php echo base_url('assets/users/'.$profile)?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        Shaishav Shah - Print
+                                    <?php echo $this->session->userdata['username'];?> - 
+                                    <?php echo $this->session->userdata['department'];?>
+                                       
                                         <small>Cybera Team Member</small>
                                     </p>
                                 </li>
@@ -78,7 +81,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>-->
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="<?php echo base_url();?>user/login" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>

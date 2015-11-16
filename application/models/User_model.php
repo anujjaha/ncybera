@@ -6,6 +6,18 @@ class User_model extends CI_Model {
     }
     public $table = "job";
 	
+    public function login_user($username=null,$password=null) {
+        if(!empty($username) && !empty($password)) {
+            $query = "SELECT * FROM users u
+                     LEFT JOIN user_meta um ON u.id = um.user_id
+                     WHERE u.username = '$username'
+                     AND u.password = '$password' 
+                     AND u.active = 1";
+            $result = $this->db->query($query);
+            return $result->row();
+        }
+        return false;
+    }
 	public function get_jobs($job_id=null,$extra = array()) {
 		if($job_id) {
 			$sql = "SELECT * FROM job jb 

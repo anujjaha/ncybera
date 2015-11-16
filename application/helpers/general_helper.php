@@ -7,6 +7,20 @@ if ( ! function_exists('test_method'))
         echo "Test Method";
     }   
     
+    function user_logged_in() {
+        $ci =& get_instance();
+        $class = $ci->router->fetch_class();
+        $method = $ci->router->fetch_method();
+        if($class == 'user' && $method == 'login') {
+            return true;
+        } else { 
+            if(! isset($ci->session->userdata['login'])) {
+                redirect("user/login/",'refresh'); 
+            }
+        }
+    }
+  
+    
     function create_customer_dropdown($type,$flag=null) {
 		if($type == "customer") {
 			$sql = "SELECT id,name FROM customer WHERE ctype = 0 order by name";

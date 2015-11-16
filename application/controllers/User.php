@@ -25,14 +25,14 @@ class User extends CI_Controller {
 	 */
 	public function index()
 	{
-		
-		$this->load->helper(array('form'));
-		$this->load->view('login_view');
-		
+           /* $this->load->helper(array('form'));
+            $this->load->view('login_view'); */
+            
+
 	}
 	
 	public function dashboard() {
-		/*$today = date("Y-m-d");
+           	/*$today = date("Y-m-d");
 		$condition = array('condition'=>array('jdate'=>$today))	;
 		$result = $this->user_model->get_jobs('',$condition);
 		$data['title']="Dashboard";
@@ -84,22 +84,28 @@ class User extends CI_Controller {
 		$this->template->load('user', 'search', $data);
 	}
 	
-	function login($username, $password) {
-	   $this -> db -> select('id, username, password');
-	   $this -> db -> from('user');
-	   $this -> db -> where('username', $username);
-	   $this -> db -> where('password', MD5($password));
-	   $this -> db -> limit(1);
-	 
-	   $query = $this->db->get();
-	 
-	   if($query->num_rows() == 1)
-	   {
-		 return $query->result();
-	   }
-	   else
-	   {
-		 return false;
-	   }
+	function login() {
+            $this->load->helper(array('form'));
+            $data=array();
+            if($this->input->post()) {
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
+                $result = $this->user_model->login_user($username,$password);
+                if($result) {
+                    $set_data = array('login'=>true,'user_id'=>$result->id,'department'=>$result->department,
+                                       'username'=>$result->nickname,'mobile'=>$result->mobile,
+                                       'profile_pic'=>$result->profile_pic
+                                       );
+                $this->session->set_userdata($set_data);
+                redirect("user/dashboard/",'refresh');
+                } else {
+                    $this->session->set_flashdata('msg', 'Invalid Credentials');
+                }
+            } else {
+               $this->session->sess_destroy(); 
+            }
+            $this->load->view('login_view');
 	 }
+         
+         
 }
