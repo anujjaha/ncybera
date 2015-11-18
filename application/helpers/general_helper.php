@@ -11,7 +11,7 @@ if ( ! function_exists('test_method'))
         $ci =& get_instance();
         $class = $ci->router->fetch_class();
         $method = $ci->router->fetch_method();
-        if($class == 'user' && $method == 'login') {
+        if($class == 'user' &&  $method == 'login' || $method == 'logout') {
             return true;
         } else { 
             if(! isset($ci->session->userdata['login'])) {

@@ -64,7 +64,7 @@ class Jobs extends CI_Controller {
 			$this->load->model('job_model');
 			$jobdata = array();
 			$jobdata['customer_id'] = $customer_id;
-			$jobdata['user_id'] = '1';
+			$jobdata['user_id'] = $this->session->userdata['user_id'];
 			$jobdata['jobname'] = $this->input->post('jobname');
 			$jobdata['subtotal'] = $this->input->post('subtotal');
 			$jobdata['tax'] = $this->input->post('tax');
@@ -130,6 +130,9 @@ class Jobs extends CI_Controller {
 				$jobdata['advance'] = $this->input->post('advance');
 				$jobdata['due'] = $this->input->post('due');
 				$jobdata['notes'] = $this->input->post('notes');
+				$jobdata['bill_number'] = $this->input->post('bill_number');
+				$jobdata['voucher_number'] = $this->input->post('voucher_number');
+				$jobdata['receipt'] = $this->input->post('receipt');
 				$jobdata['jstatus'] = "Pending";
 				$jobdata['jmonth'] = date('M-Y');
 				//$jobdata['jdate'] = date('Y-m-d');
@@ -147,6 +150,7 @@ class Jobs extends CI_Controller {
 					$job_details['jqty'] = $this->input->post('qty_'.$i);
 					$job_details['jrate'] = $this->input->post('rate_'.$i);
 					$job_details['jamount'] = $this->input->post('sub_'.$i);
+					$job_details['modifiedby'] = $this->input->post('modified');
 					$job_details['ismodified'] = 1;
 					$job_update_status = $this->job_model->update_job_details($j_details_id,$job_details);
 					} else {

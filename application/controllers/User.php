@@ -25,13 +25,21 @@ class User extends CI_Controller {
 	 */
 	public function index()
 	{
-           /* $this->load->helper(array('form'));
-            $this->load->view('login_view'); */
-            
+          if($this->session->userdata['login']) {
+              $this->dashboard();
+          }
+        }
+        
+        public function logout() {
+            $set_data = array('user_id'=>null,'login'=>"0",'department'=>null,'username'=>null,'mobile'=>null);
+            $this->session->unset_userdata($array_items);
+            $this->session->sess_destroy(); 
+            session_destroy();
+            $this->session->set_userdata($set_data);
+            redirect("user/login/",'refresh');
+        }
 
-	}
-	
-	public function dashboard() {
+                public function dashboard() {
            	/*$today = date("Y-m-d");
 		$condition = array('condition'=>array('jdate'=>$today))	;
 		$result = $this->user_model->get_jobs('',$condition);
