@@ -15,7 +15,8 @@ class Customer_model extends CI_Model {
 		}
 		$sql = "SELECT *, 
 				(SELECT SUM(total) from job WHERE job.customer_id = $this->table.id)  as 'total_amount' ,
-				(SELECT SUM(due) from job WHERE job.customer_id = $this->table.id)  as 'due' 
+				(SELECT SUM(due) from job WHERE job.customer_id = $this->table.id)  as 'due' ,
+				(select sum(amount) from user_transactions where user_transactions.customer_id=customer.id) as 'total_credit'
 				FROM $this->table 
 				order by name";
 		$query = $this->db->query($sql);
@@ -37,7 +38,8 @@ class Customer_model extends CI_Model {
 		if($customer_id) {
 		$data['modified'] = date('Y-m-d H:i:s');
 		$this->db->where('id = '.$customer_id);
-		return $this->db->update($this->table,$data);
+		 $this->db->update($this->table,$data);
+		 echo $this->db->last_query();die;
 		}
 		return false;
 	}

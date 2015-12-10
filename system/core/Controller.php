@@ -79,6 +79,14 @@ class CI_Controller {
 		$this->load->initialize();
 		log_message('info', 'Controller Class Initialized');
                 user_logged_in();
+                //echo $user_type = $this->session->userdata['department'];
+                $valid_method = array('prints');
+                $user_type = $this->session->userdata['department'];
+                if(in_array($user_type, $valid_method)) {
+                     user_authentication($user_type);
+                }
+                
+               
 	}
 
 	// --------------------------------------------------------------------

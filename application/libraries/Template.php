@@ -48,7 +48,11 @@
         {
             $data->body = $body;
         }
-
-    $this->ci->load->view('layout/default', $data);
+	if($_SESSION['department'] == 'prints') {
+            $this->ci->load->view('layout/default_print', $data);
+        } else {
+            $this->ci->load->view('layout/default', $data);
+        }
+        
 }
     }

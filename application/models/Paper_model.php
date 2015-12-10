@@ -5,6 +5,40 @@ class Paper_model extends CI_Model {
                 parent::__construct();
     }
     public $table = "paper_details";
+    
+    public function get_all_papers() {
+		$this->db->select('*')
+				->from($this->table);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
+	public function insert_paper_details($data=array()){
+		if($data) {
+		$status = $this->db->insert_batch($this->table,$data);
+		return true;
+		}
+		return false;
+	}
+	
+	public function delete_paper_details($id=null) {
+		if($id) {
+			$this->db->where('id',$id);
+			$this->db->delete($this->table);
+			return true;
+		}
+		return false;
+	}
+	
+	public function update_paper_details($id=null,$data) {
+		if($id) {
+			$data['modified_date'] = date('Y-m-d H:i:s');
+			$this->db->where('id',$id);
+			$this->db->update($this->table,$data);
+			return true;
+		}
+		return false;
+	}
 	
 	public function get_paper_rate($paper_gram,$paper_size,$paper_qty) {
 		$query = "select paper_gram,paper_amount from $this->table

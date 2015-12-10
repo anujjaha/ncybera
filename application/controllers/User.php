@@ -112,7 +112,8 @@ class User extends CI_Controller {
             } else {
                $this->session->sess_destroy(); 
             }
-            $this->load->view('login_view');
+            $data['title'] = $data['heading']="Login";
+            $this->load->view('login_view',$data);
 	 }
          
          

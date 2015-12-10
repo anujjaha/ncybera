@@ -44,10 +44,10 @@ class Jobs extends CI_Controller {
 		$data['title']="Job - Cybera Print Art";
 		$data['heading']="Jobs";
 		if($this->input->post()) {
-			
+			$this->load->model('customer_model');
 			if($this->input->post('customer_type') == 'new') {
 				$data=array();
-				$this->load->model('customer_model');
+				
 				$data['name'] = $this->input->post('name');
 				$data['mobile'] = $this->input->post('user_mobile');
 				$data['companyname'] = $this->input->post('companyname');
@@ -58,9 +58,6 @@ class Jobs extends CI_Controller {
 			}
 			
 			
-			if($this->input->post('customer_type') == 'new') {
-				
-			}
 			$this->load->model('job_model');
 			$jobdata = array();
 			$jobdata['customer_id'] = $customer_id;
@@ -183,4 +180,18 @@ class Jobs extends CI_Controller {
 			$this->template->load('job', 'print_job', $data);
 		}
 	}
+        
+        public function view_job($job_id) {
+            if($job_id) {
+			$this->load->model('job_model');
+			$job_data = $this->job_model->get_job_data($job_id);
+			$job_details = $this->job_model->get_job_details($job_id);
+			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+			$data['customer_details']=$customer_details;
+			$data['job_details']=$job_details;
+			$data['job_data']=$job_data;
+			$data['heading'] = $data['title']='View Job';
+			$this->template->load('job', 'view_job', $data);
+		}
+        }
 }

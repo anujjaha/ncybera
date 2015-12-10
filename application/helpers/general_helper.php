@@ -19,6 +19,20 @@ if ( ! function_exists('test_method'))
             }
         }
     }
+    
+    function user_authentication($department) {
+        $ci =  & get_instance();
+        $class = $ci->router->fetch_class();
+        $method = $ci->router->fetch_method();
+        if($class == 'user' &&  $method == 'login' || $method == 'logout') {
+            return true;
+        }
+        if($class == 'ajax') { return true; }
+        if($class != $department) {
+            redirect("$department",'refresh'); 
+        }
+        return true;
+    }
   
     
     function create_customer_dropdown($type,$flag=null) {

@@ -34,38 +34,9 @@
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="active">
-                            <a href="<?php echo base_url();?>jobs/edit">
-                                <i class="fa fa-dashboard"></i> <span>New Job</span>
-                            </a>
-                        </li>
                          <li>
-                            <a href="<?php echo base_url();?>jobs">
-                                <i class="fa fa-envelope"></i> <span>Jobs</span>
-                                <small class="badge pull-right bg-yellow">
-                                <span id="show_jobs"></span>
-                                </small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url();?>dealer">
-                                <i class="fa fa-calendar"></i> <span>Dealers</span>
-                                <small class="badge pull-right bg-red">
-                                <span id="show_dealers"></span>
-                                </small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url();?>customer">
-                                <i class="fa fa-calendar"></i> <span>Customers</span>
-                                <small class="badge pull-right bg-red">
-                                <span id="show_customers"></span>
-                                </small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url();?>paper">
-                                <i class="fa fa-calendar"></i> <span>Manage Papers</span>
+                            <a href="<?php echo base_url();?>prints/get_all">
+                                <i class="fa fa-envelope"></i> <span>All Jobs</span>
                             </a>
                         </li>
                         <li>
@@ -86,6 +57,7 @@
             </aside>
 <script>
 jQuery("document").ready(function(){
+	/*
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/user/get_leftbar_status/", 
@@ -97,6 +69,6 @@ jQuery("document").ready(function(){
 				jQuery("#show_customers").html(data.customers);
 				
 			}
-          });
+          });*/
 });
 </script>

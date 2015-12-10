@@ -3,18 +3,28 @@ class Job_model extends CI_Model {
 	public function __construct()
     {
 		parent::__construct();
-		date_default_timezone_set('Asia/Kolkata');
-    }
+	}
     public $table = "job";
+    public $table_transaction = "user_transactions";
     public $table_details = "job_details";
     public $table_customer = "customer";
 	
 	public function insert_job($data) {
 		$data['created'] = date('Y-m-d H:i:s');
-		$status = $this->db->insert($this->table,$data);
-		return $this->db->insert_id();
+		$this->db->insert($this->table,$data);
+		$job_id = $this->db->insert_id();
+		$transaction_data['job_id']=$job_id;
+		$transaction_data['customer_id']=$data['customer_id'];
+		$transaction_data['cmonth']=$data['jmonth'];
+		$transaction_id = $this->insert_transaction($transaction_data);
+		return $job_id;
 	}
 	
+	public function insert_transaction($data=array()) {
+		$data['created'] = date('Y-m-d H:i:s');
+		$this->db->insert($this->table_transaction,$data);
+		return $this->db->insert_id();
+	}
 	public function update_job($job_id=null,$data=array()) {
 		if($job_id) {
 			$data['modified'] = date('Y-m-d H:i:s');
@@ -79,7 +89,7 @@ class Job_model extends CI_Model {
 			$param = 'job.jdate';	
 			$value = date('Y-m-d');
 		}
-		$sql = "SELECT *,job.id as job_id FROM job
+		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
 				 WHERE $param= '$value'
