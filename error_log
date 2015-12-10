@@ -1,0 +1,1 @@
+[10-Dec-2015 20:01:20 Asia/Kolkata] PHP Fatal error:  Call to undefined method Paper_model::get_all_papers() in /home/mandarpanel15/public_html/cybtest/application/controllers/Paper.php on line 26
