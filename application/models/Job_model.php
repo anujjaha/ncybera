@@ -8,6 +8,7 @@ class Job_model extends CI_Model {
     public $table_transaction = "user_transactions";
     public $table_details = "job_details";
     public $table_customer = "customer";
+    public $table_cutting_details = "cutting_details";
 	
 	public function insert_job($data) {
 		$data['created'] = date('Y-m-d H:i:s');
@@ -75,6 +76,13 @@ class Job_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	public function get_cutting_details($job_id) {
+		$this->db->select('*')
+				->from($this->table_cutting_details)
+				->where('j_id ='.$job_id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 	public function get_customer_details($customer_id) {
 		$this->db->select('*')
@@ -95,6 +103,64 @@ class Job_model extends CI_Model {
 				 WHERE $param= '$value'
 				 order by job.id DESC
 				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	
+	public function get_today_cutting_details($param=null,$value=null) {
+		if(empty($param)) {
+			$param = 'job.jdate';	
+			$value = date('Y-m-d');
+		}
+		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 LEFT JOIN cutting_details
+				 ON job.id = cutting_details.j_id
+				 WHERE job.id IN (select j_id from cutting_details where c_status =0)
+				 group by job.id
+				 order by job.id DESC
+				 
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	public function get_all_cutting_details($param=null,$value=null) {
+		if(empty($param)) {
+			$param = 'job.jdate';	
+			$value = date('Y-m-d');
+		}
+		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 LEFT JOIN cutting_details
+				 ON job.id = cutting_details.j_id
+				 WHERE job.id IN (select j_id from cutting_details)
+				 group by job.id
+				 order by job.id DESC
+				 
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+        
+    public function insert_cuttingdetails($data,$flag=null) {
+        if($flag) {
+            return $this->db->insert($this->table_cutting_details,$data);
+        }
+        $status = $this->db->insert_batch($this->table_cutting_details,$data);
+        return true;
+    }
+    
+    public function get_paper_gsm() {
+		$sql = "SELECT paper_gram from paper_details group by paper_gram";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+    public function get_paper_size() {
+		$sql = "SELECT paper_size from paper_details group by paper_size";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}

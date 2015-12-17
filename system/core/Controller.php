@@ -80,7 +80,7 @@ class CI_Controller {
 		log_message('info', 'Controller Class Initialized');
                 user_logged_in();
                 //echo $user_type = $this->session->userdata['department'];
-                $valid_method = array('prints');
+                $valid_method = array('prints','cuttings');
                 $user_type = $this->session->userdata['department'];
                 if(in_array($user_type, $valid_method)) {
                      user_authentication($user_type);

@@ -40,63 +40,81 @@ class Jobs extends CI_Controller {
 		$this->template->load('job', 'index', $data);
 	}
 	public function edit($job_id=null)
-	{
-		$data['title']="Job - Cybera Print Art";
-		$data['heading']="Jobs";
-		if($this->input->post()) {
-			$this->load->model('customer_model');
-			if($this->input->post('customer_type') == 'new') {
-				$data=array();
-				
-				$data['name'] = $this->input->post('name');
-				$data['mobile'] = $this->input->post('user_mobile');
-				$data['companyname'] = $this->input->post('companyname');
-				$data['emailid'] = $this->input->post('emailid');
-				$customer_id = $this->customer_model->insert_customer($data);
-			} else {
-				$customer_id = $this->input->post('customer_id');
-			}
-			
-			
-			$this->load->model('job_model');
-			$jobdata = array();
-			$jobdata['customer_id'] = $customer_id;
-			$jobdata['user_id'] = $this->session->userdata['user_id'];
-			$jobdata['jobname'] = $this->input->post('jobname');
-			$jobdata['subtotal'] = $this->input->post('subtotal');
-			$jobdata['tax'] = $this->input->post('tax');
-			$jobdata['total'] = $this->input->post('total');
-			$jobdata['advance'] = $this->input->post('advance');
-			$jobdata['due'] = $this->input->post('due');
-			$jobdata['notes'] = $this->input->post('notes');
-			$jobdata['receipt'] = $this->input->post('receipt');
-			$jobdata['voucher_number'] = $this->input->post('voucher_number');
-			$jobdata['bill_number'] = $this->input->post('bill_number');
-			$jobdata['jstatus'] = "Pending";
-			$jobdata['jmonth'] = date('M-Y');
-			$jobdata['jdate'] = date('Y-m-d');
-			$job_id = $this->job_model->insert_job($jobdata);
-			
-			$job_details = array();
-			for($i=1;$i<6;$i++) {
-				$check = $this->input->post('details_'.$i);
-				if(!empty($check)) {
-					
-					$job_details[] = array(
-										'job_id'=>$job_id,
-										'jtype'=>$this->input->post('category_'.$i),
-										'jdetails'=>$this->input->post('details_'.$i),
-										'jqty'=>$this->input->post('qty_'.$i),
-										'jrate'=>$this->input->post('rate_'.$i),
-										'jamount'=>$this->input->post('sub_'.$i),
-										'created'=>date('Y-m-d H:i:s')
-								);
+{
+        $data['title']="Job - Cybera Print Art";
+        $data['heading']="Jobs";
+        if($this->input->post()) {
+                $this->load->model('customer_model');
+                if($this->input->post('customer_type') == 'new') {
+                        $data=array();
+
+                        $data['name'] = $this->input->post('name');
+                        $data['mobile'] = $this->input->post('user_mobile');
+                        $data['companyname'] = $this->input->post('companyname');
+                        $data['emailid'] = $this->input->post('emailid');
+                        $customer_id = $this->customer_model->insert_customer($data);
+                } else {
+                        $customer_id = $this->input->post('customer_id');
+                }
+
+
+                $this->load->model('job_model');
+                $jobdata = array();
+                $jobdata['customer_id'] = $customer_id;
+                $jobdata['user_id'] = $this->session->userdata['user_id'];
+                $jobdata['jobname'] = $this->input->post('jobname');
+                $jobdata['subtotal'] = $this->input->post('subtotal');
+                $jobdata['tax'] = $this->input->post('tax');
+                $jobdata['total'] = $this->input->post('total');
+                $jobdata['advance'] = $this->input->post('advance');
+                $jobdata['due'] = $this->input->post('due');
+                $jobdata['notes'] = $this->input->post('notes');
+                $jobdata['receipt'] = $this->input->post('receipt');
+                $jobdata['voucher_number'] = $this->input->post('voucher_number');
+                $jobdata['bill_number'] = $this->input->post('bill_number');
+                $jobdata['jstatus'] = "Pending";
+                $jobdata['jmonth'] = date('M-Y');
+                $jobdata['jdate'] = date('Y-m-d');
+                $job_id = $this->job_model->insert_job($jobdata);
+
+        $job_details = array();
+        $cutting_details = array();
+        for($i=1;$i<6;$i++) {
+        $check = $this->input->post('details_'.$i);
+        $check_cutting = $this->input->post('c_machine_'.$i);
+        if(!empty($check)) {
+            $job_details[] = array(
+                'job_id'=>$job_id,
+                'jtype'=>$this->input->post('category_'.$i),
+                'jdetails'=>$this->input->post('details_'.$i),
+                'jqty'=>$this->input->post('qty_'.$i),
+                'jrate'=>$this->input->post('rate_'.$i),
+                'jamount'=>$this->input->post('sub_'.$i),
+                'created'=>date('Y-m-d H:i:s')
+                );
+            }
+        if(!empty($check_cutting)) {
+            $cutting_details[] = array('j_id'=>$job_id,
+                                       'c_machine'=>$this->input->post('c_machine_'.$i),
+                                       'c_material'=>$this->input->post('c_material_'.$i),
+                                       'c_qty'=>$this->input->post('c_qty_'.$i),
+                                       'c_size'=>$this->input->post('c_size_'.$i),
+                                       'c_print'=>$this->input->post('c_print_'.$i),
+                                       'c_details'=>$this->input->post('c_details_'.$i),
+                                       'c_lamination'=>$this->input->post('c_lamination_'.$i),
+                                       'c_packing'=>$this->input->post('c_packing_'.$i),
+                                    );
+        }
+        }
+                $this->job_model->insert_jobdetails($job_details);
+                if($cutting_details) {
+					$this->job_model->insert_cuttingdetails($cutting_details);
 				}
-			}
-			$this->job_model->insert_jobdetails($job_details);
-			redirect("jobs/job_print/".$job_id,'refresh');
-		}
-		$this->template->load('job', 'edit', $data);
+                redirect("jobs/job_print/".$job_id,'refresh');
+        }
+        $data['paper_gsm']= $this->get_paper_gsm();
+        $data['paper_size']= $this->get_paper_size();
+        $this->template->load('job', 'edit', $data);
 	}
 	
 	
@@ -194,4 +212,13 @@ class Jobs extends CI_Controller {
 			$this->template->load('job', 'view_job', $data);
 		}
         }
+        
+	public function get_paper_gsm() {
+		$this->load->model('job_model');
+		return $this->job_model->get_paper_gsm();
+	}
+	public function get_paper_size() {
+		$this->load->model('job_model');
+		return $this->job_model->get_paper_size();
+	}
 }
