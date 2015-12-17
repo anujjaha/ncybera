@@ -4,7 +4,12 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <?php $profile = $this->session->userdata['profile_pic'];?>
+                             <?php
+								$profile = $this->session->userdata['profile_pic'];
+								if(empty($profile)) {
+									$profile = 'avatar5.png';
+								}
+                            ?>
                             <img src="<?php echo base_url('assets/users/'.$profile)?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
