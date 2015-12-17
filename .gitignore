@@ -27,3 +27,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 
 ncyb-v1.zip
+
+application/config/*
+.htaccess
+.gitignore
+composer.json
