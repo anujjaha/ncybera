@@ -99,9 +99,14 @@ class Jobs extends CI_Controller {
                                        'c_material'=>$this->input->post('c_material_'.$i),
                                        'c_qty'=>$this->input->post('c_qty_'.$i),
                                        'c_size'=>$this->input->post('c_size_'.$i),
+                                       'c_sizeinfo'=>$this->input->post('c_sizeinfo_'.$i),
                                        'c_print'=>$this->input->post('c_print_'.$i),
                                        'c_details'=>$this->input->post('c_details_'.$i),
                                        'c_lamination'=>$this->input->post('c_lamination_'.$i),
+                                       'c_laminationinfo'=>$this->input->post('c_laminationinfo_'.$i),
+                                       'c_binding'=>$this->input->post('c_binding_'.$i),
+                                       'c_bindinginfo'=>$this->input->post('c_bindinginfo_'.$i),
+                                       'c_checking'=>$this->input->post('c_checking_'.$i),
                                        'c_packing'=>$this->input->post('c_packing_'.$i),
                                     );
         }
