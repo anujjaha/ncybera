@@ -1,0 +1,5 @@
+ALTER TABLE  `cutting_details` ADD  `c_sizeinfo` VARCHAR( 10 ) NOT NULL AFTER  `c_size`
+ALTER TABLE  `cutting_details` ADD  `c_laminationinfo` VARCHAR( 10 ) NOT NULL AFTER  `c_lamination`
+ALTER TABLE  `cutting_details` ADD  `c_binding` VARCHAR( 60 ) NOT NULL AFTER  `c_laminationinfo`	
+ALTER TABLE  `cutting_details` ADD  `c_bindinginfo` VARCHAR( 30 ) NOT NULL AFTER  `c_binding`
+ALTER TABLE  `cutting_details` ADD  `c_checking` VARCHAR( 30 ) NOT NULL AFTER  `c_packing`

@@ -31,7 +31,7 @@
 
 <table width="100%" border="2">
 	<tr>
-		<td colspan="9" align="center">
+		<td colspan="11" align="center">
 			Job Name : <?php echo $job_data->jobname;?>
 		</td>
 	</tr>
@@ -42,9 +42,11 @@
 		<td width="10%">Size</td>
 		<td width="10%">Print</td>
 		<td width="10%">Lamination</td>
+		<td width="5%">Binding</td>
 		<td width="10%">Packing</td>
-		<td width="25%">Details</td>
-		<td width="10%">Qty.</td>
+		<td width="5%">Checking</td>
+		<td width="20%">Details</td>
+		<td width="5%">Qty.</td>
 	</tr>
 	<?php 
 	$j=1;
@@ -53,10 +55,20 @@
 		<td><?php echo $j;?>
 		<td><?php echo $c_details['c_machine'];?></td>
 		<td><?php echo $c_details['c_material'];?></td>
-		<td><?php echo $c_details['c_size'];?></td>
+		<td>
+			<?php echo $c_details['c_size'];?>
+			<br>
+			<?php echo $c_details['c_sizeinfo'];?>
+		</td>
 		<td><?php echo $c_details['c_print'];?></td>
-		<td><?php echo $c_details['c_lamination'];?></td>
+		<td><?php echo $c_details['c_lamination']."-".$c_details['c_laminationinfo'];?></td>
+		<td>
+			<?php echo $c_details['c_binding'];?>
+			<br>
+			Half Cutting :<?php echo $c_details['c_bindinginfo'];?>
+		</td>
 		<td><?php echo $c_details['c_packing'];?></td>
+		<td><?php echo $c_details['c_checking'];?></td>
 		<td><?php echo $c_details['c_details'];?></td>
 		<td align="right">
 			<?php echo $c_details['c_qty'];?>
@@ -64,7 +76,7 @@
 	</tr>
 	<?php $j++;} ?>
 	<tr>
-		<td colspan="9">
+		<td colspan="11">
 			Notes : <?php echo $job_data->notes;?>
 		</td>
 		<?php /*

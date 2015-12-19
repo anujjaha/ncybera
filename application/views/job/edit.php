@@ -38,11 +38,24 @@ function set_cutting_details(id){
 
 function set_cutting_details_box(id){
 	var data_id =jQuery("#fancybox_cutting_id").val();
-	var machine,size,details,lamination,printing,packing;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
-        size = jQuery("#size").val();
+        
+      binding = ""; 
+      var $boxes = $('input[name=binding]:checked');
+      $boxes.each(function(){
+		  if($(this).val().length > 0 ) {
+			binding = $(this).val() + ","+binding;  
+		  }
+		});
+        
+        lamination_info = jQuery("#lamination_info").val();
+        size_info = jQuery("#size_info").val();
+        binding_info = jQuery("#binding_info").val();
         details = jQuery("#details").val();
         lamination = $('input:radio[name=lamination]:checked').val();//jQuery("#lamination").val();
+        checking = $('input:radio[name=checking]:checked').val();//jQuery("#lamination").val();
+        size = $('input:radio[name=size]:checked').val();//jQuery("#lamination").val();
         printing =  $('input:radio[name=printing]:checked').val();// jQuery("#printing").val();
         packing =  $('input:radio[name=packing]:checked').val(); //printing jQuery("#packing").val();
         jQuery("#c_machine_"+data_id).val(machine);
@@ -53,6 +66,11 @@ function set_cutting_details_box(id){
         jQuery("#c_lamination_"+data_id).val(lamination);
         jQuery("#c_print_"+data_id).val(printing);
         jQuery("#c_packing_"+data_id).val(packing);
+        jQuery("#c_laminationinfo_"+data_id).val(lamination_info);
+        jQuery("#c_sizeinfo_"+data_id).val(size_info);
+        jQuery("#c_bindinginfo_"+data_id).val(binding_info);
+        jQuery("#c_binding_"+data_id).val(binding);
+        jQuery("#c_checking_"+data_id).val(checking);
         $.fancybox.close();
 }
 function remove_cutting_details(data_id) {
@@ -314,8 +332,8 @@ $this->load->helper('general'); ?>
 </form>
 
 <div id="fancy_box_cutting" style="width:800px;display: none;">
-    <div style="width: 800px; margin: 0 auto; padding: 120px 0 40px;">
-        <table  width="80%" border="2">
+    <div style="width: 800px; margin: 0 auto;">
+        <table  width="80%" border="2" align="center">
             <tr>
                 <td colspan="2" align="center"><h1>Fill Cutting Details</h1></td>
             </tr>
@@ -329,7 +347,9 @@ $this->load->helper('general'); ?>
             <tr>
                 <td align="right">Size:</td>
                 <td>
-                    <input type="text" name="size" id="size">
+                    <label><input type="radio" name="size" id="size" value="12X18">12X18</label>
+                    <label><input type="radio" name="size" id="size" value="13X19">13X19</label>
+                    <input type="text" name="size_info" id="size_info" value="1/">
                 </td>
             </tr>
             <tr>
@@ -347,12 +367,25 @@ $this->load->helper('general'); ?>
                 <td align="right">Lamination:</td>
                 <td>
                     <label>
-                        <input type="radio" id="lamination" name="lamination" value="SS">Single Side
+                        <input type="radio" id="lamination" name="lamination" value="SS">Single
                     </label>
                     <label>
-                        <input type="radio" id="lamination" name="lamination" value="FB">Double Side
+                        <input type="radio" id="lamination" name="lamination" value="FB">Double
                     </label>
+                    <input type="text" name="lamination_info" id="lamination_info">
                 </td>
+            </tr>
+            <tr>
+				<td align="right">Binding</td>
+				<td>
+					<label><input type="checkbox" name="binding" value="Creasing">Creasing</label>
+					<label><input type="checkbox" name="binding" value="Center Pin">Center Pin</label>
+					<label><input type="checkbox" name="binding" value="Perfect Binding">Perfect Binding</label>
+					<label><input type="checkbox" name="binding" value="Performance">Performance</label>
+					<label><input type="checkbox" name="binding" value="Folding">Folding</label>
+					<br>
+					Half Cutting:<input type="text" name="binding_info" id="binding_info">
+				</td>
             </tr>
             <tr>
                 <td align="right">Packing:</td>
@@ -362,6 +395,13 @@ $this->load->helper('general'); ?>
                     <label><input type="radio" id="packing" name="packing" value="Plastic Bag">Plastic Bag</label>
                     <label><input type="radio" id="packing" name="packing" value="Letter Head">Letter Head</label>
                     <label><input type="radio" id="packing" name="packing" value="Parcel">Parcel</label>
+                </td>
+            </tr>
+            <tr>
+				<td align="right">Checking:</td>
+                <td>
+					<label><input type="radio" name="checking" value="Paper">Paper</label>
+                    <label><input type="radio" name="checking" value="Printing">Printing</label>
                 </td>
             </tr>
             <tr>
@@ -446,7 +486,7 @@ $this->load->helper('general'); ?>
 </div>
 
 <?php 
-for($i=1;$i<6;$i++) { ?>
+for($i=1;$i<2;$i++) { ?>
 <div style="display:none;">
     <input type="text" name="c_machine_<?php echo $i;?>" id="c_machine_<?php echo $i;?>">
     <input type="text" name="c_qty_<?php echo $i;?>" id="c_qty_<?php echo $i;?>">
@@ -456,5 +496,10 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_lamination_<?php echo $i;?>" id="c_lamination_<?php echo $i;?>">
     <input type="text" name="c_packing_<?php echo $i;?>" id="c_packing_<?php echo $i;?>">
     <input type="text" name="c_print_<?php echo $i;?>" id="c_print_<?php echo $i;?>">
+    <input type="text" name="c_laminationinfo_<?php echo $i;?>" id="c_laminationinfo_<?php echo $i;?>">
+    <input type="text" name="c_sizeinfo_<?php echo $i;?>" id="c_sizeinfo_<?php echo $i;?>">
+    <input type="text" name="c_bindinginfo_<?php echo $i;?>" id="c_bindinginfo_<?php echo $i;?>">
+    <input type="text" name="c_binding_<?php echo $i;?>" id="c_binding_<?php echo $i;?>">
+    <input type="text" name="c_checking_<?php echo $i;?>" id="c_checking_<?php echo $i;?>">
 </div>
 <?php } ?>
