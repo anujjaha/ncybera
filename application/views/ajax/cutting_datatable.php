@@ -23,7 +23,14 @@
 		foreach($jobs as $job) { 
 			?>
 		<tr>
-		<td><?php echo $sr;?></td>
+		<td>
+		<p id="jview_<?php echo $sr;?>">
+		<?php
+			if($job['j_view']) {
+				echo $sr;
+			}else { ?> <i class="fa fa-refresh fa-spin fa-4x" onclick="view_job(<?php echo $sr;?>,<?php echo $job['job_id'];?>);"></i><?php } ?>
+		</p>
+		</td>
 		<td><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
@@ -36,7 +43,7 @@
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
-		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
+		<td><a class="fancybox"  onclick="show_cutting_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

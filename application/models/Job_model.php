@@ -97,7 +97,11 @@ class Job_model extends CI_Model {
 			$param = 'job.jdate';	
 			$value = date('Y-m-d');
 		}
-		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
+		$department = $this->session->userdata['department'];
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view
+				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
 				 WHERE $param= '$value'
@@ -109,11 +113,11 @@ class Job_model extends CI_Model {
 	
 	
 	public function get_today_cutting_details($param=null,$value=null) {
-		if(empty($param)) {
-			$param = 'job.jdate';	
-			$value = date('Y-m-d');
-		}
-		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
+		$department = $this->session->userdata['department'];
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view
+				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
 				 LEFT JOIN cutting_details
@@ -121,7 +125,6 @@ class Job_model extends CI_Model {
 				 WHERE job.id IN (select j_id from cutting_details where c_status =0)
 				 group by job.id
 				 order by job.id DESC
-				 
 				";
 		$query = $this->db->query($sql);
 		return $query->result_array();
