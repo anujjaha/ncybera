@@ -54,7 +54,14 @@ function show_job_details(job_id){
 		foreach($jobs as $job) { 
 			?>
 		<tr>
-		<td><?php echo $sr;?></td>
+		<td>
+		<p id="jview_<?php echo $sr;?>">
+		<?php
+			if($job['j_view']) {
+				echo $sr;
+			}else { ?> <i class="fa fa-refresh fa-spin fa-4x" onclick="view_job(<?php echo $sr;?>,<?php echo $job['job_id'];?>);"></i><?php } ?>
+		</p>
+		</td>
 		<td><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
@@ -133,7 +140,7 @@ function loadlink() {
 		var jcount = jQuery("#get_job_count").val();
 		$.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_job_count/jstatus/Pending", 
+         url: "<?php echo site_url();?>/ajax/ajax_job_count/", 
          success: 
             function(data){
 				if(jcount != data) {
@@ -149,10 +156,23 @@ loadlink();
 setInterval(function(){
     loadlink();
 }, 10000);
+
+function view_job(sr,id) {
+	jQuery("#jview_"+sr).html(sr);
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_job_view", 
+         data:{'id':id,'department':'<?php echo $this->session->userdata['department'];?>'},
+         success: 
+            function(data){
+				return true;
+          }
+          });
+}	
         </script>
 <div id="view_job_details" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
     <div id="job_view"></div>
 </div>
 </div>
-<input type="hidden" name="get_job_count" id="get_job_count" value="<?php echo $job_count;?>">
+<input type="hidden" name="get_job_count" id="get_job_count" value="<?php echo count($jobs);?>">

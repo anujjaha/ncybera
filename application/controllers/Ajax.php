@@ -7,6 +7,20 @@ class Ajax extends CI_Controller {
 		parent::__construct();
 	}
 	
+	public function ajax_job_view() {
+		if($this->input->post()) {
+			$this->load->model('jobview_model');
+			$data=array();
+			$data['department'] = $this->input->post('department');
+			$data['j_id'] = $this->input->post('id');
+			$data['user_id'] = $this->session->userdata['user_id'];
+			$data['view_time'] = date('h:i');
+			$data['view_date'] = date('Y-m-d');
+			$this->jobview_model->insert_jobview($data);
+			return true;
+		}
+		
+	}
 	public function ajax_job_details($job_id=null) {
 		if(! $job_id) {
 			return true;
@@ -40,6 +54,12 @@ class Ajax extends CI_Controller {
 	}
 	
 	public function ajax_job_datatable($param='jstatus',$value='Pending') {
+		$this->load->model('job_model');
+		$data = array();
+		$data['jobs'] = $this->job_model->get_today_details();
+		$this->load->view('ajax/job_datatable', $data);
+	}
+	public function ajax_cutting_datatable($param='jstatus',$value='Pending') {
 		$this->load->model('job_model');
 		$data = array();
 		$data['jobs'] = $this->job_model->get_today_cutting_details();

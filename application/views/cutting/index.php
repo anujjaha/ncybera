@@ -52,7 +52,14 @@ function show_cutting_details(job_id){
 		foreach($jobs as $job) { 
 			?>
 		<tr>
-		<td><?php echo $sr;?></td>
+		<td>
+		<p id="jview_<?php echo $sr;?>">
+		<?php
+			if($job['j_view']) {
+				echo $sr;
+			}else { ?> <i class="fa fa-refresh fa-spin fa-4x" onclick="view_job(<?php echo $sr;?>,<?php echo $job['job_id'];?>);"></i><?php } ?>
+		</p>
+		</td>
 		<td><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
@@ -111,7 +118,7 @@ function update_job_status(id) {
 function update_datatable_grid() {
 		$.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_job_datatable/jstatus/Pending", 
+         url: "<?php echo site_url();?>/ajax/ajax_cutting_datatable/jstatus/Pending", 
          success: 
             function(data){
 				//location.reload();
@@ -132,7 +139,7 @@ function update_datatable_grid() {
 }
 
 function loadlink() {
-		var jcount = jQuery("#get_job_count").val();
+		var jcount = jQuery("#cutting_counter").val();
 		$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/ajax_cutting_count/", 
@@ -140,8 +147,8 @@ function loadlink() {
             function(data){
 				if(jcount != data) {
 					//alert("Ajax Return	"+data);
-					jQuery("#get_job_count").val(data);
 					update_datatable_grid();
+					jQuery("#cutting_counter").val(data);
 				}
 				return true;
           }
@@ -152,11 +159,24 @@ loadlink();
 setInterval(function(){
     loadlink();
 }, 10000);
-        </script>
+
+function view_job(sr,id) {
+	jQuery("#jview_"+sr).html(sr);
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_job_view", 
+         data:{'id':id,'department':'<?php echo $this->session->userdata['department'];?>'},
+         success: 
+            function(data){
+				return true;
+          }
+          });
+}	
+</script>
 <div id="view_job_details" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
     <div id="job_view"></div>
 </div>
 </div>
 
-
+<input type="hidden" name="cutting_counter" id="cutting_counter" value="<?php echo count($jobs);?>">

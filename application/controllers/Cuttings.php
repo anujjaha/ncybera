@@ -23,9 +23,6 @@ class Cuttings extends CI_Controller {
             $this->load->model('job_model');
             $data = array();
             $data['jobs'] = $this->job_model->get_today_cutting_details('job.jstatus','Pending');
-            
-            
-            
             $data['heading'] =$data['title']="Cutting Department - Cybera Print Art";
             $this->template->load('cutting', 'index', $data);
 		
