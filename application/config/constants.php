@@ -83,3 +83,18 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+define('JOB_CREATED', "Created");
+define('JOB_PENDING', 'Pending');
+define('JOB_DESIGN', 'Designing');
+define('JOB_DESIGN_COMPLETED', "Design Completed");
+define('JOB_PRINT', 'Printing');
+define('JOB_PRINT_COMPLETED', "Print Completed");
+define('JOB_CUTTING', 'Cutting');
+define('JOB_CUTTING_COMPLETED', "Cutting Completed");
+define('JOB_HOLD', 'Hold');
+define('JOB_COMPLETE', 'Completed');
+define('JOB_EDIT', 'Edited');
+define('JOB_CANCEL', 'Cancel');
+define('JOB_CLOSE', 'Closed');
+

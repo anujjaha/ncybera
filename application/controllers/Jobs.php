@@ -76,7 +76,7 @@ class Jobs extends CI_Controller {
                 $jobdata['jmonth'] = date('M-Y');
                 $jobdata['jdate'] = date('Y-m-d');
                 $job_id = $this->job_model->insert_job($jobdata);
-
+				$j_status =$this->add_job_transaction($job_id,JOB_CREATED);
         $job_details = array();
         $cutting_details = array();
         for($i=1;$i<6;$i++) {
@@ -157,7 +157,7 @@ class Jobs extends CI_Controller {
 				$jobdata['jmonth'] = date('M-Y');
 				//$jobdata['jdate'] = date('Y-m-d');
 				$this->job_model->update_job($job_id,$jobdata);
-				
+				$j_status =$this->add_job_transaction($job_id,JOB_EDIT);
 				for($i=1;$i<6;$i++) {
 				$job_details=array();
 				$job_id = $this->input->post('job_id');
@@ -225,5 +225,12 @@ class Jobs extends CI_Controller {
 	public function get_paper_size() {
 		$this->load->model('job_model');
 		return $this->job_model->get_paper_size();
+	}
+	
+	public function add_job_transaction($job_id=null,$job_status='Created') {
+		$this->load->model('job_model');
+		$data['j_id']=$job_id;
+		$data['j_status']=$job_status;
+		return $this->job_model->add_job_transaction($data);
 	}
 }

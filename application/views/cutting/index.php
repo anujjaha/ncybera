@@ -106,9 +106,11 @@ function update_job_status(id) {
 	var value = $( "input:radio[name=jstatus]:checked" ).val();
 	 $.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/prints/update_job_status/"+id+"/"+value, 
+         url: "<?php echo site_url();?>/cuttings/update_job_status_cutting/"+id, 
+         data:{"j_id":id,"j_status":value},
          success: 
               function(data){
+				  alert(data);return false;
                             $.fancybox.close();
                             location.reload();
 			 }
