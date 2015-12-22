@@ -110,8 +110,7 @@ function update_job_status(id) {
          data:{"j_id":id,"j_status":value},
          success: 
               function(data){
-				  alert(data);return false;
-                            $.fancybox.close();
+				            $.fancybox.close();
                             location.reload();
 			 }
           });
