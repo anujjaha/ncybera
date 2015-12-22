@@ -44,9 +44,13 @@ class Cuttings extends CI_Controller {
             $this->template->load('cutting', 'all', $data);
 		
 	}
-	public function c()
-	{
-		echo "this is print";
-		
+	public function update_job_status_cutting($job_id=null,$status) {
+            if(! $job_id) {
+                return false;
+            }
+            $this->load->model('job_model');
+            $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
+            return $this->job_model->add_job_transaction($data);
 	}
+	
 }

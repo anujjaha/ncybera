@@ -108,19 +108,49 @@
 </div>
 <div class="row">
 <hr>
-	<div class="col-md-3">
-           <label><input type="radio" <?php if($job_data->jstatus == 'Pending'){ echo "checked='checked'"; };?> name="jstatus" value="Pending">Pending</label>
-	</div>
-	<div class="col-md-3">
-           <label> <input type="radio" <?php if($job_data->jstatus == 'Working'){ echo "checked='checked'"; };?> name="jstatus" value="Working">Working</label>
-	</div>
-	<div class="col-md-3">
-          <label>  <input type="radio" <?php if($job_data->jstatus == 'Hold'){ echo "checked='checked'"; };?> name="jstatus" value="Hold">Hold</label>
-	</div>
-	<div class="col-md-3">
-           <label> <input type="radio" <?php if($job_data->jstatus == 'Completed'){ echo "checked='checked'"; };?> name="jstatus" value="Completed">Completed</label>
-	</div>
-	
+	<div class="col-md-12">
+		   <table align="center" border="0" width="90%">
+			<tr>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_PENDING){ echo "checked='checked'"; };?> name="jstatus" value="Pending">
+						<?php echo JOB_PENDING;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_DESIGN){ echo "checked='checked'"; };?> name="jstatus" value="Designing">
+						<?php echo JOB_DESIGN;?>
+						</label>
+				</td>
+				<td>
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_DESIGN_COMPLETED){ echo "checked='checked'"; };?> name="jstatus" value="Design Completed">
+						<?php echo JOB_DESIGN_COMPLETED;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_PRINT){ echo "checked='checked'"; };?> name="jstatus" value="Printing">
+						<?php echo JOB_PRINT;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_PRINT_COMPLETED){ echo "checked='checked'"; };?> name="jstatus" value="Print Completed">
+						<?php echo JOB_PRINT_COMPLETED;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_HOLD){ echo "checked='checked'"; };?> name="jstatus" value="Hold">
+						<?php echo JOB_HOLD;?>
+						</label>
+				</td>
+				
+			</tr>
+		</table>
+    </div>
 </div>
 <div class="row">
 	<div class="col-md-12">

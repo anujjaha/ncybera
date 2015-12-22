@@ -9,6 +9,7 @@ class Job_model extends CI_Model {
     public $table_details = "job_details";
     public $table_customer = "customer";
     public $table_cutting_details = "cutting_details";
+    public $table_job_transaction = "job_transaction";
 	
 	public function insert_job($data) {
 		$data['created'] = date('Y-m-d H:i:s');
@@ -54,7 +55,8 @@ class Job_model extends CI_Model {
 	
 	public function get_job_data($job_id=null) {
 		if($job_id) {
-			$this->db->select('*')
+			$this->db->select('*,(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus')
 					->from($this->table)
 					->where('id ='.$job_id);
 			$query = $this->db->get();
@@ -100,11 +102,12 @@ class Job_model extends CI_Model {
 		$department = $this->session->userdata['department'];
 		$sql = "SELECT *,job.id as job_id,job.created as 'created',
 				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
-				as j_view
+				as j_view,
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
 				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
-				 WHERE $param= '$value'
 				 order by job.id DESC
 				";
 		$query = $this->db->query($sql);
@@ -116,7 +119,9 @@ class Job_model extends CI_Model {
 		$department = $this->session->userdata['department'];
 		$sql = "SELECT *,job.id as job_id,job.created as 'created',
 				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
-				as j_view
+				as j_view,
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
 				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
@@ -135,7 +140,10 @@ class Job_model extends CI_Model {
 			$param = 'job.jdate';	
 			$value = date('Y-m-d');
 		}
-		$sql = "SELECT *,job.id as job_id,job.created as 'created' FROM job
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
 				 LEFT JOIN cutting_details
@@ -166,5 +174,17 @@ class Job_model extends CI_Model {
 		$sql = "SELECT paper_size from paper_details group by paper_size";
 		$query = $this->db->query($sql);
 		return $query->result_array();
+	}
+	
+	public function add_job_transaction($data=array()) {
+		if($data) {
+			$data['user_id']= $this->session->userdata['user_id'];
+			$data['j_time']= date('H:i A');
+			$data['j_date']= date('Y-m-d');
+			$data['created_date']= date('Y-m-d H:i:s');
+			$this->db->insert($this->table_job_transaction,$data);
+			return $this->db->insert_id();
+		}
+		return false;
 	}
 }

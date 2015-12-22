@@ -102,12 +102,13 @@ function show_job_details(job_id){
             
 function update_job_status(id) {
 	var value = $( "input:radio[name=jstatus]:checked" ).val();
-	 $.ajax({
+	$.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/prints/update_job_status/"+id+"/"+value, 
+         url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
+         data:{"j_id":id,"j_status":value},
          success: 
               function(data){
-                            $.fancybox.close();
+							$.fancybox.close();
                             location.reload();
 			 }
           });
