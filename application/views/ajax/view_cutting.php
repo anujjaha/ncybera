@@ -127,19 +127,37 @@
 </div>
 <div class="row">
 <hr>
-	<div class="col-md-3">
-           <label><input type="radio" <?php if($job_data->jstatus == 'Pending'){ echo "checked='checked'"; };?> name="jstatus" value="Pending">Pending</label>
-	</div>
-	<div class="col-md-3">
-           <label> <input type="radio" <?php if($job_data->jstatus == 'Working'){ echo "checked='checked'"; };?> name="jstatus" value="Working">Working</label>
-	</div>
-	<div class="col-md-3">
-          <label>  <input type="radio" <?php if($job_data->jstatus == 'Hold'){ echo "checked='checked'"; };?> name="jstatus" value="Hold">Hold</label>
-	</div>
-	<div class="col-md-3">
-           <label> <input type="radio" <?php if($job_data->jstatus == 'Completed'){ echo "checked='checked'"; };?> name="jstatus" value="Completed">Completed</label>
-	</div>
-	
+	<div class="col-md-12">
+		   <table align="center" border="0" width="90%">
+			<tr>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_PENDING){ echo "checked='checked'"; };?> name="jstatus" value="Pending">
+						<?php echo JOB_PENDING;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_CUTTING){ echo "checked='checked'"; };?> name="jstatus" value="<?php echo JOB_CUTTING;?>">
+						<?php echo JOB_CUTTING;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_CUTTING_COMPLETED){ echo "checked='checked'"; };?> name="jstatus" value="<?php echo JOB_CUTTING_COMPLETED;?>">
+						<?php echo JOB_CUTTING_COMPLETED;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_HOLD){ echo "checked='checked'"; };?> name="jstatus" value="Hold">
+						<?php echo JOB_HOLD;?>
+						</label>
+				</td>
+				
+			</tr>
+		</table>
+    </div>
 </div>
 <div class="row">
 	<div class="col-md-12">

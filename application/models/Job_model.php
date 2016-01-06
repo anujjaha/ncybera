@@ -95,9 +95,10 @@ class Job_model extends CI_Model {
 	}
 	
 	public function get_today_details($param=null,$value=null) {
-		if(empty($param)) {
-			$param = 'job.jdate';	
-			$value = date('Y-m-d');
+		$condition = "";
+		if(!empty($param)) {
+			$condition = "WHERE $param = $value";
+			
 		}
 		$department = $this->session->userdata['department'];
 		$sql = "SELECT *,job.id as job_id,job.created as 'created',
@@ -108,6 +109,7 @@ class Job_model extends CI_Model {
 				FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
+				 $condition
 				 order by job.id DESC
 				";
 		$query = $this->db->query($sql);
@@ -182,8 +184,25 @@ class Job_model extends CI_Model {
 			$data['j_time']= date('H:i A');
 			$data['j_date']= date('Y-m-d');
 			$data['created_date']= date('Y-m-d H:i:s');
+			if($data['j_status'] == JOB_COMPLETE) {
+				$update_job['status']=0;
+				$this->update_job($data['j_id'],$update_job);
+			}
 			$this->db->insert($this->table_job_transaction,$data);
 			return $this->db->insert_id();
+		}
+		return false;
+	}
+	
+	public function job_status_history($job_id=null) {
+		if($job_id) {
+			$this->db->select('*')
+			->from($this->table_job_transaction)
+			->join('user_meta ','user_meta.user_id=job_transaction.user_id','left')
+			->where('job_transaction.j_id',$job_id)
+			->order_by('job_transaction.id','DESC');
+			$query = $this->db->get();
+			return $query->result_array();
 		}
 		return false;
 	}

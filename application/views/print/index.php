@@ -69,7 +69,7 @@ function show_job_details(job_id){
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
 		<td><?php echo $job['due'];?></td>
-		<td><?php echo date('h:i a d-M',strtotime($job['created']));?></td>
+		<td><?php echo date('m-d-Y',strtotime($job['created']))." ".date('h:i a',strtotime($job['created']));?></td>
 		<td><?php echo $job['jstatus'];?></td>
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
@@ -82,7 +82,7 @@ function show_job_details(job_id){
 	</div><!-- /.box-body -->
 	</div><!-- /.box -->
 	</div>
-
+<input type="hidden" name="get_job_count" id="get_job_count" value="<?php echo count($jobs);?>">
 <script src="<?php echo base_url('assets/js/plugins/datatables/jquery.dataTables.js')?>" type="text/javascript"></script>
 <script src="<?php echo base_url('assets/js/plugins/datatables/dataTables.bootstrap.js')?>" type="text/javascript"></script>
 
@@ -176,4 +176,4 @@ function view_job(sr,id) {
     <div id="job_view"></div>
 </div>
 </div>
-<input type="hidden" name="get_job_count" id="get_job_count" value="<?php echo count($jobs);?>">
+
