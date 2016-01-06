@@ -22,7 +22,7 @@ class Prints extends CI_Controller {
 	{
             $this->load->model('job_model');
             $data = array();
-            $data['jobs'] = $this->job_model->get_today_details('job.job_status','Pending');
+            $data['jobs'] = $this->job_model->get_today_details('job.status','1');
             $data['heading'] =$data['title']="Print Department - Cybera Print Art";
             $this->template->load('print', 'index', $data);
 		
@@ -39,7 +39,7 @@ class Prints extends CI_Controller {
 	{
             $this->load->model('job_model');
             $data = array();
-            $data['jobs'] = $this->job_model->get_today_details('job.status','1');
+            $data['jobs'] = $this->job_model->get_today_details();
             $data['heading'] =$data['title']="Print Department - Cybera Print Art";
             $this->template->load('print', 'all', $data);
 		

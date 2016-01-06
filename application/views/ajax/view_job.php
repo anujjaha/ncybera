@@ -117,7 +117,7 @@
 						<?php echo JOB_PENDING;?>
 						</label>
 				</td>
-				<td> 
+				<?php /*<td> 
 					<label>
 						<input type="radio" <?php if($job_data->jstatus == JOB_DESIGN){ echo "checked='checked'"; };?> name="jstatus" value="Designing">
 						<?php echo JOB_DESIGN;?>
@@ -128,7 +128,7 @@
 						<input type="radio" <?php if($job_data->jstatus == JOB_DESIGN_COMPLETED){ echo "checked='checked'"; };?> name="jstatus" value="Design Completed">
 						<?php echo JOB_DESIGN_COMPLETED;?>
 						</label>
-				</td>
+				</td>*/?>
 				<td> 
 					<label>
 						<input type="radio" <?php if($job_data->jstatus == JOB_PRINT){ echo "checked='checked'"; };?> name="jstatus" value="Printing">

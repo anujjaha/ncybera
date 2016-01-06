@@ -72,7 +72,6 @@ class Jobs extends CI_Controller {
                 $jobdata['receipt'] = $this->input->post('receipt');
                 $jobdata['voucher_number'] = $this->input->post('voucher_number');
                 $jobdata['bill_number'] = $this->input->post('bill_number');
-                $jobdata['jstatus'] = "Pending";
                 $jobdata['jmonth'] = date('M-Y');
                 $jobdata['jdate'] = date('Y-m-d');
                 $job_id = $this->job_model->insert_job($jobdata);
@@ -153,7 +152,7 @@ class Jobs extends CI_Controller {
 				$jobdata['bill_number'] = $this->input->post('bill_number');
 				$jobdata['voucher_number'] = $this->input->post('voucher_number');
 				$jobdata['receipt'] = $this->input->post('receipt');
-				$jobdata['jstatus'] = "Pending";
+				
 				$jobdata['jmonth'] = date('M-Y');
 				//$jobdata['jdate'] = date('Y-m-d');
 				$this->job_model->update_job($job_id,$jobdata);
