@@ -134,7 +134,7 @@ function check_form() {
 <?php
 $this->load->helper('form');
 $this->load->helper('general'); ?>
-<form action="<?php echo site_url();?>jobs/edit" method="post" onsubmit="return check_form()">
+<form action="<?php echo site_url();?>/jobs/edit" method="post" onsubmit="return check_form()">
 <div class="col-md-12">
 <table width="100%" border="2">
 	<tr>
@@ -236,7 +236,7 @@ $this->load->helper('general'); ?>
         <td><?php echo $i;?></td>
             <td><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
             <td>
-                    <select name="category_<?php echo $i;?>">
+                    <select class="form-control" name="category_<?php echo $i;?>">
                             <option>Digital Print</option>
                             <option>Offset Print</option>
                             <option>Cutting</option>
@@ -434,7 +434,7 @@ $this->load->helper('general'); ?>
 				<table width="80%" border="2">
 					<tr>
 						<td align="right">Select Paper : </td>
-						<td><select name="paper_gram" id="paper_gram">
+						<td><select  name="paper_gram" id="paper_gram">
 							<?php foreach($paper_gsm as $gsm) {?>
 							<option value="<?php echo strtolower($gsm['paper_gram']);?>">
 							<?php echo $gsm['paper_gram'];?></option>

@@ -115,10 +115,29 @@ class Job_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	public function get_dashboard_details() {
+		$today = date('Y-m-d');
+		$department = $this->session->userdata['department'];
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view,
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 job.status != 0 OR job.jdate = '".$today."'
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 	
 	
 	public function get_today_cutting_details($param=null,$value=null) {
 		$department = $this->session->userdata['department'];
+		$today = date('Y-m-d');
 		$sql = "SELECT *,job.id as job_id,job.created as 'created',
 				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
 				as j_view,
@@ -130,6 +149,7 @@ class Job_model extends CI_Model {
 				 LEFT JOIN cutting_details
 				 ON job.id = cutting_details.j_id
 				 WHERE job.id IN (select j_id from cutting_details where c_status =0)
+				 and job.jdate = '".$today."'
 				 group by job.id
 				 order by job.id DESC
 				";

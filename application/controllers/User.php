@@ -39,8 +39,8 @@ class User extends CI_Controller {
             redirect("user/login/",'refresh');
         }
 
-                public function dashboard() {
-           	/*$today = date("Y-m-d");
+		public function dashboard() {
+        /*$today = date("Y-m-d");
 		$condition = array('condition'=>array('jdate'=>$today))	;
 		$result = $this->user_model->get_jobs('',$condition);
 		$data['title']="Dashboard";
@@ -48,10 +48,7 @@ class User extends CI_Controller {
 		$data['jobs']= $result;*/
 		$this->load->model('job_model');
 		$data = array();
-		$data['jobs'] = $this->job_model->get_today_details();
-		/*foreach($jobs as $job) {
-			$jd = $this->job_model->get_job_details($job['job_id']);	
-		}*/
+		$data['jobs'] = $this->job_model->get_dashboard_details();
 		$data['title']="Job - Cybera Print Art";
 		$data['heading']="Jobs";
 		$this->template->load('user', 'index', $data);

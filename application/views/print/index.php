@@ -117,7 +117,7 @@ function update_job_status(id) {
 function update_datatable_grid() {
 		$.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_job_datatable/jstatus/Pending", 
+         url: "<?php echo site_url();?>/ajax/ajax_job_datatable/", 
          success: 
             function(data){
 				//location.reload();

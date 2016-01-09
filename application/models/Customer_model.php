@@ -39,7 +39,7 @@ class Customer_model extends CI_Model {
 		$data['modified'] = date('Y-m-d H:i:s');
 		$this->db->where('id = '.$customer_id);
 		 $this->db->update($this->table,$data);
-		 echo $this->db->last_query();die;
+		 return true;
 		}
 		return false;
 	}
