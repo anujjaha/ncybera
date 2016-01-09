@@ -55,7 +55,8 @@ class Paper_model extends CI_Model {
 		} else {
 			$query = "select paper_gram,paper_amount from $this->table
 					WHERE paper_qty_max = (select MAX(paper_qty_max) from $this->table 
-					WHERE paper_gram = '$paper_gram' AND paper_size = '$paper_size')";
+					WHERE paper_gram = '$paper_gram' AND paper_size = '$paper_size')
+					AND paper_gram = '$paper_gram' AND paper_size = '$paper_size'";
 			$result = $this->db->query($query);	 
 			return $result->row();
 		}

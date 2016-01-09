@@ -45,7 +45,7 @@ if ( ! function_exists('test_method'))
 			if($flag) {
 				$extra = 'onchange="customer_selected('."'customer'".',this.value)"';
 			}
-			$dropdown = "<select name='customer' $extra><option value=0> Select Customer</option>";
+			$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Customer</option>";
 			
 			foreach($query->result() as $customer) {
 					$dropdown .= "<option value='".$customer->id."'>".$customer->name."</option>";
@@ -63,7 +63,7 @@ if ( ! function_exists('test_method'))
 		if($flag) {
 			$extra = 'onchange="customer_selected('."'dealer'".',this.value)"';
 		}
-		$dropdown = "<select name='customer' $extra><option value=0> Select Dealer</option>";
+		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Dealer</option>";
 		foreach($query->result() as $customer) {
 				$dropdown .= "<option value='".$customer->id."'>".
 				$customer->name

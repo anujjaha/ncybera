@@ -53,10 +53,13 @@ class Ajax extends CI_Controller {
 		$this->load->view('ajax/view_cutting', $data);
 	}
 	
-	public function ajax_job_datatable($param='jstatus',$value='Pending') {
+	public function ajax_job_datatable($param='jdate',$value) {
 		$this->load->model('job_model');
 		$data = array();
-		$data['jobs'] = $this->job_model->get_today_details();
+		if(! $value) {
+			$value = "'".date('Y-m-d')."'";
+		}
+		$data['jobs'] = $this->job_model->get_today_details("job.$param","$value");
 		$this->load->view('ajax/job_datatable', $data);
 	}
 	public function ajax_cutting_datatable($param='jstatus',$value='Pending') {
@@ -66,8 +69,11 @@ class Ajax extends CI_Controller {
 		$this->load->view('ajax/cutting_datatable', $data);
 	}
 	
-	public function ajax_job_count($param='jstatus',$value='Pending') {
+	public function ajax_job_count($param='jdate',$value) {
 		$this->load->model('job_model');
+		if(! $value) {
+			$value = "'".date('Y-m-d')."'";
+		}
 		$data = array();
 		$data['jobs'] = count($this->job_model->get_today_details("job.$param","$value"));
 		echo $data['jobs'];return true;

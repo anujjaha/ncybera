@@ -22,7 +22,8 @@ class Prints extends CI_Controller {
 	{
             $this->load->model('job_model');
             $data = array();
-            $data['jobs'] = $this->job_model->get_today_details('job.status','1');
+            $today = date('Y-m-d');
+            $data['jobs'] = $this->job_model->get_today_details('job.jdate',"'".$today."'");
             $data['heading'] =$data['title']="Print Department - Cybera Print Art";
             $this->template->load('print', 'index', $data);
 		
