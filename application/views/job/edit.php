@@ -238,6 +238,7 @@ $this->load->helper('general'); ?>
             <td>
                     <select class="form-control" name="category_<?php echo $i;?>">
                             <option>Digital Print</option>
+                            <option>Visiting Card</option>
                             <option>Offset Print</option>
                             <option>Cutting</option>
                             <option>Binding</option>
