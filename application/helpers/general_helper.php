@@ -37,7 +37,7 @@ if ( ! function_exists('test_method'))
     
     function create_customer_dropdown($type,$flag=null) {
 		if($type == "customer") {
-			$sql = "SELECT id,name FROM customer WHERE ctype = 0 order by name";
+			$sql = "SELECT id,name,companyname FROM customer WHERE ctype = 0 order by name";
 			$ci=& get_instance();
 			$ci->load->database(); 	
 			$query = $ci->db->query($sql);
@@ -48,7 +48,7 @@ if ( ! function_exists('test_method'))
 			$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Customer</option>";
 			
 			foreach($query->result() as $customer) {
-					$dropdown .= "<option value='".$customer->id."'>".$customer->name."</option>";
+					$dropdown .= "<option value='".$customer->id."'>".$customer->companyname."</option>";
 			}
 			$dropdown .= '</select>';
 			return $dropdown;
@@ -66,7 +66,7 @@ if ( ! function_exists('test_method'))
 		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Dealer</option>";
 		foreach($query->result() as $customer) {
 				$dropdown .= "<option value='".$customer->id."'>".
-				$customer->name
+				$customer->companyname
 				."[".$customer->dealercode."]</option>";
 		}
 		$dropdown .= '</select>';

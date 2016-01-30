@@ -29,7 +29,7 @@ function printDiv(divName) {
 				<td width="48%">
 					<table width="100%" border="0">
 						<tr>
-							<td>Name : <?php	echo $customer_details->name;?> 
+							<td>Name : <?php	echo $customer_details->companyname;?> 
 													 [<?php echo $customer_details->mobile;?>] 
 							</td>
 							<td  align="right">Job Num:<?php echo $job_data->id;?> [<?php echo $job_data->jdate;?>] </td>
