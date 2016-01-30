@@ -15,6 +15,7 @@
 		<tr>
 		<th>Sr</th>
 		<th>Job Num</th>
+		<th>Company Name</th>
 		<th>Customer Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
@@ -23,9 +24,6 @@
 		<th>Due</th>
 		<th>Date / Time</th>
 		<th>Status</th>
-		<th>Receipt</th>
-		<th>Voucher Number</th>
-		<th>Bill Number</th>
 		<th>SMS</th>
 		<th>View</th>
 		<th>Edit</th>
@@ -39,6 +37,7 @@
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $job['job_id'];?></td>
+		<td><?php echo $job['companyname'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
@@ -53,9 +52,6 @@
 			<?php echo $job['jstatus'];?>
 			</a>
 		</td>
-		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
-		<td><?php echo $job['bill_number'];?></td>
 		<td><?php echo $job['smscount'];?></td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		<td><a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>

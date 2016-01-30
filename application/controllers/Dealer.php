@@ -59,7 +59,7 @@ class Dealer extends CI_Controller {
 			if($dealer_id) {
 				$this->dealer_model->update_dealer($dealer_id,$data);
 			} else {
-				$data['type'] = 1;
+				$data['ctype'] = 1;
 				$this->dealer_model->insert_dealer($data);
 			}
 			$this->load->helper('url');

@@ -191,7 +191,7 @@ $this->load->helper('general'); ?>
                         <table width="100%">
                                 <tr>
                                         <td width="50%">
-                                                Custome Name : <?php echo create_customer_dropdown('customer',true); ?>
+                                                Customer Name : <?php echo create_customer_dropdown('customer',true); ?>
                                         </td>
                                         <td width="50%" align="right">
                                                 Contact Number : <input type="text" name="mobile" id="mobile_customer">
