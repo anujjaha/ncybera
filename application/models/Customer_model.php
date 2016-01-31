@@ -6,6 +6,8 @@ class Customer_model extends CI_Model {
                 date_default_timezone_set('Asia/Kolkata');
     }
     public $table = "customer";
+    public $table_prospects = "prospects";
+    public $table_categories = "ccategories";
 	
 	public function get_customer_details($param=null,$value=null) {
 		if(!empty($param)) {
@@ -42,5 +44,47 @@ class Customer_model extends CI_Model {
 		 return true;
 		}
 		return false;
+	}
+	
+	public function get_prospects_details($param=null,$value=null) {
+		if(!empty($param)) {
+			$sql = "SELECT * FROM $this->table_prospects WHERE $param = $value";
+			$query = $this->db->query($sql);
+			return $query->row();
+		}
+		$sql = "SELECT *
+				FROM $this->table_prospects
+				order by name";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	
+	public function insert_prospect($data) {
+		$data['created'] = date('Y-m-d H:i:s');
+		$status = $this->db->insert($this->table_prospects,$data);
+		$customer_id = $this->db->insert_id();
+		$update_data['username'] = 'customer'.$customer_id;
+		$update_data['password'] = 'customer'.$customer_id;
+		$status = $this->update_customer($customer_id,$update_data);
+		if($status) { return $customer_id;}
+		return false;
+	}
+	
+	public function update_prospect($customer_id=null,$data) {
+		if($customer_id) {
+		$data['modified'] = date('Y-m-d H:i:s');
+		$this->db->where('id = '.$customer_id);
+		 $this->db->update($this->table_prospects,$data);
+		 return true;
+		}
+		return false;
+	}
+	
+	public function get_customer_categories() {
+		$sql = "SELECT *
+				FROM $this->table_categories
+				order by ccategory";
+		$query = $this->db->query($sql);
+		return $query->result();
 	}
 }

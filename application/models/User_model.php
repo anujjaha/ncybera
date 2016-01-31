@@ -56,6 +56,7 @@ class User_model extends CI_Model {
 		$sql_job = "SELECT count(id) as total_jobs from job";
 		$sql_dealer = "SELECT count(id) as total_dealers from customer WHERE ctype=1 AND status=1";
 		$sql_customer = "SELECT count(id) as total_customers from customer WHERE ctype=0 AND status=1";
+		$sql_prospect = "SELECT count(id) as total_customers from prospects ";
 		
 		$query_job = $this->db->query($sql_job);
 		$jobcount = $query_job->row();
@@ -65,11 +66,15 @@ class User_model extends CI_Model {
 		
 		$query_customer = $this->db->query($sql_customer);
 		$customercount = $query_customer->row();
+		
+		$query_prospects = $this->db->query($sql_prospect);
+		$prospectscount = $query_prospects->row();
 		$data = array();
 		
 		$data['jobs'] = $jobcount->total_jobs;
 		$data['dealers'] = $dealercount->total_dealers;
 		$data['customers'] = $customercount->total_customers;
+		$data['prospects'] = $prospectscount->total_customers;
 		return $data;
 	}
 	

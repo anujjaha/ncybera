@@ -86,7 +86,7 @@ class Customer extends CI_Controller {
 			$data['city'] = $this->input->post('city');
 			$data['state'] = $this->input->post('state');
 			$data['pin'] = $this->input->post('pin');
-			$dealer_id = $this->input->post('customer_id');
+			$customer_id = $this->input->post('customer_id');
 			if($customer_id) {
 				$this->customer_model->update_customer($customer_id,$data);
 			} else {
@@ -115,5 +115,43 @@ class Customer extends CI_Controller {
 		die;
 	}
 	
-	
+	public function edit_prospects($customer_id=null) {
+		$this->load->model('customer_model');
+		$data['heading'] = $data['title']="Add Prospect";
+		if($customer_id) {
+			$data['heading']=$data['title']="Edit Prospect";
+			$data['dealer_info']= $this->customer_model->get_prospects_details('id',$customer_id);
+		}
+		if($this->input->post()) {
+			$data = array();
+			$data['name'] = $this->input->post('name');
+			$data['ccategory'] = $this->input->post('ccategory');
+			$data['companyname'] = $this->input->post('companyname');
+			$data['mobile'] = $this->input->post('mobile');
+			$data['officecontact'] = $this->input->post('officecontact');
+			$data['emailid'] = $this->input->post('emailid');
+			$data['add1'] = $this->input->post('add1');
+			$data['add2'] = $this->input->post('add2');
+			$data['city'] = $this->input->post('city');
+			$data['state'] = $this->input->post('state');
+			$data['pin'] = $this->input->post('pin');
+			$customer_id = $this->input->post('customer_id');
+			if($customer_id) {
+				$this->customer_model->update_prospect($customer_id,$data);
+			} else {
+				$this->customer_model->insert_prospect($data);
+			}
+			$this->load->helper('url');
+			redirect("customer/prospects",'refresh');
+		}
+		$data['categories'] = $this->customer_model->get_customer_categories();	
+		$this->template->load('customer', 'edit_prospect', $data);
+	}
+	public function prospects() {
+		$result = $this->customer_model->get_prospects_details();
+		$data['heading']=$data['title']="Prospects Management";
+		$data['customers']= $result;
+		
+		$this->template->load('customer', 'prospect', $data);
+	}
 }
