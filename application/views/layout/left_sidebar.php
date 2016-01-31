@@ -69,6 +69,14 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>customer/prospects">
+                                <i class="fa fa-calendar"></i> <span>Business Prospects</span>
+                                <small class="badge pull-right bg-red">
+                                <span id="show_prospects"></span>
+                                </small>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>paper">
                                 <i class="fa fa-calendar"></i> <span>Manage Papers</span>
                             </a>
@@ -100,6 +108,7 @@ jQuery("document").ready(function(){
 				jQuery("#show_jobs").html(data.jobs);
 				jQuery("#show_dealers").html(data.dealers);
 				jQuery("#show_customers").html(data.customers);
+				jQuery("#show_prospects").html(data.prospects);
 				
 			}
           });
