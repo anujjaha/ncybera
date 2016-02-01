@@ -89,12 +89,17 @@ function fancy_box_closed(id){
 }
 
 function calculate_paper_cost(){
-	var paper_gram,paper_size,paper_print,paper_qty,amount=0,total=0,id,mby=1;
+	var paper_gram,paper_size,paper_print,ori_paper_qty,paper_qty,amount=0,total=0,id,mby=1;
 	paper_gram = jQuery("#paper_gram").val();
 	paper_size = jQuery("#paper_size").val();
 	paper_print = jQuery("#paper_print").val();
 	id = jQuery("#fancybox_id").val();
 	paper_qty = jQuery("#paper_qty").val();
+	ori_paper_qty = jQuery("#paper_qty").val();
+	if(paper_print == "FB") {
+		paper_qty = paper_qty *2;
+	}
+	
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/customer/get_paper_rate/", 
@@ -106,14 +111,17 @@ function calculate_paper_cost(){
                 if(data.success != false ) {
 
                   amount = amount + parseFloat(data.paper_amount);
-                  if(paper_print == "FB") {
-                          mby =2;
-                  }
+                  
                   total = (amount * paper_qty )* mby;
                   jQuery("#result_paper_cost").html("--- "+paper_qty +" * "+amount+" [per unit] * "+paper_print+" = "+total );
                   jQuery("#details_"+id).val(paper_gram+"_"+paper_size+"_"+paper_print);
-                  jQuery("#rate_"+id).val(amount);
-                  jQuery("#qty_"+id).val(paper_qty);
+                  if(paper_print == "FB") {
+                          jQuery("#rate_"+id).val(amount * 2);
+                  } else {
+					  jQuery("#rate_"+id).val(amount);
+				  }
+                  
+                  jQuery("#qty_"+id).val(ori_paper_qty);
                   jQuery("#sub_"+id).val(total);
                   $('#flag_'+id).prop('checked', true);
             } else {
