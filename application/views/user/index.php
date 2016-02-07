@@ -133,6 +133,24 @@ function update_job_status(id) {
 			 }
           });
 }
+
+function save_shipping(jid) {
+	var c_name,d_number;
+	c_name = $("#courier_name").val();
+	d_number = $("#docket_number").val();
+	if(c_name.length > 0 && d_number.length > 0 ) {
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/save_courier/"+jid, 
+         data:{"courier_name":c_name,"docket_number":d_number},
+         success: 
+              function(data){
+							$.fancybox.close();
+                            location.reload();
+			 }
+          });
+	  }
+}
 </script>
 <div id="view_job_status" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">

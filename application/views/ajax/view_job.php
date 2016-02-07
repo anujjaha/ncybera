@@ -109,6 +109,15 @@
 <div class="row">
 <hr>
 	<div class="col-md-12">
+	<table align="center" border="2" width="100%">
+		<tr>
+			<td align="center" width="60%">Courier Service Name : 
+			<input type="text" id="courier_name" name="courier_name" value="<?php if($courier->courier_name) { echo $courier->courier_name;} ?>"></td>
+			<td align="center" width="30%">Docket Number : <input type="text" id="docket_number" name="docket_number" value="<?php if($courier->docket_number) { echo $courier->docket_number;} ?>"></td>
+			<td align="center" width="10%">
+		<button class="btn btn-success btn-sm text-center"  onclick="save_shipping(<?php echo $job_data->id;?>)">Save Shipping</button></td>
+		</tr>	
+	</table>
 		   <table align="center" border="2" width="100%">
 			<tr>
 				<td width="50%"> 

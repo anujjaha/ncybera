@@ -131,4 +131,32 @@ class User_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	
+	public function save_courier($j_id,$data=array()) {
+		if($j_id) {
+			$this->db->select('id')
+						->from('courier_services')
+						->where('j_id',$j_id);
+			$o_query = $this->db->get();
+			$result = $o_query->result_array();
+			if(count($result) > 0 ) {
+				$this->db->where('j_id',$j_id);
+				$this->db->update('courier_services',$data);
+				return true;
+			}
+			$query = $this->db->insert('courier_services',$data);
+			return true;
+		}
+	}
+	
+	public function get_courier($j_id) {
+		$this->db->select('*')
+					->from('courier_services')
+					->where('j_id',$j_id);
+		$o_query = $this->db->get();
+		if($o_query->row()) {
+			return $o_query->row();
+		}
+		return false;
+	}
 }

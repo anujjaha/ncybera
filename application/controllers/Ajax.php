@@ -26,6 +26,7 @@ class Ajax extends CI_Controller {
 			return true;
 		}
 		$this->load->model('job_model');
+		$this->load->model('user_model');
 		$job_data = $this->job_model->get_job_data($job_id);
 		$job_details = $this->job_model->get_job_details($job_id);
 		$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
@@ -33,6 +34,7 @@ class Ajax extends CI_Controller {
 		$data['job_details']=$job_details;
 		$data['job_data']=$job_data;
 		$data['heading'] = $data['title']='View Job';
+		$data['courier'] = $this->user_model->get_courier($job_id);
 		$this->load->view('ajax/view_job', $data);
 	}
 	
@@ -92,5 +94,18 @@ class Ajax extends CI_Controller {
 			$data['job_history'] = $this->job_model->job_status_history($job_id);
 			$this->load->view('ajax/job_history', $data);
 		}
+	}
+	
+	public function save_courier($job_id=null){ 
+		if($job_id) {
+			$this->load->model('user_model');
+			$data['j_id'] = $job_id;
+			$data['courier_name'] = $this->input->post('courier_name');
+			$data['docket_number'] = $this->input->post('docket_number');
+			$data['user_id'] = $this->session->userdata['user_id'];
+			$data['created'] = date('Y-m-d H:i:s');
+			$this->user_model->save_courier($job_id,$data);
+		}
+		return true;
 	}
 }
