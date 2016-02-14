@@ -1,3 +1,7 @@
+<link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
+
     <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?php echo base_url();?>" class="logo">
@@ -15,6 +19,11 @@
                 </a>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
+						<li class="dropdown messages-menu">
+							<a href="#estimation_details" class="fancybox">
+								Estimate
+							</a>
+						</li>
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -90,3 +99,58 @@
                 </div>
             </nav>
         </header>
+<div id="estimation_details" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+    <div id="create_estimate">
+    <?php $all_customer = get_all_customers(); ?>
+    <table align="center" border="2" width="80%">
+	<tr>
+		<td align="right"> Select Customer :</td>
+		<td> 
+			<select class="form-control" name="customer" id="customer">
+				<?php
+				
+				foreach($all_customer as $customer) {
+					echo "<option value='".$customer->id."'>".$customer->companyname."</option>";
+				}
+				?>
+			</select>
+			</td>
+	</tr>
+	<tr>
+		<td align="right">Message:</td>
+		<td><textarea id="sms_message" name="sms_message" cols="80" rows="6"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation();">
+		</td>
+	</tr>
+</table>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function() {
+      $('.fancybox').fancybox({
+        'width':900,
+        'height':600,
+        'autoSize' : false,
+    });
+});
+function create_estimation(){
+	var customer_id,sms_message;
+	customer_id = $("#customer").val();
+	sms_message = $("#sms_message").val();
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/create_estimation/", 
+         data:{'customer_id':customer_id,"sms_message":sms_message},
+         success: 
+            function(data){
+				alert("SMS Sent :"+data);
+				$.fancybox.close();
+            }
+          });
+}
+</script>
