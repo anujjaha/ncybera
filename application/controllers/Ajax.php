@@ -108,4 +108,22 @@ class Ajax extends CI_Controller {
 		}
 		return true;
 	}
+	
+	public function create_estimation() {
+		if($this->input->post()) {
+			$this->load->model('estimationsms_model'); 	
+			$customer_id = $this->input->post('customer_id');
+			$sms_message = $this->input->post('sms_message');
+			$customer_details = get_all_customers('id',$customer_id);
+			$quote_data['customer_id'] = $customer_id;
+			$quote_data['sms_message'] = $sms_message;
+			$quote_data['mobile'] = $mobile = $customer_details[0]->mobile;
+			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
+			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
+			$sms_text = "Dear ".$customer_details[0]->name." for you ".$sms_message." valid for 7 days Cybera Quote Id ".$quote_id." Thank You.";
+			send_sms($user_id,$customer_id,$mobile,$sms_text);
+			echo $sms_text;
+		}
+		return true;
+	}
 }
