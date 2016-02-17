@@ -11,5 +11,14 @@ class Estimationsms_model extends CI_Model {
 		$this->db->insert($this->table,$data);
 		return $this->db->insert_id();
 	}
+	public function get_all_estimations() {
+		$this->db->select('estimation_sms.*,user_meta.nickname,customer.name,customer.companyname')
+				 ->from($this->table)
+				 ->join('customer','estimation_sms.customer_id = customer.id','left')
+				 ->join('user_meta','estimation_sms.user_id = user_meta.user_id','left')
+				 ->order_by('estimation_sms.id','desc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 }

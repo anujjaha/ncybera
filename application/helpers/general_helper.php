@@ -117,3 +117,30 @@ if ( ! function_exists('test_method'))
 	}
 	
 }
+
+function create_pdf($content=null,$size ='A5-L') {
+	if($content) {
+		$ci = & get_instance();
+		$mpdf = new mPDF('', $size,8,'',4,4,10,2,4,4);
+		$mpdf->SetHeader('CYBERA Print ART');
+		$mpdf->defaultheaderfontsize=8;
+		//$mpdf->SetFooter('{PAGENO}');
+		$mpdf->WriteHTML($content);
+		$mpdf->SetDisplayMode('fullpage');
+		$mpdf->shrink_tables_to_fit=0;
+		$mpdf->list_indent_first_level = 0;  
+		$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
+		$mpdf->Output('cybera.pdf','D');
+	}
+}
+
+function get_user_by_param($param=null,$value=null) {
+	if($param && $value) {
+		$ci = & get_instance();
+		$ci->db->select('*')
+			->from('user_meta')
+			->where("$param","$value");
+		$query = $ci->db->get();
+		return $query->row();
+	}
+}

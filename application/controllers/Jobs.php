@@ -232,4 +232,59 @@ class Jobs extends CI_Controller {
 		$data['j_status']=$job_status;
 		return $this->job_model->add_job_transaction($data);
 	}
+	
+	public function print_job_ticket($job_id=null) {
+		if($job_id) {
+			$this->load->model('job_model');
+			$job_data = $this->job_model->get_job_data($job_id);
+			$job_details = $this->job_model->get_job_details($job_id);
+			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+			$data['customer_details']=$customer_details;
+			$data['job_details']=$job_details;
+			$data['job_data']=$job_data;
+			$data['title']='Print Job';
+			$data['heading']='Cybera Print View';
+			$this->load->view('ajax/print_job_ticket',$data);
+		}
+		return true;
+	}
+	public function print_cutting_ticket($job_id=null) {
+		if($job_id) {
+			$this->load->model('job_model');
+			$job_data = $this->job_model->get_job_data($job_id);
+			$cutting_info = $this->job_model->get_cutting_details($job_id);
+			$job_details = $this->job_model->get_job_details($job_id);
+			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+			$data['customer_details']=$customer_details;
+			$data['job_details']=$job_details;
+			$data['cutting_info']=$cutting_info;
+			$data['job_data']=$job_data;
+			$data['title']='Print Job';
+			$data['heading']='Cybera Print View';
+			$this->load->view('ajax/print_cutting_ticket',$data);
+		}
+		return true;
+	}
+	
+	public function print_courier_ticket($job_id=null) {
+		if($job_id) {
+			$this->load->model('job_model');
+			$job_data = $this->job_model->get_job_data($job_id);
+			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+			$data['customer_details']=$customer_details;
+			$data['job_data']=$job_data;
+			$data['title']='Print Job';
+			$data['heading']='Cybera Print View';
+			$this->load->view('ajax/print_courier_ticket',$data);
+		}
+		return false;
+	}
+	
+	public function estimation_sms() {
+		$this->load->model('estimationsms_model','emodel');
+		$data = array();
+		$data['estimations'] = $this->emodel->get_all_estimations();
+		$data['heading'] = $data['title']="SMS Estimation - Cybera Print Art";
+		$this->template->load('estimationsms', 'index', $data);
+	}
 }
