@@ -77,6 +77,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>jobs/estimation_sms">
+                                <i class="fa fa-calendar"></i> <span>Estimation SMS</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>paper">
                                 <i class="fa fa-calendar"></i> <span>Manage Papers</span>
                             </a>

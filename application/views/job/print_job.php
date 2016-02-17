@@ -5,22 +5,16 @@
         body div#FAQ, body div#FAQ table {display: block;}
         }
 </style>
-<script type="text/javascript">
-function printDiv(divName) {
-     var printContents = document.getElementById(divName).innerHTML;
-     var originalContents = document.body.innerHTML;
-     document.body.innerHTML = printContents;
-     window.print();
-     document.body.innerHTML = originalContents;
-}
-</script>
-<input type="button" onClick="printDiv('printableArea')" value="Take a Print" />
+
+<button onclick="print_job()">PRINT NOW</button>
+<button onclick="print_cutting()">Cutting Slip</button>
+<button onclick="print_courier()">Courier Slip</button>
 <div class="row">
 	<div class="col-md-12">
 		<h1>Print Job Details</h1>
 	</div>
 </div>
-<div id="printableArea" style="height:8.3in; width:5.8in; font-size:7px; font-family:Arial, Helvetica, sans-serif;">
+<div id="printableArea" style="height:8.3in; width:5.8in; font-size:10px; font-family:Arial, Helvetica, sans-serif;">
 <div class="row" style="margin-top:-50px;">
 	<div class="col-md-12">
 		<table align="center" width="100%" border="0">
@@ -65,7 +59,7 @@ function printDiv(divName) {
 									}
 									} ?>
 									<tr>
-										<td colspan="2">Receipt Number:111</td>
+										<td colspan="2">Receipt Number:<?php echo $job_data->receipt;?></td>
 										<td colspan="2" align="right">Sub Total :</td>
 										<td align="right"><?php echo $job_data->subtotal;?></td>
 									</tr>
@@ -84,7 +78,10 @@ function printDiv(divName) {
 										<td align="right"><?php echo $job_data->advance;?></td>
 									</tr>
 									<tr>
-										<td colspan="2">Created by :Test</td>
+										<td colspan="2">Created by :<?php
+											$created_info = get_user_by_param('id',$job_data->user_id);
+											echo $created_info->nickname;
+										?></td>
 										<td colspan="2" align="right">Due :</td>
 										<td align="right"><?php echo $job_data->due;?></td>
 									</tr>
@@ -134,7 +131,7 @@ function printDiv(divName) {
 									}
 									} ?>
 									<tr>
-										<td colspan="2">Receipt Number:111</td>
+										<td colspan="2">Receipt Number:<?php echo $job_data->receipt;?></td>
 										<td colspan="2" align="right">Sub Total :</td>
 										<td align="right"><?php echo $job_data->subtotal;?></td>
 									</tr>
@@ -153,7 +150,10 @@ function printDiv(divName) {
 										<td align="right"><?php echo $job_data->advance;?></td>
 									</tr>
 									<tr>
-										<td colspan="2">Created by :Test</td>
+										<td colspan="2">Created by : <?php
+											$created_info = get_user_by_param('id',$job_data->user_id);
+											echo $created_info->nickname;
+										?></td>
 										<td colspan="2" align="right">Due :</td>
 										<td align="right"><?php echo $job_data->due;?></td>
 									</tr>
@@ -169,3 +169,35 @@ function printDiv(divName) {
 		</table>
 	</div>
 </div></div>
+<script>
+function print_job() {
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/jobs/print_job_ticket/"+<?php echo $job_data->id;?>, 
+         success: 
+              function(data){
+							return true;
+			 }
+          });
+}
+function print_cutting() {
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/jobs/print_cutting_ticket/"+<?php echo $job_data->id;?>, 
+         success: 
+              function(data){
+							return true;
+			 }
+          });
+}
+function print_courier() {
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/jobs/print_courier_ticket/"+<?php echo $job_data->id;?>, 
+         success: 
+              function(data){
+							return true;
+			 }
+          });
+}
+</script>

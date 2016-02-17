@@ -138,6 +138,12 @@ function check_form() {
 	jQuery("#subtotal").focus();
 	return false;
 }
+
+function check_visiting_card(sr) {
+		if($("#category_"+sr).val() == "Cutting") {
+			$("#details_"+sr).val("Cutting Details");
+		}
+}
 </script>
 <?php
 $this->load->helper('form');
@@ -244,7 +250,7 @@ $this->load->helper('general'); ?>
         <td><?php echo $i;?></td>
             <td><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
             <td>
-                    <select class="form-control" name="category_<?php echo $i;?>">
+                    <select class="form-control" name="category_<?php echo $i;?>" id="category_<?php echo $i;?>" onChange="check_visiting_card(<?php echo $i;?>);">
                             <option>Digital Print</option>
                             <option>Visiting Card</option>
                             <option>Offset Print</option>
@@ -495,7 +501,7 @@ $this->load->helper('general'); ?>
 </div>
 
 <?php 
-for($i=1;$i<2;$i++) { ?>
+for($i=1;$i<6;$i++) { ?>
 <div style="display:none;">
     <input type="text" name="c_machine_<?php echo $i;?>" id="c_machine_<?php echo $i;?>">
     <input type="text" name="c_qty_<?php echo $i;?>" id="c_qty_<?php echo $i;?>">

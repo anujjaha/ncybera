@@ -120,10 +120,12 @@ class Ajax extends CI_Controller {
 			$quote_data['mobile'] = $mobile = $customer_details[0]->mobile;
 			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
-			$sms_text = "Dear ".$customer_details[0]->name." for you ".$sms_message." valid for 7 days Cybera Quote Id ".$quote_id." Thank You.";
+			$sms_text = "Dear ".$customer_details[0]->name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text);
 			echo $sms_text;
 		}
 		return true;
 	}
+	
+	
 }
