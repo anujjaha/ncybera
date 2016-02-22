@@ -20,7 +20,7 @@
                     </div>
                     <!-- search form -->
                    
-                    <form action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
+                    <form action="<?php echo base_url();?>prints/search" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php
                         $q = $this->input->post('q');

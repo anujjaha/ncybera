@@ -1,4 +1,16 @@
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+<script>
+function show_job_details(job_id){
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_job_details/"+job_id, 
+         success: 
+            function(data){
+                  jQuery("#job_view").html(data);
+            }
+          });
+}
+</script>
 <div class="row">
 <div class="col-md-12">
 	<?php if(empty($search)) {
@@ -10,15 +22,7 @@
 	</h3>
 	</div>
 </div>
-
-<!--<pre>
-	<?php
-	/*	print_r($job_data);
-		print_r($job_details);
-		print_r($customers);
-		print_r($dealers);*/
-	?>
-</pre>--->
+<?php /*
 <div class="box">
 	<h3>Customers</h3>
 		
@@ -107,7 +111,7 @@
 	</table>
 	</div>
 </div>
-
+*/?>
 
 
 <div class="box">
@@ -131,7 +135,6 @@
 		<th>Bill Number</th>
 		<th>SMS</th>
 		<th>View</th>
-		<th>Edit</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -153,8 +156,7 @@
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
 		<td><?php echo $job['smscount'];?></td>
-		<td>View</td>
-		<td><a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>
+		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>
@@ -189,7 +191,7 @@
 		<td><?php echo $jdetails['jqty'];?></td>
 		<td><?php echo $jdetails['jrate'];?></td>
 		<td><?php echo $jdetails['jamount'];?></td>
-		<td><a href="<?php echo site_url();?>/jobs/view/<?php echo $jdetails['job_id'];?>">View</a></td>
+		<td><a class="fancybox"  onclick="show_job_details(<?php echo $jdetails['job_id'];?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>
@@ -257,3 +259,8 @@
 
         </script>
 
+<div id="view_job_details" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+    <div id="job_view"></div>
+</div>
+</div>

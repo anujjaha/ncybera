@@ -48,7 +48,11 @@ if ( ! function_exists('test_method'))
 			$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Customer</option>";
 			
 			foreach($query->result() as $customer) {
-					$dropdown .= "<option value='".$customer->id."'>".$customer->companyname."</option>";
+					$cname = $customer->name;
+					if($customer->companyname) {
+						$cname = $customer->companyname;
+					}
+					$dropdown .= "<option value='".$customer->id."'>".$cname."</option>";
 			}
 			$dropdown .= '</select>';
 			return $dropdown;
@@ -143,4 +147,8 @@ function get_user_by_param($param=null,$value=null) {
 		$query = $ci->db->get();
 		return $query->row();
 	}
+}
+
+function get_restricted_department() {
+	return array("prints","cuttings");
 }
