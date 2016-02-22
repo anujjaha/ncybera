@@ -135,7 +135,12 @@ function check_form() {
 	if(jQuery("#confirmation").val().length > 0 ) {
 		return true;
 	}
-	jQuery("#subtotal").focus();
+	if(jQuery("#subtotal").val().length < 1 ) {
+		jQuery("#subtotal").focus();
+	} else {
+		jQuery("#confirmation").focus();
+	}
+	
 	return false;
 }
 
@@ -177,22 +182,21 @@ $this->load->helper('general'); ?>
         <td colspan="2">
             <div id="new_customer" style="display:none;">
                 <div class="col-md-6">
-                    <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" value="" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                            <label>Contact Number</label>
-                            <input type="text" class="form-control" name="user_mobile" value="" placeholder="Mobile Number">
-                    </div>
-                </div>
-                    <div class="col-md-6">
-                            <div class="form-group">
+					<div class="form-group">
                                     <label>Company Name</label>
                                     <input type="text" class="form-control" 
                                     name="companyname"  value="" placeholder="Company Name">
                             </div>
-
+                    <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" value="" placeholder="Name">
+                    </div>
+                </div>
+                    <div class="col-md-6">
+							<div class="form-group">
+								<label>Contact Number</label>
+								<input type="text" class="form-control" name="user_mobile" value="" placeholder="Mobile Number">
+							</div>
                             <div class="form-group">
                                     <label>Email Id</label>
                                     <input type="text" class="form-control"
@@ -255,13 +259,13 @@ $this->load->helper('general'); ?>
                             <option>Visiting Card</option>
                             <option>Offset Print</option>
                             <option>Cutting</option>
+                            <option>Designing</option>
                             <option>Binding</option>
                     </select>
             </td>
             <td>
             <a class="fancybox fa fa-fw fa-question-circle" 
                onclick="return auto_suggest_price(<?php echo $i;?>);" href="#fancy_box_demo">
-                
             </a>
 
             <input type="text" id="details_<?php echo $i;?>" 
@@ -269,12 +273,10 @@ $this->load->helper('general'); ?>
             
             <a class="fancybox fa fa-fw fa-cut" 
                onclick="return set_cutting_details(<?php echo $i;?>);" href="#fancy_box_cutting">
-            
-          
-                <a class="fa fa-fw fa-minus-square" id="cut_icon_<?php echo $i;?>" style="display:none;"
+             </a>
+			<a class="fa fa-fw fa-minus-square" id="cut_icon_<?php echo $i;?>" style="display:none;"
                 onclick="return remove_cutting_details(<?php echo $i;?>);" href="javascript:void(main);">
-                </a>
-            
+            </a>
             </td>
             <td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>"></td>
             <td><input type="text" id="rate_<?php echo $i;?>" name="rate_<?php echo $i;?>"></td>

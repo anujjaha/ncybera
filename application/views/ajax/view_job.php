@@ -1,3 +1,25 @@
+<script>
+function pay_job(id) {
+	var settlement_amount = $("#settlement_amount").val();
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/pay_job/"+id, 
+         data:{"settlement_amount":settlement_amount},
+         success: 
+              function(data){
+							$.fancybox.close();
+							location.reload();
+			 }
+          });
+}
+</script>
+<?php
+	$restricted_dept = get_restricted_department();
+	$restricted = true;
+	if( in_array($this->session->userdata('department'),$restricted_dept)) {
+		$restricted = false;
+	}
+?>
 <div class="col-md-12">
 <table width="100%" border="2">
 	<tr>
@@ -85,14 +107,32 @@
 		</td>
 		<td align="right"><?php if(!empty($job_data->advance)) { echo $job_data->advance; }?></td>
 	</tr>
+	<?php if($job_data->jpaid == 0 ){?>
 	<tr>
 		<td colspan="5" align="right">
 			Due :
 		</td>
 		<td align="right"> <?php if(!empty($job_data->due)) { echo $job_data->due; }?></td>
-	</tr>
+	</tr> <?php } else { ?>
+	<tr>
+		<td colspan="5" align="right">
+			Settlement Amount ( <span class="paid">Paid</span> ) : 
+		</td>
+		<td align="right"> <?php echo $job_data->settlement_amount; ?></td>
+	</tr> <?php } ?>
 </table>
-    
+<?php if($job_data->jpaid == 0 && $restricted){ ?>
+<table width="100%" border="0">
+	<tr>
+		<td align="right" width="90%;">
+		<button class="btn btn-success btn-sm text-center"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Settelment Amount</button></td>
+		<td align="right" width="10%;">
+		<?php $settlment_amount =  $job_data->total - $job_data->advance;?>
+		<input type="text" disabled="disabled"  style="text-align:right;" name="settlement_amount_temp" value="<?php echo $settlment_amount;?>"></td>
+		<input type="hidden" name="settlement_amount" id="settlement_amount" value="<?php echo $settlment_amount;?>"></td>
+	</tr>
+</table> 
+<?php } ?>   
     <hr>
 <div class="col-md-12">
 <div class="row">

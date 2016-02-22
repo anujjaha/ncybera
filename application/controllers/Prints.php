@@ -45,9 +45,19 @@ class Prints extends CI_Controller {
             $this->template->load('print', 'all', $data);
 		
 	}
-	public function c()
-	{
-		echo "this is print";
-		
+	
+	public function search() {
+		$data=array();
+		$data['heading'] = $data['title']="Search Result";
+		$data['search']="";
+		if($this->input->post('q')) {
+			$this->load->model('user_model');
+			$search = $this->input->post('q');
+			$data['dealers'] = $data['customers'] = $this->user_model->search_customers($search);
+			$data['job_data'] = $this->user_model->search_job($search);
+			$data['job_details'] = $this->user_model->search_jobdetails($search);
+			$data['search']=$search;
+		}
+		$this->template->load('print', 'search', $data);
 	}
 }

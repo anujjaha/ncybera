@@ -43,7 +43,7 @@
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due'];?></td>
+		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>

@@ -159,4 +159,12 @@ class User_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	public function search_print($term=null) {
+		$result = array();
+		if($term) {
+			
+		}
+		return $result;
+	}
 }

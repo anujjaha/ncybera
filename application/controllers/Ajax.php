@@ -127,5 +127,51 @@ class Ajax extends CI_Controller {
 		return true;
 	}
 	
+	public function get_cutting_details_by_job_detail($id,$job_id) {
+		$this->load->model('job_model');
+		$jdetails = $this->job_model->get_job_details_by_param('id',$id);
+		$cutting_details = $this->job_model->get_cutting_details_by_job_detail($job_id,$jdetails->jdetails);
+		echo json_encode($cutting_details);
+		die();
+	}
 	
+	public function ajax_update_cutting_details($job_details_id,$job_id,$sr) {
+		
+		$this->load->model('job_model');
+		$jdetails = $this->job_model->get_job_details_by_param('id',$job_details_id);
+		$data['cutting_details'] = $this->job_model->get_cutting_details_by_job_detail($job_id,$jdetails->jdetails);
+		$data['jdetails'] = $jdetails;
+		$data['j_id'] = $job_id;
+		$data['sr'] = $sr;
+		$this->load->view('ajax/update_cutting',$data);
+	}
+	
+	public function save_edit_cutting_details() {
+		if($this->input->post()) {
+			$this->load->model('job_model');
+			$data = $this->input->post();
+			unset($data['update']);
+			unset($data['cutting_id']);
+			$id = $this->input->post('cutting_id');
+			$data['j_id'] = $this->input->post('j_id');
+			if(!$id) {
+				$this->job_model->insert_cuttingdetails($data,true);
+			}
+			$this->job_model->update_cutting_details($id,$data);
+			return true;
+		}
+	}
+	
+	public function pay_job($job_id=null) {
+		if($job_id) {
+			$this->load->model('job_model');
+			$data = array();
+			$data['settlement_amount'] = $this->input->post('settlement_amount');
+			$data['due'] = 0;
+			$data['jpaid'] = 1;
+			$this->job_model->update_job($job_id,$data);
+			return true;
+		}
+	}
 }
+

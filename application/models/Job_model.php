@@ -226,4 +226,33 @@ class Job_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	public function get_job_details_by_param($param=null,$value=null) {
+		if($param && $value) {
+			$this->db->select('*')
+				->from('job_details')
+				->where($param,$value);
+			$query = $this->db->get();
+			return $query->row();
+		}
+		return false;
+		
+	}
+	public function get_cutting_details_by_job_detail($job_id=null,$value=null) {
+		if($job_id && $value) {
+			$this->db->select('*')
+				->from('cutting_details')
+				->where('c_material',$value)
+				->where('j_id',$job_id);
+			$query = $this->db->get();
+			return $query->row();
+		}
+		return false;
+	}
+	
+	public function update_cutting_details($id,$data=array()) {
+		$this->db->where('id',$id);
+		$this->db->update($this->table_cutting_details,$data);
+		return true;
+	}
 }

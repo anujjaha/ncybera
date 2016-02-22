@@ -131,6 +131,7 @@ class Jobs extends CI_Controller {
 			$job_details = $this->job_model->get_job_details($job_id);
 			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
 			$customer_mobile = $customer_details->mobile;
+			$data['cutting_details'] = $this->job_model->get_cutting_details($job_id);
 			$data['customer_details']=$customer_details;
 			$data['job_details']=$job_details;
 			$data['job_data']=$job_data;
@@ -185,6 +186,8 @@ class Jobs extends CI_Controller {
 			}
 			redirect("jobs/job_print/".$job_id,'refresh');	
 			}
+			$data['paper_gsm']= $this->get_paper_gsm();
+			$data['paper_size']= $this->get_paper_size();
 			$this->template->load('job', 'edit_job', $data);
 		}
 	}
