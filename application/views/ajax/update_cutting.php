@@ -1,9 +1,4 @@
 <?php
-/*echo "<pre>";
-print_r($job_data);
-
-print_r($jdetails);
-print_r($cutting_details);*/
 $binding = explode(",",$cutting_details->c_binding);
 ?>
 
@@ -152,8 +147,8 @@ function update_box() {
             </tr>
             <tr>
                 <td colspan="2" align="center">
-					<input type="text" name="cutting_id" id="cutting_id" value="<?php echo $cutting_details->id;?>">
-					<input type="text" name="j_id" id="j_id" value="<?php echo $j_id;?>">
+					<input type="hidden" name="cutting_id" id="cutting_id" value="<?php echo $cutting_details->id;?>">
+					<input type="hidden" name="j_id" id="j_id" value="<?php echo $j_id;?>">
                     <button onclick="update_box();">Save/Update Details</button>
                     <!--<input type="submit" name="update" value="Save Cutting Details">-->
                 </td>

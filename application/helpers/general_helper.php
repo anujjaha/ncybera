@@ -126,7 +126,7 @@ function create_pdf($content=null,$size ='A5-L') {
 	if($content) {
 		$ci = & get_instance();
 		$mpdf = new mPDF('', $size,8,'',4,4,10,2,4,4);
-		$mpdf->SetHeader('CYBERA Print ART');
+		//$mpdf->SetHeader('CYBERA Print ART');
 		$mpdf->defaultheaderfontsize=8;
 		//$mpdf->SetFooter('{PAGENO}');
 		$mpdf->WriteHTML($content);
@@ -134,7 +134,7 @@ function create_pdf($content=null,$size ='A5-L') {
 		$mpdf->shrink_tables_to_fit=0;
 		$mpdf->list_indent_first_level = 0;  
 		$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
-		$mpdf->Output('cybera.pdf','D');
+		$mpdf->Output('cybera.pdf','I');
 	}
 }
 
@@ -151,4 +151,12 @@ function get_user_by_param($param=null,$value=null) {
 
 function get_restricted_department() {
 	return array("prints","cuttings");
+}
+
+function get_papers_size() {
+	$ci = & get_instance();
+	$ci->load->model('job_model');
+	$data['papers'] = $ci->job_model->get_paper_gsm();
+	$data['size'] = $ci->job_model->get_paper_size();
+	return $data;
 }

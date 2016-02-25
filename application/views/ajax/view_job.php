@@ -137,13 +137,14 @@ function pay_job(id) {
 <div class="col-md-12">
 <div class="row">
 	<div class="col-md-4">
-            Bill Number : <?php if(!empty($job_data->bill_number)) { echo $job_data->bill_number;}?>
+            Bill Number : 
+            <input type="text" name="bill_number" id="bill_number" value="<?php if(!empty($job_data->bill_number)) { echo $job_data->bill_number;}?>">
+    </div>
+	<div class="col-md-4">
+		Voucher Number : <input type="text" name="voucher_number" id="voucher_number" value="<?php if(!empty($job_data->voucher_number)) { echo $job_data->voucher_number;}?>">
 	</div>
 	<div class="col-md-4">
-		Voucher Number : <?php if(!empty($job_data->voucher_number)) { echo $job_data->voucher_number;}?>
-	</div>
-	<div class="col-md-4">
-		Reciept Number : <?php if(!empty($job_data->receipt)) { echo $job_data->receipt;}?>
+		Reciept Number : <input type="text" name="receipt" id="receipt" value="<?php if(!empty($job_data->receipt)) { echo $job_data->receipt;}?>">
 	</div>
 </div>
 <div class="row">

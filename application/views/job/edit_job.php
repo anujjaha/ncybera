@@ -163,6 +163,17 @@ function check_form() {
 	
 	return false;
 }
+function check_visiting_card(sr) {
+		if($("#category_"+sr).val() == "Cutting") {
+			$("#details_"+sr).val("Cutting Details");
+		}
+		if($("#category_"+sr).val() == "Lamination") {
+			$("#details_"+sr).val("Lamination");
+		}
+		if($("#category_"+sr).val() == "B/W Print") {
+			$("#details_"+sr).val("B/W Print");
+		}
+}
 </script>
 <?php
 $this->load->helper('form');
@@ -215,7 +226,7 @@ $modified_by = $this->session->userdata['user_id'];
 		</td>
 		<td><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
 		<td>
-			<select name="category_<?php echo $i;?>">
+			<select name="category_<?php echo $i;?>" onChange="check_visiting_card(<?php echo $i;?>);">
 				<option
 				 <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Digital Print' ) { echo 'selected="selected"';} ?>>
 				 Digital Print</option>
@@ -230,6 +241,7 @@ $modified_by = $this->session->userdata['user_id'];
 				Designing</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Binding' ) { echo 'selected="selected"';} ?>>
 				Binding</option>
+				
 			</select>
 		</td>
 		<td>

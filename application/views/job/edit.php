@@ -148,6 +148,12 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Cutting") {
 			$("#details_"+sr).val("Cutting Details");
 		}
+		if($("#category_"+sr).val() == "Lamination") {
+			$("#details_"+sr).val("Lamination");
+		}
+		if($("#category_"+sr).val() == "B/W Print") {
+			$("#details_"+sr).val("B/W Print");
+		}
 }
 </script>
 <?php
@@ -261,6 +267,8 @@ $this->load->helper('general'); ?>
                             <option>Cutting</option>
                             <option>Designing</option>
                             <option>Binding</option>
+                            <option>Lamination</option>
+                            <option>B/W Print</option>
                     </select>
             </td>
             <td>
