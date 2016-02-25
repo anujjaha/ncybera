@@ -122,10 +122,13 @@ function show_job_details(job_id){
 }
 function update_job_status(id) {
 	var value = $( "input:radio[name=jstatus]:checked" ).val();
+	var bill_number = $( "#bill_number").val();
+	var voucher_number = $( "#voucher_number").val();
+	var receipt = $( "#receipt").val();
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
-         data:{"j_id":id,"j_status":value},
+         data:{"j_id":id,"j_status":value,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
          success: 
               function(data){
 							$.fancybox.close();

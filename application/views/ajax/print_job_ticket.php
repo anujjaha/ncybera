@@ -75,7 +75,19 @@ $content .= '
 								</table>
 							</td>
 						</tr>
-						
+						<tr>
+							<td colspan="2">
+							<span style="font-size:9px;">
+								I/We have checked all content,color,material in the sample print.
+								It is acceptable to me/us.
+							</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="right">
+								Signature : __________________________
+							</td>
+						</tr>
 					</table>';
 				$content .= '</td>
 				

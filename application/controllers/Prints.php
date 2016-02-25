@@ -34,6 +34,23 @@ class Prints extends CI_Controller {
             }
             $this->load->model('job_model');
             $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
+            $flag = false;
+            if($this->input->post('bill_number')) {
+				$jdata['bill_number'] = $this->input->post('bill_number');
+				$flag = true;
+			}
+            if($this->input->post('voucher_number')) {
+				$jdata['voucher_number'] = $this->input->post('voucher_number');
+				$flag = true;
+			}
+            if($this->input->post('receipt')) {
+				$jdata['receipt'] = $this->input->post('receipt');
+				$flag = true;
+			}
+			if($flag) {
+				$this->job_model->update_job($job_id,$jdata);
+			}
+			
             return $this->job_model->add_job_transaction($data);
         }
 	public function get_all()
