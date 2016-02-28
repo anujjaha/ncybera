@@ -255,4 +255,17 @@ class Job_model extends CI_Model {
 		$this->db->update($this->table_cutting_details,$data);
 		return true;
 	}
+	
+	public function is_cutting($job_id=null) {
+		if($job_id) {
+			$this->db->select('*')
+			->from($this->table_cutting_details)
+			->where('j_id',$job_id);
+			$query = $this->db->get();
+			if($query->result()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

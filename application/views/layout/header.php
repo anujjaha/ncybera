@@ -1,8 +1,14 @@
-<link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-tab.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
-<script src="<?php echo base_url();?>assets/js/calculator.js"></script>
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/calc_style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/tab.css" media="screen" />
+<script>
+function show_calculator()
+	{
+		window.open('<?php echo base_url();?>calc.html','welcome','width=360,height=320')
+	}
+
+</script>
     <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?php echo base_url();?>" class="logo">
@@ -21,7 +27,7 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
 						<li class="dropdown messages-menu">
-							<a href="#show_calculator" class="fancybox">
+							<a href="#show_calculator" onclick="show_calculator();">
 								Calculator
 							</a>
 						</li>
@@ -112,36 +118,77 @@
         </header>
 <div id="estimation_details" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+	
     <div id="create_estimate">
     <?php $all_customer = get_all_customers(); ?>
-    <table align="center" border="2" width="80%">
-	<tr>
-		<td align="right"> Select Customer :</td>
-		<td> 
-			<select class="form-control" name="customer" id="customer">
-				<?php
-				
-				foreach($all_customer as $customer) {
-					$c_name = $customer->companyname;
-					if(empty($c_name)) {
-						$c_name = $customer->name;
-					}
-					echo "<option value='".$customer->id."'>".$c_name."</option>";
-				}
-				?>
-			</select>
-			</td>
-	</tr>
-	<tr>
-		<td align="right">Message:</td>
-		<td><textarea id="sms_message" name="sms_message" cols="80" rows="6"></textarea></td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center">
-			<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation();">
-		</td>
-	</tr>
-</table>
+    <center>
+		<a href="javascript:void(0);" onclick="show_calculator();">Calculator</a>
+    </center>
+    <ul class="tabs" data-persist="true">
+            <li><a href="#regular_customers">Regular Customers</a></li>
+            <li><a href="#new_customers">New Customer</a></li>
+    </ul>
+    <div class="tabcontents">
+		<div id="regular_customers">
+			<table align="center" border="2" width="80%">
+				<tr>
+					<td align="right"> Select Customer :</td>
+					<td> 
+						<select class="form-control" name="customer" id="customer" onchange="show_sms_mobile();">
+							<option value="0" selected="selected">Select Customer</option>
+							<?php
+							foreach($all_customer as $customer) {
+								$c_name = $customer->companyname;
+								if(empty($c_name)) {
+									$c_name = $customer->name;
+								}
+								echo "<option value='".$customer->id."'>".$c_name."</option>";
+							}
+							?>
+						</select>
+						</td>
+				</tr>
+				<tr>
+					<td align="right">Contact Number:</td>
+					<td><input type="text" id="sms_mobile" name="sms_mobile"></td>
+				</tr>
+				<tr>
+					<td align="right">Message:</td>
+					<td><textarea id="sms_message" name="sms_message" cols="80" rows="6"></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="hidden" name="sms_customer_name" id="sms_customer_name">
+						<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation();">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="new_customers">
+			<table align="center" border="2" width="80%">
+				<tr>
+					<td align="right">Customer Name :</td>
+					<td> 
+						<input type="text" name="n_sms_customer_name" id="n_sms_customer_name" style="width:500px;">
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Contact Number:</td>
+					<td><input type="text" id="n_sms_mobile" name="n_sms_mobile" style="width:500px;"></td>
+				</tr>
+				<tr>
+					<td align="right">Message:</td>
+					<td><textarea id="n_sms_message" name="n_sms_message" cols="80" rows="6"></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation_new();">
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+    
     </div>
 </div>
 </div>
@@ -154,16 +201,34 @@
     });
 });
 function create_estimation(){
-	var customer_id,sms_message;
+	var customer_id,sms_message,sms_mobile;
 	customer_id = $("#customer").val();
 	sms_message = $("#sms_message").val();
+	sms_mobile = $("#sms_mobile").val();
+	sms_customer_name = $("#sms_customer_name").val();
     $.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/create_estimation/", 
-         data:{'customer_id':customer_id,"sms_message":sms_message},
+         data:{'customer_id':customer_id,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
          success: 
             function(data){
 				alert("SMS Sent :"+data);
+				$.fancybox.close();
+            }
+          });
+}
+function create_estimation_new(){
+	var customer_id,sms_message,sms_mobile;
+	sms_message = $("#n_sms_message").val();
+	sms_mobile = $("#n_sms_mobile").val();
+	sms_customer_name = $("#n_sms_customer_name").val();
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/create_estimation/", 
+         data:{'customer_id':0,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
+         success: 
+            function(data){
+				alert("SMS Sent : "+data);
 				$.fancybox.close();
             }
           });
@@ -204,43 +269,31 @@ function header_calculate_paper_cost(){
         }
           });
 }
+
+function show_sms_mobile() {
+	var customer_id = jQuery("#customer").val();
+	if(customer_id == 0 ) {
+		jQuery("#sms_mobile").val('');
+		return true;
+	}
+    $.ajax({
+     type: "POST",
+     dataType:"json",
+     url: "<?php echo site_url();?>/ajax/ajax_get_customer/"+customer_id, 
+     success: 
+        function(data){
+			jQuery("#sms_mobile").val(data['mobile']);
+			if(jQuery("#sms_customer_name").val(data['name']).length > 0 ) {
+					jQuery("#sms_customer_name").val(data['name']);
+			} else {
+					jQuery("#sms_customer_name").val(data['companyname']);
+			}
+		}
+  });
+}
 </script>
 
-<div id="show_calculator" style="width:800px;display: none;">
-	<div class="main">
-            <div class="answer"></div>
-            <div class="digits">
-                <table>
-                    <tr>
-                        <td class="tokens numbers">1</td>
-                        <td class="tokens numbers">2</td>
-                        <td class="tokens numbers">3</td>
-                    </tr>
-                    <tr>
-                        <td class="tokens numbers">4</td>
-                        <td class="tokens numbers">5</td>
-                        <td class="tokens numbers">6</td>
-                    </tr>
-                    <tr>
-                        <td class="tokens numbers">7</td>
-                        <td class="tokens numbers">8</td>
-                        <td class="tokens numbers">9</td>
-                    </tr>
-                    <tr>
-                        <td class="tokens">+</td>
-                        <td class="tokens numbers">0</td>
-                        <td class="tokens">-</td>
-                    </tr>
-                    <tr>
-                        <td class="tokens">*</td>
-                        <td class="tokens clear">C</td>
-                        <td class="tokens">/</td>
-                    </tr>
-                </table>
-                <div class="answerbutton">ANSWER</div>
-            </div>
-        </div>
-</div>
+
 <div id="hfancy_box_demo" style="width:800px;display: none;">
 	<div style="width: 600px; margin: 0 auto; padding: 120px 0 40px;">
 			<?php

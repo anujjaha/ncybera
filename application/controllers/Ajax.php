@@ -114,13 +114,15 @@ class Ajax extends CI_Controller {
 			$this->load->model('estimationsms_model'); 	
 			$customer_id = $this->input->post('customer_id');
 			$sms_message = $this->input->post('sms_message');
-			$customer_details = get_all_customers('id',$customer_id);
+			$sms_mobile = $this->input->post('sms_mobile');
+			$sms_customer_name = $this->input->post('sms_customer_name');
+			
 			$quote_data['customer_id'] = $customer_id;
 			$quote_data['sms_message'] = $sms_message;
-			$quote_data['mobile'] = $mobile = $customer_details[0]->mobile;
+			$quote_data['mobile'] = $mobile = $sms_mobile;
 			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
-			$sms_text = "Dear ".$customer_details[0]->name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
+			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text);
 			echo $sms_text;
 		}
@@ -172,6 +174,27 @@ class Ajax extends CI_Controller {
 			$this->job_model->update_job($job_id,$data);
 			return true;
 		}
+	}
+	
+	public function ajax_get_customer($customer_id=null) {
+		if($customer_id) {
+			$this->load->model('job_model');
+			$data = $this->job_model->get_customer_details($customer_id);
+			echo json_encode($data);
+		die();
+		}
+		return false;
+	}
+	
+	public function ajax_customer_details_by_param($param=null,$value=null) {
+		if($param && $value) {
+			$this->load->model('customer_model');
+			$data = $this->customer_model->get_customer_details($param,$value);
+			if( count($data) > 0 ) {
+				echo $data->companyname ? $data->companyname : $data->name;
+			}
+		}
+		return true;
 	}
 }
 
