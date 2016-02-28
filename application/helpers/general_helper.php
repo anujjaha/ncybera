@@ -90,7 +90,7 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
-	function send_sms($user_id,$customer_id,$mobile,$sms_text=null) {
+	function send_sms($user_id=null,$customer_id,$mobile,$sms_text=null) {
 		$ci=& get_instance();
 		$ci->load->database(); 
 		if(! $user_id) {
@@ -130,11 +130,10 @@ function create_pdf($content=null,$size ='A5-L') {
 		$mpdf->defaultheaderfontsize=8;
 		//$mpdf->SetFooter('{PAGENO}');
 		$mpdf->WriteHTML($content);
-		$mpdf->SetDisplayMode('fullpage');
 		$mpdf->shrink_tables_to_fit=0;
 		$mpdf->list_indent_first_level = 0;  
-		$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
-		$mpdf->Output('cybera.pdf','I');
+		//$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
+		$mpdf->Output('cybera.pdf','D');
 	}
 }
 
@@ -160,3 +159,30 @@ function get_papers_size() {
 	$data['size'] = $ci->job_model->get_paper_size();
 	return $data;
 }
+
+function job_complete_sms($job_id=null) {
+	if($job_id) {
+		$ci = & get_instance();
+		$sql = "SELECT if(CHAR_LENGTH(c.name) > 0,c.name,c.companyname) as customer_name,
+				job.smscount,job.customer_id,c.mobile,
+				job.total,job.due FROM job 
+				LEFT JOIN customer c
+				ON c.id = job.customer_id
+				WHERE job.id = $job_id";
+		$query = $ci->db->query($sql);
+		$result = $query->row();
+		$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Pay ".$result->due." due amt. to collect your job. Thank You.";
+		$data['smscount'] = $result->smscount  + 1;
+		$ci->db->where('id',$job_id);
+		$ci->db->update('job',$data);
+		
+		$customer_id = $result->customer_id;
+		$mobile = $result->mobile;
+		$user_id = $ci->session->userdata['user_id'];
+		
+		send_sms($user_id,$customer_id,$mobile,$sms_text);
+		return true;
+	}
+	return true;
+}
+

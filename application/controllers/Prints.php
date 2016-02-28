@@ -50,7 +50,12 @@ class Prints extends CI_Controller {
 			if($flag) {
 				$this->job_model->update_job($job_id,$jdata);
 			}
-			
+			if( $this->input->post('j_status') == JOB_PRINT_COMPLETED ) {
+				$is_cutting = $this->job_model->is_cutting($job_id);
+				if(! $is_cutting ) {
+					job_complete_sms($job_id);
+				}
+			}
             return $this->job_model->add_job_transaction($data);
         }
 	public function get_all()

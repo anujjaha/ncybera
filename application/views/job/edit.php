@@ -1,8 +1,4 @@
 <script src="<?php echo base_url();?>assets/js/job_details.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-tab.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/tab.css" media="screen" />
 <script>
 $(document).ready(function() {
       $('.fancybox').fancybox({
@@ -155,6 +151,24 @@ function check_visiting_card(sr) {
 			$("#details_"+sr).val("B/W Print");
 		}
 }
+
+function check_existing_customer(value) {
+	if(jQuery("#new_customer_name").val().length > 0 || jQuery("#new_customer_companyname").val().length > 0 ) {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_customer_details_by_param/mobile/"+value, 
+			success: 
+			function(data){
+				if(data.length > 0 ) {
+					jQuery("#save_button").attr("disabled","disabled");
+					jQuery("#mobile_error_message").html(data + " Customer already Exists");
+					alert("Customer "+ data +" already Exists with Contact Number : "+value);
+				}
+			}
+		});
+	} 
+	
+}
 </script>
 <?php
 $this->load->helper('form');
@@ -191,17 +205,17 @@ $this->load->helper('general'); ?>
 					<div class="form-group">
                                     <label>Company Name</label>
                                     <input type="text" class="form-control" 
-                                    name="companyname"  value="" placeholder="Company Name">
+                                    name="companyname" id="new_customer_companyname" value="" placeholder="Company Name">
                             </div>
                     <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name" value="" placeholder="Name">
+                            <input type="text" class="form-control" id="new_customer_name" name="name" value="" placeholder="Name">
                     </div>
                 </div>
                     <div class="col-md-6">
 							<div class="form-group">
-								<label>Contact Number</label>
-								<input type="text" class="form-control" name="user_mobile" value="" placeholder="Mobile Number">
+								<label>Contact Number <span style="color:red;font-size:14px;" id="mobile_error_message"></span></label>
+								<input type="text" class="form-control" onblur="check_existing_customer(this.value);" name="user_mobile" value="" placeholder="Mobile Number">
 							</div>
                             <div class="form-group">
                                     <label>Email Id</label>
@@ -351,7 +365,7 @@ $this->load->helper('general'); ?>
 		<input type="hidden" name="customer_type" id="customer_type">
 		<input type="hidden" name="customer_id" id="customer_id">
 		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
-		<input type="submit" name="save" value="Save" class="btn btn-success btn-lg">
+		<input type="submit" name="save" id="save_button" value="Save" class="btn btn-success btn-lg">
 	</div>
 </div>
 </form>
