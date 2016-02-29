@@ -258,6 +258,9 @@ class Jobs extends CI_Controller {
 			$cutting_info = $this->job_model->get_cutting_details($job_id);
 			$job_details = $this->job_model->get_job_details($job_id);
 			$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+			if(! $cutting_info) {
+				return true;
+			}
 			$data['customer_details']=$customer_details;
 			$data['job_details']=$job_details;
 			$data['cutting_info']=$cutting_info;
