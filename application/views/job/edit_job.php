@@ -189,7 +189,7 @@ $modified_by = $this->session->userdata['user_id'];
 				<table width="100%">
 					<tr>
 						<td width="50%">
-							Custome Name : <?php echo $customer_details->name;?>
+							Customer Name : <?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name;?>
 						</td>
 						<td width="50%" align="right">
 							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">

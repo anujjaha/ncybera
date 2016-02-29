@@ -40,13 +40,7 @@ class User extends CI_Controller {
         }
 
 		public function dashboard() {
-        /*$today = date("Y-m-d");
-		$condition = array('condition'=>array('jdate'=>$today))	;
-		$result = $this->user_model->get_jobs('',$condition);
-		$data['title']="Dashboard";
-		$data['heading']="Dashboard";
-		$data['jobs']= $result;*/
-		$this->load->model('job_model');
+       	$this->load->model('job_model');
 		$data = array();
 		$data['jobs'] = $this->job_model->get_dashboard_details();
 		$data['title']="Job - Cybera Print Art";
