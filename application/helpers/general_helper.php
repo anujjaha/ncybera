@@ -37,7 +37,7 @@ if ( ! function_exists('test_method'))
     
     function create_customer_dropdown($type,$flag=null) {
 		if($type == "customer") {
-			$sql = "SELECT id,name,companyname FROM customer WHERE ctype = 0 order by name";
+			$sql = "SELECT id,name,companyname FROM customer WHERE ctype = 0 order by companyname";
 			$ci=& get_instance();
 			$ci->load->database(); 	
 			$query = $ci->db->query($sql);
@@ -59,7 +59,7 @@ if ( ! function_exists('test_method'))
 		}
 		
 		if($type == "dealer") {
-			$sql = "SELECT id,name,companyname,dealercode FROM customer WHERE ctype=1 order by name";
+			$sql = "SELECT id,name,companyname,dealercode FROM customer WHERE ctype=1 order by companyname";
 		$ci=& get_instance();
 		$ci->load->database(); 	
 		$query = $ci->db->query($sql);
@@ -80,9 +80,9 @@ if ( ! function_exists('test_method'))
 	
 	
     function get_all_customers($param=null,$value=null) {
-		$sql = "SELECT * FROM customer order by name";
+		$sql = "SELECT * FROM customer order by companyname";
 		if(!empty($param)) {
-			$sql = "SELECT * FROM customer where $param = '".$value."' order by name";
+			$sql = "SELECT * FROM customer where $param = '".$value."' order by companyname";
 		}
 		$ci=& get_instance();
 		$ci->load->database(); 	
