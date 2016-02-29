@@ -133,7 +133,8 @@ function create_pdf($content=null,$size ='A5-L') {
 		$mpdf->shrink_tables_to_fit=0;
 		$mpdf->list_indent_first_level = 0;  
 		//$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
-		$mpdf->Output('cybera.pdf','D');
+		$fname = rand(1111,9999)."_cybera.pdf";
+		$mpdf->Output($fname,'D');
 	}
 }
 
@@ -149,7 +150,7 @@ function get_user_by_param($param=null,$value=null) {
 }
 
 function get_restricted_department() {
-	return array("prints","cuttings");
+	return array("prints","cuttings","master");
 }
 
 function get_papers_size() {
@@ -184,5 +185,11 @@ function job_complete_sms($job_id=null) {
 		return true;
 	}
 	return true;
+}
+
+function get_master_statistics() {
+	$ci = & get_instance();
+	$ci->load->model('master_model');
+	return $ci->master_model->get_master_statistics();
 }
 

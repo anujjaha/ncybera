@@ -3538,3 +3538,7 @@ fieldset[disabled] .btn-vk.active {
 	color:green;
 	font-weight:bold;
 }
+
+input:focus {
+    background-color: yellow;
+}

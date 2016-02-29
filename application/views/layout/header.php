@@ -122,7 +122,7 @@ function show_calculator()
     <div id="create_estimate">
     <?php $all_customer = get_all_customers(); ?>
     <center>
-		<a href="javascript:void(0);" onclick="show_calculator();">Calculator</a>
+		<a href="javascript:void(0);" onclick="show_calculator();" class="btn btn-success btn-lg">Calculator</a>
     </center>
     <ul class="tabs" data-persist="true">
             <li><a href="#regular_customers">Regular Customers</a></li>

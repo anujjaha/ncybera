@@ -104,7 +104,8 @@ function print_job() {
          url: "<?php echo site_url();?>/jobs/print_job_ticket/"+<?php echo $job_data->id;?>, 
          success: 
               function(data){
-							return true;
+				print_cutting();
+				return true;
 			 }
           });
 }
