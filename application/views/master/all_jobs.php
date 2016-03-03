@@ -1,70 +1,8 @@
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
-
-<script>
-function direct_verify_job(id) {
-	$.ajax({
-         type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_job_verify/"+id, 
-         data:{"job_id":id,"notes":"Verified by Master"},
-         success: 
-              function(data){
-					location.reload();
-			 }
-          });
-}
-</script>
 <section class="content">
-<!-- Small boxes (Stat box) -->
-<div class="row">
-	
-<div class="col-lg-3 col-xs-6">
-	<div class="small-box bg-aqua">
-	<div class="inner">
-		<h3><?php echo $statstics['today_job_count'];?></h3>
-		<p>Today Orders</p>
-	</div>
-	<div class="icon"><i class="ion ion-bag"></i></div>
-		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	</div>
-</div>
-
-<div class="col-lg-3 col-xs-6">
-	<div class="small-box bg-green">
-	<div class="inner">
-		<h3><?php echo $statstics['today_total_collection'];?> Rs.</h3>
-		<p>Today Collection</p>
-	</div>
-	<div class="icon"><i class="ion ion-stats-bars"></i></div>
-		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	</div>
-</div><!-- ./col -->
-<div class="col-lg-3 col-xs-6">
-	<div class="small-box bg-yellow">
-	<div class="inner">
-		<h3><?php echo $statstics['total_month_job'];?></h3>
-		<p>Total Jobs for <?php echo date('M-Y');?></p>
-	</div>
-	<div class="icon"><i class="ion ion-person-add"></i></div>
-		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	</div>
-</div><!-- ./col -->
-
-<div class="col-lg-3 col-xs-6">
-	<div class="small-box bg-red">
-	<div class="inner">
-		<h3><?php echo  round($statstics['total_month_collection']);?>  Rs.</h3>
-		<p>Total Collections for <?php echo date('M-Y');?></p>
-	</div>
-	<div class="icon"><i class="ion ion-pie-graph"></i></div>
-		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	</div>
-</div><!-- ./col -->
-
-</div><!-- /.row -->
-
 <!-- Main row -->
 <div class="row">
-<hr>
+
 <!-- Left col -->
 <script src="<?php echo base_url('assets/js/plugins/datatables/jquery.dataTables.js')?>" type="text/javascript"></script>
 <script src="<?php echo base_url('assets/js/plugins/datatables/dataTables.bootstrap.js')?>" type="text/javascript"></script>
@@ -87,7 +25,6 @@ function direct_verify_job(id) {
 		<th>Bill Number</th>
 		<th>Date / Time</th>
 		<th>View</th>
-		<th>Verify</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -113,7 +50,6 @@ function direct_verify_job(id) {
 						date('h:i A',strtotime($job['created']));?>
 		</td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
-		<td><a href="javascript:void(0);" onclick="direct_verify_job(<?php echo $job['job_id'];?>)">Verify</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>
@@ -139,7 +75,7 @@ function direct_verify_job(id) {
 function show_job_details(job_id){
     $.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_job_short_details/"+job_id, 
+         url: "<?php echo site_url();?>/ajax/ajax_job_details/"+job_id, 
          success: 
             function(data){
                   jQuery("#job_view").html(data);

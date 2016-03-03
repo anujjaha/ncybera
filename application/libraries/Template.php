@@ -48,10 +48,13 @@
         {
             $data->body = $body;
         }
+        
 		if($_SESSION['department'] == 'prints') {
             $this->ci->load->view('layout/default_print', $data);
         } else  if($_SESSION['department'] == 'cuttings') { 
 			$this->ci->load->view('layout/default_cutting', $data);
+        } else  if($_SESSION['department'] == 'Master') { 
+			$this->ci->load->view('layout/default_master', $data);
         } else {
             $this->ci->load->view('layout/default', $data);
         }

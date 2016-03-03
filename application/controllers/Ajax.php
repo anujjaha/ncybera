@@ -196,5 +196,51 @@ class Ajax extends CI_Controller {
 		}
 		return true;
 	}
+	
+	public function ajax_job_short_details($job_id=null) {
+		if(! $job_id) {
+			return true;
+		}
+		$this->load->model('job_model');
+		$this->load->model('user_model');
+		$job_data = $this->job_model->get_job_data($job_id);
+		$job_details = $this->job_model->get_job_details($job_id);
+		$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+		$data['customer_details']=$customer_details;
+		$data['job_details']=$job_details;
+		$data['job_data']=$job_data;
+		$data['heading'] = $data['title']='View Job';
+		$data['courier'] = $this->user_model->get_courier($job_id);
+		$this->load->view('ajax/view_short_job', $data);
+	}
+	
+	public function ajax_job_verify($job_id=null) {
+		if($this->input->post()) {
+			$this->load->model('job_model');
+			$jdata['job_id'] = $job_id;
+			$jdata['user_id'] = $this->session->userdata['user_id'];
+			$jdata['notes'] = $this->input->post('notes');
+			$verify_id = $this->job_model->verify_job_by_user($jdata);
+			$data['bill_number'] = $this->input->post('bill_number');
+			$data['receipt'] = $this->input->post('receipt');
+			$data['voucher_number'] = $this->input->post('voucher_number');
+			$data['verify_id'] = $verify_id;
+			$this->job_model->update_job($job_id,$data);
+			print_r($data);
+			return true;
+		}
+	}
+	
+	public function update_user_status($user_id=null,$status) {
+		if($user_id) {
+			$data['active'] = 1;
+			if($status == 1 ) {
+				$data['active'] = 0;
+			}
+			$this->load->model('user_model');
+			return $this->user_model->update_user($user_id,$data);
+		}
+		return false;
+	}
 }
 

@@ -3534,8 +3534,12 @@ fieldset[disabled] .btn-vk.active {
   background-color: #ffffff;
 }
 
-.paid {
+.paid , .green {
 	color:green;
+	font-weight:bold;
+}
+.red {
+	color:red;
 	font-weight:bold;
 }
 

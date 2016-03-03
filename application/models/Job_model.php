@@ -10,6 +10,7 @@ class Job_model extends CI_Model {
     public $table_customer = "customer";
     public $table_cutting_details = "cutting_details";
     public $table_job_transaction = "job_transaction";
+    public $table_job_verify = "job_verify";
 	
 	public function insert_job($data) {
 		$data['created'] = date('Y-m-d H:i:s');
@@ -267,5 +268,11 @@ class Job_model extends CI_Model {
 			}
 		}
 		return false;
+	}
+	
+	public function verify_job_by_user($data=array()) {
+			$data['created'] = date('Y-m-d H:i:s');
+			$this->db->insert($this->table_job_verify,$data);
+			return $this->db->insert_id();
 	}
 }

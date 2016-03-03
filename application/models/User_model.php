@@ -5,6 +5,7 @@ class User_model extends CI_Model {
                 parent::__construct();
     }
     public $table = "job";
+    public $table_users = "users";
 	
     public function login_user($username=null,$password=null) {
         if(!empty($username) && !empty($password)) {
@@ -160,13 +161,45 @@ class User_model extends CI_Model {
 		return false;
 	}
 	
-	
-	
 	public function search_print($term=null) {
 		$result = array();
 		if($term) {
 			
 		}
 		return $result;
+	}
+	
+	public function get_all_users() {
+		$this->db->select('*')
+				->from($this->table_users)
+				->join('user_meta','user_meta.user_id=users.id','left')
+				->order_by('user_meta.nickname');
+		$query = $this->db->get();
+		return 	$query->result_array();
+	}
+	
+	public function update_user($user_id=null,$data=array()) {
+		if($user_id) {
+			$this->db->where('id',$user_id);
+			$data['modified'] = date('Y-m-d H:i:s');
+			$this->db->update('users',$data);
+			return true;
+		}
+		return false;
+	}
+	
+	public function create_user($data=array()) {
+		if($data) {
+			$this->db->insert('users',$data);
+			return $this->db->insert_id();
+		}
+		return false;
+	}
+	public function create_user_meta($data=array()) {
+		if($data) {
+			$this->db->insert('user_meta',$data);
+			return $this->db->insert_id();
+		}
+		return false;
 	}
 }
