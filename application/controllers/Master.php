@@ -62,4 +62,9 @@ class Master extends CI_Controller {
 		$data['heading'] = $data['title']="Master Admin - Create User";
 		$this->template->load('master', 'add', $data);
 	}
+	
+	public function migration() {
+			$this->load->model('master_model');
+			$this->master_model->user_migration();
+	}
 }

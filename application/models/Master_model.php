@@ -45,4 +45,24 @@ class Master_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	
+	public function user_migration() {
+		$this->db->select('*')
+				->from('nportal_customers')
+				->order_by('cusname');
+		$query = $this->db->get();
+		
+		foreach($query->result_array() as $data ) {
+			$cusdata = array();
+			$cusdata['companyname'] = $cusdata['name'] = $data['cusname'];
+			$cusdata['mobile'] = $data['mob'];
+			$cusdata['created'] = date('Y-m-d H:i:s');
+			$this->db->insert('bk_customer',$cusdata);
+			$cus_id = $this->db->insert_id();
+			$updata = array();
+			$updata['username']= $updata['password'] = "customer".$cus_id;
+			$this->db->where('id',$cus_id);
+			$this->db->update('bk_customer',$updata);
+		}
+	}
 }
