@@ -23,14 +23,16 @@
 		<th>Receipt</th>
 		<th>Voucher Number</th>
 		<th>Bill Number</th>
+		<th>Notes</th>
 		<th>Date / Time</th>
+		<th>Job Status</th>
 		<th>View</th>
 		</tr>
 		</thead>
 	<tbody>
 		<?php
 		$sr =1;	
-		foreach($unverify_jobs as $job) { 
+		foreach($all_jobs as $job) { 
 			?>
 		<tr>
 		<td><?php echo $sr;?></td>
@@ -45,9 +47,13 @@
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
+		<td><?php echo $job['notes'];?></td>
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>
+		</td>
+		<td>
+			<?php echo $job['verify_id'] ? "<span class='green'>Verified</span>" : "<span class='red'>Unverified</span>";?>
 		</td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		</tr>

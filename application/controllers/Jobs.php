@@ -107,6 +107,7 @@ class Jobs extends CI_Controller {
                                        'c_bindinginfo'=>$this->input->post('c_bindinginfo_'.$i),
                                        'c_checking'=>$this->input->post('c_checking_'.$i),
                                        'c_packing'=>$this->input->post('c_packing_'.$i),
+                                       'c_corner'=>$this->input->post('c_corner_'.$i),
                                     );
         }
         }
@@ -202,6 +203,7 @@ class Jobs extends CI_Controller {
 			$data['job_data']=$job_data;
 			$data['title']='Print Job';
 			$data['heading']='Cybera Print View';
+			$data['cutting_info'] = $this->job_model->get_cutting_details($job_id);
 			$this->template->load('job', 'print_job', $data);
 		}
 	}

@@ -15,11 +15,12 @@ function direct_verify_job(id) {
 </script>
 <section class="content">
 <!-- Small boxes (Stat box) -->
-<?php require_once('master_statatics.php');?>
+
+<?php require_once('department_profit.php');?>
+
 
 <!-- Main row -->
 <div class="row">
-<hr>
 <!-- Left col -->
 <script src="<?php echo base_url('assets/js/plugins/datatables/jquery.dataTables.js')?>" type="text/javascript"></script>
 <script src="<?php echo base_url('assets/js/plugins/datatables/dataTables.bootstrap.js')?>" type="text/javascript"></script>
@@ -30,45 +31,33 @@ function direct_verify_job(id) {
 		<tr>
 		<th>Sr</th>
 		<th>Job Num</th>
-		<th>Company Name</th>
 		<th>Customer Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
-		<th>Bill Amount</th>
-		<th>Advance</th>
-		<th>Due</th>
-		<th>Receipt</th>
-		<th>Voucher Number</th>
-		<th>Bill Number</th>
-		<th>Date / Time</th>
-		<th>View</th>
-		<th>Verify</th>
+		<th>Category</th>
+		<th>Details</th>
+		<th>Quantity</th>
+		<th>Rate</th>
+		<th>Amount</th>
 		</tr>
 		</thead>
 	<tbody>
 		<?php
 		$sr =1;	
-		foreach($unverify_jobs as $job) { 
-			?>
+		$filter = array();
+		foreach($job_categories as $job) { 
+		?>
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $job['job_id'];?></td>
-		<td><?php echo $job['companyname'];?></td>
-		<td><?php echo $job['name'];?></td>
+		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
-		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
-		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
-		<td><?php echo $job['bill_number'];?></td>
-		<td><?php echo date('d-m-Y',strtotime($job['created']))
-						." - ".
-						date('h:i A',strtotime($job['created']));?>
-		</td>
-		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
-		<td><a href="javascript:void(0);" onclick="direct_verify_job(<?php echo $job['job_id'];?>)">Verify</a></td>
+		<td><?php echo $job['jtype'];?></td>
+		<td><?php echo $job['jdetails'];?></td>
+		<td><?php echo $job['jqty'];?></td>
+		<td><?php echo $job['jrate'];?></td>
+		<td><?php echo $job['jamount'];?></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

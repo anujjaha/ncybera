@@ -222,10 +222,10 @@ function create_estimation_new(){
 	sms_message = $("#n_sms_message").val();
 	sms_mobile = $("#n_sms_mobile").val();
 	sms_customer_name = $("#n_sms_customer_name").val();
-    $.ajax({
+	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/create_estimation/", 
-         data:{'customer_id':0,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
+         data:{'customer_id':0,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name,'prospect':'1'},
          success: 
             function(data){
 				alert("SMS Sent : "+data);

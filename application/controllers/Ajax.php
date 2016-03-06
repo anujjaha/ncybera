@@ -116,14 +116,23 @@ class Ajax extends CI_Controller {
 			$sms_message = $this->input->post('sms_message');
 			$sms_mobile = $this->input->post('sms_mobile');
 			$sms_customer_name = $this->input->post('sms_customer_name');
+			$prospect_id = 0;	
+			if($this->input->post('prospect') && $this->input->post('prospect') == 1) {
+				$this->load->model('customer_model');
+				$pdata['name']= $sms_customer_name;
+				$pdata['mobile']= $sms_mobile;
+				$pdata['ccategory']= 'General-Estimation';
+				$prospect_id = $this->customer_model->insert_prospect($pdata);
+			}
 			
 			$quote_data['customer_id'] = $customer_id;
+			$quote_data['prospect_id'] = $prospect_id;
 			$quote_data['sms_message'] = $sms_message;
 			$quote_data['mobile'] = $mobile = $sms_mobile;
 			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
 			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
-			send_sms($user_id,$customer_id,$mobile,$sms_text);
+			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
 			echo $sms_text;
 		}
 		return true;

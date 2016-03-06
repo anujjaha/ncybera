@@ -65,4 +65,42 @@ class Master_model extends CI_Model {
 			$this->db->update('bk_customer',$updata);
 		}
 	}
+	
+	public function get_jobs_master() {
+		$sql = "SELECT *,job.id as job_id FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 LEFT JOIN job_verify jv ON
+				 jv.job_id = job.id
+				 
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	public function get_today_details_master($param=null,$value=null) {
+		$condition = "";
+		if(!empty($param)) {
+			$condition = "WHERE $param = '$value'";
+		}
+		$sql = "SELECT *,job.id as job_id,job.created as 'created'
+				FROM job
+				LEFT JOIN customer
+				ON job.customer_id = customer.id
+				$condition
+				order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	public function job_categories_master() {
+		$this->db->select('*')
+				->from('job_details')
+				->join('job','job.id=job_details.job_id','left')
+				->join('customer','customer.id=job.customer_id','left')
+				->order_by('job_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

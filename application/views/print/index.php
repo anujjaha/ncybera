@@ -13,7 +13,9 @@
     });
 });
 
-function show_job_details(job_id){
+function show_job_details(job_id,sr){
+	
+	view_job(sr,job_id);
     $.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/ajax_job_details/"+job_id, 
@@ -74,7 +76,7 @@ function show_job_details(job_id){
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
-		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
+		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>,<?php echo $sr;?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

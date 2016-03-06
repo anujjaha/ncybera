@@ -90,7 +90,7 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
-	function send_sms($user_id=null,$customer_id,$mobile,$sms_text=null) {
+	function send_sms($user_id=null,$customer_id,$mobile,$sms_text=null,$prospect_id=0) {
 		$ci=& get_instance();
 		$ci->load->database(); 
 		if(! $user_id) {
@@ -112,8 +112,9 @@ if ( ! function_exists('test_method'))
 		$ci->load->model('sms_transaction_model','sms');
 		$sms_data['user_id'] = $user_id;
 		$sms_data['customer_id'] = $customer_id;
+		$sms_data['prospect_id'] = $prospect_id;
 		$sms_data['sms_text'] = $sms_text;
-		$sms_data['mobile'] = strlen($mobile);
+		$sms_data['mobile'] = $mobile;
 		$sms_data['char_count'] = strlen($sms_text);
 		$sms_data['status'] = $response;
 		$ci->sms->insert_sms($sms_data);
@@ -191,5 +192,42 @@ function get_master_statistics() {
 	$ci = & get_instance();
 	$ci->load->model('master_model');
 	return $ci->master_model->get_master_statistics();
+}
+
+function get_department_revenue() {
+	$ci = & get_instance();
+	$sql = "SELECT 
+			(select sum(jamount) from job_details 
+			where jtype = 'Digital Print') as dprint,
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Cutting' ) as 'dcutting' ,
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Designing' ) as 'ddesigning',
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Visiting Card' ) as 'dvisitingcard',
+			
+			(select sum(jamount) from job_details 
+			where jtype = 'Offset Print' ) as 'doffsetprint',
+			
+			(select sum(jamount) from job_details 
+			where jtype = 'Binding' ) as 'dbinding',
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Lamination' ) as 'dlamination',
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Packaging and Forwading' ) as 'dpackaging',
+
+			(select sum(jamount) from job_details 
+			where jtype = 'Transportation' ) as 'dtransportation',
+
+			(select sum(jamount) from job_details 
+			where jtype = 'B/W Print' ) as 'dbwprint'
+			from job_details limit 1";
+	$query = $ci->db->query($sql);
+	return $query->row();
 }
 

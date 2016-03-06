@@ -13,8 +13,9 @@
     });
 });
 
-function show_cutting_details(job_id){
-    $.ajax({
+function show_cutting_details(job_id,sr){
+	view_job(sr,job_id);
+	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/ajax_cutting_details/"+job_id, 
          success: 
@@ -71,7 +72,7 @@ function show_cutting_details(job_id){
 		<td><?php echo $job['jstatus'];?></td>
 		
 		<td><a class="fancybox" 
-			 onclick="show_cutting_details(<?php echo $job['job_id'];?>);" 
+			 onclick="show_cutting_details(<?php echo $job['job_id'];?>,<?php echo $sr;?>);" 
 			 href="#view_job_details">
 			 View
 			 </a>
