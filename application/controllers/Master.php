@@ -27,10 +27,10 @@ class Master extends CI_Controller {
 		$this->template->load('master', 'index', $data);
 	}
 	public function all() {
-		$this->load->model('job_model');
+		$this->load->model('master_model');
 		$data = array();
 		$data['heading'] = $data['title']="Master Admin - All Jobs";
-		$data['unverify_jobs'] = $this->job_model->get_job_data();
+		$data['all_jobs'] = $this->master_model->get_jobs_master();
 		$this->template->load('master', 'all_jobs', $data);
 	}
 	
@@ -63,6 +63,44 @@ class Master extends CI_Controller {
 		$this->template->load('master', 'add', $data);
 	}
 	
+	public function today_orders() {
+		$this->load->model('master_model');
+		$jdate = date('Y-m-d');
+		$data['heading'] = $data['title']="Master Admin - Today Orders - ".$jdate;
+		$data['jobs'] = $this->master_model->get_today_details_master('jdate',$jdate);
+		$data['statstics'] = get_master_statistics();
+		$this->template->load('master', 'orders', $data);
+	}
+	public function monthly_orders() {
+		$this->load->model('master_model');
+		$jmonth = date('M-Y');
+		$data['heading'] = $data['title']="Master Admin - Monthly Orders - ".$jmonth;
+		$data['jobs'] = $this->master_model->get_today_details_master('jmonth',$jmonth);
+		$data['statstics'] = get_master_statistics();
+		$this->template->load('master', 'orders', $data);
+	}
+	public function search_master() {
+		$data=array();
+		$this->load->model('user_model');
+		$data['heading'] = $data['title']="Search Result";
+		$data['search']="";
+		if($this->input->post('q')) {
+			$search = $this->input->post('q');
+			$data['dealers'] = $data['customers'] = $this->user_model->search_customers($search);
+			$data['job_data'] = $this->user_model->search_job($search);
+			$data['job_details'] = $this->user_model->search_jobdetails($search);
+			$data['search']=$search;
+		}
+		$this->template->load('master', 'search_master', $data);
+	}
+	
+	public function job_category() {
+		$this->load->model('master_model');
+		$data = array();
+		$data['job_categories'] = $this->master_model->job_categories_master();
+		$data['heading'] = $data['title']="Master - Job Categories";
+		$this->template->load('master', 'job_categories', $data);
+	}
 	public function migration() {
 			$this->load->model('master_model');
 			$this->master_model->user_migration();

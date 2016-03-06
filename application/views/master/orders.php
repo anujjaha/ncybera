@@ -41,6 +41,7 @@ function direct_verify_job(id) {
 		<th>Voucher Number</th>
 		<th>Bill Number</th>
 		<th>Date / Time</th>
+		<th>Job Status</th>
 		<th>View</th>
 		<th>Verify</th>
 		</tr>
@@ -48,7 +49,7 @@ function direct_verify_job(id) {
 	<tbody>
 		<?php
 		$sr =1;	
-		foreach($unverify_jobs as $job) { 
+		foreach($jobs as $job) { 
 			?>
 		<tr>
 		<td><?php echo $sr;?></td>
@@ -66,6 +67,9 @@ function direct_verify_job(id) {
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>
+		</td>
+		<td>
+			<?php echo $job['verify_id'] ? "<span class='green'>Verified</span>" : "<span class='red'>Unverified</span>";?>
 		</td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		<td><a href="javascript:void(0);" onclick="direct_verify_job(<?php echo $job['job_id'];?>)">Verify</a></td>

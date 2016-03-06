@@ -17,6 +17,7 @@ foreach($cutting_info as $cutting) {
 				<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>
 				<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>
 				<tr><td align="right">Print : </td><td>'.$cutting['c_print'].'</td></tr>
+				<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>
 				<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'].' '.$cutting['c_laminationinfo'] .'</td></tr>
 				<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'].' '.$cutting['c_bindinginfo'].'</td></tr>
 				<tr><td align="right">Packing Details : </td><td>'.$cutting['c_packing'].'</td></tr>

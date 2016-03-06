@@ -20,7 +20,7 @@
                     </div>
                     <!-- search form -->
                    
-                    <form action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
+                    <form action="<?php echo base_url();?>master/search_master" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php
                         $q = $this->input->post('q');
@@ -47,6 +47,11 @@
                         <li>
                             <a href="<?php echo base_url();?>master/manage_users">
                                 <i class="fa fa-envelope"></i> <span>All Users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>master/job_category">
+                                <i class="fa fa-envelope"></i> <span>Job Categories</span>
                             </a>
                         </li>
                         <li>

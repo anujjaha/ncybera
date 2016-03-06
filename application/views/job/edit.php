@@ -34,7 +34,7 @@ function set_cutting_details(id){
 
 function set_cutting_details_box(id){
 	var data_id =jQuery("#fancybox_cutting_id").val();
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
       binding = ""; 
@@ -67,6 +67,7 @@ function set_cutting_details_box(id){
         jQuery("#c_bindinginfo_"+data_id).val(binding_info);
         jQuery("#c_binding_"+data_id).val(binding);
         jQuery("#c_checking_"+data_id).val(checking);
+        jQuery("#c_corner_"+data_id).val($("#c_corner").val());
         $.fancybox.close();
 }
 function remove_cutting_details(data_id) {
@@ -282,6 +283,8 @@ $this->load->helper('general'); ?>
                             <option>Designing</option>
                             <option>Binding</option>
                             <option>Lamination</option>
+                            <option>Packaging and Forwading</option>
+                            <option>Transportation</option>
                             <option>B/W Print</option>
                     </select>
             </td>
@@ -400,6 +403,12 @@ $this->load->helper('general'); ?>
                     <label><input type="radio" id="printing" name="printing" value="FB">
                         Double Side
                     </label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">Corner Cutting :</td>
+                <td>
+                    <input type="text" name="c_corner" id="c_corner">
                 </td>
             </tr>
             <tr>
@@ -540,5 +549,6 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_bindinginfo_<?php echo $i;?>" id="c_bindinginfo_<?php echo $i;?>">
     <input type="text" name="c_binding_<?php echo $i;?>" id="c_binding_<?php echo $i;?>">
     <input type="text" name="c_checking_<?php echo $i;?>" id="c_checking_<?php echo $i;?>">
+    <input type="text" name="c_corner_<?php echo $i;?>" id="c_corner_<?php echo $i;?>">
 </div>
 <?php } ?>

@@ -18,8 +18,8 @@
 		foreach($estimations as $smsdata) { ?>
 		<tr>
 		<td><?php echo $sr;?></td>
-		<td><?php echo $smsdata['companyname'];?></td>
-		<td><?php echo $smsdata['name'];?>
+		<td><?php echo $smsdata['companyname'] ? $smsdata['companyname'] : $smsdata['prospectname'] ;?></td>
+		<td><?php echo $smsdata['name'] ? $smsdata['name'] : $smsdata['prospectname'];?>
 			</br>
 			[<?php echo $smsdata['mobile'];?>]
 		</td>
