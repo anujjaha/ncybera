@@ -158,6 +158,7 @@ function show_calculator()
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
+						<input type="text" id="customer_email" name="customer_email">
 						<input type="hidden" name="sms_customer_name" id="sms_customer_name">
 						<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation();">
 					</td>
@@ -206,10 +207,11 @@ function create_estimation(){
 	sms_message = $("#sms_message").val();
 	sms_mobile = $("#sms_mobile").val();
 	sms_customer_name = $("#sms_customer_name").val();
+	customer_email = $("#customer_email").val();
     $.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/create_estimation/", 
-         data:{'customer_id':customer_id,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
+         data:{'customer_id':customer_id,'customer_email':customer_email,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
          success: 
             function(data){
 				alert("SMS Sent :"+data);
@@ -282,6 +284,7 @@ function show_sms_mobile() {
      url: "<?php echo site_url();?>/ajax/ajax_get_customer/"+customer_id, 
      success: 
         function(data){
+			jQuery("#customer_email").val(data['emailid']);
 			jQuery("#sms_mobile").val(data['mobile']);
 			if(jQuery("#sms_customer_name").val(data['name']).length > 0 ) {
 					jQuery("#sms_customer_name").val(data['name']);

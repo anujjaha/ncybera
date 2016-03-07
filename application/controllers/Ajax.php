@@ -113,6 +113,7 @@ class Ajax extends CI_Controller {
 		if($this->input->post()) {
 			$this->load->model('estimationsms_model'); 	
 			$customer_id = $this->input->post('customer_id');
+			$customer_email = $this->input->post('customer_email');
 			$sms_message = $this->input->post('sms_message');
 			$sms_mobile = $this->input->post('sms_mobile');
 			$sms_customer_name = $this->input->post('sms_customer_name');
@@ -133,6 +134,9 @@ class Ajax extends CI_Controller {
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
 			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
+			if($customer_email) {
+					send_mail($customer_email,'er.anujjaha@gmail.com','Estimation - Cybera',$sms_text);
+			}
 			echo $sms_text;
 		}
 		return true;
