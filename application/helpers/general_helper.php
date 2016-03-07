@@ -240,7 +240,7 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 	$mail->Port        = 587; // set the SMTP port
 	$mail->Username    = 'er.anujjaha@gmail.com'; // SMTP account username
 	$mail->Password    = 'aj@anujjaha'; // SMTP account password
-	$mail->From     = "cybera.printart@gmail.com";
+	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
 	$mail->AddAddress($to);
 	$mail->isHTML( TRUE );
 	$mail->Subject  = $subject;
