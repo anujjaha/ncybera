@@ -158,7 +158,7 @@ function show_calculator()
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="text" id="customer_email" name="customer_email">
+						<input type="hidden" id="customer_email" name="customer_email">
 						<input type="hidden" name="sms_customer_name" id="sms_customer_name">
 						<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="create_estimation();">
 					</td>
