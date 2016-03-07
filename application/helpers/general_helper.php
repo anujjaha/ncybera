@@ -179,7 +179,8 @@ function job_complete_sms($job_id=null) {
 		$ci->db->update('job',$data);
 		
 		$customer_id = $result->customer_id;
-		$mobile = $result->mobile;
+		//$mobile = $result->mobile;
+		$mobile = "9898618697";
 		$user_id = $ci->session->userdata['user_id'];
 		
 		send_sms($user_id,$customer_id,$mobile,$sms_text);
@@ -229,5 +230,26 @@ function get_department_revenue() {
 			from job_details limit 1";
 	$query = $ci->db->query($sql);
 	return $query->row();
+}
+
+function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
+	$mail = new PHPMailer();
+	$mail->Host     = "smtp.gmail.com"; // SMTP server
+	$mail->SMTPAuth    = TRUE; // enable SMTP authentication
+	$mail->SMTPSecure  = "tls"; //Secure conection
+	$mail->Port        = 587; // set the SMTP port
+	$mail->Username    = 'er.anujjaha@gmail.com'; // SMTP account username
+	$mail->Password    = 'aj@anujjaha'; // SMTP account password
+	$mail->From     = "cybera.printart@gmail.com";
+	$mail->AddAddress($to);
+	$mail->isHTML( TRUE );
+	$mail->Subject  = $subject;
+	$mail->Body     = $content;
+	if(!$mail->Send()) {
+	  echo 'Message was not sent.';
+	 // echo 'Mailer error: ' . $mail->ErrorInfo;
+	} else {
+	  return true;
+	}
 }
 

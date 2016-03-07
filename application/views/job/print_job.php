@@ -175,22 +175,32 @@ echo $pcontent;
 <!--Print Courier Service-->
 <div id="printCourierTickret" style="height:8.3in; width:5.8in; font-size:10px; font-family:Arial, Helvetica, sans-serif;">
 <?php
-$ccontent = "";
-$ccontent .= "<center><strong><p>To, ".$customer_details->companyname."</p>";
-$ccontent .= "<p>Contact Person : ".$customer_details->name."</p>";
-$ccontent .= "<p>Address : ".$customer_details->add1."</p><p>".$customer_details->add2."</p>";
-$ccontent .= "<p>         ".$customer_details->city." ".$customer_details->state." ".$customer_details->pin."</p>";
-$ccontent .= "<p>Mobile : ".$customer_details->mobile."</p></center>";
-$ccontent .= "
-			<div style='margin-left:45%'>
-			<p>From : Cybera Print Art</p>
-			<p>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</p>
-			<p>Off C.G. Road, Navrangpura Ahmedabad - 009</p>
-			<p>Call : 079-26565720 / 26465720 | 9898309897</p>
-			<p>Email : cybera.printart@gmail.com</p>
-			<p>Website : www.cybera.in | www.cyberaprint.com </p>
-			</div></strong>
-		</center>";
+$ccontent = "<table align='center' width='90%' border='0'>
+				<tr>
+					<td>
+					<table width='100%' border='0'>
+				";
+$ccontent .= "<tr><td align='right' width='20%'><strong>To,</strong></td><td><strong>".$customer_details->companyname."</td></strong></tr>";
+$ccontent .= "<tr><td align='right'>&nbsp; </td><td> ".$customer_details->name."</td></tr>";
+$ccontent .= "<tr><td align='right'>&nbsp;</td><td>Address : ".$customer_details->add1."<br>".$customer_details->add2."</td></tr>";
+$ccontent .= "<tr><td>&nbsp;</td><td>".$customer_details->city." ".$customer_details->state." ".$customer_details->pin."</td></tr>";
+$ccontent .= "<tr><td align='right'>&nbsp;</td><td>Mobile : ".$customer_details->mobile."</td></tr>";
+$ccontent .= "</table>
+				</td></tr>
+			<tr>
+			<td align='right'>
+			<table width='60%' align='right' border='0'>
+				<tr><td>From : </td><td><strong>Cybera Print Art</strong></td></tr>
+				<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
+				<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
+				<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
+				<tr><td>&nbsp;</td><td>Email : cybera.printart@gmail.com</td></tr>
+				<tr><td>&nbsp;</td><td>Website : www.cybera.in | www.cyberaprint.com </td></tr>
+			</table>
+			</td>
+				</tr>
+				</table>
+		";
 	echo $ccontent;?>
 </div>
 <!--Print Courier Service End-->
