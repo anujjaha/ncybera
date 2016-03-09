@@ -20,6 +20,7 @@ class Customer_model extends CI_Model {
 				(SELECT SUM(due) from job WHERE job.customer_id = $this->table.id)  as 'due' ,
 				(select sum(amount) from user_transactions where user_transactions.customer_id=customer.id) as 'total_credit'
 				FROM $this->table 
+				where ctype =0
 				order by name";
 		$query = $this->db->query($sql);
 		return $query->result();
@@ -86,5 +87,15 @@ class Customer_model extends CI_Model {
 				order by ccategory";
 		$query = $this->db->query($sql);
 		return $query->result();
+	}
+	
+	public function delete_customer($id=null) {
+		if($id) {
+			$sql = "INSERT INTO customer_deleted SELECT * FROM $this->table WHERE id = $id";
+			$query = $this->db->query($sql);
+			$this->db->where('id',$id);
+			return $this->db->delete($this->table);
+		}
+		return false;
 	}
 }

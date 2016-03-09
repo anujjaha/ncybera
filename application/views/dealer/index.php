@@ -22,8 +22,10 @@
 		<th>Email Id</th>
 		<th>City</th>
 		<th>Status</th>
+		<th>Switch</th>
 		<th>View</th>
 		<th>Edit</th>
+		<th>Delete</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -51,8 +53,12 @@
 				if($customer->status == '1') { $status = "Active"; }
 				echo $status;
 		?></span></td>
+		<td>
+			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>);">Switch</a>
+		</td>
 		<td>View</td>
 		<td><a href="<?php echo site_url();?>/dealer/edit/<?php echo $customer->id;?>">Edit</a></td>
+		<td><a href="javascript:void(0);" onclick="delete_customer(<?php echo $customer->id;?>);">Delete</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>
@@ -87,5 +93,30 @@ function update_status(id,value) {
 				  location.reload();
 			 }
           });
+}
+
+function switch_customer(id){
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_switch_customer/"+id+"/0", 
+         success: 
+            function(data){
+				location.reload();
+            }
+          });
+}
+
+function delete_customer(id){
+	var status = confirm("Are you Sure, Want to Delete ? ");
+	if(status == true) {
+		$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_delete/"+id, 
+         success: 
+            function(data){
+				location.reload();
+            }
+          });
+    }
 }
         </script>

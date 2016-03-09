@@ -28,7 +28,16 @@ function auto_suggest_price(id){
     jQuery("#fancybox_id").val(id);
 }
 function set_cutting_details(id){
-    jQuery("#fancybox_cutting_id").val(id);
+	if( jQuery("#category_"+id).val() == "Visiting Card") {
+		jQuery("#popup_lamination").css('display','none');
+		jQuery("#popup_binding").css('display','none');
+		jQuery("#cutting_title").html('Visiting Card - Cutting Details');
+	} else {
+		jQuery("#popup_lamination").show();
+		jQuery("#popup_binding").show();
+		jQuery("#cutting_title").html('Fill Cutting Details');
+	}
+	jQuery("#fancybox_cutting_id").val(id);
     jQuery("#cut_icon_"+id).css('display','inline');
 }
 
@@ -106,14 +115,21 @@ function calculate_paper_cost(){
          success: 
               function(data){
                 if(data.success != false ) {
-
-                  amount = amount + parseFloat(data.paper_amount);
+					amount = amount + parseFloat(data.paper_amount);
+					if(paper_print == "FB" ) {
+						if(paper_size == "13X19" || paper_size == "13x19" ) {
+							amount = amount * 2 - 3;
+						}
+					}
                   
                   total = (amount * paper_qty )* mby;
                   jQuery("#result_paper_cost").html("--- "+paper_qty +" * "+amount+" [per unit] * "+paper_print+" = "+total );
                   jQuery("#details_"+id).val(paper_gram+"_"+paper_size+"_"+paper_print);
                   if(paper_print == "FB") {
-                          jQuery("#rate_"+id).val(amount * 2);
+					jQuery("#rate_"+id).val(amount * 2);
+                    if(paper_size == "13X19" || paper_size == "13x19" ) {
+						  jQuery("#rate_"+id).val(amount * 2 - 3);
+					}
                   } else {
 					  jQuery("#rate_"+id).val(amount);
 				  }
@@ -377,7 +393,9 @@ $this->load->helper('general'); ?>
     <div style="width: 800px; margin: 0 auto;">
         <table  width="80%" border="2" align="center">
             <tr>
-                <td colspan="2" align="center"><h1>Fill Cutting Details</h1></td>
+                <td colspan="2" align="center">
+					<h1 id="cutting_title">Fill Cutting Details</h1>
+                </td>
             </tr>
             <tr>
                 <td align="right" width="50%">Machine:</td>
@@ -411,7 +429,7 @@ $this->load->helper('general'); ?>
                     <input type="text" name="c_corner" id="c_corner">
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_lamination">
                 <td align="right">Lamination:</td>
                 <td>
                     <label>
@@ -423,7 +441,7 @@ $this->load->helper('general'); ?>
                     <input type="text" name="lamination_info" id="lamination_info">
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_binding">
 				<td align="right">Binding</td>
 				<td>
 					<label><input type="checkbox" name="binding" value="Creasing">Creasing</label>
@@ -445,13 +463,13 @@ $this->load->helper('general'); ?>
                     <label><input type="radio" id="packing" name="packing" value="Parcel">Parcel</label>
                 </td>
             </tr>
-            <tr>
+            <!--<tr>
 				<td align="right">Checking:</td>
                 <td>
 					<label><input type="radio" name="checking" value="Paper">Paper</label>
                     <label><input type="radio" name="checking" value="Printing">Printing</label>
                 </td>
-            </tr>
+            </tr>-->
             <tr>
                 <td align="right">Details:</td>
                 <td>
