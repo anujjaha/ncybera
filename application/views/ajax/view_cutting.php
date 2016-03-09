@@ -64,8 +64,15 @@
 		<td><?php echo $c_details['c_lamination']."-".$c_details['c_laminationinfo'];?></td>
 		<td>
 			<?php echo $c_details['c_binding'];?>
+			<?php
+			if(isset($c_details['c_bindinginfo'])) {
+			?>
 			<br>
 			Half Cutting :<?php echo $c_details['c_bindinginfo'];?>
+			<?php
+			}
+			?>
+			
 		</td>
 		<td><?php echo $c_details['c_packing'];?></td>
 		<td><?php echo $c_details['c_checking'];?></td>

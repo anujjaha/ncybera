@@ -4,7 +4,7 @@
         body div, body table {display: none;}
         body div#FAQ, body div#FAQ table {display: block;}
         }
-.print{font-size:6px; font-family:Arial, Helvetica, sans-serif}
+td{font-size:9px; font-family:Arial, Helvetica, sans-serif}
 </style>
 <script type="text/javascript">
 function printDiv(divName) {
@@ -148,18 +148,53 @@ foreach($cutting_info as $cutting) {
 				<table align="center" border="2" width="100%" style="border:1px solid;">
 				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
 				<tr><td align="right">Material : </td><td>'.$cutting['c_material'].'</td></tr>
-				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>
-				<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>
-				<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>
-				<tr><td align="right">Print : </td><td>'.$cutting['c_print'].'</td></tr>
-				<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>
-				<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'].' '.$cutting['c_laminationinfo'] .'</td></tr>
-				<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'].' '.$cutting['c_bindinginfo'].'</td></tr>
-				<tr><td align="right">Packing Details : </td><td>'.$cutting['c_packing'].'</td></tr>
-				<tr><td align="right">Paper : </td><td>'.$cutting['c_checking'].'</td></tr>
-				<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>
-				</table>
-				</td>';
+				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
+				if(isset($cutting['c_size'])) { 
+				$pcontent .= '<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>';
+				}
+				if(isset($cutting['c_sizeinfo'])) { 
+				$pcontent .= '<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>';
+				}
+				
+				if(isset($cutting['c_print'])) {
+				$pcontent .= '<tr><td align="right">Print : </td><td>'.$cutting['c_print'].'</td></tr>';
+			}
+			
+			if(isset($cutting['c_corner'])) {
+				$pcontent .= '<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>';
+			}
+			
+			if(isset($cutting['c_lamination'])) {
+				$pcontent .= '<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'];
+				if(isset($cutting['c_laminationinfo'])) {
+					$pcontent .= '<br>'.$cutting['c_laminationinfo'];
+				}
+					$pcontent .= '</td></tr>';
+			}
+			
+			if(isset($cutting['c_binding'])) {	
+				$pcontent .= '<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'];
+				
+				if(isset($cutting['c_bindinginfo'])) {
+				$pcontent .= '<br>'.$cutting['c_bindinginfo'];
+				
+			}
+				$pcontent .= '</td></tr>';
+			}
+			
+			if(isset($cutting['c_packing'])) {
+				$pcontent .= '<tr><td align="right">Packing Details : </td><td>'.$cutting['c_packing'].'</td></tr>';
+			}
+			
+			if(isset($cutting['c_checking'])) {
+				$pcontent .= '<tr><td align="right">Paper : </td><td>'.$cutting['c_checking'].'</td></tr>';
+			}
+			
+			if(isset($cutting['c_details'])) {
+				$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
+			}
+			
+				$pcontent .= '</table> </td>';
 				if($sr > 1 && ($sr % 2) ==0) {
 					$pcontent .= '</tr><tr>';
 				}
