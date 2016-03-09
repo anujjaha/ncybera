@@ -50,7 +50,12 @@
 	</tr>
 	<?php 
 	$j=1;
-	foreach($cutting_details as $c_details) { ?>
+	foreach($cutting_details as $c_details) {
+		
+		//echo "<pre>";
+		
+		//print_r($c_details);
+		 ?>
 	<tr>
 		<td><?php echo $j;?>
 		<td><?php echo $c_details['c_machine'];?></td>
@@ -61,11 +66,16 @@
 			<?php echo $c_details['c_sizeinfo'];?>
 		</td>
 		<td><?php echo $c_details['c_print'];?></td>
-		<td><?php echo $c_details['c_lamination']."-".$c_details['c_laminationinfo'];?></td>
+		<td><?php echo $c_details['c_lamination'];
+				if(!empty($c_details['c_laminationinfo'])) {
+					echo "<hr>".$c_details['c_laminationinfo'];
+				}
+			?>
+		</td>
 		<td>
 			<?php echo $c_details['c_binding'];?>
 			<?php
-			if(isset($c_details['c_bindinginfo'])) {
+			if(!empty($c_details['c_bindinginfo'])) {
 			?>
 			<br>
 			Half Cutting :<?php echo $c_details['c_bindinginfo'];?>

@@ -261,6 +261,11 @@ function header_calculate_paper_cost(){
                 if(data.success != false ) {
 
                   amount = amount + parseFloat(data.paper_amount);
+					if(paper_print == "FB" ) {
+						if(paper_size == "13X19" || paper_size == "13x19" ) {
+							amount = amount * 2 - 3;
+						}
+					}
                   
                   total = (amount * paper_qty )* mby;
                   jQuery("#hresult_paper_cost").html("--- "+paper_qty +" * "+amount+" [per unit] * "+paper_print+" = "+total );

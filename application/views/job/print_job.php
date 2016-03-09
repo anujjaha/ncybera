@@ -5,6 +5,22 @@
         body div#FAQ, body div#FAQ table {display: block;}
         }
 td{font-size:9px; font-family:Arial, Helvetica, sans-serif}
+.own-address td {
+	font-size:10px;
+	
+}
+.customer-address  td{
+	font-size:12px;
+}
+.small-own-address td {
+	font-size:7px;
+	
+}
+.small-customer-address  td{
+	font-size:8px;
+}
+
+
 </style>
 <script type="text/javascript">
 function printDiv(divName) {
@@ -19,12 +35,13 @@ function printDiv(divName) {
 <?php if($cutting_info) { ?>
 <button onclick="print_cutting()">Cutting Slip</button> <?php } ?>
 <button onclick="print_courier()">Courier Slip</button>
+<button onclick="print_courier_small()">Small Courier Slip</button>
 <div class="row">
 	<div class="col-md-12">
 		<h1>Print Job Details</h1>
 	</div>
 </div>
-<div id="printJobTicket" style="height:8.3in; width:5.8in; font-size:10px; font-family:Arial, Helvetica, sans-serif;">
+<div id="printJobTicket" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
 <?php
 $created_info = get_user_by_param('id',$job_data->user_id);
 $show_name = $customer_details->companyname ? $customer_details->companyname :$customer_details->name;
@@ -129,7 +146,7 @@ echo $content;
 ?>
 </div>
 
-<div id="printCuttingTicket" style="height:8.3in; width:5.8in; font-size:10px; font-family:Arial, Helvetica, sans-serif;">
+<div id="printCuttingTicket" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
 <!--Print Cutting Ticket-->
 <?php
 if($cutting_info) { 
@@ -208,37 +225,139 @@ echo $pcontent;
 <!--Print Cutting Ticket End-->
 
 <!--Print Courier Service-->
-<div id="printCourierTickret" style="height:8.3in; width:5.8in; font-size:10px; font-family:Arial, Helvetica, sans-serif;">
-<?php
-$ccontent = "<table align='center' width='90%' border='0'>
-				<tr>
-					<td>
-					<table width='100%' border='0'>
-				";
-$ccontent .= "<tr><td align='right' width='20%'><strong>To,</strong></td><td><strong>".$customer_details->companyname."</td></strong></tr>";
-$ccontent .= "<tr><td align='right'>&nbsp; </td><td> ".$customer_details->name."</td></tr>";
-$ccontent .= "<tr><td align='right'>&nbsp;</td><td>Address : ".$customer_details->add1."<br>".$customer_details->add2."</td></tr>";
-$ccontent .= "<tr><td>&nbsp;</td><td>".$customer_details->city." ".$customer_details->state." ".$customer_details->pin."</td></tr>";
-$ccontent .= "<tr><td align='right'>&nbsp;</td><td>Mobile : ".$customer_details->mobile."</td></tr>";
-$ccontent .= "</table>
-				</td></tr>
+<div id="printCourierTickret" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
+<table align="center" border="0" width="100%">
+	<tr>
+		<td>
+			<table align="left" width="100%" border="0">
 			<tr>
-			<td align='right'>
-			<table width='60%' align='right' border='0'>
-				<tr><td>From : </td><td><strong>Cybera Print Art</strong></td></tr>
-				<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
-				<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
-				<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
-				<tr><td>&nbsp;</td><td>Email : cybera.printart@gmail.com</td></tr>
-				<tr><td>&nbsp;</td><td>Website : www.cybera.in | www.cyberaprint.com </td></tr>
-			</table>
-			</td>
-				</tr>
+				<td> 
+					<span style="font-size:14px;">
+						<strong>To, </strong>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td> 
+					<span style="font-size:14px;">
+						<strong><?php echo $customer_details->companyname ?  $customer_details->companyname :  $customer_details->name;?> </strong>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" border="0" class="customer-address">
+					<tr>
+						<td>
+							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Mobile - <?php echo $customer_details->mobile;?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		 </td>
+	</tr>
+	<tr>
+		<td>
+			<table align="center" width="100%">
+			<tr>
+				<td width="40%">&nbsp;</td>
+				<td>
+					<table width='100%' align='right' border='0' class="own-address">
+					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
+					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
+					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
+					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
+					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
 				</table>
-		";
-	echo $ccontent;?>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
 </div>
-<!--Print Courier Service End-->
+
+
+<!--Small Print Courier Service-->
+<div id="smallprintCourierTickret" style="height:3.5in; width:2.5in;  font-family:Arial, Helvetica, sans-serif;">
+<table align="center" border="0" width="100%">
+	<tr>
+		<td>
+			<table align="left" width="100%" border="0">
+			<tr>
+				<td> 
+					<span style="font-size:10px;">
+						<strong>To, </strong>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td> 
+					<span style="font-size:10px;">
+						<strong><?php echo $customer_details->companyname ?  $customer_details->companyname :  $customer_details->name;?> </strong>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" border="0" class="small-customer-address">
+					<tr>
+						<td>
+							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Mobile - <?php echo $customer_details->mobile;?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		 </td>
+	</tr>
+	<tr>
+		<td>
+			<table align="center" width="100%">
+			<tr>
+				<td width="20%">&nbsp;</td>
+				<td>
+					<table width='100%' align='right' border='0' class="small-own-address">
+					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
+					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
+					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
+					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
+					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+</div>
+<!--Small Print Courier Service End-->
+
 <script>
 function print_job() {
 	printDiv('printJobTicket');
@@ -262,6 +381,10 @@ function(data){
 return true;
 }
 });*/
+}
+
+function print_courier_small() {
+	printDiv('smallprintCourierTickret');
 }
 function print_courier() {
 	printDiv('printCourierTickret');

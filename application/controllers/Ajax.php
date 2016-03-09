@@ -255,5 +255,36 @@ class Ajax extends CI_Controller {
 		}
 		return false;
 	}
+	
+	public function ajax_switch_customer($id=null,$roll=0) {
+		if($id) {
+			$this->load->model('customer_model');
+			$customer_info = $this->customer_model->get_customer_details('id',$id);
+			$update_customer = array();
+			//Convert to Customer
+			if($roll == 0 ) {
+				$update_customer['username'] = $update_customer['password'] = 	"customer".$customer_info->id;
+				$update_customer['ctype'] = 0;
+				$update_customer['dealercode'] = "";
+			}
+			//Convert to Dealer
+			if($roll == 1 ) {
+				$update_customer['username'] = $update_customer['password'] = 	"dealer".$customer_info->id;
+				$update_customer['ctype'] = 1;
+				$update_customer['dealercode'] = "D-".$customer_info->id;
+			}
+			$this->customer_model->update_customer($id,$update_customer);
+				return true;
+		}
+		return false;
+	}
+	
+	public function ajax_delete($id=null) {
+		if($id) {
+			$this->load->model('customer_model');
+			return $this->customer_model->delete_customer($id);
+		}
+		return false;
+	}
 }
 
