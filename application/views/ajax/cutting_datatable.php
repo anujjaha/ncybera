@@ -2,25 +2,37 @@
 		<thead>
 		<tr>
 		<th>Sr</th>
-		<th>Job Num</th>
-		<th>Customer Name</th>
-		<th>Job Name</th>
-		<th>Mobile</th>
-		<th>Bill Amount</th>
-		<th>Advance</th>
-		<th>Due</th>
-		<th>Date / Time</th>
+		<th>Num</th>
+		<th>Name</th>
+		<th>Job</th>
+		<th>Details</th>
+		<th>Time</th>
 		<th>Status</th>
-		<th>Receipt</th>
-		<th>Voucher Number</th>
-		<th>Bill Number</th>
 		<th>View</th>
 		</tr>
 		</thead>
 	<tbody>
 		<?php
+		$ctb = "<table width='100%' border='1'><tr><td>Material</td><td>Size</td><td>Print</td><td>Lamination</td>
+							<td>Binding</td><td>Packing</td><td>CornerCut</td><td>Details</td><td>Qty</td></tr>";
 		$sr =1;	
 		foreach($jobs as $job) { 
+			$cmaterial = $ctb;
+			$jqty = "";
+				foreach($cutting_details[$job['j_id']] as $cut_data) {
+					$cmaterial .= "<tr>
+									<td>".$cut_data['c_material']."</td>
+									<td>".$cut_data['c_size']." ".$cut_data['c_sizeinfo']."</td>
+									<td>".$cut_data['c_print']."</td>
+									<td>".$cut_data['c_lamination']." ".$cut_data['c_laminationinfo']."</td>
+									<td>".$cut_data['c_binding']."</td>
+									<td>".$cut_data['c_packing']."</td>
+									<td>".$cut_data['c_corner']."</td>
+									<td>".$cut_data['c_details']."</td>
+									<td>".$cut_data['c_qty']."</td>
+									</tr>";
+				}
+			$cmaterial .= "</table>";
 			?>
 		<tr>
 		<td>
@@ -34,15 +46,20 @@
 		<td><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
-		<td><?php echo $job['mobile'];?></td>
-		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due'];?></td>
-		<td><?php echo date('h:i a d-M',strtotime($job['created']));?></td>
+		<td><?php echo $cmaterial;?></td>
+		<td><?php echo date('h:i a d-M',strtotime($job['created']));?>
+			
+			<br>
+			<hr>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_CUTTING;?>');">
+				Cutting
+			</a>
+			<hr>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_CUTTING_COMPLETED;?>');">
+				Cutting-Completed
+			</a>
+		</td>
 		<td><?php echo $job['jstatus'];?></td>
-		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
-		<td><?php echo $job['bill_number'];?></td>
 		<td><a class="fancybox"  onclick="show_cutting_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>

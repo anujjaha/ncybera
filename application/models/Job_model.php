@@ -275,4 +275,74 @@ class Job_model extends CI_Model {
 			$this->db->insert($this->table_job_verify,$data);
 			return $this->db->insert_id();
 	}
+	public function get_print_dashboard($param=null,$value=null) {
+		$condition = "";
+		if(!empty($param)) {
+			$condition = "WHERE $param = $value";
+		}
+		$department = $this->session->userdata['department'];
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view,
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 $condition
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		$result['jobs'] = $query->result_array();
+		
+		$sql_jd = "SELECT jd.* from job LEFT JOIN job_details jd 
+					ON job.id = jd.job_id
+					 $condition order by id DESC";
+		$jd_result = $this->db->query($sql_jd);
+		$j_set = array();
+		foreach($jd_result->result_array() as $jd) {
+			$j_set[$jd['job_id']][] = $jd;
+		}
+		
+		$result['job_details'] = $j_set;
+		return $result;
+	}
+	
+	public function get_cutting_dashboard($param=null,$value=null) {
+		
+		$department = $this->session->userdata['department'];
+		$today = date('Y-m-d');
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view,
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 LEFT JOIN cutting_details
+				 ON job.id = cutting_details.j_id
+				 WHERE job.id IN (select j_id from cutting_details where c_status =0)
+				 and job.jdate = '".$today."'
+				 group by job.id
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		$result['jobs'] = $query->result_array();
+		
+		$sql_cd = "SELECT cd.* from job LEFT JOIN cutting_details cd 
+					ON job.id = cd.j_id
+					 $condition order by job.id DESC";
+		$cd_result = $this->db->query($sql_cd);
+		$j_set = array();
+		
+		foreach($cd_result->result_array() as $ccd) {
+			$j_set[$ccd['j_id']][] = $ccd;
+		}
+		
+		$result['cutting_details'] = $j_set;
+		return $result;
+	}
 }
+
+
