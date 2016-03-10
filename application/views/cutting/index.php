@@ -1,3 +1,4 @@
+
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-tab.js"></script>
@@ -37,21 +38,40 @@ function show_cutting_details(job_id,sr){
 		<th>Customer Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
-		<th>Bill Amount</th>
+		<th>Details</th>
+		<!--<th>Bill Amount</th>
 		<th>Advance</th>
-		<th>Due</th>
+		<th>Due</th>-->
 		<th>Date / Time</th>
 		<th>Status</th>
-		
 		<th>Cutting Details</th>
 		</tr>
 		</thead>
 	<tbody>
 		<?php
+		$ctb = "<table><tr><td>Material</td><td>Size</td><td>Print</td><td>Lamination</td>
+							<td>Binding</td><td>Packing</td><td>Details</td><td>Qty</td></tr>";
 		$job_count = count($jobs);
 		$sr =1;	
-		foreach($jobs as $job) { 
-			?>
+		foreach($jobs as $job) {
+			
+			$cmaterial = $ctb;
+			$jqty = "";
+				foreach($cutting_details[$job['j_id']] as $cut_data) {
+					$cmaterial .= "<tr>
+									<td>".$cut_data['c_material']."</td>
+									<td>".$cut_data['c_size']."</td>
+									<td>".$cut_data['c_print']."</td>
+									<td>".$cut_data['c_lamination']."</td>
+									<td>".$cut_data['c_binding']."</td>
+									<td>".$cut_data['c_packing']."</td>
+									<td>".$cut_data['c_details']."</td>
+									<td>".$cut_data['c_qty']."</td>
+									</tr>";
+				}
+			$cmaterial .= "</table>";
+			
+			 ?>
 		<tr>
 		<td>
 		<p id="jview_<?php echo $sr;?>">
@@ -62,13 +82,22 @@ function show_cutting_details(job_id,sr){
 		</p>
 		</td>
 		<td><?php echo $job['job_id'];?></td>
-		<td><?php echo $job['name'];?></td>
+		<td><?php echo $job['companyname'] ? $job['companyname']:$job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
-		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due'];?></td>
-		<td><?php echo date('h:i a d-M',strtotime($job['created']));?></td>
+		<td><?php echo $$cmaterial;?></td>
+		<td><?php echo date('h:i a d-M',strtotime($job['created']));?>
+			<br>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_CUTTING;?>');">
+				Cutting
+			</a>
+			<hr>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_CUTTING_COMPLETED;?>');">
+				Cutting-Completed
+			</a>
+			
+			
+		</td>
 		<td><?php echo $job['jstatus'];?></td>
 		
 		<td><a class="fancybox" 
@@ -113,6 +142,19 @@ function update_job_status(id) {
               function(data){
 				            $.fancybox.close();
                             location.reload();
+			 }
+          });
+}
+
+function quick_update_job_status(sr,id,value) {
+	view_job(sr,id);
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/cuttings/update_job_status_cutting/"+id, 
+         data:{"j_id":id,"j_status":value},
+         success: 
+              function(data){
+	                location.reload();
 			 }
           });
 }

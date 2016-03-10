@@ -37,15 +37,12 @@ function show_job_details(job_id,sr){
 		<th>Job Num</th>
 		<th>Customer Name</th>
 		<th>Job Name</th>
-		<th>Mobile</th>
-		<th>Bill Amount</th>
-		<th>Advance</th>
-		<th>Due</th>
+		<th>Details</th>
+		<th>Quantity</th>
 		<th>Date / Time</th>
 		<th>Status</th>
-		<th>Receipt</th>
-		<th>Voucher Number</th>
-		<th>Bill Number</th>
+		<th>Working</th>
+		<th>Completed</th>
 		<th>View</th>
 		</tr>
 		</thead>
@@ -54,6 +51,12 @@ function show_job_details(job_id,sr){
 		$job_count = count($jobs);
 		$sr =1;	
 		foreach($jobs as $job) { 
+			$jdetails = "";
+			$jqty = "";
+				foreach($job_details[$job['job_id']] as $job_data) {
+					$jdetails .= $job_data['jdetails']."<br>";
+					$jqty .= $job_data['jqty']."<br>";
+				}
 			?>
 		<tr>
 		<td>
@@ -67,15 +70,28 @@ function show_job_details(job_id,sr){
 		<td><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['name'];?></td>
 		<td><?php echo $job['jobname'];?></td>
-		<td><?php echo $job['mobile'];?></td>
-		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due'];?></td>
+		<td><?php echo $jdetails;?></td>
+		<td><?php echo $jqty;?></td>
 		<td><?php echo date('m-d-Y',strtotime($job['created']))." ".date('h:i a',strtotime($job['created']));?></td>
 		<td><?php echo $job['jstatus'];?></td>
-		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
-		<td><?php echo $job['bill_number'];?></td>
+		<td>
+			<?php
+			if($job['jstatus'] != JOB_PRINT) {
+			?>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_PRINT;?>');">
+				Printing
+			</a>
+			<?php } ?>
+		</td>
+		<td>
+			<?php
+			if($job['jstatus'] != JOB_PRINT_COMPLETED) {
+			?>
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_PRINT_COMPLETED;?>');">
+				Printing Completed
+			</a>
+			<?php } ?>
+		</td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>,<?php echo $sr;?>);" href="#view_job_details">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
@@ -115,6 +131,18 @@ function update_job_status(id) {
 			 }
           });
 }
+function quick_update_job_status(sr,id,value) {
+	view_job(sr,id);
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
+         data:{"j_id":id,"j_status":value},
+         success: 
+              function(data){
+	                location.reload();
+			 }
+          });
+}
 
 function update_datatable_grid() {
 		$.ajax({
@@ -122,7 +150,8 @@ function update_datatable_grid() {
          url: "<?php echo site_url();?>/ajax/ajax_job_datatable/", 
          success: 
             function(data){
-				//location.reload();
+				location.reload();
+				/*
 				jQuery("#job_datatable").html(data);
 				$('#example1').dataTable({
 						"bPaginate": true,
@@ -133,7 +162,7 @@ function update_datatable_grid() {
 						"bInfo": true,
 						"bAutoWidth": true,
 						"bDestroy": true,
-					});
+					});*/
 				
             }
           });

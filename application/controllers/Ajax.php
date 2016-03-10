@@ -67,7 +67,8 @@ class Ajax extends CI_Controller {
 	public function ajax_cutting_datatable($param='jstatus',$value='Pending') {
 		$this->load->model('job_model');
 		$data = array();
-		$data['jobs'] = $this->job_model->get_today_cutting_details();
+		//$data['jobs'] = $this->job_model->get_today_cutting_details();
+		$data = $this->job_model->get_cutting_dashboard();
 		$this->load->view('ajax/cutting_datatable', $data);
 	}
 	

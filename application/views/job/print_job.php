@@ -19,7 +19,9 @@ td{font-size:9px; font-family:Arial, Helvetica, sans-serif}
 .small-customer-address  td{
 	font-size:8px;
 }
-
+#smallprintCourierTickret td {
+	font-size:8px;
+}
 
 </style>
 <script type="text/javascript">
@@ -47,74 +49,74 @@ $created_info = get_user_by_param('id',$job_data->user_id);
 $show_name = $customer_details->companyname ? $customer_details->companyname :$customer_details->name;
 $content ='';
 $content .= '
-		<table align="center" width="100%" border="0" style="border:0px solid;">';
+		<table align="center" width="100%" border="0" style="border:0px solid;font-size:9px;">';
 		 for($j=0;$j<2;$j++) {
 			$content .= '<tr>
 				<td width="100%" align="left">
-					<table width="100%"  align="left" style="border:1px solid;">
+					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
-							<td>Name : '.$show_name.'
+							<td style="font-size:9px;">Name : '.$show_name.'
 							</td>
-							<td  align="right">Job Id : '.$job_data->id.' </td>
+							<td  style="font-size:9px;" align="right">Job Id : '.$job_data->id.' </td>
 						</tr>
 						<tr>
-							<td>Mobile : '.$customer_details->mobile.' 
+							<td style="font-size:9px;">Mobile : '.$customer_details->mobile.' 
 							</td>
-							<td  align="right">Job date : '.$job_data->jdate.' </td>
+							<td style="font-size:9px;"  align="right">Job date : '.$job_data->jdate.' </td>
 						</tr>
 						<tr>
-							<td colspan="2" align="center">
+							<td colspan="2" align="center" style="font-size:9px;">
 								Job Name : '.$job_data->jobname.'
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<table width="100%" align="center" style="border:1px solid;">
+								<table width="100%" align="center" style="border:1px solid; font-size:9px;">
 									<tr>
-										<td>Sr.</td>
-										<td>Details</td>
-										<td>Qty</td>
-										<td>Rate</td>
-										<td><p align="right">Amount</p></td>
+										<td style="font-size:9px;">Sr.</td>
+										<td style="font-size:9px;">Details</td>
+										<td style="font-size:9px;">Qty</td>
+										<td style="font-size:9px;">Rate</td>
+										<td><p align="right" style="font-size:9px;">Amount</p></td>
 									</tr>';
 									 for($i=0;$i<6;$i++) {
 										 $j1 = $i+1;
 										if(isset($job_details[$i]['id'])){
 										$content .= '
 										<tr>
-											<td> '.$j1 .'</td>
-											<td> '.$job_details[$i]['jdetails'].'</td>
-											<td> '.$job_details[$i]['jqty'].'</td>
-											<td> '.$job_details[$i]['jrate'].' </td>
-											<td align="right"> '.$job_details[$i]['jamount'].'</td>
+											<td style="font-size:9px;"> '.$j1 .'</td>
+											<td style="font-size:9px;"> '.$job_details[$i]['jdetails'].'</td>
+											<td style="font-size:9px;"> '.$job_details[$i]['jqty'].'</td>
+											<td style="font-size:9px;"> '.$job_details[$i]['jrate'].' </td>
+											<td style="font-size:9px;" align="right"> '.$job_details[$i]['jamount'].'</td>
 										</tr>';
 										} else {
 											break;
 										}
 									} 
 									$content .= '<tr>
-										<td colspan="2">Receipt Number:'.$job_data->receipt.'</td>
-										<td colspan="2" align="right">Sub Total :</td>
-										<td align="right">'.$job_data->subtotal .'</td>
+										<td style="font-size:9px;" colspan="2">Receipt Number:'.$job_data->receipt.'</td>
+										<td style="font-size:9px;" colspan="2" align="right">Sub Total :</td>
+										<td style="font-size:9px;" align="right">'.$job_data->subtotal .'</td>
 									</tr>';
 									if(!empty($job_data->tax)) {
 									$content .= '<tr>
-										<td colspan="4" align="right">Tax :</td>
-										<td align="right">'.$job_data->tax.'</td>
+										<td style="font-size:9px;" colspan="4" align="right">Tax :</td>
+										<td style="font-size:9px;" align="right">'.$job_data->tax.'</td>
 									</tr>';
 									 } 
 									$content .= '<tr>
-										<td colspan="4" align="right">Total :</td>
-										<td align="right">'. $job_data->total.'</td>
+										<td style="font-size:9px;" colspan="4" align="right">Total :</td>
+										<td style="font-size:9px;" align="right">'. $job_data->total.'</td>
 									</tr>
 									<tr>
-										<td colspan="4" align="right">Advance :</td>
-										<td align="right">'.$job_data->advance.'</td>
+										<td style="font-size:9px;" colspan="4" align="right">Advance :</td>
+										<td style="font-size:9px;" align="right">'.$job_data->advance.'</td>
 									</tr>
 									<tr>
-										<td colspan="2">Created by :'.$created_info->nickname.'</td>
-										<td colspan="2" align="right">Due :</td>
-										<td align="right">'.$job_data->due.'</td>
+										<td style="font-size:9px;" colspan="2">Created by :'.$created_info->nickname.'</td>
+										<td style="font-size:9px;" colspan="2" align="right">Due :</td>
+										<td style="font-size:9px;" align="right">'.$job_data->due.'</td>
 									</tr>
 								</table>
 							</td>
@@ -137,7 +139,7 @@ $content .= '
 				
 			</tr>';
 			if($j == 0) {
-				$content .= ' <tr><td colspan="2"><br><hr><br></td></tr>';
+				$content .= ' <tr><td colspan="2"><br><hr></td></tr>';
 			}
 		} 
 		$content .= '</table>
@@ -313,19 +315,19 @@ echo $pcontent;
 			</tr>
 			<tr>
 				<td>
-					<table width="100%" border="0" class="small-customer-address">
+					<table width="100%" border="0" class="small-customer-address" style="font-size:8px;">
 					<tr>
-						<td>
+						<td style="font-size:8px;">
 							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style="font-size:8px;">
 							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style="font-size:8px;">
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
@@ -343,11 +345,11 @@ echo $pcontent;
 				<td>
 					<table width='100%' align='right' border='0' class="small-own-address">
 					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
-					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
-					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
-					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
-					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
+					<tr><td>&nbsp;</td><td style="font-size:8px;"><strong>From</strong> </td></tr>
+					<tr><td>&nbsp;</td><td style="font-size:8px;"><strong>CYBERA PRINT ART</strong></td></tr>
+					<tr><td>&nbsp;</td><td style="font-size:8px;">G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
+					<tr><td>&nbsp;</td><td style="font-size:8px;">Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
+					<tr><td>&nbsp;</td><td style="font-size:8px;">Call : 079-26565720 / 26465720 | 9898309897</td></tr>
 				</table>
 				</td>
 			</tr>

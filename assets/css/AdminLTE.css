@@ -3542,6 +3542,10 @@ fieldset[disabled] .btn-vk.active {
 	color:red;
 	font-weight:bold;
 }
+.blue {
+	color:blue;
+	font-weight:bold;
+}
 
 input:focus {
     background-color: yellow;
