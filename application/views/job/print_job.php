@@ -158,7 +158,10 @@ $pcontent .= '<table align="center" width="100%" align="center" style="border:1p
 				<td align="left" width="50%">Customer Name : '.$customer_details->companyname.'</td>
 				<td align="right">Date : '.$job_data->jdate.'</td>
 			</tr>
-			<tr><td align="center" colspan="2">Job Name : <strong>'.$job_data->jobname.'</strong></td></tr></table>';
+			<tr>
+				<td align="left">Job Name : <strong>'.$job_data->jobname.'</strong></td>
+				<td align="right">Job Num : <strong>'.$job_data->id.'</strong></td>
+			</tr></table>';
 
 $pcontent .='<table align="center" border="2" width="100%" style="border:1px solid;"><tr>';
 $sr=1;
