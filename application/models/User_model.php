@@ -96,6 +96,30 @@ class User_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function old_search_jobdetails($param=null,$flag=null) {
+		$sql = "SELECT * from old_job_details 
+						WHERE  
+						cusname LIKE '%$param%' OR
+						jname LIKE '%$param%' OR
+						jone LIKE '%$param%' OR
+						mob LIKE '%$param%' OR
+						jtwo LIKE '%$param%' OR
+						jthree LIKE '%$param%' OR
+						jfour LIKE '%$param%' OR
+						date LIKE '%$param%' 
+						order by j_id DESC";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	public function get_old_job($id) {
+		$this->db->select('*')
+				->from('old_job_details')
+				->where('j_id',$id);
+		$query = $this->db->get();
+		return $query->row();
+	}
+	
 	public function search_job($param=null) {
 		$sql = "SELECT *,job.id as job_id FROM job
 				 LEFT JOIN customer

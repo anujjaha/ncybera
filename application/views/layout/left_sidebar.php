@@ -20,6 +20,17 @@
                     </div>
                     <!-- search form -->
                    
+                    <form action="<?php echo base_url();?>user/old_search" method="post" class="sidebar-form">
+                        <div class="input-group">
+                        <?php
+                        $q = $this->input->post('q');
+                        ?>
+                            <input type="text" name="old_q" value="<?php echo $q;?>" class="form-control" placeholder="Old Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
                     <form action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php

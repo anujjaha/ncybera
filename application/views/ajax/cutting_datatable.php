@@ -40,7 +40,9 @@
 		<?php
 			if($job['j_view']) {
 				echo $sr;
-			}else { ?> <i class="fa fa-refresh fa-spin fa-4x" onclick="view_job(<?php echo $sr;?>,<?php echo $job['job_id'];?>);"></i><?php } ?>
+			}else { ?> 
+			<script>startaudio();</script>	
+			<i class="fa fa-refresh fa-spin fa-4x" onclick="view_job(<?php echo $sr;?>,<?php echo $job['job_id'];?>);"></i><?php } ?>
 		</p>
 		</td>
 		<td><?php echo $job['job_id'];?></td>

@@ -82,6 +82,17 @@ class User extends CI_Controller {
 		}
 		$this->template->load('user', 'search', $data);
 	}
+	public function old_search() {
+		$data=array();
+		$data['heading'] = $data['title']="Old Data - Search Result";
+		$data['search']="";
+		if($this->input->post('old_q')) {
+			$search = $this->input->post('old_q');
+			$data['results'] = $this->user_model->old_search_jobdetails($search);
+			$data['search']=$search;
+		}
+		$this->template->load('user', 'old_search', $data);
+	}
 	
 	function login() {
             $this->load->helper(array('form'));

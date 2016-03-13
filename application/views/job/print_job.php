@@ -49,7 +49,7 @@ $created_info = get_user_by_param('id',$job_data->user_id);
 $show_name = $customer_details->companyname ? $customer_details->companyname :$customer_details->name;
 $content ='';
 $content .= '
-		<table align="center" width="100%" border="0" style="border:0px solid;font-size:9px;">';
+		<table align="center" width="90%" border="0" style="border:0px solid;font-size:9px;">';
 		 for($j=0;$j<2;$j++) {
 			$content .= '<tr>
 				<td width="100%" align="left">
@@ -153,7 +153,7 @@ echo $content;
 <?php
 if($cutting_info) { 
 $pcontent = "";
-$pcontent .= '<table align="center" width="100%" align="center" style="border:1px solid;">
+$pcontent .= '<table align="center" width="90%" align="center" style="border:1px solid;">
 			<tr>
 				<td align="left" width="50%">Customer Name : '.$customer_details->companyname.'</td>
 				<td align="right">Date : '.$job_data->jdate.'</td>
@@ -163,7 +163,7 @@ $pcontent .= '<table align="center" width="100%" align="center" style="border:1p
 				<td align="right">Job Num : <strong>'.$job_data->id.'</strong></td>
 			</tr></table>';
 
-$pcontent .='<table align="center" border="2" width="100%" style="border:1px solid;"><tr>';
+$pcontent .='<table align="center" border="2" width="90%" style="border:1px solid;"><tr>';
 $sr=1;
 foreach($cutting_info as $cutting) {
 	$pcontent .= '<td>
@@ -171,48 +171,48 @@ foreach($cutting_info as $cutting) {
 				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
 				<tr><td align="right">Material : </td><td>'.$cutting['c_material'].'</td></tr>
 				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
-				if(isset($cutting['c_size'])) { 
+				if(!empty($cutting['c_size'])) { 
 				$pcontent .= '<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>';
 				}
-				if(isset($cutting['c_sizeinfo'])) { 
+				if(!empty($cutting['c_sizeinfo'])) { 
 				$pcontent .= '<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>';
 				}
 				
-				if(isset($cutting['c_print'])) {
+				if(!empty($cutting['c_print'])) {
 				$pcontent .= '<tr><td align="right">Print : </td><td>'.$cutting['c_print'].'</td></tr>';
 			}
 			
-			if(isset($cutting['c_corner'])) {
+			if(!empty($cutting['c_corner'])) {
 				$pcontent .= '<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>';
 			}
 			
-			if(isset($cutting['c_lamination'])) {
+			if(!empty($cutting['c_lamination'])) {
 				$pcontent .= '<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'];
-				if(isset($cutting['c_laminationinfo'])) {
+				if(!empty($cutting['c_laminationinfo'])) {
 					$pcontent .= '<br>'.$cutting['c_laminationinfo'];
 				}
 					$pcontent .= '</td></tr>';
 			}
 			
-			if(isset($cutting['c_binding'])) {	
+			if(!empty($cutting['c_binding'])) {	
 				$pcontent .= '<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'];
 				
-				if(isset($cutting['c_bindinginfo'])) {
+				if(!empty($cutting['c_bindinginfo'])) {
 				$pcontent .= '<br>'.$cutting['c_bindinginfo'];
 				
 			}
 				$pcontent .= '</td></tr>';
 			}
 			
-			if(isset($cutting['c_packing'])) {
+			if(!empty($cutting['c_packing'])) {
 				$pcontent .= '<tr><td align="right">Packing Details : </td><td>'.$cutting['c_packing'].'</td></tr>';
 			}
 			
-			if(isset($cutting['c_checking'])) {
+			if(!empty($cutting['c_checking'])) {
 				$pcontent .= '<tr><td align="right">Paper : </td><td>'.$cutting['c_checking'].'</td></tr>';
 			}
 			
-			if(isset($cutting['c_details'])) {
+			if(!empty($cutting['c_details'])) {
 				$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
 			}
 			
@@ -231,7 +231,7 @@ echo $pcontent;
 
 <!--Print Courier Service-->
 <div id="printCourierTickret" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
-<table align="center" border="0" width="100%">
+<table align="center" border="0" width="90%">
 	<tr>
 		<td>
 			<table align="left" width="100%" border="0">
@@ -298,7 +298,7 @@ echo $pcontent;
 
 <!--Small Print Courier Service-->
 <div id="smallprintCourierTickret" style="height:3.5in; width:2.5in;  font-family:Arial, Helvetica, sans-serif;">
-<table align="center" border="0" width="100%">
+<table align="center" border="0" width="90%">
 	<tr>
 		<td>
 			<table align="left" width="100%" border="0">
