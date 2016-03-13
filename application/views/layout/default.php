@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')?>"/>
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/AdminLTE.css')?>"/>
  <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -63,7 +63,6 @@
         <!-- Bootstrap -->
         <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>" type="text/javascript"></script>
         <!-- Morris.js charts -->
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="<?php echo base_url('assets/js/plugins/morris/morris.min.js')?>" type="text/javascript"></script>
         <!-- Sparkline -->
         <script src="<?php echo base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js')?>" type="text/javascript"></script>

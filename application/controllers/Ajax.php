@@ -287,5 +287,11 @@ class Ajax extends CI_Controller {
 		}
 		return false;
 	}
+	
+	public function ajax_old_job_details($id=null) {
+		$this->load->model('user_model');
+		$data['jobdata'] = $this->user_model->get_old_job($id);
+		$this->load->view('ajax/view_old_job',$data);
+	}
 }
 
