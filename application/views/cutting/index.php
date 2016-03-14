@@ -45,7 +45,7 @@ function startaudio() {
 }
 </script>
 <audio id="myAudio" controls autostart="true">
-<source src="<?php echo PRINT_MUSIC;?>" type="audio/mpeg">
+<source src="<?php echo CUTTING_MUSIC;?>" type="audio/mpeg">
 </audio>
 <div class="row">
 </div>

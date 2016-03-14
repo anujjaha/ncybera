@@ -99,4 +99,5 @@ define('JOB_CANCEL', 'Cancel');
 define('JOB_CLOSE', 'Closed');
 
 
-define('PRINT_MUSIC','http://localhost/ncybera/sample.mp3');
+define('PRINT_MUSIC','http://localhost/ncybera/printing-sound.mp3');
+define('CUTTING_MUSIC','http://localhost/ncybera/cutting-sound.mp3');
