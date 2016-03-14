@@ -312,17 +312,19 @@ $this->load->helper('general'); ?>
             <input type="text" id="details_<?php echo $i;?>" 
                    name="details_<?php echo $i;?>" style="width:70%;">
             
-            <a class="fancybox fa fa-fw fa-cut" 
+           
+            </td>
+            <td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>"></td>
+            <td><input type="text" id="rate_<?php echo $i;?>" name="rate_<?php echo $i;?>"></td>
+            <td align="right"><input type="text" id="sub_<?php echo $i;?>" name="sub_<?php echo $i;?>" 
+            onblur="check_total(<?php echo $i;?>)" style="width:100px;">
+             <a class="fancybox fa fa-fw fa-cut" 
                onclick="return set_cutting_details(<?php echo $i;?>);" href="#fancy_box_cutting">
              </a>
 			<a class="fa fa-fw fa-minus-square" id="cut_icon_<?php echo $i;?>" style="display:none;"
                 onclick="return remove_cutting_details(<?php echo $i;?>);" href="javascript:void(main);">
             </a>
             </td>
-            <td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>"></td>
-            <td><input type="text" id="rate_<?php echo $i;?>" name="rate_<?php echo $i;?>"></td>
-            <td align="right"><input type="text" id="sub_<?php echo $i;?>" name="sub_<?php echo $i;?>" 
-            onblur="check_total(<?php echo $i;?>)"></td>
 	</tr>
 	<?php } ?>
 	<tr>
