@@ -181,6 +181,18 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "B/W Print") {
 			$("#details_"+sr).val("B/W Print");
 		}
+		if($("#category_"+sr).val() == "Designing") {
+			$("#details_"+sr).val("Designing");
+		}
+		if($("#category_"+sr).val() == "Binding") {
+			$("#details_"+sr).val("Binding");
+		}
+		if($("#category_"+sr).val() == "Packaging and Forwading") {
+			$("#details_"+sr).val("Packaging and Forwading");
+		}
+		if($("#category_"+sr).val() == "Transportation") {
+			$("#details_"+sr).val("Transportation");
+		}
 }
 </script>
 <?php

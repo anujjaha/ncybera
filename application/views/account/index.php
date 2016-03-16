@@ -26,6 +26,7 @@
 		<th>City</th>
 		<th>Status</th>
 		<th>Account</th>
+		<th>Add Amount</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -55,6 +56,7 @@
 				echo $status;
 		?></td>
 		<td><a href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a></td>
+		<td><a href="<?php echo site_url();?>/account/add_amount/<?php echo $customer->id;?>">Add Amount</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

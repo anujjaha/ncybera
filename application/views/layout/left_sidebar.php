@@ -55,12 +55,17 @@
                                 <i class="fa fa-dashboard"></i> <span>New Job</span>
                             </a>
                         </li>
-                         <li>
+                        <li>
                             <a href="<?php echo base_url();?>jobs">
                                 <i class="fa fa-envelope"></i> <span>Jobs</span>
                                 <small class="badge pull-right bg-yellow">
                                 <span id="show_jobs"></span>
                                 </small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>account">
+                                <i class="fa fa-envelope"></i> <span>Account</span>
                             </a>
                         </li>
                         <li>
