@@ -193,6 +193,13 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Transportation") {
 			$("#details_"+sr).val("Transportation");
 		}
+		
+		if($("#category_"+sr).val() == "Offset Print") {
+			$("#details_"+sr).val("Offset Print");
+		}
+		if($("#category_"+sr).val() == "Visiting Card") {
+			$("#details_"+sr).val("Visiting Card");
+		}
 }
 </script>
 <?php
