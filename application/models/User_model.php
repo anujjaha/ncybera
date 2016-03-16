@@ -100,6 +100,7 @@ class User_model extends CI_Model {
 		$sql = "SELECT * from old_job_details 
 						WHERE  
 						cusname LIKE '%$param%' OR
+						j_id LIKE '%$param%' OR
 						jname LIKE '%$param%' OR
 						jone LIKE '%$param%' OR
 						mob LIKE '%$param%' OR
