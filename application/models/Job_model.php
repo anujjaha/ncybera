@@ -19,7 +19,18 @@ class Job_model extends CI_Model {
 		$transaction_data['job_id']=$job_id;
 		$transaction_data['customer_id']=$data['customer_id'];
 		$transaction_data['cmonth']=$data['jmonth'];
+		$transaction_data['amount']=$data['total'];
 		$transaction_id = $this->insert_transaction($transaction_data);
+		
+		if($data['advance'] > 0 ) {
+			$transaction_data['job_id']=$job_id;
+			$transaction_data['customer_id']=$data['customer_id'];
+			$transaction_data['cmonth']=$data['jmonth'];
+			$transaction_data['amount']=$data['advance'];
+			$transaction_data['t_type']=CREDIT;
+			$transaction_data['notes']= 'Pay as Advance Amount';
+			$transaction_id = $this->insert_transaction($transaction_data);
+		}
 		return $job_id;
 	}
 	

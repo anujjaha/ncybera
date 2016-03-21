@@ -325,7 +325,10 @@ $modified_by = $this->session->userdata['user_id'];
 		<td align="right">
 			Advance :
 		</td>
-		<td><input type="text" id="advance" value="<?php echo $job_data->advance ? $job_data->advance: 0;?>" name="advance" value="0"></td>
+		<td>
+		<input type="text" id="advance1" value="<?php echo $job_data->advance ? $job_data->advance: 0;?>" name="advance1"  disabled="disabled">
+		<input type="hidden" id="advance" value="<?php echo $job_data->advance ? $job_data->advance: 0;?>" name="advance" value="0">
+		</td>
 	</tr>
 	<tr>
 		<td colspan="6" align="right">

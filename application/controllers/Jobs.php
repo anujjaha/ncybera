@@ -158,6 +158,19 @@ class Jobs extends CI_Controller {
 				$jobdata['jmonth'] = date('M-Y');
 				//$jobdata['jdate'] = date('Y-m-d');
 				$this->job_model->update_job($job_id,$jobdata);
+				$this->load->model('account_model');
+				$transaction_data['amount'] = $jobdata['total'];
+				
+				//Update Total - Transaction
+				$tcondition = array('job_id'=>$job_id);
+				$this->account_model->update_transaction($tcondition,$transaction_data);
+				
+				//Update Advance - Transaction
+				$advance_transaction_data['amount'] = $jobdata['advance'];
+				$tcondition = array('job_id'=>$job_id,'t_type'=>CREDIT);
+				$this->account_model->update_transaction($tcondition,$advance_transaction_data);
+				
+				
 				$j_status =$this->add_job_transaction($job_id,JOB_EDIT);
 				for($i=1;$i<6;$i++) {
 				$job_details=array();
