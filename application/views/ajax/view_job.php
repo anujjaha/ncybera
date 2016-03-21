@@ -145,7 +145,7 @@ function pay_job(id) {
 		<td>
 		<?php $settlment_amount =  $job_data->total - $job_data->advance;?>
 			<!--<input type="text" disabled="disabled"  style="text-align:right;" name="settlement_amount_temp" value="<?php echo $settlment_amount;?>"></td>-->
-			<input type="text" name="settlement_amount" id="settlement_amount" >
+			Amount : <input type="text" name="settlement_amount" id="settlement_amount" placeholder="0">
 		</td>
 		<td>
 			<button class="btn btn-success btn-sm text-center"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Amount</button>
