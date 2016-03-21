@@ -47,6 +47,14 @@ $this->load->helper('form');
 			<input type="text" class="form-control" name="amount" required="required" value="0">
 		</div>
 		<div class="form-group">
+			<label>Receipt Number</label>
+			<input type="text" class="form-control" name="receipt">
+		</div>
+		<div class="form-group">
+			<label>Bill Number</label>
+			<input type="text" class="form-control" name="bill_number">
+		</div>
+		<div class="form-group">
 			<label>Notes</label>
 			<textarea class="form-control" name="notes"></textarea>
 		</div>

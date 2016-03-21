@@ -181,11 +181,29 @@ class Ajax extends CI_Controller {
 	public function pay_job($job_id=null) {
 		if($job_id) {
 			$this->load->model('job_model');
+			$this->load->model('account_model');
+			
+			$myjob = $this->job_model->get_job_data($job_id);
+			
 			$data = array();
 			$data['settlement_amount'] = $this->input->post('settlement_amount');
-			$data['due'] = 0;
-			$data['jpaid'] = 1;
+			
+			$data['due'] = $myjob->due - $this->input->post('settlement_amount');
+			if($data['due'] == 0 ) {
+				$data['jpaid'] = 1;
+			}
 			$this->job_model->update_job($job_id,$data);
+			
+			$job_data = $this->job_model->get_job_data($job_id);
+			$pay_data['job_id'] = $job_id;
+			$pay_data['customer_id'] = $job_data->customer_id;
+			$pay_data['amount'] = $data['settlement_amount'];
+			$pay_data['amountby'] = 'Cash';
+			$pay_data['bill_number'] = $this->input->post('bill_number');
+			$pay_data['receipt'] = $this->input->post('receipt');
+			$pay_data['notes'] = 'Job Settlement Amount';
+			$pay_data['creditedby'] =$this->session->userdata['user_id'];
+			$this->account_model->credit_amount($job_data->customer_id,$pay_data,CREDIT);
 			return true;
 		}
 	}
@@ -292,6 +310,14 @@ class Ajax extends CI_Controller {
 		$this->load->model('user_model');
 		$data['jobdata'] = $this->user_model->get_old_job($id);
 		$this->load->view('ajax/view_old_job',$data);
+	}
+	
+	public function get_customer_due($user_id=null) {
+		if($user_id) {
+			echo get_balance($user_id);
+			die;
+		}
+		return false;
 	}
 }
 

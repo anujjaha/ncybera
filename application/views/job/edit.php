@@ -11,6 +11,20 @@ $(document).ready(function() {
     });
 });
 
+function show_due(userid) {
+	$.ajax({
+		 type: "POST",
+		 url: "<?php echo site_url();?>/ajax/get_customer_due/"+userid, 
+		 success: 
+			function(data){
+				if(data.length > 0 ){ 
+					jQuery("#show_balance").html("Balance : "+data);
+				} else {
+					jQuery("#show_balance").html("");
+				}
+			}
+	  });
+}
 function customer_selected(type,userid) {
 jQuery("#customer_id").val(userid);
     $.ajax({
@@ -18,8 +32,9 @@ jQuery("#customer_id").val(userid);
      url: "<?php echo site_url();?>/customer/get_customer_ajax/id/"+userid, 
      success: 
         function(data){
-        jQuery("#mobile_"+type).val('');
+		jQuery("#mobile_"+type).val('');
         jQuery("#mobile_"+type).val(data);
+        show_due(userid);
         }
   });
 }
@@ -214,6 +229,7 @@ $this->load->helper('general'); ?>
 	<tr>
         <td colspan="2" align="center">
         <h3>Customer Type</h3>
+        <p id="balance"  align="right"><h2 class="red" id="show_balance" ></h2></p>
         <div class="row">
             <div class="col-md-4">
                 <span onClick="set_customer('new_customer');">

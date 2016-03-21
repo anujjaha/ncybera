@@ -16,11 +16,9 @@ class Customer_model extends CI_Model {
 			return $query->row();
 		}
 		$sql = "SELECT *, 
-				(SELECT SUM(total) from job WHERE job.customer_id = $this->table.id)  as 'total_amount' ,
-				(SELECT SUM(due) from job WHERE job.customer_id = $this->table.id)  as 'due' ,
-				(select sum(amount) from user_transactions where user_transactions.customer_id=customer.id) as 'total_credit'
+				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table.id and t_type ='debit')  as 'total_debit' ,
+				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
 				FROM $this->table 
-				where ctype =0
 				order by name";
 		$query = $this->db->query($sql);
 		return $query->result();

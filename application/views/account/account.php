@@ -2,19 +2,24 @@
 <div class="box">
 	<div class="box-header">
 		<h3 class="box-title"><?php echo $customer->name;?> - Account Details</h3>
-	</div><!-- /.box-header -->
+	</div>
+	<div class="box-header">
+		<span><a href="<?php echo site_url();?>/account/add_amount/<?php echo $customer->id;?>">
+		Add Amount</a></span>
+	</div>
+	<!-- /.box-header -->
 	<div class="box-body table-responsive">
 		<table id="example1" class="table table-bordered table-striped">
 		<thead>
 		<tr>
-		<th>Sr</th>
-		<th>Month</th>
+		<th>Date/Time</th>
+		<th>Job No.</th>
 		<th>Job Name</th>
-		<th>Due</th>
-		<th>Credited Amount</th>
-		<th>Credited By</th>
+		<th>Debit</th>
+		<th>Credit</th>
+		<th>Balance</th>
 		<th>Received By</th>
-		
+		<th>Details</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -22,18 +27,52 @@
 		$sr =1;	
 		$due=0;
 		$credited=0;
+		$balance=0;
 		foreach($results as $result) { 
-			$due = $due + $result['due']; 
-			$credited = $credited + $result['amount']; 
+			if($result['t_type'] == DEBIT ) {
+				$balance = $balance - $result['amount'];
+			} else {
+				$balance = $balance + $result['amount'];
+			}
+			
 			?>
 		<tr>
-		<td><?php echo $sr;?></td>
-		<td><?php echo $result['cmonth'];?></td>
+		<td><?php echo date('d M H:i A - Y',strtotime($result['created']));?></td>
+		<td><?php echo $result['job_id'] ? $result['job_id'] : "-";?></td>
 		<td><?php echo $result['jobname'];?></td>
-		<td><?php echo $result['due'];?></td>
-		<td><?php echo $result['amount'];?></td>
-		<td><?php echo $result['amountby'];?></td>
-		<td><?php echo $result['receivedby'];?></td>
+		<td>
+			<?php 
+				$show = "-";
+					if($result['t_type'] == DEBIT ) {
+							$show = $result['amount'];
+					}
+				echo $show;?>
+		</td>
+		<td>
+			<?php 
+				$show = "-";
+					if($result['t_type'] != DEBIT ) {
+							$show = $result['amount'];
+					}
+				echo $show;
+				if(!empty($result['receipt'])) {
+					echo '&nbsp;&nbsp;&nbsp;[Receipt No : '.$result['receipt']."]";
+				}
+				if(!empty($result['bill_number'])) {
+					echo '&nbsp;&nbsp;&nbsp;[Bill No : '.$result['bill_number']."]";
+				}
+				
+				?>
+		</td>
+		<td>
+			<?php echo $balance;?>
+		</td>
+		<td>
+			<?php echo $result['receivedby'];?>-<?php echo $result['amountby'];?>
+		</td>
+		<td>
+			<?php echo $result['notes'];?>
+		</td>
 		</tr>
 		<?php $sr++; } ?>
 		
@@ -58,18 +97,6 @@
 			<p>State : <?php echo $customer->state." ". $customer->add2;?></p>
 			
 		</td>
-	</tr>
-	<tr>
-		<td width="50%" align="right"> Total Due Amount : </td>
-		<td><?php echo $due;?> </td>
-	</tr>
-	<tr>
-		<td width="50%" align="right"> Total Credited Amount : </td>
-		<td><?php echo $credited;?> </td>
-	</tr>
-	<tr>
-		<td width="50%" align="right"> Balance : </td>
-		<td><?php echo $credited - $due;?> </td>
 	</tr>
 </table>
 	</div><!-- /.box-body -->

@@ -262,5 +262,16 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 	} else {
 	  return true;
 	}
-}
-
+}	
+	function get_balance($user_id=null) {
+		$ci = & get_instance();
+		$sql = "SELECT id,
+					(SELECT sum(amount) from user_transactions ut where ut.customer_id=$user_id and t_type ='credit') as 'total_credit',
+					(SELECT sum(amount) from user_transactions ut where ut.customer_id=$user_id and t_type ='debit') as 'total_debit'
+				 from user_transactions
+				 WHERE customer_id = $user_id LIMIT 1" ;
+		$query = $ci->db->query($sql);
+		$result = $query->row();
+		$balance = $result->total_credit - $result->total_debit;
+		return $balance;
+	}

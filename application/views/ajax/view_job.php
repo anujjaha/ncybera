@@ -1,16 +1,27 @@
 <script>
 function pay_job(id) {
 	var settlement_amount = $("#settlement_amount").val();
-	$.ajax({
-         type: "POST",
-         url: "<?php echo site_url();?>/ajax/pay_job/"+id, 
-         data:{"settlement_amount":settlement_amount},
-         success: 
-              function(data){
-							$.fancybox.close();
-							location.reload();
+	var s_bill_number = $("#s_bill_number").val();
+	var s_receipt = $("#s_receipt").val();
+	
+	if($("#settlement_amount").val().length < 1 ) {
+		alert("Please Enter Valid Amount");
+		return false;
+	}else  if($("#s_bill_number").val().length < 1 && $("#s_receipt").val().length < 1 ) {
+		alert("Please Enter Receipt Number or Bill Number");
+		return false;
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/pay_job/"+id, 
+			data:{"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt},
+			success: 
+				function(data){
+					$.fancybox.close();
+					location.reload();
 			 }
           });
+    }
 }
 </script>
 <?php
@@ -121,32 +132,29 @@ function pay_job(id) {
 		<td align="right"> <?php echo $job_data->settlement_amount; ?></td>
 	</tr> <?php } ?>
 </table>
-<?php if($job_data->jpaid == 0 && $restricted){ ?>
-<table width="100%" border="0">
+<?php if($job_data->jpaid == 0 && $restricted && $job_data->due > 0){ ?>
+<table width="100%" border="2">
 	<tr>
-		<td align="right" width="90%;">
-		<button class="btn btn-success btn-sm text-center"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Settelment Amount</button></td>
-		<td align="right" width="10%;">
+		<td>
+			Bill Number : 
+            <input type="text" name="s_bill_number" id="s_bill_number" value="">
+		</td>
+		<td>
+			Reciept Number : <input type="text" name="s_receipt" id="s_receipt">
+		</td>
+		<td>
 		<?php $settlment_amount =  $job_data->total - $job_data->advance;?>
-		<input type="text" disabled="disabled"  style="text-align:right;" name="settlement_amount_temp" value="<?php echo $settlment_amount;?>"></td>
-		<input type="hidden" name="settlement_amount" id="settlement_amount" value="<?php echo $settlment_amount;?>"></td>
+			<!--<input type="text" disabled="disabled"  style="text-align:right;" name="settlement_amount_temp" value="<?php echo $settlment_amount;?>"></td>-->
+			<input type="text" name="settlement_amount" id="settlement_amount" >
+		</td>
+		<td>
+			<button class="btn btn-success btn-sm text-center"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Amount</button>
+		</td>
+		
 	</tr>
 </table> 
 <?php } ?>   
-    <hr>
 <div class="col-md-12">
-<div class="row">
-	<div class="col-md-4">
-            Bill Number : 
-            <input type="text" name="bill_number" id="bill_number" value="<?php if(!empty($job_data->bill_number)) { echo $job_data->bill_number;}?>">
-    </div>
-	<div class="col-md-4">
-		Voucher Number : <input type="text" name="voucher_number" id="voucher_number" value="<?php if(!empty($job_data->voucher_number)) { echo $job_data->voucher_number;}?>">
-	</div>
-	<div class="col-md-4">
-		Reciept Number : <input type="text" name="receipt" id="receipt" value="<?php if(!empty($job_data->receipt)) { echo $job_data->receipt;}?>">
-	</div>
-</div>
 <div class="row">
 <hr>
 	<div class="col-md-12">

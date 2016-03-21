@@ -17,9 +17,8 @@
 		<th>Sr</th>
 		<th>Company Name</th>
 		<th>Customer Name</th>
-		<th>Total Amount</th>
-		<th>Due</th>
-		<th>Credited</th>
+		<th>Total Debit</th>
+		<th>Total Credit</th>
 		<th>Balance</th>
 		<th>Mobile</th>
 		<th>Email Id</th>
@@ -37,10 +36,9 @@
 		<td><?php echo $sr;?></td>
 		<td><?php echo $customer->companyname;?></td>
 		<td><?php echo $customer->name;?></td>
-		<td><?php echo $customer->total_amount;?></td>
-		<td><?php echo $customer->due;?></td>
+		<td><?php echo $customer->total_debit;?></td>
 		<td><?php echo $customer->total_credit;?></td>
-		<td><?php $balance= $customer->total_credit - $customer->due;
+		<td><?php $balance= $customer->total_credit - $customer->total_debit;
 		$show = '<span class="green">'.$balance.'</span>';
 			if($balance < 0 ) {
 				$show = '<span class="red">'.$balance.'</span>';
