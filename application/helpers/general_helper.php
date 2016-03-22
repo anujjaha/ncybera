@@ -90,7 +90,7 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
-	function send_sms($user_id=null,$customer_id,$mobile,$sms_text=null,$prospect_id=0) {
+	function send_sms($user_id=null,$customer_id=null,$mobile,$sms_text=null,$prospect_id=0) {
 		$ci=& get_instance();
 		$ci->load->database(); 
 		if(! $user_id) {
