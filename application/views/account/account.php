@@ -1,11 +1,60 @@
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+<script>
+function show_add_amount() {
+	jQuery("#add_amount").toggle("slide");
+}
+
+function fill_account() {
+	var settlement_amount = $("#amount").val();
+	var s_bill_number = $("#bill_number").val();
+	var s_receipt = $("#receipt").val();
+	var customer_id = $("#customer_id").val();
+	if($("#amount").val().length < 1 ||  $("#amount").val() < 1 ) {
+		alert("Please Enter Valid Amount");
+		return false;
+	}else  if($("#bill_number").val().length < 1 && $("#receipt").val().length < 1 ) {
+		alert("Please Enter Receipt Number or Bill Number");
+		return false;
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt},
+			success: 
+				function(data){
+					location.reload();
+			 }
+          });
+    }
+}
+</script>
 <div class="box">
 	<div class="box-header">
-		<h3 class="box-title"><?php echo $customer->name;?> - Account Details</h3>
+		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - Account Details</h3>
 	</div>
 	<div class="box-header">
-		<span><a href="<?php echo site_url();?>/account/add_amount/<?php echo $customer->id;?>">
-		Add Amount</a></span>
+		<span>
+		<button class="btn btn-success btn-sm text-center" onclick="show_add_amount()">Add Amount</button>
+		</span>
+	</div>
+	<div class="box-body table-responsive" id="add_amount" style="display:none;">
+		<table border="1" width="100%">
+			<tr>
+				<td>
+					Bill Number : <input type="text" name="bill_number" id="bill_number">
+				</td>
+				<td>
+					Receipt Number : <input type="text"  name="receipt" id="receipt">
+				</td>
+				<td>
+					Amount : <input type="text"  name="amount" id="amount" required="required" value="0">
+				</td>
+				<td>
+				<input type="hidden" name="customer_id" id="customer_id" value="<?php echo $customer->id;?>">
+					<button class="btn btn-success btn-sm text-center" onclick="fill_account()">Pay Amount</button>
+				</td>
+			</tr>
+		</table>
 	</div>
 	<!-- /.box-header -->
 	<div class="box-body table-responsive">
@@ -18,6 +67,7 @@
 		<th>Debit</th>
 		<th>Credit</th>
 		<th>Balance</th>
+		<th>Credit Note</th>
 		<th>Received By</th>
 		<th>Details</th>
 		</tr>
@@ -40,7 +90,7 @@
 		<td><?php echo date('d M H:i A - Y',strtotime($result['created']));?></td>
 		<td><?php echo $result['job_id'] ? $result['job_id'] : "-";?></td>
 		<td><?php echo $result['jobname'];?></td>
-		<td>
+		<td align="right">
 			<?php 
 				$show = "-";
 					if($result['t_type'] == DEBIT ) {
@@ -48,24 +98,26 @@
 					}
 				echo $show;?>
 		</td>
-		<td>
+		<td align="right">
 			<?php 
 				$show = "-";
 					if($result['t_type'] != DEBIT ) {
 							$show = $result['amount'];
 					}
 				echo $show;
-				if(!empty($result['receipt'])) {
-					echo '&nbsp;&nbsp;&nbsp;[Receipt No : '.$result['receipt']."]";
-				}
-				if(!empty($result['bill_number'])) {
-					echo '&nbsp;&nbsp;&nbsp;[Bill No : '.$result['bill_number']."]";
-				}
-				
 				?>
 		</td>
-		<td>
+		<td align="right">
 			<?php echo $balance;?>
+		</td>
+		<td>
+		<?php
+			if(!empty($result['receipt'])) {
+					echo "Receipt : ". $result['receipt'];
+			}
+			if(!empty($result['bill_number'])) {
+				echo  "Bill No. : ".$result['bill_number'];
+			} ?>
 		</td>
 		<td>
 			<?php echo $result['receivedby'];?>-<?php echo $result['amountby'];?>

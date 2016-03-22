@@ -25,7 +25,6 @@
 		<th>City</th>
 		<th>Status</th>
 		<th>Account</th>
-		<th>Add Amount</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -53,8 +52,7 @@
 				if($customer->status == '1') { $status = "Active"; }
 				echo $status;
 		?></td>
-		<td><a href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a></td>
-		<td><a href="<?php echo site_url();?>/account/add_amount/<?php echo $customer->id;?>">Add Amount</a></td>
+		<td><a target="_blank" href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

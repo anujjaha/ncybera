@@ -175,6 +175,9 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Cutting") {
 			$("#details_"+sr).val("Cutting Details");
 		}
+		if($("#category_"+sr).val() == "Digital Print") {
+			$("#details_"+sr).val("");
+		}
 		if($("#category_"+sr).val() == "Lamination") {
 			$("#details_"+sr).val("Lamination");
 		}
