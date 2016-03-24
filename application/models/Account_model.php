@@ -36,4 +36,16 @@ class Account_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	public function get_job_transactions($job_id=null) {
+		if($job_id) {
+			$this->db->select('*')
+					->from($this->table)
+					->where('job_id',$job_id)
+					->order_by('id');
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+		return false;
+	}
 }

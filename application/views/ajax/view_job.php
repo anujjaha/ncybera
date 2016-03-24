@@ -39,7 +39,7 @@ function pay_job(id) {
 				<table width="100%">
 					<tr>
 						<td width="50%">
-							Custome Name : <?php echo $customer_details->name;?>
+							Custome Name : <?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name ;?>
 						</td>
 						<td width="50%" align="right">
 							<?php echo $customer_details->mobile;?>
