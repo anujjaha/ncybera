@@ -3,7 +3,16 @@
 function show_add_amount() {
 	jQuery("#add_amount").toggle("slide");
 }
-
+function show_job_details(job_id){
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_job_simple_details/"+job_id, 
+         success: 
+            function(data){
+                  jQuery("#job_view").html(data);
+            }
+          });
+}
 function fill_account() {
 	var settlement_amount = $("#amount").val();
 	var s_bill_number = $("#bill_number").val();
@@ -29,9 +38,13 @@ function fill_account() {
 }
 </script>
 <div class="box">
-	<div class="box-header">
-		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - Account Details</h3>
-	</div>
+	
+		<center>
+		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - 
+		<span class="red">Balance : <?php echo get_balance($customer->id);?>
+		</span>
+		</h3>
+		</center>
 	<div class="box-header">
 		<span>
 		<button class="btn btn-success btn-sm text-center" onclick="show_add_amount()">Add Amount</button>
@@ -88,7 +101,17 @@ function fill_account() {
 			?>
 		<tr>
 		<td><?php echo date('d M H:i A - Y',strtotime($result['created']));?></td>
-		<td><?php echo $result['job_id'] ? $result['job_id'] : "-";?></td>
+		<td>
+		<?php
+			if($result['job_id']) {
+		?>
+			<a class="fancybox"  onclick="show_job_details(<?php echo $result['job_id'];?>);" 
+			href="#view_job_details"><?php echo $result['job_id'];?></a>
+		<?php } else {
+			echo "-";
+		}?>
+		
+		</td>
 		<td><?php echo $result['jobname'];?></td>
 		<td align="right">
 			<?php 
@@ -172,3 +195,9 @@ function fill_account() {
                 });
             });
         </script>
+
+<div id="view_job_details" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+    <div id="job_view"></div>
+</div>
+</div>
