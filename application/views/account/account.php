@@ -22,7 +22,7 @@ function fill_account() {
 		alert("Please Enter Valid Amount");
 		return false;
 	}else  if($("#bill_number").val().length < 1 && $("#receipt").val().length < 1 ) {
-		alert("Please Enter Receipt Number or Bill Number");
+		alert("Please Enter Receipt Number or Cheque Number");
 		return false;
 	} else {
 		$.ajax({
@@ -54,7 +54,7 @@ function fill_account() {
 		<table border="1" width="100%">
 			<tr>
 				<td>
-					Bill Number : <input type="text" name="bill_number" id="bill_number">
+					Cheque Number : <input type="text" name="bill_number" id="bill_number">
 				</td>
 				<td>
 					Receipt Number : <input type="text"  name="receipt" id="receipt">
