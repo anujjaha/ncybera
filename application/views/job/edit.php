@@ -18,7 +18,7 @@ function show_due(userid) {
 		 success: 
 			function(data){
 				if(data.length > 0 ){ 
-					jQuery("#show_balance").html("Balance : "+data);
+					jQuery("#show_balance").html("Due : "+data);
 				} else {
 					jQuery("#show_balance").html("");
 				}

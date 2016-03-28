@@ -353,9 +353,11 @@ class Ajax extends CI_Controller {
 			$today = date('d-m-Y');
 			$customer_details = $this->job_model->get_customer_details($customer_id);
 			$mobile = $customer_details->mobile;
-			$mobile = "9898618697";
+			//$mobile = "9898618697";
 			$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
-			$sms_text = "Dear $customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
+			//$sms_text = "Dear \$customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
+			$user_balance  = get_balance($customer_id);
+			$sms_text = "Dear $customer_name, received Rs. ".$pay_data['amount']." on ".$today." total due Rs. ".$user_balance." Thank You.";
 			send_sms($this->session->userdata['user_id'],$customer_id,$mobile,$sms_text) ;
 			return true;
 		}

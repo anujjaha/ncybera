@@ -190,8 +190,8 @@ function job_complete_sms($job_id=null) {
 		$ci->db->update('job',$data);
 		
 		$customer_id = $result->customer_id;
-		//$mobile = $result->mobile;
-		$mobile = "9898618697";
+		$mobile = $result->mobile;
+		//$mobile = "9898618697";
 		$user_id = $ci->session->userdata['user_id'];
 		
 		send_sms($user_id,$customer_id,$mobile,$sms_text);
@@ -272,6 +272,6 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 				 WHERE customer_id = $user_id LIMIT 1" ;
 		$query = $ci->db->query($sql);
 		$result = $query->row();
-		$balance = $result->total_credit - $result->total_debit;
+		$balance = $result->total_debit - $result->total_credit;
 		return $balance;
 	}
