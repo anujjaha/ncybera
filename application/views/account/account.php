@@ -41,7 +41,7 @@ function fill_account() {
 	
 		<center>
 		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - 
-		<span class="red">Balance : <?php echo get_balance($customer->id);?>
+		<span class="red">Due : <?php echo get_balance($customer->id);?>
 		</span>
 		</h3>
 		</center>
