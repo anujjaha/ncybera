@@ -185,6 +185,9 @@ foreach($cutting_info as $cutting) {
 			if(!empty($cutting['c_corner'])) {
 				$pcontent .= '<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>';
 			}
+			if(!empty($cutting['c_laser'])) {
+				$pcontent .= '<tr><td align="right">Laser Cut : </td><td>'.$cutting['c_laser'].'</td></tr>';
+			}
 			
 			if(!empty($cutting['c_lamination'])) {
 				$pcontent .= '<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'];

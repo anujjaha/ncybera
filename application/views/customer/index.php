@@ -31,7 +31,7 @@
 		<?php
 		$sr =1;	
 		foreach($customers as $customer) { ?>
-		<tr>
+		<tr id="tr_<?php echo $customer->id;?>">
 		<td><?php echo $sr;?></td>
 		<td><?php echo $customer->companyname;?></td>
 		<td><?php echo $customer->name;?></td>
@@ -94,9 +94,9 @@ function delete_customer(id){
          type: "POST",
          url: "<?php echo site_url();?>/ajax/ajax_delete/"+id, 
          success: 
-            function(data){
-				location.reload();
-            }
+            function(data) {
+				jQuery("#tr_"+id).css('display','none');
+			}
           });
     }
 }            
