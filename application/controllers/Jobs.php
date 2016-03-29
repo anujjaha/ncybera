@@ -108,6 +108,7 @@ class Jobs extends CI_Controller {
                                        'c_checking'=>$this->input->post('c_checking_'.$i),
                                        'c_packing'=>$this->input->post('c_packing_'.$i),
                                        'c_corner'=>$this->input->post('c_corner_'.$i),
+                                       'c_laser'=>$this->input->post('c_laser_'.$i),
                                     );
         }
         }

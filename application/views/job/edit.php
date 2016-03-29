@@ -58,7 +58,7 @@ function set_cutting_details(id){
 
 function set_cutting_details_box(id){
 	var data_id =jQuery("#fancybox_cutting_id").val();
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
       binding = ""; 
@@ -92,6 +92,7 @@ function set_cutting_details_box(id){
         jQuery("#c_binding_"+data_id).val(binding);
         jQuery("#c_checking_"+data_id).val(checking);
         jQuery("#c_corner_"+data_id).val($("#c_corner").val());
+        jQuery("#c_laser_"+data_id).val($("#c_laser").val());
         $.fancybox.close();
 }
 function remove_cutting_details(data_id) {
@@ -468,6 +469,12 @@ $this->load->helper('general'); ?>
                     <input type="text" name="c_corner" id="c_corner">
                 </td>
             </tr>
+            <tr>
+                <td align="right">Laser Cutting :</td>
+                <td>
+                    <input type="text" name="c_laser" id="c_laser">
+                </td>
+            </tr>
             <tr id="popup_lamination">
                 <td align="right">Lamination:</td>
                 <td>
@@ -486,7 +493,7 @@ $this->load->helper('general'); ?>
 					<label><input type="checkbox" name="binding" value="Creasing">Creasing</label>
 					<label><input type="checkbox" name="binding" value="Center Pin">Center Pin</label>
 					<label><input type="checkbox" name="binding" value="Perfect Binding">Perfect Binding</label>
-					<label><input type="checkbox" name="binding" value="Performance">Performance</label>
+					<label><input type="checkbox" name="binding" value="Perforation">Perforation</label>
 					<label><input type="checkbox" name="binding" value="Folding">Folding</label>
 					<br>
 					Half Cutting:<input type="text" name="binding_info" id="binding_info">
@@ -607,5 +614,6 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_binding_<?php echo $i;?>" id="c_binding_<?php echo $i;?>">
     <input type="text" name="c_checking_<?php echo $i;?>" id="c_checking_<?php echo $i;?>">
     <input type="text" name="c_corner_<?php echo $i;?>" id="c_corner_<?php echo $i;?>">
+    <input type="text" name="c_laser_<?php echo $i;?>" id="c_laser_<?php echo $i;?>">
 </div>
 <?php } ?>

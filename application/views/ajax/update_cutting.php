@@ -9,7 +9,7 @@ var cutting_details_qty = $("#qty_"+<?php echo $sr;?>).val();
 $("#c_material").val(cutting_details_material);
 $("#c_qty").val(cutting_details_qty);
 function update_box() {
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser;
         machine = $('input:radio[name=c_machine]:checked').val();// jQuery("#machine").val();
       binding = ""; 
       var $boxes = $('input[name=c_binding]:checked');
@@ -19,6 +19,7 @@ function update_box() {
 		  }
 		});
         c_corner = jQuery("#c_corner").val();
+        c_laser = jQuery("#c_laser").val();
         lamination_info = jQuery("#lamination_info").val();
         size_info = jQuery("#size_info").val();
         binding_info = jQuery("#binding_info").val();
@@ -41,7 +42,7 @@ function update_box() {
 				'c_size':size,'c_sizeinfo':size_info,'c_print':printing,
 				'c_details':details,'c_lamination':lamination,'c_laminationinfo':lamination_info,
 				'c_binding':binding,'c_bindinginfo':binding_info,'c_packing':packing,
-				'c_checking':checking,'cutting_id':cutting_id,'j_id':j_id,"c_corner":c_corner
+				'c_checking':checking,'cutting_id':cutting_id,'j_id':j_id,"c_corner":c_corner,"c_laser":c_laser
 		
 			},
 		success: 
@@ -103,6 +104,10 @@ function update_box() {
 				<td><input type="text" name="c_corner" id="c_corner" value="<?php echo $cutting_details->c_corner;?>"></td>
             </tr>
             <tr>
+				<td align="right">Laser Cutting :</td>
+				<td><input type="text" name="c_laser" id="c_laser" value="<?php echo $cutting_details->c_laser;?>"></td>
+            </tr>
+            <tr>
                 <td align="right">Lamination:</td>
                 <td>
                     <label>
@@ -120,7 +125,7 @@ function update_box() {
 					<label><input type="checkbox" <?php if(in_array('Creasing',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Creasing">Creasing</label>
 					<label><input type="checkbox" <?php if(in_array('Center Pin',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Center Pin">Center Pin</label>
 					<label><input type="checkbox" <?php if(in_array('Perfect Binding',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perfect Binding">Perfect Binding</label>
-					<label><input type="checkbox" <?php if(in_array('Performance',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Performance">Performance</label>
+					<label><input type="checkbox" <?php if(in_array('Perforation',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perforation">Perforation</label>
 					<label><input type="checkbox" <?php if(in_array('Folding',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Folding">Folding</label>
 					<br>
 					Half Cutting:<input type="text" name="c_bindinginfo" id="binding_info" value="<?php echo $cutting_details->c_bindinginfo;?>">
