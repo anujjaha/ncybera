@@ -125,7 +125,7 @@ function update_box() {
 					<label><input type="checkbox" <?php if(in_array('Creasing',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Creasing">Creasing</label>
 					<label><input type="checkbox" <?php if(in_array('Center Pin',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Center Pin">Center Pin</label>
 					<label><input type="checkbox" <?php if(in_array('Perfect Binding',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perfect Binding">Perfect Binding</label>
-					<label><input type="checkbox" <?php if(in_array('Performance',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Performance">Performance</label>
+					<label><input type="checkbox" <?php if(in_array('Perforation',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perforation">Perforation</label>
 					<label><input type="checkbox" <?php if(in_array('Folding',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Folding">Folding</label>
 					<br>
 					Half Cutting:<input type="text" name="c_bindinginfo" id="binding_info" value="<?php echo $cutting_details->c_bindinginfo;?>">
