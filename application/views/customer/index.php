@@ -1,5 +1,17 @@
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+<script>
 
+$(document).ready(function() {
+var oldStart = 0;
+$('#example1').dataTable( {
+//here is our table defintion
+"fnDrawCallback": function (o) {
+	if ( o._iDisplayStart != oldStart ) {
+	$(".dataTables_scrollBody").scrollTop(0);
+	oldStart = o._iDisplayStart;
+	}
+}
+</script>
 <div class="box">
 	<div class="box-header">
 		<h3 class="box-title">Customer Details</h3>

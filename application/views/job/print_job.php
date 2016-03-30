@@ -171,6 +171,10 @@ foreach($cutting_info as $cutting) {
 				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
 				<tr><td align="right">Material : </td><td>'.$cutting['c_material'].'</td></tr>
 				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
+				
+				if(!empty($cutting['c_details'])) {
+					$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
+				}
 				if(!empty($cutting['c_size'])) { 
 				$pcontent .= '<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>';
 				}
@@ -215,9 +219,7 @@ foreach($cutting_info as $cutting) {
 				$pcontent .= '<tr><td align="right">Paper : </td><td>'.$cutting['c_checking'].'</td></tr>';
 			}
 			
-			if(!empty($cutting['c_details'])) {
-				$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
-			}
+			
 			
 				$pcontent .= '</table> </td>';
 				if($sr > 1 && ($sr % 2) ==0) {
