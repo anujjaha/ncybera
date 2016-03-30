@@ -19,7 +19,7 @@ class Customer_model extends CI_Model {
 				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table.id and t_type ='debit')  as 'total_debit' ,
 				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
 				FROM $this->table 
-				order by name";
+				order by companyname";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
