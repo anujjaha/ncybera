@@ -50,7 +50,7 @@ class Cuttings extends CI_Controller {
             }
             $this->load->model('job_model');
             $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
-            if( $this->input->post('j_status') == JOB_CUTTING_COMPLETED ) {
+            if( $this->input->post('j_status') == JOB_CUTTING_COMPLETED || $this->input->post('j_status') == JOB_COMPLETE ) {
 					job_complete_sms($job_id);
 			}
             return $this->job_model->add_job_transaction($data);
