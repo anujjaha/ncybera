@@ -7,8 +7,10 @@ class Account_model extends CI_Model {
 		public $table = "user_transactions";
 	
 	public function get_account_details($user_id) {
-		$sql = "SELECT *,(
-				select due from job where job.id=ut.job_id) as 'due',
+		$sql = "SELECT *,
+				(select due from job where job.id=ut.job_id) as 'due',
+				(select receipt from job where job.id=ut.job_id) as 'j_receipt',
+				(select bill_number from job where job.id=ut.job_id) as 'j_bill_number',
 				(select jobname from job where job.id=ut.job_id) as 'jobname',
 				(select nickname from user_meta um where um.user_id=ut.creditedby) as 'receivedby'
 				FROM user_transactions ut where ut.customer_id = $user_id
