@@ -207,6 +207,9 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "B/W Xerox") {
 			$("#details_"+sr).val("B/W Xerox");
 		}
+		if($("#category_"+sr).val() == "Laser Cutting") {
+			$("#details_"+sr).val("Laser Cutting");
+		}
 		if($("#category_"+sr).val() == "Not Applicable") {
 			$("#details_"+sr).val("Not Applicable");
 			$("#qty_"+sr).val("0");
@@ -346,6 +349,7 @@ $this->load->helper('general'); ?>
                             <option>Designing</option>
                             <option>Binding</option>
                             <option>Lamination</option>
+                            <option>Laser Cutting</option>
                             <option>Packaging and Forwading</option>
                             <option>Transportation</option>
                             <option>B/W Print</option>

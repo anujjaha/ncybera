@@ -75,7 +75,7 @@ class Jobs extends CI_Controller {
                 $jobdata['jmonth'] = date('M-Y');
                 $jobdata['jdate'] = date('Y-m-d');
                 $job_id = $this->job_model->insert_job($jobdata);
-				$j_status =$this->add_job_transaction($job_id,JOB_CREATED);
+				$j_status =$this->add_job_transaction($job_id,JOB_PENDING);
         $job_details = array();
         $cutting_details = array();
         for($i=1;$i<6;$i++) {

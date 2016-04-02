@@ -60,7 +60,7 @@
 			</a>
 		</td>
 		<td>
-			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_CUTTING_COMPLETED;?>');">
+			<a href="javascript:void(0);" onclick="quick_update_job_status(<?php echo $sr;?>,<?php echo $job['job_id'];?>,'<?php echo JOB_COMPLETE;?>');">
 				Cutting-Completed
 			</a>
 		</td>
