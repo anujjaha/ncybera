@@ -62,6 +62,9 @@
 <div class="row">
 	<div class="col-md-12">
 	<center>
+		<label><input type="radio" id="send_sms" name="send_sms" value="Yes">Send SMS</label>
+		<label><input type="radio" id="send_sms" name="send_sms" checked="checked" value="No">No</label>
+		<br>
 		<button class="btn btn-success btn-lg text-center"  onclick="update_job_status(<?php echo $job_data->id;?>)">Save Job</button>
 		</center>
 </div>

@@ -48,10 +48,10 @@ function printDiv(divName) {
 $created_info = get_user_by_param('id',$job_data->user_id);
 $show_name = $customer_details->companyname ? $customer_details->companyname :$customer_details->name;
 $content ='';
-$content .= '
-		<table align="center" width="90%" border="0" style="border:0px solid;font-size:9px;">';
 		 for($j=0;$j<2;$j++) {
-			$content .= '<tr>
+			$content .= '
+				<table align="center" width="90%" border="0" style="border:0px solid;font-size:9px;height:3in;">
+				<tr>
 				<td width="100%" align="left">
 					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
@@ -141,9 +141,8 @@ $content .= '
 			if($j == 0) {
 				$content .= ' <tr><td colspan="2"><br><hr></td></tr>';
 			}
+			$content .= '</table>';
 		} 
-		$content .= '</table>
-';
 echo $content;
 ?>
 </div>

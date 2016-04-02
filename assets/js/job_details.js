@@ -22,7 +22,7 @@ function calc_subtotal() {
 function calc_tax() {
 	var tax_amount=0;
 	if (document.getElementById('cb_checkbox').checked) {
-		tax_amount = (jQuery("#subtotal").val() * 5 ) / 100;
+		tax_amount = Math.round( (jQuery("#subtotal").val() * 5 ) / 100);
 		jQuery("#tax").val(tax_amount);
 	} else {
 		tax_amount = 0;
@@ -32,9 +32,9 @@ function calc_tax() {
 function calc_total() {
 	var total,sub_total,tax=0;
 	if(jQuery("#tax").val().length > 0 ) {
-		total = parseFloat(jQuery("#subtotal").val()) + parseFloat(jQuery("#tax").val());
+		total = Math.round(parseFloat(jQuery("#subtotal").val()) + parseFloat(jQuery("#tax").val()));
 	} else {
-		total = parseFloat(jQuery("#subtotal").val());
+		total = Math.round( parseFloat(jQuery("#subtotal").val()));
 	}
 	jQuery("#total").val(total);
 }

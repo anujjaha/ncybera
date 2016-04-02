@@ -33,7 +33,7 @@ class Prints extends CI_Controller {
             if(! $job_id) {
                 return false;
             }
-            $this->load->model('job_model');
+			$this->load->model('job_model');
             $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
             $flag = false;
             if($this->input->post('bill_number')) {
@@ -51,6 +51,11 @@ class Prints extends CI_Controller {
 			if($flag) {
 				$this->job_model->update_job($job_id,$jdata);
 			}
+			
+			if($this->input->post('send_sms') == 'Yes') {
+				job_complete_sms($job_id);
+			}
+			
 			if( $this->input->post('j_status') == JOB_PRINT_COMPLETED ) {
 				$is_cutting = $this->job_model->is_cutting($job_id);
 				if(! $is_cutting ) {

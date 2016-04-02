@@ -18,7 +18,7 @@ function show_calculator()
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="navbar-btn sidebar-toggle collapsed-box" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -178,6 +178,12 @@ function show_calculator()
 					<td><input type="text" id="n_sms_mobile" name="n_sms_mobile" style="width:500px;"></td>
 				</tr>
 				<tr>
+					<td align="right">Email Id:</td>
+					<td>
+						<input type="text" style="width:500px;" id="n_customer_email" name="n_customer_email">
+					</td>
+				</tr>
+				<tr>
 					<td align="right">Message:</td>
 					<td><textarea id="n_sms_message" name="n_sms_message" cols="80" rows="6"></textarea></td>
 				</tr>
@@ -222,12 +228,13 @@ function create_estimation(){
 function create_estimation_new(){
 	var customer_id,sms_message,sms_mobile;
 	sms_message = $("#n_sms_message").val();
+	sms_email = $("#n_customer_email").val();
 	sms_mobile = $("#n_sms_mobile").val();
 	sms_customer_name = $("#n_sms_customer_name").val();
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/create_estimation/", 
-         data:{'customer_id':0,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name,'prospect':'1'},
+         data:{"customer_email":sms_email,'customer_id':0,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name,'prospect':'1'},
          success: 
             function(data){
 				alert("SMS Sent : "+data);
