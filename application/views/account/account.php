@@ -80,6 +80,7 @@ function fill_account() {
 		<th>Debit</th>
 		<th>Credit</th>
 		<th>Balance</th>
+		<th>Reference</th>
 		<th>Credit Note</th>
 		<th>Received By</th>
 		<th>Details</th>
@@ -132,6 +133,15 @@ function fill_account() {
 		</td>
 		<td align="right">
 			<?php echo $balance;?>
+		</td>
+		<td>
+			<?php
+			if(!empty($result['j_receipt'])) {
+					echo "Receipt : ". $result['j_receipt'];
+			}
+			if(!empty($result['j_bill_number'])) {
+				echo  "Bill  : ".$result['j_bill_number'];
+			} ?>	
 		</td>
 		<td>
 		<?php
