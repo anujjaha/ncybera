@@ -207,7 +207,6 @@ function check_visiting_card(sr) {
 			$("#details_"+sr).val("B/W Xerox");
 		}
 		if($("#category_"+sr).val() == "Not Applicable") {
-			alert('asdf');
 			$("#details_"+sr).val("Not Applicable");
 			$("#qty_"+sr).val("0");
 			$("#rate_"+sr).val("0");
