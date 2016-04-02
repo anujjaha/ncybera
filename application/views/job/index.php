@@ -41,7 +41,7 @@ function show_job_details(job_id){
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $job['job_id'];?></td>
-		<td><?php echo $job['name'];?></td>
+		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
