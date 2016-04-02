@@ -165,7 +165,7 @@ function get_papers_size() {
 function job_complete_sms($job_id=null) {
 	if($job_id) {
 		$ci = & get_instance();
-		$sql = "SELECT if(CHAR_LENGTH(c.name) > 0,c.name,c.companyname) as customer_name,
+		$sql = "SELECT if(CHAR_LENGTH(c.companyname) > 0,c.companyname,c.name) as customer_name,
 				job.smscount,job.customer_id,c.mobile,
 				job.total,job.due,
 				(SELECT SUM(total) from job WHERE job.customer_id = c.id)  as 'total_amount' ,
