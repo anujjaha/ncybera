@@ -153,7 +153,7 @@ class Ajax extends CI_Controller {
 			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
 			if($customer_email) {
-					send_mail($customer_email,'er.anujjaha@gmail.com','Estimation - Cybera',$sms_text);
+					send_mail($customer_email,'cybera.printart@gmail.com','Estimation - Cybera',$sms_text);
 			}
 			echo $sms_text;
 		}

@@ -204,6 +204,15 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Visiting Card") {
 			$("#details_"+sr).val("Visiting Card");
 		}
+		if($("#category_"+sr).val() == "B/W Xerox") {
+			$("#details_"+sr).val("B/W Xerox");
+		}
+		if($("#category_"+sr).val() == "Not Applicable") {
+			$("#details_"+sr).val("Not Applicable");
+			$("#qty_"+sr).val("0");
+			$("#rate_"+sr).val("0");
+			$("#sub_"+sr).val("0");
+		}
 }
 
 function check_existing_customer(value) {
@@ -340,6 +349,8 @@ $this->load->helper('general'); ?>
                             <option>Packaging and Forwading</option>
                             <option>Transportation</option>
                             <option>B/W Print</option>
+                            <option>B/W Xerox</option>
+                            <option>Not Applicable</option>
                     </select>
             </td>
             <td>

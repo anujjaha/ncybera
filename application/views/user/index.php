@@ -15,14 +15,14 @@
 		<tr>
 		<th>Sr</th>
 		<th>Job Num</th>
-		<th>Company Name</th>
-		<th>Customer Name</th>
+		<th>Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
 		<th>Bill Amount</th>
 		<th>Advance</th>
 		<th>Due</th>
 		<th>Date / Time</th>
+		<th>Reference</th>
 		<th>Status</th>
 		<th>SMS</th>
 		<th>View</th>
@@ -38,16 +38,32 @@
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $job['job_id'];?></td>
-		<td><?php echo $job['companyname'];?></td>
-		<td><?php echo $job['name'];?></td>
+		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
+		<td><?php
+			$user_bal = get_balance($job['customer_id']) ;
+			if($user_bal < 0 ) { 
+				echo "-";
+			} else {
+				echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+			} ?>
+		 </td>
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>
+		</td>
+		<td>
+			<?php
+				if(!empty($job['bill_number'])) { 
+					echo "Bill - ".$job['bill_number']."&nbsp;&nbsp;";
+				}
+				if(!empty($job['receipt'])) { 
+					echo "Receipt - ".$job['receipt'];
+				}
+			?>
 		</td>
 		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
 			<?php
@@ -134,13 +150,14 @@ function show_job_details(job_id){
 }
 function update_job_status(id) {
 	var value = $( "input:radio[name=jstatus]:checked" ).val();
+	var send_sms = $( "input:radio[name=send_sms]:checked" ).val();
 	var bill_number = $( "#bill_number").val();
 	var voucher_number = $( "#voucher_number").val();
 	var receipt = $( "#receipt").val();
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
-         data:{"j_id":id,"j_status":value,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
+         data:{"j_id":id,"j_status":value,"send_sms" : send_sms,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
          success: 
               function(data){
 							$.fancybox.close();
