@@ -457,24 +457,21 @@ $this->load->helper('general'); ?>
 <div class="col-md-12">
 <div class="row">
 	<div class="col-md-4">
-		Bill Number : <input type="text" name="bill_number">
-	</div>
-	<div class="col-md-4">
-		Voucher Number : <input type="text" name="voucher_number">
-	</div>
-	<div class="col-md-4">
-		Reciept Number : <input type="text" name="receipt">
-	</div>
-</div>
-<hr>
-<div class="form-group">
 		<input type="hidden" name="dealer_id" value="<?php if(!empty($dealer_info->id)){echo $dealer_info->id;}?>">
 		<input type="hidden" name="customer_type" id="customer_type">
 		<input type="hidden" name="customer_id" id="customer_id">
 		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
 		<input type="submit" name="save" id="save_button" value="Save" class="btn btn-success btn-lg">
 	</div>
+	
+	<div class="col-md-4">
+		Bill Number : <input type="text" name="bill_number">
+	</div>
+	<div class="col-md-4">
+	Reciept Number : <input type="text" name="receipt">
+	</div>
 </div>
+
 </form>
 
 <div id="fancy_box_cutting" style="width:800px;display: none;">
