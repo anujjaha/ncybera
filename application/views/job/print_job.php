@@ -166,10 +166,25 @@ $pcontent .='<table align="center" border="2" width="90%" style="border:1px soli
 $sr=1;
 foreach($cutting_info as $cutting) {
 	$pcontent .= '<td>
-				<table align="center" border="2" width="100%" style="border:1px solid;">
-				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
-				<tr><td align="right">Material : </td><td>'.$cutting['c_material'].'</td></tr>
-				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
+				<table align="center" border="2" width="100%" style="border:1px solid;">';
+				
+				if(!empty($cutting['c_qty'])) {
+					$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_qty'].'</td></tr>';
+				}
+				
+				if(!empty($cutting['c_material'])) {
+					$c_m_label = "Material : ";
+					if($cutting['c_material'] == "ROUND CORNER CUTTING") {
+							$c_m_label = "";
+					}	
+					$pcontent .= '<tr><td align="right">'.$c_m_label.'  </td><td>'.$cutting['c_material'].'</td></tr>';
+				}
+				
+				if(!empty($cutting['c_machine'])) {
+					$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_machine'].'</td></tr>';
+				}
+				
+				
 				
 				if(!empty($cutting['c_details'])) {
 					$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
@@ -177,7 +192,7 @@ foreach($cutting_info as $cutting) {
 				if(!empty($cutting['c_size'])) { 
 				$pcontent .= '<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>';
 				}
-				if(!empty($cutting['c_sizeinfo'])) { 
+				if(!empty($cutting['c_sizeinfo']) && strlen($cutting['c_sizeinfo']) > 2 ) { 
 				$pcontent .= '<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>';
 				}
 				
