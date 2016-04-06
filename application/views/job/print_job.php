@@ -188,6 +188,12 @@ foreach($cutting_info as $cutting) {
 			if(!empty($cutting['c_corner'])) {
 				$pcontent .= '<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>';
 			}
+			if(!empty($cutting['c_cornerdie'])) {
+				$pcontent .= '<tr><td align="right">Corner Die No : </td><td>'.$cutting['c_cornerdie'].'</td></tr>';
+			}
+			if(!empty($cutting['c_rcorner'])) {
+				$pcontent .= '<tr><td align="right">Round Cutting Side : </td><td>'.$cutting['c_rcorner'].'</td></tr>';
+			}
 			if(!empty($cutting['c_laser'])) {
 				$pcontent .= '<tr><td align="right">Laser Cut : </td><td>'.$cutting['c_laser'].'</td></tr>';
 			}

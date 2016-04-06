@@ -16,7 +16,7 @@
 	<tbody>
 		<?php
 		$ctb = "<table width='100%' border='1'><tr><td>Material</td><td>Size</td><td>Print</td><td>Lamination</td>
-							<td>Binding</td><td>Packing</td><td>CornerCut</td><td>LaserCut</td><td>Details</td><td>Qty</td></tr>";
+							<td>Binding</td><td>Packing</td><td>CornerCut</td><td>CornerDie</td><td>RoundCornerCut</td><td>LaserCut</td><td>Details</td><td>Qty</td></tr>";
 		$sr =1;	
 		foreach($jobs as $job) { 
 			$cmaterial = $ctb;
@@ -30,6 +30,8 @@
 									<td>".$cut_data['c_binding']."</td>
 									<td>".$cut_data['c_packing']."</td>
 									<td>".$cut_data['c_corner']."</td>
+									<td>".$cut_data['c_cornerdie']."</td>
+									<td>".$cut_data['c_rcorner']."</td>
 									<td>".$cut_data['c_laser']."</td>
 									<td>".$cut_data['c_details']."</td>
 									<td>".$cut_data['c_qty']."</td>
