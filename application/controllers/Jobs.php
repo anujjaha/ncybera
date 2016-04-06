@@ -81,6 +81,7 @@ class Jobs extends CI_Controller {
         for($i=1;$i<6;$i++) {
         $check = $this->input->post('details_'.$i);
         $check_cutting = $this->input->post('c_machine_'.$i);
+        $check_rount_cutting = $this->input->post('c_rcorner_'.$i);
         if(!empty($check)) {
             $job_details[] = array(
                 'job_id'=>$job_id,
@@ -92,7 +93,7 @@ class Jobs extends CI_Controller {
                 'created'=>date('Y-m-d H:i:s')
                 );
             }
-        if(!empty($check_cutting)) {
+        if(!empty($check_cutting) || !empty($check_rount_cutting) ) {
             $cutting_details[] = array('j_id'=>$job_id,
                                        'c_machine'=>$this->input->post('c_machine_'.$i),
                                        'c_material'=>$this->input->post('c_material_'.$i),
