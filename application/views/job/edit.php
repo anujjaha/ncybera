@@ -43,22 +43,49 @@ function auto_suggest_price(id){
     jQuery("#fancybox_id").val(id);
 }
 function set_cutting_details(id){
-	if( jQuery("#category_"+id).val() == "Visiting Card") {
+	jQuery("#fancybox_cutting_id").val(id);
+    jQuery("#cut_icon_"+id).css('display','inline');
+	if(jQuery("#category_"+id).val() == "ROUND CORNER CUTTING") {
+		jQuery("#popup_cornercutting").css('display','none');
+		jQuery("#popup_packing").css('display','none');
+		jQuery("#popup_lasercutting").css('display','none');
+		jQuery("#popup_machine").css('display','none');
+		jQuery("#popup_size").css('display','none');
+		jQuery("#popup_printing").css('display','none');
+		jQuery("#popup_lamination").css('display','none');
+		jQuery("#popup_binding").css('display','none');
+		jQuery("#cutting_title").html('Round Corner - Cutting Details');
+		return false;
+	} else {
+		jQuery("#popup_cornercutting").show();
+		jQuery("#popup_lasercutting").show();
+		jQuery("#popup_packing").show();
+		jQuery("#popup_machine").show();
+		jQuery("#popup_size").show();
+		jQuery("#popup_printing").show();
+		jQuery("#popup_lamination").show();
+		jQuery("#popup_binding").show();
+		jQuery("#cutting_title").html('Fill Cutting Details');
+		return false;
+	}
+	
+	if( jQuery("#category_"+id).val() == "Visiting Card" ) {
 		jQuery("#popup_lamination").css('display','none');
 		jQuery("#popup_binding").css('display','none');
 		jQuery("#cutting_title").html('Visiting Card - Cutting Details');
+		return false;
 	} else {
 		jQuery("#popup_lamination").show();
 		jQuery("#popup_binding").show();
 		jQuery("#cutting_title").html('Fill Cutting Details');
+		return false;
 	}
-	jQuery("#fancybox_cutting_id").val(id);
-    jQuery("#cut_icon_"+id).css('display','inline');
+	
 }
 
 function set_cutting_details_box(id){
 	var data_id =jQuery("#fancybox_cutting_id").val();
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_rcorner,c_cornerdie;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
       binding = ""; 
@@ -93,6 +120,8 @@ function set_cutting_details_box(id){
         jQuery("#c_checking_"+data_id).val(checking);
         jQuery("#c_corner_"+data_id).val($("#c_corner").val());
         jQuery("#c_laser_"+data_id).val($("#c_laser").val());
+        jQuery("#c_rcorner_"+data_id).val($("#c_rcorner").val());
+        jQuery("#c_cornerdie_"+data_id).val($("#c_cornerdie").val());
         $.fancybox.close();
 }
 function remove_cutting_details(data_id) {
@@ -206,6 +235,9 @@ function check_visiting_card(sr) {
 		}
 		if($("#category_"+sr).val() == "B/W Xerox") {
 			$("#details_"+sr).val("B/W Xerox");
+		}
+		if($("#category_"+sr).val() == "ROUND CORNER CUTTING") {
+			$("#details_"+sr).val("ROUND CORNER CUTTING");
 		}
 		if($("#category_"+sr).val() == "Laser Cutting") {
 			$("#details_"+sr).val("Laser Cutting");
@@ -350,6 +382,7 @@ $this->load->helper('general'); ?>
                             <option>Binding</option>
                             <option>Lamination</option>
                             <option>Laser Cutting</option>
+                            <option>ROUND CORNER CUTTING</option>
                             <option>Packaging and Forwading</option>
                             <option>Transportation</option>
                             <option>B/W Print</option>
@@ -452,14 +485,14 @@ $this->load->helper('general'); ?>
 					<h1 id="cutting_title">Fill Cutting Details</h1>
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_machine">
                 <td align="right" width="50%">Machine:</td>
                 <td  width="50%">
                     <label><input type="radio" id="machine" name="machine" value="1">1</label>
                     <label><input type="radio" id="machine" name="machine" value="2">2</label>
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_size">
                 <td align="right">Size:</td>
                 <td>
                     <label><input type="radio" name="size" id="size" value="12X18">12X18</label>
@@ -467,7 +500,7 @@ $this->load->helper('general'); ?>
                     <input type="text" name="size_info" id="size_info" value="1/">
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_printing">
                 <td align="right">Printing:</td>
                 <td>
                     <label>
@@ -478,13 +511,25 @@ $this->load->helper('general'); ?>
                     </label>
                 </td>
             </tr>
-            <tr>
+            <tr id="popup_cornercutting">
                 <td align="right">Corner Cutting :</td>
                 <td>
                     <input type="text" name="c_corner" id="c_corner">
                 </td>
             </tr>
             <tr>
+                <td align="right">Corner Cutting Die No. :</td>
+                <td>
+                    <input type="text" name="c_cornerdie" id="c_cornerdie">
+                </td>
+            </tr>
+            <tr>
+                <td align="right">Round Cutting Side:</td>
+                <td>
+                    <input type="text" name="c_rcorner" id="c_rcorner">
+                </td>
+            </tr>
+            <tr id="popup_lasercutting">
                 <td align="right">Laser Cutting :</td>
                 <td>
                     <input type="text" name="c_laser" id="c_laser">
@@ -514,7 +559,7 @@ $this->load->helper('general'); ?>
 					Half Cutting:<input type="text" name="binding_info" id="binding_info">
 				</td>
             </tr>
-            <tr>
+            <tr id="popup_packing">
                 <td align="right">Packing:</td>
                 <td>
                     <label><input type="radio" id="packing" name="packing" value="Paper">Paper</label>
@@ -630,5 +675,7 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_checking_<?php echo $i;?>" id="c_checking_<?php echo $i;?>">
     <input type="text" name="c_corner_<?php echo $i;?>" id="c_corner_<?php echo $i;?>">
     <input type="text" name="c_laser_<?php echo $i;?>" id="c_laser_<?php echo $i;?>">
+    <input type="text" name="c_rcorner_<?php echo $i;?>" id="c_rcorner_<?php echo $i;?>">
+    <input type="text" name="c_cornerdie_<?php echo $i;?>" id="c_cornerdie_<?php echo $i;?>">
 </div>
 <?php } ?>

@@ -202,6 +202,10 @@ function check_visiting_card(sr) {
 			$("#details_"+sr).val("Transportation");
 		}
 		
+		if($("#category_"+sr).val() == "ROUND CORNER CUTTING") {
+			$("#details_"+sr).val("ROUND CORNER CUTTING");
+		}
+		
 		if($("#category_"+sr).val() == "Offset Print") {
 			$("#details_"+sr).val("Offset Print");
 		}
@@ -283,9 +287,12 @@ $modified_by = $this->session->userdata['user_id'];
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Transportation' ) { echo 'selected="selected"';} ?>>Transportation</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Lamination' ) { echo 'selected="selected"';} ?>>Lamination</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Laser Cutting' ) { echo 'selected="selected"';} ?>>Laser Cutting</option>
+				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'ROUND CORNER CUTTING' ) { echo 'selected="selected"';} ?>>ROUND CORNER CUTTING</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'B/W Print' ) { echo 'selected="selected"';} ?>>B/W Print</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'B/W Xerox' ) {echo 'selected="selected"';} ?>>B/W Xerox</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Not Applicable' ) { echo 'selected="selected"';} ?>>Not Applicable</option>
+				
+				
 			</select>
 		</td>
 		<td>
