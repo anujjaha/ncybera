@@ -218,6 +218,9 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Designing") {
 			$("#details_"+sr).val("Designing");
 		}
+		if($("#category_"+sr).val() == "Sticker Sheet") {
+			$("#details_"+sr).val("Sticker Sheet");
+		}
 		if($("#category_"+sr).val() == "Binding") {
 			$("#details_"+sr).val("Binding");
 		}
@@ -380,6 +383,7 @@ $this->load->helper('general'); ?>
                             <option>Cutting</option>
                             <option>Designing</option>
                             <option>Binding</option>
+                            <option>Sticker Sheet</option>
                             <option>Lamination</option>
                             <option>Laser Cutting</option>
                             <option>ROUND CORNER CUTTING</option>
