@@ -33,8 +33,7 @@
 	<tbody>
 		<?php
 		$sr =1;	
-		foreach($jobs as $job) { 
-			?>
+		foreach($jobs as $job) { ?>
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $job['job_id'];?></td>
@@ -57,12 +56,11 @@
 		</td>
 		<td>
 			<?php
-				if(!empty($job['bill_number'])) { 
-					echo "Bill - ".$job['bill_number']."&nbsp;&nbsp;";
-				}
-				if(!empty($job['receipt'])) { 
-					echo "Receipt - ".$job['receipt'];
-				}
+				
+					echo "Bill - ".$job['bill_number'].$job['t_bill_number']."&nbsp;&nbsp;";
+				
+					echo "Receipt - ".$job['receipt'].$job['t_reciept'];
+				
 			?>
 		</td>
 		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
