@@ -180,6 +180,10 @@ function check_visiting_card(sr) {
 			$("#details_"+sr).val("Laser Cutting");
 		}
 		
+		if($("#category_"+sr).val() == "Sticker Sheet") {
+			$("#details_"+sr).val("Sticker Sheet");
+		}
+		
 		if($("#category_"+sr).val() == "Digital Print") {
 			$("#details_"+sr).val("");
 		}
@@ -283,6 +287,7 @@ $modified_by = $this->session->userdata['user_id'];
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Cutting' ) { echo 'selected="selected"';} ?>>Cutting</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Designing' ) { echo 'selected="selected"';} ?>>Designing</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Binding' ) { echo 'selected="selected"';} ?>>Binding</option>
+				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Sticker Sheet' ) { echo 'selected="selected"';} ?>>Sticker Sheet</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Packaging and Forwading' ) { echo 'selected="selected"';} ?>>Packaging and Forwading</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Transportation' ) { echo 'selected="selected"';} ?>>Transportation</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Lamination' ) { echo 'selected="selected"';} ?>>Lamination</option>
