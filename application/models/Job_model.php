@@ -133,6 +133,12 @@ class Job_model extends CI_Model {
 		$sql = "SELECT *,job.id as job_id,job.created as 'created',
 				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
 				as j_view,
+				
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
 				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
 				as jstatus
 				FROM job
