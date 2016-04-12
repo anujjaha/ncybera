@@ -142,12 +142,23 @@ class Jobs extends CI_Controller {
 			$data['job_data']=$job_data;
 			
 			if($this->input->post()) {
+				$customer_id = $this->input->post('customer_id');
+				$original_customer_id = $this->input->post('original_customer_id');
+					
 				if($customer_mobile !=  $this->input->post('user_mobile')) {
 					$customer_data['mobile'] = $this->input->post('user_mobile');
 					$this->load->model('customer_model');
-					$customer_id = $this->input->post('customer_id');
 					$customer_update_status =$this->customer_model->update_customer($customer_id,$customer_data);
 				}
+				
+				$update_advance = true;
+				if($original_customer_id != $customer_id) {
+						$jobdata['customer_id'] = $customer_id;
+						$this->load->model('account_model');
+						$this->account_model->update_job_transactions($job_id,$customer_id);
+						$update_advance = false;
+				}
+				
 				$jobdata['jobname'] = $this->input->post('jobname');
 				$jobdata['subtotal'] = $this->input->post('subtotal');
 				$jobdata['tax'] = $this->input->post('tax');
@@ -160,6 +171,8 @@ class Jobs extends CI_Controller {
 				$jobdata['receipt'] = $this->input->post('receipt');
 				
 				$jobdata['jmonth'] = date('M-Y');
+				
+				//print_r($jobdata);die;
 				//$jobdata['jdate'] = date('Y-m-d');
 				$this->job_model->update_job($job_id,$jobdata);
 				$this->load->model('account_model');
@@ -167,12 +180,15 @@ class Jobs extends CI_Controller {
 				
 				//Update Total - Transaction
 				$tcondition = array('job_id'=>$job_id);
+				$tcondition = array('t_type'=>DEBIT);
 				$this->account_model->update_transaction($tcondition,$transaction_data);
 				
 				//Update Advance - Transaction
-				$advance_transaction_data['amount'] = $jobdata['advance'];
-				$tcondition = array('job_id'=>$job_id,'t_type'=>CREDIT);
-				$this->account_model->update_transaction($tcondition,$advance_transaction_data);
+				if($update_advance) {
+					$advance_transaction_data['amount'] = $jobdata['advance'];
+					$tcondition = array('job_id'=>$job_id,'t_type'=>CREDIT);
+					$this->account_model->update_transaction($tcondition,$advance_transaction_data);
+				}
 				
 				
 				$j_status =$this->add_job_transaction($job_id,JOB_EDIT);
@@ -204,6 +220,7 @@ class Jobs extends CI_Controller {
 			}
 			redirect("jobs/job_print/".$job_id,'refresh');	
 			}
+			$data['all_customers'] = $this->job_model->get_all_customers();
 			$data['paper_gsm']= $this->get_paper_gsm();
 			$data['paper_size']= $this->get_paper_size();
 			$this->template->load('job', 'edit_job', $data);

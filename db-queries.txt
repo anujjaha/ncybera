@@ -3,3 +3,25 @@ ALTER TABLE  `cutting_details` ADD  `c_laminationinfo` VARCHAR( 10 ) NOT NULL AF
 ALTER TABLE  `cutting_details` ADD  `c_binding` VARCHAR( 60 ) NOT NULL AFTER  `c_laminationinfo`	
 ALTER TABLE  `cutting_details` ADD  `c_bindinginfo` VARCHAR( 30 ) NOT NULL AFTER  `c_binding`
 ALTER TABLE  `cutting_details` ADD  `c_checking` VARCHAR( 30 ) NOT NULL AFTER  `c_packing`
+
+--------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `user_transactions_deletion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `amount` varchar(10) NOT NULL,
+  `amountby` varchar(30) NOT NULL,
+  `receipt` varchar(40) NOT NULL,
+  `bill_number` varchar(40) NOT NULL,
+  `notes` text NOT NULL,
+  `t_type` varchar(20) NOT NULL DEFAULT 'debit',
+  `cmonth` varchar(15) NOT NULL,
+  `creditedby` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+ALTER TABLE  `user_transactions_deletion` ADD  `details` TEXT NOT NULL

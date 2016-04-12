@@ -3,6 +3,17 @@
 function show_add_amount() {
 	jQuery("#add_amount").toggle("slide");
 }
+function delete_transaction_entry(id){
+	
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_delete_transaction/"+id, 
+         success: 
+            function(data){
+				location.reload();
+            }
+          });
+}
 function show_job_details(job_id){
     $.ajax({
          type: "POST",
@@ -84,6 +95,7 @@ function fill_account() {
 		<th>Credit Note</th>
 		<th>Received By</th>
 		<th>Details</th>
+		<th>Delete</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -157,6 +169,15 @@ function fill_account() {
 		</td>
 		<td>
 			<?php echo $result['notes'];?>
+		</td>
+		<td>
+			<?php if($result['t_type'] == CREDIT) {
+				?>
+				<a href="javascript:void(0);" onclick="delete_transaction_entry(<?php echo $result['id'];?>);">
+					Delete
+				</a>
+			<?php
+			}?>
 		</td>
 		</tr>
 		<?php $sr++; } ?>
