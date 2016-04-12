@@ -50,4 +50,19 @@ class Account_model extends CI_Model {
 		}
 		return false;
 	}
+	public function update_job_transactions($job_id,$customer_id) {
+		$this->db->where('job_id',$job_id);
+		$this->db->update($this->table,array('customer_id'=>$customer_id));
+		return true;
+	}
+	
+	public function delete_entry($id) {
+		$details = "Transaction Deleted by userid-".$this->session->userdata['user_id']." on ".date('d-m-Y h:i:s');
+		$sql = "insert into user_transactions_deletion SELECT *,'".$details."' as details FROM user_transactions WHERE id =$id ";
+		$query = $this->db->query($sql);
+		
+		$this->db->where('id',$id);
+		$this->db->delete($this->table);
+		
+	}
 }

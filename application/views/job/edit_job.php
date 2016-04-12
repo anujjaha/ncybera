@@ -22,8 +22,20 @@ function customer_selected(type,userid) {
          url: "<?php echo site_url();?>/customer/get_customer_ajax/id/"+userid, 
          success: 
               function(data){
+				 
 				jQuery("#mobile_"+type).val('');
 				jQuery("#mobile_"+type).val(data);
+			 }
+          });
+}
+function customer_selected_set() {
+	var userid = jQuery("#customer_id").val();
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/customer/get_customer_ajax/id/"+userid, 
+         success: 
+              function(data){
+				jQuery("#mobile_customer").val(data);
 			 }
           });
 }
@@ -241,10 +253,28 @@ $modified_by = $this->session->userdata['user_id'];
 				<table width="100%">
 					<tr>
 						<td width="50%">
-							Customer Name : <?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name;?>
+							Customer Name : 
+							<?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name;?>
 						</td>
 						<td width="50%" align="right">
+							<input type="text" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
 							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							Update Customer Name : 
+							<select name="customer_id" id="customer_id" onchange="customer_selected_set();">
+								<?php
+									foreach($all_customers as $jcustomer) {
+								?>
+									<option
+										<?php if($jcustomer['id'] ==  $job_data->customer_id) { echo 'selected="selected"';}?>
+									 value="<?php echo $jcustomer['id'];?>">
+										<?php echo $jcustomer['companyname'] ? $jcustomer['companyname'] : $jcustomer['name'];?>
+									</option>
+								<?php } ?>
+							</select>
 						</td>
 					</tr>
 				</table>
@@ -378,7 +408,7 @@ $modified_by = $this->session->userdata['user_id'];
 <div class="form-group">
 		<input type="hidden" name="job_id" value="<?php echo $job_data->id;?>">
 		<input type="hidden" name="modified" value="<?php echo $modified_by;?>">
-		<input type="hidden" name="customer_id" value="<?php echo $customer_details->id;?>">
+		
 		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
 		<input type="submit" name="save" value="Save" class="btn btn-success btn-lg">
 	</div>

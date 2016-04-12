@@ -362,5 +362,12 @@ class Ajax extends CI_Controller {
 			return true;
 		}
 	}
+	
+	public function ajax_delete_transaction($id) {
+		$this->load->model('account_model');
+		$this->account_model->delete_entry($id);
+		die('done');
+		return true;
+	}
 }
 
