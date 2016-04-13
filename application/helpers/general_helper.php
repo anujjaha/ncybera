@@ -166,7 +166,7 @@ function job_complete_sms($job_id=null) {
 	if($job_id) {
 		$ci = & get_instance();
 		$sql = "SELECT if(CHAR_LENGTH(c.companyname) > 0,c.companyname,c.name) as customer_name,
-				job.smscount,job.customer_id,c.mobile,
+				job.smscount,job.customer_id,c.mobile,job.smscount,
 				job.total,job.due,
 				(SELECT SUM(total) from job WHERE job.customer_id = c.id)  as 'total_amount' ,
 				(SELECT SUM(due) from job WHERE job.customer_id = c.id)  as 'total_due' ,
@@ -179,6 +179,11 @@ function job_complete_sms($job_id=null) {
 		$query = $ci->db->query($sql);
 		$result = $query->row();
 		$balance = $result->total_credit - $result->due;
+		
+		if($result->smscount != 0 ) {
+				return true;
+		}
+		
 		if( $balance < 0 ) {
 			$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Total due Rs. $balance Thank You.";
 		} else {
