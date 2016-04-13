@@ -37,7 +37,7 @@ class Master_model extends CI_Model {
 	}
 	
 	public function get_all_unverify_jobs() {
-		$this->db->select("*,job.id as job_id")
+		$this->db->select("*,job.id as job_id, job.created as created")
 				->from($this->job_table)
 				->join($this->customer_table,"customer.id = job.customer_id", 'left' )
 				->where('verify_id',0)
