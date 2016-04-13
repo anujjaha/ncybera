@@ -22,7 +22,8 @@
 		<th>Advance</th>
 		<th>Due</th>
 		<th>Date / Time</th>
-		<th>Reference</th>
+		<th>Bill</th>
+		<th>Receipt</th>
 		<th>Status</th>
 		<th>SMS</th>
 		<th>View</th>
@@ -50,18 +51,18 @@
 				echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";	
 			} ?>
 		 </td>
-		<td><?php echo date('d-m-Y',strtotime($job['created']))
+		<td>
+			<span style="font-size:11px;">
+		<?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>
+			</span>
 		</td>
 		<td>
-			<?php
-				
-					echo "Bill - ".$job['bill_number'].$job['t_bill_number']."&nbsp;&nbsp;";
-				
-					echo "Receipt - ".$job['receipt'].$job['t_reciept'];
-				
-			?>
+			<?php echo str_replace(","," ",$job['bill_number'].$job['t_bill_number']);?>
+		</td>
+		<td>
+			<?php echo  str_replace(","," ",$job['receipt'].$job['t_reciept']);?>
 		</td>
 		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
 			<?php
