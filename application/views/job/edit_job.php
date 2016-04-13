@@ -257,7 +257,7 @@ $modified_by = $this->session->userdata['user_id'];
 							<?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name;?>
 						</td>
 						<td width="50%" align="right">
-							<input type="text" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
+							<input type="hidden" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
 							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">
 						</td>
 					</tr>

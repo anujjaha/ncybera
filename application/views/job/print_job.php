@@ -372,12 +372,15 @@ echo $pcontent;
 				<td width="20%">&nbsp;</td>
 				<td>
 					<table width='100%' align='right' border='0' class="small-own-address">
-					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td style="font-size:8px;"><strong>From</strong> </td></tr>
-					<tr><td>&nbsp;</td><td style="font-size:8px;"><strong>CYBERA PRINT ART</strong></td></tr>
-					<tr><td>&nbsp;</td><td style="font-size:8px;">G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
-					<tr><td>&nbsp;</td><td style="font-size:8px;">Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
-					<tr><td>&nbsp;</td><td style="font-size:8px;">Call : 079-26565720 / 26465720 | 9898309897</td></tr>
+					<tr style="height:5px;"><td>&nbsp;</td><td>&nbsp;</td></tr>
+					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;"><strong>From</strong> </td></tr>
+					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;"><strong>CYBERA PRINT ART</strong></td></tr>
+					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;">
+					G/3, Samudra Annexe,Nr. Klassic Gold Hotel,
+					<br>
+					Off C.G. Road, Navrangpura Ahmedabad - 009
+					<br>
+					Call : 079-26565720 / 26465720 | 9898309897</td></tr>
 				</table>
 				</td>
 			</tr>
