@@ -33,7 +33,8 @@ $('#example1').dataTable( {
 		<th>Email Id</th>
 		<th>City</th>
 		<th>Status</th>
-		<th>Switch</th>
+		<th>Switch To Dealer</th>
+		<th>Switch To Voucher</th>
 		<th>Created</th>
 		<th>Edit</th>
 		<th>Delete</th>
@@ -59,7 +60,10 @@ $('#example1').dataTable( {
 				echo $status;
 		?></td>
 		<td>
-			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>);">Switch</a>
+			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,1);">Set Dealer</a>
+		</td>
+		<td>
+			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,2);">Set Voucher</a>
 		</td>
 		<td><?php echo date('h:i A', strtotime($customer->created));?></td>
 		<td><a href="<?php echo site_url();?>/customer/edit/<?php echo $customer->id;?>">Edit</a></td>
@@ -89,10 +93,10 @@ $('#example1').dataTable( {
                 });
             });
             
-function switch_customer(id){
+function switch_customer(id,type){
     $.ajax({
          type: "POST",
-         url: "<?php echo site_url();?>/ajax/ajax_switch_customer/"+id+"/1", 
+         url: "<?php echo site_url();?>/ajax/ajax_switch_customer/"+id+"/"+type, 
          success: 
             function(data){
 				location.reload();

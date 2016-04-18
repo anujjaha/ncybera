@@ -44,7 +44,7 @@ class Jobs extends CI_Controller {
         $data['title']="Job - Cybera Print Art";
         $data['heading']="Jobs";
         if($this->input->post()) {
-                $this->load->model('customer_model');
+			    $this->load->model('customer_model');
                 if($this->input->post('customer_type') == 'new') {
                         $data=array();
 

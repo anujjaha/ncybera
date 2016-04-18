@@ -76,6 +76,26 @@ if ( ! function_exists('test_method'))
 		$dropdown .= '</select>';
 		return $dropdown;
 		}
+		if($type == "voucher") {
+			$sql = "SELECT id,name,companyname FROM customer WHERE ctype=2 order by companyname";
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		$extra ="";
+		if($flag) {
+			$extra = 'onchange="customer_selected('."'voucher'".',this.value)"';
+		}
+		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Voucher Customer</option>";
+		foreach($query->result() as $customer) {
+				$c_name = $customer->companyname ? $customer->companyname : $customer->name;
+			
+				$dropdown .= "<option value='".$customer->id."'>".
+				$c_name
+				."</option>";
+		}
+		$dropdown .= '</select>';
+		return $dropdown;
+		}
 	}
 	
 	

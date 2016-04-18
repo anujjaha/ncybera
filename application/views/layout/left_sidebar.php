@@ -85,6 +85,14 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>dealer/vcustomers">
+                                <i class="fa fa-calendar"></i> <span>Voucher Customers</span>
+                                <small class="badge pull-right bg-red">
+                                <span id="show_vouchers"></span>
+                                </small>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>customer/prospects">
                                 <i class="fa fa-calendar"></i> <span>Business Prospects</span>
                                 <small class="badge pull-right bg-red">
@@ -130,6 +138,7 @@ jQuery("document").ready(function(){
 				jQuery("#show_dealers").html(data.dealers);
 				jQuery("#show_customers").html(data.customers);
 				jQuery("#show_prospects").html(data.prospects);
+				jQuery("#show_vouchers").html(data.vouchers);
 				
 			}
           });
