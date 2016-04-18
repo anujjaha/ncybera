@@ -2,11 +2,8 @@
 
 <div class="box">
 	<div class="box-header">
-		<h3 class="box-title">Dealer Management</h3>
+		<h3 class="box-title">Voucher Customer Management</h3>
 	</div><!-- /.box-header -->
-	<div class="box-header">
-		<span><a href="<?php echo site_url();?>/dealer/edit/">Add Dealer</a></span>
-	</div>
 	<div class="box-body table-responsive">
 		<table id="example1" class="example1 table table-bordered table-striped">
 		<thead>
@@ -23,7 +20,7 @@
 		<th>City</th>
 		<th>Status</th>
 		<th>Switch To Customer</th>
-		<th>Switch To Voucher</th>
+		<th>Switch To Dealer</th>
 		<th>View</th>
 		<th>Edit</th>
 		<th>Delete</th>
@@ -58,7 +55,7 @@
 			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,0);">Set Customer</a>
 		</td>
 		<td>
-			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,2);">Set Voucher</a>
+			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,1);">Set Dealer</a>
 		</td>
 		<td>View</td>
 		<td><a href="<?php echo site_url();?>/dealer/edit/<?php echo $customer->id;?>">Edit</a></td>

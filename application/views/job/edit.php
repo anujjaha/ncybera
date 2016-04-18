@@ -282,17 +282,22 @@ $this->load->helper('general'); ?>
         <h3>Customer Type</h3>
         <p id="balance"  align="right"><h2 class="red" id="show_balance" ></h2></p>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span onClick="set_customer('new_customer');">
                     New Customer
                 </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span onClick="set_customer('regular_customer');">
                     Regular Customer
                 </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <span onClick="set_customer('voucher_customer');">
+                    Vocuher Customer
+                </span>
+            </div>
+            <div class="col-md-3">
                 <span onClick="set_customer('cybera_dealer');" >
                     Cybera Dealer
                 </span>
@@ -337,6 +342,18 @@ $this->load->helper('general'); ?>
                                                 Contact Number : <input type="text" name="mobile" id="mobile_customer">
                                         </td>
                                 </tr>
+                        </table>
+                </div>
+                <div id="cybera_voucher" style="display:none;">
+                        <table width="100%">
+                        <tr>
+                                <td width="50%">
+                                        Customer Name : <?php echo create_customer_dropdown('voucher',true); ?>
+                                </td>
+                                <td width="50%" align="right">
+                                        Contact Number : <input type="text" name="mobile" id="mobile_voucher">
+                                </td>
+                        </tr>
                         </table>
                 </div>
                 <div id="cybera_dealer" style="display:none;">

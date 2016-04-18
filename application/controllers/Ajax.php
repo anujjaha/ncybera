@@ -309,6 +309,12 @@ class Ajax extends CI_Controller {
 				$update_customer['ctype'] = 1;
 				$update_customer['dealercode'] = "D-".$customer_info->id;
 			}
+			//Convert to Voucher
+			if($roll == 2 ) {
+				$update_customer['username'] = $update_customer['password'] = 	"customer".$customer_info->id;
+				$update_customer['ctype'] = 2;
+				$update_customer['dealercode'] = "";
+			}
 			$this->customer_model->update_customer($id,$update_customer);
 				return true;
 		}

@@ -34,6 +34,16 @@ class Dealer extends CI_Controller {
 		$this->template->load('dealer', 'index', $data);
 	}
 	
+	public function vcustomers()
+	{
+		$today = date("Y-m-d");
+		$condition = array('condition'=>array('jdate'=>$today))	;
+		$result = $this->dealer_model->get_voucher_customer_details();
+		$data['heading'] = $data['title']="Voucher Customer Management";
+		$data['customers']= $result;
+		$this->template->load('voucher', 'index', $data);
+	}
+	
 	public function edit($dealer_id=null) {
 		$this->load->model('dealer_model');
 		$data['title']="Add Dealer";
