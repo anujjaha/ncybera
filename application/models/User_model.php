@@ -232,4 +232,26 @@ class User_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	public function mydb() {
+		$sql = "select id,customer_id,total from job order by id";
+		$query = $this->db->query($sql);
+		$i = 0;
+		foreach($query->result_array() as $jdata ) {
+				//print_r($jdata);die;
+			$up_query = "Update user_transactions ut 
+							SET ut.amount = ".$jdata['total']."
+							WHERE
+							ut.customer_id = ".$jdata['customer_id']."
+							AND
+							ut.job_id = ".$jdata['id']."
+							AND
+							ut.t_type = 'debit'
+						";
+			//echo $up_query;die;
+			$this->db->query($up_query);
+			$i++;
+		}
+		return $i;
+	}
 }

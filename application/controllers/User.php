@@ -117,6 +117,13 @@ class User extends CI_Controller {
             $data['title'] = $data['heading']="Login";
             $this->load->view('login_view',$data);
 	 }
-         
+	
+	
+	public function mydb() {
+			
+		$this->load->model('user_model');
+		echo "Records Updated :".$this->user_model->mydb();
+		die("I DONE");
+	}
          
 }

@@ -179,8 +179,7 @@ class Jobs extends CI_Controller {
 				$transaction_data['amount'] = $jobdata['total'];
 				
 				//Update Total - Transaction
-				$tcondition = array('job_id'=>$job_id);
-				$tcondition = array('t_type'=>DEBIT);
+				$tcondition = array('job_id'=>$job_id,'t_type'=>DEBIT);
 				$this->account_model->update_transaction($tcondition,$transaction_data);
 				
 				//Update Advance - Transaction
