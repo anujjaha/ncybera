@@ -35,9 +35,9 @@
 		<td><?php echo $sr;?></td>
 		<td><?php echo $customer->companyname;?></td>
 		<td><?php echo $customer->name;?></td>
-		<td><?php echo $customer->total_debit;?></td>
+		<td><?php echo round($customer->total_debit,2);?></td>
 		<td><?php echo $customer->total_credit;?></td>
-		<td><?php $balance= $customer->total_credit - $customer->total_debit;
+		<td><?php $balance = round($customer->total_credit - $customer->total_debit,2);
 		$show = '<span class="green">'.$balance.'</span>';
 			if($balance < 0 ) {
 				$show = '<span class="red">'.$balance.'</span>';

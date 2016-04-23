@@ -151,7 +151,7 @@ class Jobs extends CI_Controller {
 					$customer_update_status =$this->customer_model->update_customer($customer_id,$customer_data);
 				}
 				
-				$update_advance = true;
+				$update_advance = false;
 				if($original_customer_id != $customer_id) {
 						$jobdata['customer_id'] = $customer_id;
 						$this->load->model('account_model');
