@@ -11,6 +11,7 @@ class Job_model extends CI_Model {
     public $table_cutting_details = "cutting_details";
     public $table_job_transaction = "job_transaction";
     public $table_job_verify = "job_verify";
+    public $table_discount = "job_discount";
 	
 	public function insert_job($data) {
 		$data['created'] = date('Y-m-d H:i:s');
@@ -30,10 +31,35 @@ class Job_model extends CI_Model {
 			$transaction_data['t_type']=CREDIT;
 			$transaction_data['notes']= 'Pay as Advance Amount';
 			$transaction_id = $this->insert_transaction($transaction_data);
+			
+			
+			
+			
+			
 		}
+		
+			$dis_transaction_data['job_id'] =  $job_id;
+			$dis_transaction_data['customer_id'] =  $data['customer_id'];
+			$dis_transaction_data['amount'] =  0;
+			$dis_transaction_data['notes'] =  "Apply Discount";
+			$dis_transaction_data['creditedby'] =  $this->session->userdata['user_id'];
+			$dis_transaction_data['t_type'] =  CREDIT;
+			$dis_transaction_data['cmonth']=$data['jmonth'];
+			$discount_transaction_id = $this->insert_transaction($dis_transaction_data);
+			
+			$discount_data['job_id'] = $job_id;
+			$discount_data['user_transaction_id'] = $discount_transaction_id;
+			$discount_data['amount'] = 0;
+			$discount_data['createdby'] = $this->session->userdata['user_id'];
+			$discount_id = $this->insert_discount($discount_data);
 		return $job_id;
 	}
 	
+	public function insert_discount($data=array()) {
+		$data['created'] = date('Y-m-d H:i:s');
+		$this->db->insert($this->table_discount,$data);
+		return $this->db->insert_id();
+	}
 	public function insert_transaction($data=array()) {
 		$data['created'] = date('Y-m-d H:i:s');
 		$this->db->insert($this->table_transaction,$data);

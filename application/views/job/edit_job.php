@@ -357,7 +357,7 @@ $modified_by = $this->session->userdata['user_id'];
 		<td align="right">
 			Sub Total :
 		</td>
-		<td><input type="text" id="subtotal" name="subtotal"  onblur="calc_subtotal()"></td>
+		<td><input type="text" id="subtotal" name="subtotal"  onblur="calc_subtotal()" value="<?php if(!empty($job_data->subtotal)) { echo $job_data->subtotal; }?>"></td>
 	</tr>
 	<tr>
 		<td align="right">
@@ -387,6 +387,13 @@ $modified_by = $this->session->userdata['user_id'];
 			Due :
 		</td>
 		<td><input type="text" id="due" value="<?php if(!empty($job_data->due)) { echo $job_data->due; }?>" name="due" onfocus="calc_due()"></td>
+	</tr>
+	<tr>
+		<td colspan="6" align="right">
+			Discount :
+		</td>
+		<td>
+		<input type="text" id="discount" value="<?php echo $job_data->discount; ?>" name="discount"></td>
 	</tr>
 </table>
     

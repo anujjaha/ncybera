@@ -48,7 +48,8 @@
 			if($user_bal < 0 ) { 
 				echo "-";
 			} else {
-				echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+				$due_amt = $job['due'] - $job['discount'];
+				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>Paid</span>";	
 			} ?>
 		 </td>
 		<td>

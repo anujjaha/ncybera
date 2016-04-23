@@ -151,7 +151,7 @@ class Jobs extends CI_Controller {
 					$customer_update_status =$this->customer_model->update_customer($customer_id,$customer_data);
 				}
 				
-				$update_advance = true;
+				$update_advance = false;
 				if($original_customer_id != $customer_id) {
 						$jobdata['customer_id'] = $customer_id;
 						$this->load->model('account_model');
@@ -169,8 +169,10 @@ class Jobs extends CI_Controller {
 				$jobdata['bill_number'] = $this->input->post('bill_number');
 				$jobdata['voucher_number'] = $this->input->post('voucher_number');
 				$jobdata['receipt'] = $this->input->post('receipt');
-				
+				$jobdata['discount'] = $this->input->post('discount');
 				$jobdata['jmonth'] = date('M-Y');
+				
+				
 				
 				//print_r($jobdata);die;
 				//$jobdata['jdate'] = date('Y-m-d');
@@ -189,7 +191,7 @@ class Jobs extends CI_Controller {
 					$this->account_model->update_transaction($tcondition,$advance_transaction_data);
 				}
 				
-				
+				update_user_discount($job_id,$jobdata['discount']);
 				$j_status =$this->add_job_transaction($job_id,JOB_EDIT);
 				for($i=1;$i<6;$i++) {
 				$job_details=array();
