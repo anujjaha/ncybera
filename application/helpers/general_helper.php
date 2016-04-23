@@ -300,3 +300,23 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 		$balance = $result->total_debit - $result->total_credit;
 		return $balance;
 	}
+	
+function update_user_discount($job_id,$amount) {
+	$ci = & get_instance();
+	$ci->db->select('user_transaction_id')
+			->from('job_discount')
+			->where('job_id',$job_id);
+	$query = $ci->db->get();
+	$user_transaction_id = $query->row()->user_transaction_id;
+	
+	$update_discount_data = array('amount'=>$amount); 
+	$ci->db->where('id',$user_transaction_id);
+	$ci->db->update('user_transactions',$update_discount_data);
+	//echo $ci->db->last_query();
+	
+	$ci->db->where('job_id',$job_id);
+	$ci->db->update('job_discount',$update_discount_data);
+	//echo $ci->db->last_query();
+	
+	//die("F");
+}
