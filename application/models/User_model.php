@@ -233,7 +233,7 @@ class User_model extends CI_Model {
 		return false;
 	}
 	
-	public function mydb() {
+	public function mydb_done() {
 		$sql = "select id,customer_id,total from job order by id";
 		$query = $this->db->query($sql);
 		$i = 0;
@@ -250,6 +250,61 @@ class User_model extends CI_Model {
 						";
 			//echo $up_query;die;
 			$this->db->query($up_query);
+			$i++;
+		}
+		return $i;
+	}
+	
+	public function mydb() {
+		$sql = "select * from user_transactions_deletion order by id";
+		$query = $this->db->query($sql);
+		$i = 0;
+		foreach($query->result_array() as $jdata ) {
+				//print_r($jdata);die;
+			/*$up_query = "Update user_transactions ut 
+							SET ut.amount = ".$jdata['total']."
+							WHERE
+							ut.customer_id = ".$jdata['customer_id']."
+							AND
+							ut.job_id = ".$jdata['id']."
+							AND
+							ut.t_type = 'debit'
+						";*/
+			$j_id = $jdata['id'];
+			$j_cid = $jdata['customer_id'];
+			$j_jid = $jdata['job_id'];
+			$j_amount = $jdata['amount'];
+			$j_amountby = $jdata['amountby'];
+			$j_receipt = $jdata['receipt'];
+			$j_bill_number = $jdata['bill_number'];
+			$j_notes = $jdata['notes'];
+			$j_ttype = $jdata['t_type'];
+			$j_cmonth = $jdata['cmonth'];
+			$j_creditedby = $jdata['creditedby'];
+			$j_date = $jdata['date'];
+			$j_created = $jdata['created'];
+			
+			
+			
+			$my_query = 'INSERT INTO user_transactions (id,customer_id,job_id,amount,amountby,receipt,bill_number,
+						notes,t_type,cmonth,creditedby,date,created
+						) values (
+							"'.$j_id.'",
+							"'.$j_cid.'",
+							"'.$j_jid.'",
+							"'.$j_amount.'",
+							"'.$j_amountby.'",
+							"'.$j_receipt.'",
+							"'.$j_bill_number.'",
+							"'.$j_notes.'",
+							"'.$j_ttype.'",
+							"'.$j_cmonth.'",
+							"'.$j_creditedby.'",
+							"'.$j_date.'",
+							"'.$j_created.'"
+						)';
+			//echo $my_query;die;
+			$this->db->query($my_query);
 			$i++;
 		}
 		return $i;

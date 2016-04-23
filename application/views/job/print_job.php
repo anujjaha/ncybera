@@ -57,12 +57,12 @@ $content ='';
 						<tr>
 							<td style="font-size:9px;">Name : '.$show_name.'
 							</td>
-							<td  style="font-size:9px;" align="right">Job Id : '.$job_data->id.' </td>
+							<td align="right" style="font-size:9px;">Mobile : '.$customer_details->mobile.' </td>
 						</tr>
 						<tr>
-							<td style="font-size:9px;">Mobile : '.$customer_details->mobile.' 
-							</td>
-							<td style="font-size:9px;"  align="right">Job date : '.$job_data->jdate.' </td>
+						<td  style="font-size:12px;" >Job Id : <strong>'.$job_data->id.'</strong> </td>
+							
+							<td style="font-size:12px;"  align="right">Job date : <strong>'.$job_data->jdate.' </strong></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center" style="font-size:9px;">

@@ -15,6 +15,8 @@ class Account_model extends CI_Model {
 				(select nickname from user_meta um where um.user_id=ut.creditedby) as 'receivedby'
 				FROM user_transactions ut where ut.customer_id = $user_id
 				ORDER by ut.id ";
+				
+		//echo $sql;die;
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}

@@ -104,6 +104,10 @@ function fill_account() {
 		$due=0;
 		$credited=0;
 		$balance=0;
+		
+		/*echo "<pre>";
+		print_r($results);
+		die;*/
 		foreach($results as $result) { 
 			if($result['t_type'] == DEBIT ) {
 				$balance = $balance - $result['amount'];
@@ -171,7 +175,8 @@ function fill_account() {
 			<?php echo $result['notes'];?>
 		</td>
 		<td>
-			<?php if($result['t_type'] == CREDIT) {
+			<?php 
+			if($result['t_type'] == CREDIT && $result['id'] != 0 ) {
 				?>
 				<a href="javascript:void(0);" onclick="delete_transaction_entry(<?php echo $result['id'];?>);">
 					Delete
