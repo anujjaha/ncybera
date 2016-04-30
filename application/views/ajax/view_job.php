@@ -118,21 +118,33 @@ function pay_job(id) {
 		</td>
 		<td align="right"><?php if(!empty($job_data->advance)) { echo $job_data->advance; }?></td>
 	</tr>
-	<?php if($job_data->jpaid == 0 ){?>
+	<?php 
+	$show_due = $job_data->due - $job_data->discount;
+	
+	if($job_data->jpaid == 0 && $show_due > 0 ){?>
 	<tr>
 		<td colspan="5" align="right">
 			Due :
 		</td>
-		<td align="right"> <?php if(!empty($job_data->due)) { echo $job_data->due; }?></td>
+		<td align="right"> <?php 
+		
+		 echo $show_due; ?></td>
 	</tr> <?php } else { ?>
 	<tr>
 		<td colspan="5" align="right">
 			Settlement Amount ( <span class="paid">Paid</span> ) : 
 		</td>
 		<td align="right"> <?php echo $job_data->settlement_amount; ?></td>
-	</tr> <?php } ?>
+	</tr>
+	<tr>
+		<td colspan="5" align="right">
+			Discount : 
+		</td>
+		<td align="right"> <?php echo $job_data->discount; ?></td>
+	</tr>
+	 <?php } ?>
 </table>
-<?php if($job_data->jpaid == 0 && $restricted && $job_data->due > 0){ ?>
+<?php if($job_data->jpaid == 0 && $restricted && $show_due > 0){ ?>
 <table width="100%" border="2">
 	<tr>
 		<td>

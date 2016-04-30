@@ -191,6 +191,13 @@ function calculate_paper_cost(){
 }
 function check_form() {
 	if(jQuery("#confirmation").val().length > 0 ) {
+		
+		var status = confirm("Do You want to Create Bill ?");
+		if(status) {
+			jQuery("#subtotal").focus();
+			return false;
+		}
+		
 		return true;
 	}
 	if(jQuery("#subtotal").val().length < 1 ) {

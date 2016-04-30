@@ -55,14 +55,14 @@ $content ='';
 				<td width="100%" align="left">
 					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
-							<td style="font-size:9px;">Name : '.$show_name.'
+							<td style="font-size:12px;">Name : '.$show_name.'
 							</td>
 							<td align="right" style="font-size:9px;">Mobile : '.$customer_details->mobile.' </td>
 						</tr>
 						<tr>
 						<td  style="font-size:12px;" >Job Id : <strong>'.$job_data->id.'</strong> </td>
 							
-							<td style="font-size:12px;"  align="right">Job date : <strong>'.$job_data->jdate.' </strong></td>
+							<td style="font-size:12px;"  align="right">Job date : <strong>'.date('d-m-Y',strtotime($job_data->jdate)).' </strong></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center" style="font-size:9px;">
@@ -119,6 +119,13 @@ $content ='';
 										<td style="font-size:9px;" align="right">'.$job_data->due.'</td>
 									</tr>
 								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="font-size:9px;">
+								<strong>Note :</strong>'.$job_data->notes.'
+								</span>
 							</td>
 						</tr>
 						<tr>

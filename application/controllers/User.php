@@ -82,6 +82,17 @@ class User extends CI_Controller {
 		}
 		$this->template->load('user', 'search', $data);
 	}
+	public function search_job() {
+		$data=array();
+		$data['heading'] = $data['title']="Search Result";
+		$data['search']="";
+		if($this->input->post('job_number')) {
+			$search = $this->input->post('job_number');
+			$data['job_data'] = $this->user_model->search_job_num($search);
+			$data['search']=$search;
+		}
+		$this->template->load('user', 'search_job', $data);
+	}
 	public function old_search() {
 		$data=array();
 		$data['heading'] = $data['title']="Old Data - Search Result";
@@ -122,7 +133,8 @@ class User extends CI_Controller {
 	public function mydb() {
 			
 		$this->load->model('user_model');
-		echo "Records Updated :".$this->user_model->mydb();
+		echo "Records Updated : ".$this->user_model->mydb_done();
+		//echo "Records Updated :".$this->user_model->migrate_user_transactions();
 		die("I DONE");
 	}
          

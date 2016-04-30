@@ -3,6 +3,9 @@
 function show_add_amount() {
 	jQuery("#add_amount").toggle("slide");
 }
+function show_discount_amount() {
+	jQuery("#add_discount").toggle("slide");
+}
 function delete_transaction_entry(id){
 	
     $.ajax({
@@ -40,6 +43,29 @@ function fill_account() {
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
 			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt},
+			success: 
+				function(data){
+					location.reload();
+			 }
+          });
+    }
+}
+
+
+function fill_discount_account() {
+	var settlement_amount = $("#discount_amount").val();
+	var customer_id = $("#customer_id").val();
+	var notes = $("#notes").val();
+	
+	
+	if($("#discount_amount").val().length < 1 ||  $("#discount_amount").val() < 1 ) {
+		alert("Please Enter Valid Amount");
+		return false;
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"send_sms":'0',"notes":notes},
 			success: 
 				function(data){
 					location.reload();
@@ -108,7 +134,14 @@ function fill_account() {
 		/*echo "<pre>";
 		print_r($results);
 		die;*/
-		foreach($results as $result) { 
+		foreach($results as $result) {
+			
+			
+			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
+				continue;
+			}
+			
+			
 			if($result['t_type'] == DEBIT ) {
 				$balance = $balance - $result['amount'];
 			} else {
@@ -157,6 +190,9 @@ function fill_account() {
 			}
 			if(!empty($result['j_bill_number'])) {
 				echo  "Bill  : ".$result['j_bill_number'];
+			} 	
+			if(!empty($result['cheque_number'])) {
+				echo  "Cheque Number  : ".$result['cheque_number'];
 			} ?>	
 		</td>
 		<td>
@@ -190,6 +226,31 @@ function fill_account() {
 	</tfoot>
 	</table>
 <hr>
+
+<div class="box-header">
+		<span>
+		<button class="btn btn-success btn-sm text-center" onclick="show_discount_amount()">Add Discount</button>
+		</span>
+	</div>
+	<div class="box-body table-responsive" id="add_discount" style="display:none;">
+		<table border="1" width="100%">
+			<tr>
+				<td>
+					Amount : <input type="text"  name="amount" id="discount_amount" required="required" value="0">
+				</td>
+				<td>
+					Notes : <textarea name="notes" id="notes" cols="40" rows="6">Discoun Applied to settle account</textarea>
+				</td>
+				<td>
+				<input type="hidden" name="customer_id" id="customer_id" value="<?php echo $customer->id;?>">
+					<button class="btn btn-success btn-sm text-center" onclick="fill_discount_account()">Add Discount</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<hr>
+
 <table align="center" class="table table-bordered table-striped">
 	<tr>
 		<td rowspan="4">
@@ -237,3 +298,5 @@ function fill_account() {
     <div id="job_view"></div>
 </div>
 </div>
+
+	

@@ -100,6 +100,14 @@ class User_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	public function search_job_num($job_id) {
+		$this->db->select('*,job.id as job_id')
+				->from('job')
+				->join('customer','customer.id=job.customer_id','left')
+				->where('job.id',$job_id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 	public function old_search_jobdetails($param=null,$flag=null) {
 		$sql = "SELECT * from old_job_details 
@@ -305,6 +313,52 @@ class User_model extends CI_Model {
 						)';
 			//echo $my_query;die;
 			$this->db->query($my_query);
+			$i++;
+		}
+		return $i;
+	}
+	
+	public function migrate_user_transactions() {
+		$this->db->select('*')
+				->from('user_transactions')
+				->order_by('created');
+		$query = $this->db->get();
+		$i=0;
+		foreach( $query->result_array() as $jdata ) {
+			
+			$j_cid = $jdata['customer_id'];
+			$j_jid = $jdata['job_id'];
+			$j_amount = $jdata['amount'];
+			$j_amountby = $jdata['amountby'];
+			$j_receipt = $jdata['receipt'];
+			$j_bill_number = $jdata['bill_number'];
+			$j_notes = $jdata['notes'];
+			$j_ttype = $jdata['t_type'];
+			$j_cmonth = $jdata['cmonth'];
+			$j_creditedby = $jdata['creditedby'];
+			$j_date = $jdata['date'];
+			$j_created = $jdata['created'];
+			
+			
+			
+			$m_query = 'INSERT INTO f_user_transactions  (customer_id,job_id,amount,amountby,receipt,bill_number,
+						notes,t_type,cmonth,creditedby,date,created
+						) values (
+							"'.$j_cid.'",
+							"'.$j_jid.'",
+							"'.$j_amount.'",
+							"'.$j_amountby.'",
+							"'.$j_receipt.'",
+							"'.$j_bill_number.'",
+							"'.$j_notes.'",
+							"'.$j_ttype.'",
+							"'.$j_cmonth.'",
+							"'.$j_creditedby.'",
+							"'.$j_date.'",
+							"'.$j_created.'"
+						)';
+			
+			$this->db->query($m_query);
 			$i++;
 		}
 		return $i;

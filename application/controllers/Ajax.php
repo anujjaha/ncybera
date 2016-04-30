@@ -345,26 +345,34 @@ class Ajax extends CI_Controller {
 	
 	public function ajax_credit_amount() {
 		if($this->input->post()) {
+			
 			$this->load->model('account_model');
 			$this->load->model('job_model');
 			$customer_id = $this->input->post('customer_id');
 			$pay_data['amount'] = $this->input->post('settlement_amount');
 			$pay_data['customer_id'] = $this->input->post('customer_id');
 			$pay_data['amountby'] = 'Cash';
-			$pay_data['bill_number'] = $this->input->post('bill_number');
-			$pay_data['receipt'] = $this->input->post('receipt');
-			$pay_data['notes'] = 'Cash Added';
+			$pay_data['cheque_number'] = $this->input->post('bill_number') ? $this->input->post('bill_number') : 0;
+			$pay_data['receipt'] = $this->input->post('receipt') ? $this->input->post('receipt') : 0;
+			$pay_data['notes'] = $this->input->post('notes') ? $this->input->post('notes') : 'Cash Added';
 			$pay_data['creditedby'] =$this->session->userdata['user_id'];
 			$this->account_model->credit_amount($customer_id,$pay_data,CREDIT);
-			$today = date('d-m-Y');
-			$customer_details = $this->job_model->get_customer_details($customer_id);
-			$mobile = $customer_details->mobile;
-			//$mobile = "9898618697";
-			$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
-			//$sms_text = "Dear \$customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
-			$user_balance  = get_balance($customer_id);
-			$sms_text = "Dear $customer_name, received Rs. ".$pay_data['amount']." on ".$today." total due Rs. ".$user_balance." Thank You.";
-			send_sms($this->session->userdata['user_id'],$customer_id,$mobile,$sms_text) ;
+			
+			if($this->input->post('send_sms') == "0") {
+				$send_sms = false;
+				return true;
+			}
+			
+				$today = date('d-m-Y');
+				$customer_details = $this->job_model->get_customer_details($customer_id);
+				$mobile = $customer_details->mobile;
+				//$mobile = "9898618697";
+				$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
+				//$sms_text = "Dear \$customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
+				$user_balance  = get_balance($customer_id);
+				$sms_text = "Dear $customer_name, received Rs. ".$pay_data['amount']." on ".$today." total due Rs. ".$user_balance." Thank You.";
+				send_sms($this->session->userdata['user_id'],$customer_id,$mobile,$sms_text) ;
+			
 			return true;
 		}
 	}
