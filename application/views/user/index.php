@@ -45,11 +45,12 @@
 		<td><?php echo $job['advance'];?></td>
 		<td><?php
 			$user_bal = get_balance($job['customer_id']) ;
-			if($user_bal < 0 ) { 
-				echo "-";
-			} else {
+			if($user_bal > 0 ) { 
 				$due_amt = $job['due'] - $job['discount'];
 				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+				
+			} else {
+				echo "-";
 			} ?>
 		 </td>
 		<td>

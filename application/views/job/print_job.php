@@ -55,9 +55,9 @@ $content ='';
 				<td width="100%" align="left">
 					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
-							<td style="font-size:12px;">Name : '.$show_name.'
+							<td style="font-size:12px;">Name : <strong>'.$show_name.'</strong>
 							</td>
-							<td align="right" style="font-size:9px;">Mobile : '.$customer_details->mobile.' </td>
+							<td align="right" style="font-size:12px;">Mobile : <strong>'.$customer_details->mobile.'</strong> </td>
 						</tr>
 						<tr>
 						<td  style="font-size:12px;" >Job Id : <strong>'.$job_data->id.'</strong> </td>
@@ -65,8 +65,8 @@ $content ='';
 							<td style="font-size:12px;"  align="right">Job date : <strong>'.date('d-m-Y',strtotime($job_data->jdate)).' </strong></td>
 						</tr>
 						<tr>
-							<td colspan="2" align="center" style="font-size:9px;">
-								Job Name : '.$job_data->jobname.'
+							<td colspan="2" align="center" style="font-size:12px;">
+								Job Name : <strong>'.$job_data->jobname.'</strong>
 							</td>
 						</tr>
 						<tr>

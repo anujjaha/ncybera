@@ -146,6 +146,8 @@ if ( ! function_exists('test_method'))
 
 function create_pdf($content=null,$size ='A5-L') {
 	if($content) {
+		
+		//print_r($content);die("F");
 		$ci = & get_instance();
 		$mpdf = new mPDF('', $size,8,'',4,4,10,2,4,4);
 		//$mpdf->SetHeader('CYBERA Print ART');
@@ -155,8 +157,9 @@ function create_pdf($content=null,$size ='A5-L') {
 		$mpdf->shrink_tables_to_fit=0;
 		$mpdf->list_indent_first_level = 0;  
 		//$filename = "jobs/".rand(1111,9999)."_".rand(1111,9999)."_Job_Order.pdf";
-		$fname = rand(1111,9999)."_cybera.pdf";
-		$mpdf->Output($fname,'D');
+		$fname = "account_pdf_report/".rand(1111,9999)."_cybera.pdf";
+		$mpdf->Output($fname,'F');
+		return base_url().$fname;
 	}
 }
 
@@ -275,8 +278,8 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 	$mail->SMTPAuth    = TRUE; // enable SMTP authentication
 	$mail->SMTPSecure  = "tls"; //Secure conection
 	$mail->Port        = 587; // set the SMTP port
-	$mail->Username    = 'er.anujjaha@gmail.com'; // SMTP account username
-	$mail->Password    = 'aj@anujjaha'; // SMTP account password
+	$mail->Username    = 'cyberaprintart@gmail.com'; // SMTP account username
+	$mail->Password    = 'cyb_1215@printart'; // SMTP account password
 	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
 	$mail->AddAddress($to);
 	$mail->isHTML( TRUE );
@@ -299,7 +302,19 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 		$query = $ci->db->query($sql);
 		$result = $query->row();
 		$balance = $result->total_debit - $result->total_credit;
-		return $balance;
+		return round($balance);
+	}
+	function get_acc_balance($user_id=null) {
+		$ci = & get_instance();
+		$sql = "SELECT id,
+					(SELECT sum(amount) from user_transactions ut where ut.customer_id=$user_id and t_type ='credit') as 'total_credit',
+					(SELECT sum(amount) from user_transactions ut where ut.customer_id=$user_id and t_type ='debit') as 'total_debit'
+				 from user_transactions
+				 WHERE customer_id = $user_id LIMIT 1" ;
+		$query = $ci->db->query($sql);
+		$result = $query->row();
+		$balance = $result->total_credit - $result->total_debit;
+		return round($balance);
 	}
 	
 function update_user_discount($job_id,$amount) {

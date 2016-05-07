@@ -3,7 +3,7 @@
 application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
-
+account_pdf_report/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess

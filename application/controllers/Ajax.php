@@ -337,7 +337,7 @@ class Ajax extends CI_Controller {
 	
 	public function get_customer_due($user_id=null) {
 		if($user_id) {
-			echo get_balance($user_id);
+			echo round(get_balance($user_id));
 			die;
 		}
 		return false;
@@ -382,6 +382,111 @@ class Ajax extends CI_Controller {
 		$this->account_model->delete_entry($id);
 		die('done');
 		return true;
+	}
+	
+	public function ajax_account_statstics() {
+		if($this->input->post()) {
+			$this->load->model('account_model');
+			$this->load->model('job_model');
+			$user_id = $this->input->post('customer_id');
+			$customer_details = $this->job_model->get_customer_details($user_id);
+			$c_balance = get_balance($user_id);
+			$month = $this->input->post('month');
+			$year = $this->input->post('year');
+			$jmonth = $month."-".$year;
+			$all=false;
+			if($month == "all") {
+				$all = true;
+			}
+			$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
+			$data = $this->account_model->account_statstics($user_id,$jmonth,$all);
+			$print = '<table border="2" width="100%">
+					
+					<tr>
+						<td colspan="10" align="center">
+						<h2>'.$customer_name.' ( Due - '.$c_balance.' ) </h2>
+						</td>
+					</tr>
+					<tr>
+					<td style="border:1px solid">Date/Time</td>
+					<td style="border:1px solid">Job No.</td>
+					<td style="border:1px solid">Job Name</td>
+					<td style="border:1px solid">Debit</td>
+					<td style="border:1px solid">Credit</td>
+					<td style="border:1px solid">Balance</td>
+					<td style="border:1px solid">Reference</td>
+					<td style="border:1px solid">Credit Note</td>
+					<td style="border:1px solid">Received By</td>
+					<td style="border:1px solid">Details</td>
+					</tr>';
+		foreach($data as $result) {
+			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
+				continue;
+			}
+			if($result['t_type'] == DEBIT ) {
+			$balance = $balance - $result['amount'];
+		} else {
+			$balance = $balance + $result['amount'];
+		}
+		
+		$print .= '<tr>
+					<td style="border:1px solid">'.date('d M H:i A - Y',strtotime($result['created'])).'</td>
+					<td style="border:1px solid">';
+		
+		if($result['job_id']) {
+				$print .= $result['job_id'];
+		 } else {
+			$print .= "-";
+		}
+		//echo $print;
+		$print .= '</td><td style="border:1px solid">'.$result['jobname'].'</td>
+				  <td align="right" style="border:1px solid">';
+			
+				$show = "-";
+					if($result['t_type'] == DEBIT ) {
+							$show = $result['amount'];
+					}
+				$print .= $show;
+		$print .= '</td><td align="right" style="border:1px solid">';
+			
+				$show = "-";
+					if($result['t_type'] != DEBIT ) {
+							$show = $result['amount'];
+					}
+				$print .= $show;
+				
+		$print .= '</td><td align="right" style="border:1px solid">'.$balance.'
+		</td><td style="border:1px solid">';
+			if(!empty($result['j_receipt'])) {
+					$print .= "Receipt : ". $result['j_receipt'];
+			}
+			if(!empty($result['j_bill_number'])) {
+				$print .=  "Bill  : ".$result['j_bill_number'];
+			} 	
+			if(!empty($result['cheque_number'])) {
+				$print .=  "Cheque Number  : ".$result['cheque_number'];
+			} 
+		$print .= '</td><td style="border:1px solid">';
+		
+		
+			if(!empty($result['receipt'])) {
+				$print .=	 "Receipt : ". $result['receipt'];
+			}
+			if(!empty($result['bill_number'])) {
+				$print .=  "Bill No. : ".$result['bill_number'];
+			} 
+		$print .= '</td><td style="border:1px solid">';
+			$print .= $result['receivedby'];
+			
+			$print .= '-'.$result['amountby'];
+		$print .= '</td><td style="border:1px solid">'.$result['notes'].'
+		</td></tr>';
+				
+			}
+		$print .= "</table>";
+		$pdf = create_pdf($print,'A4');
+		echo $pdf;
+		}
 	}
 }
 

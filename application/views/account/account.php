@@ -6,6 +6,28 @@ function show_add_amount() {
 function show_discount_amount() {
 	jQuery("#add_discount").toggle("slide");
 }
+function print_statstics() {
+	jQuery("#print_options").toggle("slide");
+}
+function print_statstics_now() {
+	
+	var month = jQuery("#p_month").val();
+	var year = jQuery("#p_year").val();
+	var customer_id = $("#customer_id").val();
+	//alert("Print Now Month- "+month+" Year -"+year);
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_account_statstics/",
+         data : {'month':month,'year':year,'customer_id':customer_id}, 
+         success: 
+            function(data){
+				window.open(data);
+				//location.reload();
+            }
+          });
+
+}
 function delete_transaction_entry(id){
 	
     $.ajax({
@@ -78,7 +100,17 @@ function fill_discount_account() {
 	
 		<center>
 		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - 
-		<span class="red">Due : <?php echo get_balance($customer->id);?>
+		
+		<?php 
+			$c_balance =  get_acc_balance($customer->id);
+			if($c_balance  < 0 ) {
+				echo '<span class="red">Due : '.$c_balance.'</span>';
+			} else if ($c_balance > 0 ) {
+				echo '<span class="green">Advance : '.$c_balance.'</span>';
+			} else {
+				echo '<span class="green">Account Settle : '.$c_balance.'</span>';
+			}
+		?>
 		</span>
 		</h3>
 		</center>
@@ -130,12 +162,12 @@ function fill_discount_account() {
 		$due=0;
 		$credited=0;
 		$balance=0;
-		
+		$j_counts = array();
 		/*echo "<pre>";
 		print_r($results);
 		die;*/
 		foreach($results as $result) {
-			
+			$j_counts[] = $result['job_id'];
 			
 			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
 				continue;
@@ -226,7 +258,12 @@ function fill_discount_account() {
 	</tfoot>
 	</table>
 <hr>
-
+<h1>Total Job Count :
+<?php
+	echo count(array_unique($j_counts));
+?>
+</h1>
+<hr>
 <div class="box-header">
 		<span>
 		<button class="btn btn-success btn-sm text-center" onclick="show_discount_amount()">Add Discount</button>
@@ -248,6 +285,52 @@ function fill_discount_account() {
 			</tr>
 		</table>
 	</div>
+
+<hr>
+<div class="box-header">
+		<span>
+		<button class="btn btn-success btn-sm text-center" onclick="print_statstics()">Print Statastics</button>
+		</span>
+	<div id="print_options" style="display:none;">
+		<table width="100%" border="1">
+		<tr>
+			<td align="right" width="50%"> Select Month : </td>
+			<td width="50%"> 
+				<select name="p_month" id="p_month">
+					<option value="all">All</option>
+					<option>Jan</option>
+					<option>Feb</option>
+					<option>Mar</option>
+					<option>Apr</option>
+					<option>May</option>
+					<option>Jun</option>
+					<option>July</option>
+					<option>Aug</option>
+					<option>Sep</option>
+					<option>Oct</option>
+					<option>Nov</option>
+					<option>Dec</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" width="50%"> 
+				Select Year :
+			</td><td> 
+				<select name="p_year" id="p_year">
+					<option value="all">All</option>
+					<option><?php echo date('Y');?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button class="btn btn-success btn-sm text-center" onclick="print_statstics_now()">Print</button>
+			</td>
+		</tr>
+	</table>
+	</div>
+</div>	
 
 <hr>
 

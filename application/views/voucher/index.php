@@ -9,7 +9,6 @@
 		<thead>
 		<tr>
 		<th>Sr</th>
-		<th>Dealer Code</th>
 		<th>Company Name</th>
 		<th>Customer Name</th>
 		<th>Total Amount</th>
@@ -21,7 +20,7 @@
 		<th>Status</th>
 		<th>Switch To Customer</th>
 		<th>Switch To Dealer</th>
-		<th>View</th>
+		<th>Account</th>
 		<th>Edit</th>
 		<th>Delete</th>
 		</tr>
@@ -35,11 +34,10 @@
 			 ?>
 		<tr>
 		<td><?php echo $sr;?></td>
-		<td><?php echo $customer->dealercode;?></td>
 		<td><?php echo $customer->companyname;?></td>
 		<td><?php echo $customer->name;?></td>
-		<td><?php echo $customer->total_amount;?></td>
-		<td><?php echo $customer->due;?></td>
+		<td><?php echo round($customer->total_amount);?></td>
+		<td><?php echo round($customer->due);?></td>
 		<td><?php echo $customer->mobile;?></td>
 		<td><?php echo $customer->officecontact;?></td>
 		<td><?php echo $customer->emailid;?></td>
@@ -57,7 +55,9 @@
 		<td>
 			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,1);">Set Dealer</a>
 		</td>
-		<td>View</td>
+		<td>
+			<a target="_blank" href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a>
+		</td>
 		<td><a href="<?php echo site_url();?>/dealer/edit/<?php echo $customer->id;?>">Edit</a></td>
 		<td><a href="javascript:void(0);" onclick="delete_customer(<?php echo $customer->id;?>);">Delete</a></td>
 		</tr>
