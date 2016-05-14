@@ -316,6 +316,19 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 		$balance = $result->total_credit - $result->total_debit;
 		return round($balance);
 	}
+
+function check_receipt_num($rnum) {
+	$ci = & get_instance();
+	$ci->db->select('id')
+			->from('user_transactions')
+			->where('receipt',$rnum);
+	$query = $ci->db->get();
+	if($query->row()->id) {
+		return true;
+	}
+	return false;
+	
+}
 	
 function update_user_discount($job_id,$amount) {
 	$ci = & get_instance();

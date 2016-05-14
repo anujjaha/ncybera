@@ -21,6 +21,7 @@
 		<th>Switch To Customer</th>
 		<th>Switch To Dealer</th>
 		<th>Account</th>
+		<th>View</th>
 		<th>Edit</th>
 		<th>Delete</th>
 		</tr>
@@ -57,6 +58,14 @@
 		</td>
 		<td>
 			<a target="_blank" href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a>
+		</td>
+		<td>
+			<a class="fancybox" href="#view_customer_info" onclick="show_customer(<?php echo $customer->id;?>,0);">
+				View
+			</a>
+			<a class="fancybox" href="#view_customer_info" onclick="show_customer(<?php echo $customer->id;?>,1);">
+				Print
+			</a>
 		</td>
 		<td><a href="<?php echo site_url();?>/dealer/edit/<?php echo $customer->id;?>">Edit</a></td>
 		<td><a href="javascript:void(0);" onclick="delete_customer(<?php echo $customer->id;?>);">Delete</a></td>
@@ -121,3 +130,28 @@ function delete_customer(id){
     }
 }
         </script>
+
+
+<script>
+function show_customer(id,option) {
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_view_customer/"+id+"/"+option, 
+         success: 
+            function(data){
+				
+				if(option == 1 ) {
+					window.open(data);
+				} else {
+					jQuery("#c_data").html(data);
+			  }
+            }
+          });
+}
+</script>
+<div id="view_customer_info" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+    <div id="c_data"></div>
+</div>
+</div>

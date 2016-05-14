@@ -278,10 +278,30 @@ function check_existing_customer(value) {
 	
 }
 </script>
+
+<script>
+function check_receipt() {
+	var s_receipt = $("#receipt").val();
+	if(s_receipt.length > 0 ){
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
+			success: 
+				function(data){
+					if(data == 1) {
+						$("#receipt").focus();
+						alert("Receipt Alread Exist !");
+						return false;
+					} 
+			 }
+          });
+	  }
+}
+</script>
 <?php
 $this->load->helper('form');
 $this->load->helper('general'); ?>
-<form action="<?php echo site_url();?>/jobs/edit" method="post" onsubmit="return check_form()">
+<form action="<?php echo site_url();?>/jobs/edit" method="post" onsubmit="return check_form();check_receipt();">
 <div class="col-md-12">
 <table width="100%" border="2">
 	<tr>
@@ -489,14 +509,14 @@ $this->load->helper('general'); ?>
 		<input type="hidden" name="customer_type" id="customer_type">
 		<input type="hidden" name="customer_id" id="customer_id">
 		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
-		<input type="submit" name="save" id="save_button" value="Save" class="btn btn-success btn-lg">
+		<input type="submit" name="save" id="save_button"  value="Save" class="btn btn-success btn-lg">
 	</div>
 	
 	<div class="col-md-4">
 		Bill Number : <input type="text" name="bill_number">
 	</div>
 	<div class="col-md-4">
-	Reciept Number : <input type="text" name="receipt">
+	Reciept Number : <input type="text" name="receipt" id="receipt">
 	</div>
 </div>
 

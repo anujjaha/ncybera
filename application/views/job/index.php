@@ -11,6 +11,9 @@ function show_job_details(job_id){
           });
 }
 </script>
+<style>
+	td { font-size: 12px; }
+</style>
 <div class="box">
 	<div class="box-body table-responsive">
 		<table id="example1" class="example1 table table-bordered table-striped">
@@ -24,15 +27,13 @@ function show_job_details(job_id){
 		<th>Bill Amount</th>
 		<th>Advance</th>
 		<th>Due</th>
-		<th>Date / Time</th>
+		<th>Date</th>
+		<th>Time</th>
 		<th>Status</th>
 		<th>Receipt</th>
-		<th>Voucher Number</th>
 		<th>Bill Number</th>
 		<th>SMS</th>
-		<th>View</th>
-		<th>Edit</th>
-		</tr>
+		<th>Action</th>
 		</thead>
 	<tbody>
 		<?php
@@ -46,18 +47,27 @@ function show_job_details(job_id){
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['jpaid'] ? "<span class='paid'>Paid</span>" :$job['due'];?></td>
-		<td><?php echo date('d-m-Y',strtotime($job['created']))
-						." - ".
-						date('h:i A',strtotime($job['created']));?>
+		<td>
+		<?php //echo $job['jpaid'] ? "<span class='paid'>Paid</span>" :$job['due'];?>
+		<?php
+			$user_bal = get_balance($job['customer_id']) ;
+			if($user_bal > 0 ) { 
+				$due_amt = $job['due'] - $job['discount'];
+				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+				
+			} else {
+				echo "-";
+			} ?>
+		</td>
+		<td width="60px;"><?php echo date('d-m-y',strtotime($job['created']));?>
+		</td>
+		<td width="50px;"><?php echo date('h:i A',strtotime($job['created']));?>
 		</td>
 		<td><?php echo $job['jstatus'];?></td>
 		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
 		<td><?php echo $job['smscount'];?></td>
-		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
-		<td><a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>
+		<td width="70px"><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a> | <a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

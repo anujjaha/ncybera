@@ -400,11 +400,16 @@ $modified_by = $this->session->userdata['user_id'];
     <hr>
 <div class="col-md-12">
 <div class="row">
+
 	<div class="col-md-4">
-            Bill Number : <input type="text" name="bill_number" value="<?php if(!empty($job_data->bill_number)) { echo $job_data->bill_number;}?>">
+		<input type="hidden" name="job_id" value="<?php echo $job_data->id;?>">
+		<input type="hidden" name="modified" value="<?php echo $modified_by;?>">
+		
+		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
+		<input type="submit" name="save" value="Save" class="btn btn-success btn-lg">
 	</div>
 	<div class="col-md-4">
-		Voucher Number : <input type="text" name="voucher_number"  value="<?php if(!empty($job_data->voucher_number)) { echo $job_data->voucher_number;}?>">
+            Bill Number : <input type="text" name="bill_number" value="<?php if(!empty($job_data->bill_number)) { echo $job_data->bill_number;}?>">
 	</div>
 	<div class="col-md-4">
 		Reciept Number : <input type="text" name="receipt"  value="<?php if(!empty($job_data->receipt)) { echo $job_data->receipt;}?>">
@@ -413,11 +418,7 @@ $modified_by = $this->session->userdata['user_id'];
 <hr>
 <div class="col-md-12">
 <div class="form-group">
-		<input type="hidden" name="job_id" value="<?php echo $job_data->id;?>">
-		<input type="hidden" name="modified" value="<?php echo $modified_by;?>">
 		
-		Confirm : 1 <input type="text" name="confirmation" id="confirmation" value="">
-		<input type="submit" name="save" value="Save" class="btn btn-success btn-lg">
 	</div>
 </div>
 </form>

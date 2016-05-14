@@ -408,7 +408,8 @@ class Ajax extends CI_Controller {
 						</td>
 					</tr>
 					<tr>
-					<td style="border:1px solid">Date/Time</td>
+					<td style="border:1px solid">Date</td>
+					<td style="border:1px solid">Time</td>
 					<td style="border:1px solid">Job No.</td>
 					<td style="border:1px solid">Job Name</td>
 					<td style="border:1px solid">Debit</td>
@@ -430,7 +431,8 @@ class Ajax extends CI_Controller {
 		}
 		
 		$print .= '<tr>
-					<td style="border:1px solid">'.date('d M H:i A - Y',strtotime($result['created'])).'</td>
+					<td style="border:1px solid">'.date('d-m-y',strtotime($result['created'])).'</td>
+					<td style="border:1px solid">'.date('H:i A',strtotime($result['created'])).'</td>
 					<td style="border:1px solid">';
 		
 		if($result['job_id']) {
@@ -487,6 +489,75 @@ class Ajax extends CI_Controller {
 		$pdf = create_pdf($print,'A4');
 		echo $pdf;
 		}
+	}
+
+	public function ajax_view_customer($id,$print=0) {
+		$this->load->model('customer_model');
+		$c_info = $this->customer_model->get_customer_details('id',$id);
+		$html = "";
+		//print_r($print);
+		if($print == 1) {
+			$cname = $c_info->companyname ? $c_info->companyname : $c_info->name;
+			$html .= '<table width="40%" align="center" border="0">
+					<tr>
+						<td>
+							<strong>Name : '.$cname.'</strong>
+							<p>
+								'.$c_info->add1.',<br>
+								'.$c_info->add2.',<br>
+								'.$c_info->city.',<br>
+								'.$c_info->state.',<br>
+								'.$c_info->pin.'<br>
+								Mobile : ' .$c_info->mobile.'<br>
+								Email Id : ' .$c_info->emailid.'<br>
+							</p>
+						</td>
+					</tr>
+					</table>';
+					
+					$pdf = create_pdf($html,'A5');
+		echo $pdf;
+		die;			
+		}else {
+		$html .= '<table width="90%" border="1">
+					<tr>
+						<td align="right">Company Name : </td>
+						<td>'.$c_info->companyname.'</td>
+						<td align="right">	Mobile : </td>
+						<td>'.$c_info->mobile.'</td>
+					</tr>
+					<tr>
+						<td align="right">Contact Person Name : </td>
+						<td>'.$c_info->name.'</td>
+						<td align="right">	Mobile : </td>
+						<td>'.$c_info->officecontact.'</td>
+					</tr>
+					<tr>
+						<td align="right">Email Id : </td>
+						<td>'.$c_info->emailid.'</td>
+						<td align="right">	Other Email Id : </td>
+						<td>'.$c_info->emailid2.'</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<center>Address</center>
+							<p>
+								'.$c_info->add1.'<br>
+								'.$c_info->add2.'<br>
+								'.$c_info->city.'<br>
+								'.$c_info->state.'<br>
+								'.$c_info->pin.'<br>
+							</p>
+						</td>
+					</tr>
+					</table>';
+					echo $html;
+					die;
+				}
+	}
+	
+	public function ajax_check_receipt($rnum) {
+		echo check_receipt_num($rnum);
 	}
 }
 

@@ -32,7 +32,10 @@ function printDiv(divName) {
      window.print();
      document.body.innerHTML = originalContents;
 }
+
+
 </script>
+<button onclick="edit_job()">Edit Job</button>
 <button onclick="print_job()">PRINT NOW</button>
 <?php if($cutting_info) { ?>
 <button onclick="print_cutting()">Cutting Slip</button> <?php } ?>
@@ -315,9 +318,12 @@ echo $pcontent;
 					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
 					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
-					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,Nr. Klassic Gold Hotel,</td></tr>
-					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura Ahmedabad - 009</td></tr>
-					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720 | 9898309897</td></tr>
+					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,</td></tr>
+					<tr><td>&nbsp;</td><td>Nr. Klassic Gold Hotel,</td></tr>
+					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura</td></tr>
+					<tr><td>&nbsp;</td><td>Ahmedabad - 009</td></tr>
+					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720</td></tr>
+					<tr><td>&nbsp;</td><td>Mobile : 9898309897</td></tr>
 				</table>
 				</td>
 			</tr>
@@ -436,5 +442,9 @@ function print_courier() {
 							return true;
 			 }
           });*/	
+}
+
+function edit_job() {
+	window.location.assign("<?php echo site_url();?>/jobs/edit_job/<?php echo $job_data->id;?>");
 }
 </script>

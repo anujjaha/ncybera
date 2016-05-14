@@ -36,6 +36,7 @@ $('#example1').dataTable( {
 		<th>Switch To Dealer</th>
 		<th>Switch To Voucher</th>
 		<th>Created</th>
+		<th>View</th>
 		<th>Edit</th>
 		<th>Delete</th>
 		</tr>
@@ -66,7 +67,16 @@ $('#example1').dataTable( {
 			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,2);">Set Voucher</a>
 		</td>
 		<td><?php echo date('h:i A', strtotime($customer->created));?></td>
+		<td>
+			<a class="fancybox" href="#view_customer_info" onclick="show_customer(<?php echo $customer->id;?>,0);">
+				View
+			</a>
+			<a class="fancybox" href="#view_customer_info" onclick="show_customer(<?php echo $customer->id;?>,1);">
+				Print
+			</a>
+		</td>
 		<td><a href="<?php echo site_url();?>/customer/edit/<?php echo $customer->id;?>">Edit</a></td>
+		
 		<td><a href="javascript:void(0);" onclick="delete_customer(<?php echo $customer->id;?>);">Delete</a></td>
 		</tr>
 		<?php $sr++; } ?>
@@ -117,3 +127,28 @@ function delete_customer(id){
     }
 }            
 </script>
+
+
+<script>
+function show_customer(id,option) {
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_view_customer/"+id+"/"+option, 
+         success: 
+            function(data){
+				
+				if(option == 1 ) {
+					window.open(data);
+				} else {
+					jQuery("#c_data").html(data);
+			  }
+            }
+          });
+}
+</script>
+<div id="view_customer_info" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+    <div id="c_data"></div>
+</div>
+</div>

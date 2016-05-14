@@ -49,7 +49,29 @@ function show_job_details(job_id){
             }
           });
 }
+
 function fill_account() {
+	var s_receipt = $("#receipt").val();
+	if(s_receipt.length > 0 ){
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
+			success: 
+				function(data){
+					if(data == 1) {
+						$("#receipt").focus();
+						alert("Receipt Alread Exist !");
+						return false;
+					} else {
+						fill_account_final();
+					}
+			 }
+          });
+	} else {
+		fill_account_final();
+	}
+}
+function fill_account_final() {
 	var settlement_amount = $("#amount").val();
 	var s_bill_number = $("#bill_number").val();
 	var s_receipt = $("#receipt").val();
@@ -143,6 +165,7 @@ function fill_discount_account() {
 		<table id="example1" class="table table-bordered table-striped">
 		<thead>
 		<tr>
+		<th>Transaction ID</th>
 		<th>Date/Time</th>
 		<th>Job No.</th>
 		<th>Job Name</th>
@@ -182,6 +205,7 @@ function fill_discount_account() {
 			
 			?>
 		<tr>
+		<td><?php echo $result['id'];?></td>
 		<td><?php echo date('d M H:i A - Y',strtotime($result['created']));?></td>
 		<td>
 		<?php
