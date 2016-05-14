@@ -3,6 +3,31 @@
 function show_add_amount() {
 	jQuery("#add_amount").toggle("slide");
 }
+function show_discount_amount() {
+	jQuery("#add_discount").toggle("slide");
+}
+function print_statstics() {
+	jQuery("#print_options").toggle("slide");
+}
+function print_statstics_now() {
+	
+	var month = jQuery("#p_month").val();
+	var year = jQuery("#p_year").val();
+	var customer_id = $("#customer_id").val();
+	//alert("Print Now Month- "+month+" Year -"+year);
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_account_statstics/",
+         data : {'month':month,'year':year,'customer_id':customer_id}, 
+         success: 
+            function(data){
+				window.open(data);
+				//location.reload();
+            }
+          });
+
+}
 function delete_transaction_entry(id){
 	
     $.ajax({
@@ -24,7 +49,29 @@ function show_job_details(job_id){
             }
           });
 }
+
 function fill_account() {
+	var s_receipt = $("#receipt").val();
+	if(s_receipt.length > 0 ){
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
+			success: 
+				function(data){
+					if(data == 1) {
+						$("#receipt").focus();
+						alert("Receipt Alread Exist !");
+						return false;
+					} else {
+						fill_account_final();
+					}
+			 }
+          });
+	} else {
+		fill_account_final();
+	}
+}
+function fill_account_final() {
 	var settlement_amount = $("#amount").val();
 	var s_bill_number = $("#bill_number").val();
 	var s_receipt = $("#receipt").val();
@@ -47,12 +94,45 @@ function fill_account() {
           });
     }
 }
+
+
+function fill_discount_account() {
+	var settlement_amount = $("#discount_amount").val();
+	var customer_id = $("#customer_id").val();
+	var notes = $("#notes").val();
+	
+	
+	if($("#discount_amount").val().length < 1 ||  $("#discount_amount").val() < 1 ) {
+		alert("Please Enter Valid Amount");
+		return false;
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"send_sms":'0',"notes":notes},
+			success: 
+				function(data){
+					location.reload();
+			 }
+          });
+    }
+}
 </script>
 <div class="box">
 	
 		<center>
 		<h3 class="box-title"><?php echo $customer->companyname ? $customer->companyname : $customer->name;?> - 
-		<span class="red">Due : <?php echo get_balance($customer->id);?>
+		
+		<?php 
+			$c_balance =  get_acc_balance($customer->id);
+			if($c_balance  < 0 ) {
+				echo '<span class="red">Due : '.$c_balance.'</span>';
+			} else if ($c_balance > 0 ) {
+				echo '<span class="green">Advance : '.$c_balance.'</span>';
+			} else {
+				echo '<span class="green">Account Settle : '.$c_balance.'</span>';
+			}
+		?>
 		</span>
 		</h3>
 		</center>
@@ -85,6 +165,7 @@ function fill_account() {
 		<table id="example1" class="table table-bordered table-striped">
 		<thead>
 		<tr>
+		<th>Transaction ID</th>
 		<th>Date/Time</th>
 		<th>Job No.</th>
 		<th>Job Name</th>
@@ -104,11 +185,18 @@ function fill_account() {
 		$due=0;
 		$credited=0;
 		$balance=0;
-		
+		$j_counts = array();
 		/*echo "<pre>";
 		print_r($results);
 		die;*/
-		foreach($results as $result) { 
+		foreach($results as $result) {
+			$j_counts[] = $result['job_id'];
+			
+			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
+				continue;
+			}
+			
+			
 			if($result['t_type'] == DEBIT ) {
 				$balance = $balance - $result['amount'];
 			} else {
@@ -117,6 +205,7 @@ function fill_account() {
 			
 			?>
 		<tr>
+		<td><?php echo $result['id'];?></td>
 		<td><?php echo date('d M H:i A - Y',strtotime($result['created']));?></td>
 		<td>
 		<?php
@@ -157,6 +246,9 @@ function fill_account() {
 			}
 			if(!empty($result['j_bill_number'])) {
 				echo  "Bill  : ".$result['j_bill_number'];
+			} 	
+			if(!empty($result['cheque_number'])) {
+				echo  "Cheque Number  : ".$result['cheque_number'];
 			} ?>	
 		</td>
 		<td>
@@ -190,6 +282,82 @@ function fill_account() {
 	</tfoot>
 	</table>
 <hr>
+<h1>Total Job Count :
+<?php
+	echo count(array_unique($j_counts));
+?>
+</h1>
+<hr>
+<div class="box-header">
+		<span>
+		<button class="btn btn-success btn-sm text-center" onclick="show_discount_amount()">Add Discount</button>
+		</span>
+	</div>
+	<div class="box-body table-responsive" id="add_discount" style="display:none;">
+		<table border="1" width="100%">
+			<tr>
+				<td>
+					Amount : <input type="text"  name="amount" id="discount_amount" required="required" value="0">
+				</td>
+				<td>
+					Notes : <textarea name="notes" id="notes" cols="40" rows="6">Discoun Applied to settle account</textarea>
+				</td>
+				<td>
+				<input type="hidden" name="customer_id" id="customer_id" value="<?php echo $customer->id;?>">
+					<button class="btn btn-success btn-sm text-center" onclick="fill_discount_account()">Add Discount</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<hr>
+<div class="box-header">
+		<span>
+		<button class="btn btn-success btn-sm text-center" onclick="print_statstics()">Print Statastics</button>
+		</span>
+	<div id="print_options" style="display:none;">
+		<table width="100%" border="1">
+		<tr>
+			<td align="right" width="50%"> Select Month : </td>
+			<td width="50%"> 
+				<select name="p_month" id="p_month">
+					<option value="all">All</option>
+					<option>Jan</option>
+					<option>Feb</option>
+					<option>Mar</option>
+					<option>Apr</option>
+					<option>May</option>
+					<option>Jun</option>
+					<option>July</option>
+					<option>Aug</option>
+					<option>Sep</option>
+					<option>Oct</option>
+					<option>Nov</option>
+					<option>Dec</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" width="50%"> 
+				Select Year :
+			</td><td> 
+				<select name="p_year" id="p_year">
+					<option value="all">All</option>
+					<option><?php echo date('Y');?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button class="btn btn-success btn-sm text-center" onclick="print_statstics_now()">Print</button>
+			</td>
+		</tr>
+	</table>
+	</div>
+</div>	
+
+<hr>
+
 <table align="center" class="table table-bordered table-striped">
 	<tr>
 		<td rowspan="4">
@@ -237,3 +405,5 @@ function fill_account() {
     <div id="job_view"></div>
 </div>
 </div>
+
+	

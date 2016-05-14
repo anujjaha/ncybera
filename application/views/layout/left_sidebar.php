@@ -31,6 +31,17 @@
                             </span>
                         </div>
                     </form>
+                    <form action="<?php echo base_url();?>user/search_job" method="post" class="sidebar-form">
+                        <div class="input-group">
+                        <?php
+                        $q = $this->input->post('job_number');
+                        ?>
+                            <input type="text" name="job_number" value="<?php echo $q;?>" class="form-control" placeholder="Search by Job Number"/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
                     <form action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php

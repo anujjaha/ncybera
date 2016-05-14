@@ -118,21 +118,33 @@ function pay_job(id) {
 		</td>
 		<td align="right"><?php if(!empty($job_data->advance)) { echo $job_data->advance; }?></td>
 	</tr>
-	<?php if($job_data->jpaid == 0 ){?>
+	<?php 
+	$show_due = $job_data->due - $job_data->discount;
+	$u_balance = get_balance($job_data->user_id);
+	if($job_data->jpaid == 0 && $show_due > 0  && $u_balance > 0 ){ ?>
 	<tr>
 		<td colspan="5" align="right">
 			Due :
 		</td>
-		<td align="right"> <?php if(!empty($job_data->due)) { echo $job_data->due; }?></td>
+		<td align="right"> <?php 
+		
+		 echo $show_due; ?></td>
 	</tr> <?php } else { ?>
 	<tr>
 		<td colspan="5" align="right">
 			Settlement Amount ( <span class="paid">Paid</span> ) : 
 		</td>
 		<td align="right"> <?php echo $job_data->settlement_amount; ?></td>
-	</tr> <?php } ?>
+	</tr>
+	<tr>
+		<td colspan="5" align="right">
+			Discount : 
+		</td>
+		<td align="right"> <?php echo $job_data->discount; ?></td>
+	</tr>
+	 <?php } ?>
 </table>
-<?php if($job_data->jpaid == 0 && $restricted && $job_data->due > 0){ ?>
+<?php if($job_data->jpaid == 0 && $restricted && $show_due > 0){ ?>
 <table width="100%" border="2">
 	<tr>
 		<td>
@@ -160,8 +172,8 @@ function pay_job(id) {
 	<div class="col-md-12">
 	<table align="center" border="2" width="100%">
 		<tr>
-			<td align="center" width="60%">Courier Service Name : 
-			<input type="text" id="courier_name" name="courier_name" value="<?php if($courier->courier_name) { echo $courier->courier_name;} ?>"></td>
+			<td width="60%">Courier Service Name : 
+			<input type="text" style="width:350px;" id="courier_name" name="courier_name" value="<?php if($courier->courier_name) { echo $courier->courier_name;} ?>"></td>
 			<td align="center" width="30%">Docket Number : <input type="text" id="docket_number" name="docket_number" value="<?php if($courier->docket_number) { echo $courier->docket_number;} ?>"></td>
 			<td align="center" width="10%">
 		<button class="btn btn-success btn-sm text-center"  onclick="save_shipping(<?php echo $job_data->id;?>)">Save Shipping</button></td>

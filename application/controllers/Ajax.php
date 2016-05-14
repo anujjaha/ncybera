@@ -337,7 +337,7 @@ class Ajax extends CI_Controller {
 	
 	public function get_customer_due($user_id=null) {
 		if($user_id) {
-			echo get_balance($user_id);
+			echo round(get_balance($user_id));
 			die;
 		}
 		return false;
@@ -345,26 +345,34 @@ class Ajax extends CI_Controller {
 	
 	public function ajax_credit_amount() {
 		if($this->input->post()) {
+			
 			$this->load->model('account_model');
 			$this->load->model('job_model');
 			$customer_id = $this->input->post('customer_id');
 			$pay_data['amount'] = $this->input->post('settlement_amount');
 			$pay_data['customer_id'] = $this->input->post('customer_id');
 			$pay_data['amountby'] = 'Cash';
-			$pay_data['bill_number'] = $this->input->post('bill_number');
-			$pay_data['receipt'] = $this->input->post('receipt');
-			$pay_data['notes'] = 'Cash Added';
+			$pay_data['cheque_number'] = $this->input->post('bill_number') ? $this->input->post('bill_number') : 0;
+			$pay_data['receipt'] = $this->input->post('receipt') ? $this->input->post('receipt') : 0;
+			$pay_data['notes'] = $this->input->post('notes') ? $this->input->post('notes') : 'Cash Added';
 			$pay_data['creditedby'] =$this->session->userdata['user_id'];
 			$this->account_model->credit_amount($customer_id,$pay_data,CREDIT);
-			$today = date('d-m-Y');
-			$customer_details = $this->job_model->get_customer_details($customer_id);
-			$mobile = $customer_details->mobile;
-			//$mobile = "9898618697";
-			$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
-			//$sms_text = "Dear \$customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
-			$user_balance  = get_balance($customer_id);
-			$sms_text = "Dear $customer_name, received Rs. ".$pay_data['amount']." on ".$today." total due Rs. ".$user_balance." Thank You.";
-			send_sms($this->session->userdata['user_id'],$customer_id,$mobile,$sms_text) ;
+			
+			if($this->input->post('send_sms') == "0") {
+				$send_sms = false;
+				return true;
+			}
+			
+				$today = date('d-m-Y');
+				$customer_details = $this->job_model->get_customer_details($customer_id);
+				$mobile = $customer_details->mobile;
+				//$mobile = "9898618697";
+				$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
+				//$sms_text = "Dear \$customer_name, we have received ".$pay_data['amount']." Rs. by Cash on date ".$today.". Thank You.";
+				$user_balance  = get_balance($customer_id);
+				$sms_text = "Dear $customer_name, received Rs. ".$pay_data['amount']." on ".$today." total due Rs. ".$user_balance." Thank You.";
+				send_sms($this->session->userdata['user_id'],$customer_id,$mobile,$sms_text) ;
+			
 			return true;
 		}
 	}
@@ -374,6 +382,182 @@ class Ajax extends CI_Controller {
 		$this->account_model->delete_entry($id);
 		die('done');
 		return true;
+	}
+	
+	public function ajax_account_statstics() {
+		if($this->input->post()) {
+			$this->load->model('account_model');
+			$this->load->model('job_model');
+			$user_id = $this->input->post('customer_id');
+			$customer_details = $this->job_model->get_customer_details($user_id);
+			$c_balance = get_balance($user_id);
+			$month = $this->input->post('month');
+			$year = $this->input->post('year');
+			$jmonth = $month."-".$year;
+			$all=false;
+			if($month == "all") {
+				$all = true;
+			}
+			$customer_name = $customer_details->companyname ? $customer_details->companyname : $customer_details->name; 
+			$data = $this->account_model->account_statstics($user_id,$jmonth,$all);
+			$print = '<table border="2" width="100%">
+					
+					<tr>
+						<td colspan="10" align="center">
+						<h2>'.$customer_name.' ( Due - '.$c_balance.' ) </h2>
+						</td>
+					</tr>
+					<tr>
+					<td style="border:1px solid">Date</td>
+					<td style="border:1px solid">Time</td>
+					<td style="border:1px solid">Job No.</td>
+					<td style="border:1px solid">Job Name</td>
+					<td style="border:1px solid">Debit</td>
+					<td style="border:1px solid">Credit</td>
+					<td style="border:1px solid">Balance</td>
+					<td style="border:1px solid">Reference</td>
+					<td style="border:1px solid">Credit Note</td>
+					<td style="border:1px solid">Received By</td>
+					<td style="border:1px solid">Details</td>
+					</tr>';
+		foreach($data as $result) {
+			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
+				continue;
+			}
+			if($result['t_type'] == DEBIT ) {
+			$balance = $balance - $result['amount'];
+		} else {
+			$balance = $balance + $result['amount'];
+		}
+		
+		$print .= '<tr>
+					<td style="border:1px solid">'.date('d-m-y',strtotime($result['created'])).'</td>
+					<td style="border:1px solid">'.date('H:i A',strtotime($result['created'])).'</td>
+					<td style="border:1px solid">';
+		
+		if($result['job_id']) {
+				$print .= $result['job_id'];
+		 } else {
+			$print .= "-";
+		}
+		//echo $print;
+		$print .= '</td><td style="border:1px solid">'.$result['jobname'].'</td>
+				  <td align="right" style="border:1px solid">';
+			
+				$show = "-";
+					if($result['t_type'] == DEBIT ) {
+							$show = $result['amount'];
+					}
+				$print .= $show;
+		$print .= '</td><td align="right" style="border:1px solid">';
+			
+				$show = "-";
+					if($result['t_type'] != DEBIT ) {
+							$show = $result['amount'];
+					}
+				$print .= $show;
+				
+		$print .= '</td><td align="right" style="border:1px solid">'.$balance.'
+		</td><td style="border:1px solid">';
+			if(!empty($result['j_receipt'])) {
+					$print .= "Receipt : ". $result['j_receipt'];
+			}
+			if(!empty($result['j_bill_number'])) {
+				$print .=  "Bill  : ".$result['j_bill_number'];
+			} 	
+			if(!empty($result['cheque_number'])) {
+				$print .=  "Cheque Number  : ".$result['cheque_number'];
+			} 
+		$print .= '</td><td style="border:1px solid">';
+		
+		
+			if(!empty($result['receipt'])) {
+				$print .=	 "Receipt : ". $result['receipt'];
+			}
+			if(!empty($result['bill_number'])) {
+				$print .=  "Bill No. : ".$result['bill_number'];
+			} 
+		$print .= '</td><td style="border:1px solid">';
+			$print .= $result['receivedby'];
+			
+			$print .= '-'.$result['amountby'];
+		$print .= '</td><td style="border:1px solid">'.$result['notes'].'
+		</td></tr>';
+				
+			}
+		$print .= "</table>";
+		$pdf = create_pdf($print,'A4');
+		echo $pdf;
+		}
+	}
+
+	public function ajax_view_customer($id,$print=0) {
+		$this->load->model('customer_model');
+		$c_info = $this->customer_model->get_customer_details('id',$id);
+		$html = "";
+		//print_r($print);
+		if($print == 1) {
+			$cname = $c_info->companyname ? $c_info->companyname : $c_info->name;
+			$html .= '<table width="40%" align="center" border="0">
+					<tr>
+						<td>
+							<strong>Name : '.$cname.'</strong>
+							<p>
+								'.$c_info->add1.',<br>
+								'.$c_info->add2.',<br>
+								'.$c_info->city.',<br>
+								'.$c_info->state.',<br>
+								'.$c_info->pin.'<br>
+								Mobile : ' .$c_info->mobile.'<br>
+								Email Id : ' .$c_info->emailid.'<br>
+							</p>
+						</td>
+					</tr>
+					</table>';
+					
+					$pdf = create_pdf($html,'A5');
+		echo $pdf;
+		die;			
+		}else {
+		$html .= '<table width="90%" border="1">
+					<tr>
+						<td align="right">Company Name : </td>
+						<td>'.$c_info->companyname.'</td>
+						<td align="right">	Mobile : </td>
+						<td>'.$c_info->mobile.'</td>
+					</tr>
+					<tr>
+						<td align="right">Contact Person Name : </td>
+						<td>'.$c_info->name.'</td>
+						<td align="right">	Mobile : </td>
+						<td>'.$c_info->officecontact.'</td>
+					</tr>
+					<tr>
+						<td align="right">Email Id : </td>
+						<td>'.$c_info->emailid.'</td>
+						<td align="right">	Other Email Id : </td>
+						<td>'.$c_info->emailid2.'</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<center>Address</center>
+							<p>
+								'.$c_info->add1.'<br>
+								'.$c_info->add2.'<br>
+								'.$c_info->city.'<br>
+								'.$c_info->state.'<br>
+								'.$c_info->pin.'<br>
+							</p>
+						</td>
+					</tr>
+					</table>';
+					echo $html;
+					die;
+				}
+	}
+	
+	public function ajax_check_receipt($rnum) {
+		echo check_receipt_num($rnum);
 	}
 }
 

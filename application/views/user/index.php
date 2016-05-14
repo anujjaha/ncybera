@@ -8,27 +8,29 @@
 	</a>
 	</div>
 </div>
+<style>
+	td { font-size: 12px; }
+</style>
 <div class="box">
 	<div class="box-body table-responsive">
 		<table id="example1" class="example1 table table-bordered table-striped">
 		<thead>
 		<tr>
 		<th>Sr</th>
-		<th>Job Num</th>
+		<th>J Num</th>
 		<th>Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
 		<th>Bill Amount</th>
 		<th>Advance</th>
 		<th>Due</th>
-		<th>Date / Time</th>
+		<th>Date</th>
+		<th>Time</th>
 		<th>Bill</th>
 		<th>Receipt</th>
 		<th>Status</th>
 		<th>SMS</th>
-		<th>View</th>
-		<th>Edit</th>
-		<th>Print</th>
+		<th>Action</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -37,7 +39,7 @@
 		foreach($jobs as $job) { ?>
 		<tr>
 		<td><?php echo $sr;?></td>
-		<td><?php echo $job['job_id'];?></td>
+		<td width="10px"><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
@@ -45,18 +47,22 @@
 		<td><?php echo $job['advance'];?></td>
 		<td><?php
 			$user_bal = get_balance($job['customer_id']) ;
-			if($user_bal < 0 ) { 
-				echo "-";
-			} else {
+			if($user_bal > 0 ) { 
 				$due_amt = $job['due'] - $job['discount'];
 				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+				
+			} else {
+				echo "-";
 			} ?>
 		 </td>
-		<td>
+		<td width="60px;">
 			<span style="font-size:11px;">
-		<?php echo date('d-m-Y',strtotime($job['created']))
-						." - ".
-						date('h:i A',strtotime($job['created']));?>
+		<?php echo date('d-m-y',strtotime($job['created']));?>
+					</span>
+		</td>
+		<td width="50px;">
+			<span style="font-size:11px;">
+		<?php echo 	date('h:i A',strtotime($job['created']));?>
 			</span>
 		</td>
 		<td>
@@ -77,10 +83,10 @@
 			</a>
 		</td>
 		<td><?php echo $job['smscount'];?></td>
-		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
-		<td><a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>
-		<td>
-			<a href="<?php echo site_url();?>/jobs/job_print/<?php echo $job['job_id'];?>">
+		<td width="85px;"><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a>
+		| 
+		<a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a>
+		|	<a href="<?php echo site_url();?>/jobs/job_print/<?php echo $job['job_id'];?>">
 			Print</a>
 			</td>
 		</tr>
