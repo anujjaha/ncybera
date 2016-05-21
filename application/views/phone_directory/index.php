@@ -33,7 +33,7 @@
 		<td><?php echo $udata['phone'];?></td>
 		<td><?php echo $udata['mobile'];?></td>
 		<td>
-			<a href="<?php echo base_url();?>/cdirectory/edit/<?php echo $udata['id'];?>"> Edit </a>
+			<a href="<?php echo base_url();?>/cdirectory/edit/<?php echo $udata['id'];?>"> E </a>
 		</td>
 		<td><a href="javascript:void(main)" onclick="delete_direcotry(<?php echo $udata['id'];?>);">Delete</a></td>
 		

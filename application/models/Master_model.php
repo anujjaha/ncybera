@@ -37,12 +37,37 @@ class Master_model extends CI_Model {
 	}
 	
 	public function get_all_unverify_jobs() {
+		
+		
+		
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id AND department = '$department') 
+				as j_view,
+				
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 
+				 
+				 WHERE 
+				 job.verify_id = 0 
+				 order by job.id DESC
+				";
+		//echo $sql;die;
 		$this->db->select("*,job.id as job_id, job.created as created")
 				->from($this->job_table)
 				->join($this->customer_table,"customer.id = job.customer_id", 'left' )
 				->where('verify_id',0)
 				->order_by('job.id','DESC');
 		$query = $this->db->get();
+		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 	

@@ -35,12 +35,13 @@ function printDiv(divName) {
 
 
 </script>
-<button onclick="edit_job()">Edit Job</button>
 <button onclick="print_job()">PRINT NOW</button>
 <?php if($cutting_info) { ?>
 <button onclick="print_cutting()">Cutting Slip</button> <?php } ?>
 <button onclick="print_courier()">Courier Slip</button>
 <button onclick="print_courier_small()">Small Courier Slip</button>
+<button onclick="edit_job()">Edit Job</button>
+
 <div class="row">
 	<div class="col-md-12">
 		<h1>Print Job Details</h1>

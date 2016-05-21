@@ -38,7 +38,6 @@ function direct_verify_job(id) {
 		<th>Advance</th>
 		<th>Due</th>
 		<th>Receipt</th>
-		<th>Voucher Number</th>
 		<th>Bill Number</th>
 		<th>Date / Time</th>
 		<th>View</th>
@@ -60,8 +59,9 @@ function direct_verify_job(id) {
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
 		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
-		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
+		<td><?php 
+		echo str_replace(","," ", $job['t_reciept']);
+		 echo $job['receipt'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".

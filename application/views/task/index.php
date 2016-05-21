@@ -25,7 +25,6 @@ die;*/
 		<th>Task Reply By</th>
 		<th>Created Time</th>
 		<th>Replied Time</th>
-		<th>Edit</th>
 		<th>Delete</th>
 		</tr>
 		</thead>
