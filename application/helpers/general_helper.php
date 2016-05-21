@@ -349,3 +349,31 @@ function update_user_discount($job_id,$amount) {
 	
 	//die("F");
 }
+
+function get_task_user_list() {
+	 $ci = & get_instance();
+	
+	$ci->db->select('user_meta.id,nickname')
+			->from('user_meta')
+			->join('users','users.id = user_meta.user_id','left')
+			->where('users.department != ','Master')
+			->where('users.id != ','1')
+			->where('users.active','1')
+			->where('users.id !=',$ci->session->userdata['id'])
+			->order_by('user_meta.nickname');
+	$query = $ci->db->get();
+	$result = $query->result_array();
+	?>
+	<select name="receiver[]" class="form-control" multiple="multiple">
+	<?php
+	foreach($result as $user) {
+	?>
+		<option value="<?php echo $user['id'];?>">
+			<?php echo $user['nickname'];?>
+		</option>
+	<?php
+	}
+	?>
+	</select>
+	<?php
+}

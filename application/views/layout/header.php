@@ -27,6 +27,11 @@ function show_calculator()
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
 						<li class="dropdown messages-menu">
+							<a href="<?php echo base_url().'cdirectory/index'?>">
+								Directory
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
 							<a href="#show_calculator" onclick="show_calculator();">
 								Calculator
 							</a>

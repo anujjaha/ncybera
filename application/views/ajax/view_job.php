@@ -121,7 +121,9 @@ function pay_job(id) {
 	<?php 
 	$show_due = $job_data->due - $job_data->discount;
 	$u_balance = get_balance($job_data->user_id);
-	if($job_data->jpaid == 0 && $show_due > 0  && $u_balance > 0 ){ ?>
+	//if(1==2 && $job_data->jpaid == 1 && $show_due > 0  && $u_balance > 0 ){
+	if($show_due > 0 && $u_balance < 1 ){
+		?>
 	<tr>
 		<td colspan="5" align="right">
 			Due :
@@ -129,7 +131,10 @@ function pay_job(id) {
 		<td align="right"> <?php 
 		
 		 echo $show_due; ?></td>
-	</tr> <?php } else { ?>
+	</tr> <?php } else {
+		echo "2";
+		
+		 ?>
 	<tr>
 		<td colspan="5" align="right">
 			Settlement Amount ( <span class="paid">Paid</span> ) : 

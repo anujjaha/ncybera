@@ -54,11 +54,15 @@ class User_model extends CI_Model {
 	}
 	
 	public function get_leftbar_status() {
+		$u_id = $this->session->userdata['user_id'];
 		$sql_job = "SELECT count(id) as total_jobs from job";
 		$sql_dealer = "SELECT count(id) as total_dealers from customer WHERE ctype=1 AND status=1";
 		$sql_customer = "SELECT count(id) as total_customers from customer WHERE ctype=0 AND status=1";
 		$sql_prospect = "SELECT count(id) as total_customers from prospects ";
 		$sql_voucher = "SELECT count(id) as total_vcustomers from customer WHERE ctype=2 AND status=1";
+		$sql_tasks = "SELECT count(id) as total_tasks from cyb_tasks 
+						WHERE find_in_set ($u_id,cyb_tasks.receiver)
+						AND status != 'Task Completed' ";
 		
 		$query_job = $this->db->query($sql_job);
 		$jobcount = $query_job->row();
@@ -74,6 +78,11 @@ class User_model extends CI_Model {
 		
 		$query_prospects = $this->db->query($sql_prospect);
 		$prospectscount = $query_prospects->row();
+		
+		$query_tasks = $this->db->query($sql_tasks);
+		$tasks = $query_tasks->row();
+		
+		
 		$data = array();
 		
 		$data['jobs'] = $jobcount->total_jobs;
@@ -81,6 +90,7 @@ class User_model extends CI_Model {
 		$data['customers'] = $customercount->total_customers;
 		$data['prospects'] = $prospectscount->total_customers;
 		$data['vouchers'] = $vouchercount->total_vcustomers;
+		$data['tasks'] = $tasks->total_tasks;
 		return $data;
 	}
 	
