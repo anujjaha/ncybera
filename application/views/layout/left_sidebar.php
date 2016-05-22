@@ -80,6 +80,14 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>task/mytask">
+                                <i class="fa fa-envelope"></i> <span class="blink_me">Tasks Alloted</span>
+                                <small class="badge pull-right bg-yellow">
+									<span id="show_tasks"></span>
+                                </small>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>dealer">
                                 <i class="fa fa-calendar"></i> <span>Dealers</span>
                                 <small class="badge pull-right bg-red">
@@ -127,12 +135,7 @@
                                 <small class="badge pull-right bg-yellow">2</small>
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-envelope"></i> <span>Tasks Alloted</span>
-                                <small class="badge pull-right bg-yellow">5</small>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -150,7 +153,26 @@ jQuery("document").ready(function(){
 				jQuery("#show_customers").html(data.customers);
 				jQuery("#show_prospects").html(data.prospects);
 				jQuery("#show_vouchers").html(data.vouchers);
+				jQuery("#show_tasks").html(data.tasks);
 				
+				
+				/*
+				
+				function blinker() {
+					$('.blink_me').fadeOut(500);
+					$('.blink_me').fadeIn(500);
+				}
+				setInterval(blinker, 1000); //Runs every second
+				*/
+				
+				if(data.tasks > 0 ) {
+					function blinker() {
+						$(".blink_me").css('color','red');
+					$('.blink_me').fadeOut(5000);
+					$('.blink_me').fadeIn(5000);
+				}
+					setInterval(blinker, 3000); 
+				}
 			}
           });
 });

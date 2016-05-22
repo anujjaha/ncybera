@@ -559,5 +559,28 @@ class Ajax extends CI_Controller {
 	public function ajax_check_receipt($rnum) {
 		echo check_receipt_num($rnum);
 	}
+	
+	public function ajax_task_reply() {
+		if($this->input->post()) {
+			$id = $this->input->post('id');
+			$data['reply'] = $this->input->post('reply');
+			$data['status'] = $this->input->post('status');
+			$data['modified'] = date('Y-m-d H:i:s');
+			$data['reply_from'] = $this->session->userdata['user_id'];
+			
+			$this->load->model('task_model');
+			$status = $this->task_model->update_task($id,$data);
+			echo "done";die;
+		}
+	}
+	
+	public function ajax_task_delete() {
+		if($this->input->post()) {
+			$id = $this->input->post('id');
+			$this->load->model('task_model');
+			$status = $this->task_model->delete_task($id);
+			echo "done";die;
+		}
+	}
 }
 

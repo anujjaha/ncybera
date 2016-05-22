@@ -104,3 +104,9 @@ define('CUTTING_MUSIC','http://localhost/ncybera/cutting-sound.mp3');
 
 define('DEBIT','debit');
 define('CREDIT','credit');
+
+
+define('TASK_CREATED','Task Assigned');
+define('TASK_COMPLETED','Task Completed');
+define('TASK_PENDING','Task Pending');
+define('TASK_IN_PROGRESS','Task In Progress');
