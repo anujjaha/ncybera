@@ -364,7 +364,7 @@ function get_task_user_list() {
 	$query = $ci->db->get();
 	$result = $query->result_array();
 	?>
-	<select name="receiver[]" class="form-control" multiple="multiple">
+	<select name="receiver[]" id="receiver" class="form-control" multiple="multiple">
 	<?php
 	foreach($result as $user) {
 	?>

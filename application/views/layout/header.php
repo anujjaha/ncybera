@@ -1,13 +1,47 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-tab.js"></script>
+
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.datetimepicker.full.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.datetimepicker.css" media="screen" />
+
+
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/tab.css" media="screen" />
+
+
 <script>
 function show_calculator()
 	{
 		window.open('<?php echo base_url();?>calc.html','welcome','width=360,height=320')
 	}
 
+
+window.setInterval(function(){
+  check_notifications();
+}, 60000);
+
+function check_notifications() {
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/check_notifications/", 
+		 success: 
+            function(data){
+				if(data != 0) {
+					show_notifications(data);
+				}
+				
+            }
+          });
+}
+
+function show_notifications(data) {
+	jQuery("#notification_div").html(data);
+	$.fancybox({
+                'href': '#notification_div'
+	});
+}
 </script>
     <!-- header logo: style can be found in header.less -->
         <header class="header">
@@ -29,6 +63,11 @@ function show_calculator()
 						<li class="dropdown messages-menu">
 							<a href="<?php echo base_url().'cdirectory/index'?>">
 								Directory
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
+							<a href="#schedule" class="fancybox">
+								Schedule Job
 							</a>
 						</li>
 						<li class="dropdown messages-menu">
@@ -204,6 +243,7 @@ function show_calculator()
     </div>
 </div>
 </div>
+
 <script>
     $(document).ready(function() {
       $('.fancybox').fancybox({
@@ -211,6 +251,21 @@ function show_calculator()
         'height':600,
         'autoSize' : false,
     });
+    
+
+
+	$('.datepicker').datetimepicker({
+		dayOfWeekStart : 1,
+		lang:'en',
+		disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+		step:10
+	});    
+     
+    /*$('.datepicker').datepicker({
+      viewMode: 'years'
+    }); */
+  
+    
 });
 function create_estimation(){
 	var customer_id,sms_message,sms_mobile;
@@ -366,3 +421,100 @@ function show_sms_mobile() {
 	</div>
     </div>
 </div>
+
+
+
+<!-- Scheduler Block -->
+<div id="schedule" style="width:900px;display: none;margin-top:-75px;">
+<div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
+	<table border="2" width="100%">
+	<tr>
+		<td align="right"> Assign To : </td>
+		<td>
+			<?php get_task_user_list();?>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			Title :
+		</td>
+		<td>
+			<input type="text" name="title"  id="sc_title"  class="form-control" required="required">
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			Description :
+		</td>
+		<td>
+			<textarea name="description" id="sc_description"  class="form-control"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="right">
+			Reminder Time :
+		</td>
+		<td>
+			<input type="text" name="reminder_time"  id="sc_reminder_time"   class="form-control datepicker" required="required">
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			Mobile Reminder : 
+		</td>
+		<td>
+			<label><input type="checkbox" name="sc_mobile_reminder" id="sc_mobile_reminder">Send SMS</label>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<button onclick="set_schedule();" id="btn_schedule" class="btn btn-primary">Schedule</button>
+			<span id="loading-image" style="display:none;">
+				<img src="<?php echo base_url();?>/assets/img/load.gif">
+			</span>
+		</td>
+	</tr>
+</table>
+</div>
+</div>
+
+<div id="notification_div"  style="width:800px;display: none;">
+	
+</div>
+<script>
+function set_schedule() {
+	$('#loading-image').show();
+	$("#btn_schedule").hide();
+	var name = jQuery("#sc_title").val();
+	var description = jQuery("#sc_description").val();
+	var reminder_time = jQuery("#sc_reminder_time").val();
+	var receiver = $('#receiver').val();
+	var is_sms = 0;
+	
+	if($('#sc_mobile_reminder').prop("checked") == true){
+		is_sms= 1;
+	}
+	
+	 $.ajax({
+     type: "POST",
+     dataType:"json",
+     url: "<?php echo site_url();?>/ajax/set_schedule/", 
+     data : { 'is_sms':is_sms,'title':name,'description':description,'reminder_time':reminder_time,'receiver':receiver},
+     success: 
+        function(data){
+			alert("Successfully Scheduler Set");
+		},
+	 complete: function(){
+        $('#loading-image').hide();
+        jQuery("#sc_title").val("");
+		jQuery("#sc_description").val("");
+		jQuery("#sc_reminder_time").val("");
+		$('#receiver').val("");
+        $.fancybox.close();
+        $("#btn_schedule").show();
+      }
+  });
+}
+</script>
+

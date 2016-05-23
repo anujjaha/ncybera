@@ -582,5 +582,33 @@ class Ajax extends CI_Controller {
 			echo "done";die;
 		}
 	}
+	
+	public function set_schedule() {
+		if($this->input->post()) {
+			$data['title'] = $this->input->post('title');
+			$data['description'] = $this->input->post('description');
+			$data['reminder_time'] = $this->input->post('reminder_time');
+			$data['user_for'] = implode(",",$this->input->post('receiver'));
+			$data['is_sms'] = $this->input->post('is_sms');
+			$data['user_creator'] = $this->session->userdata('user_id');
+			$this->load->model('task_model');
+			$this->task_model->save_scheduler($data);
+			die("Done");
+			
+		}
+	}
+	
+	public function check_notifications() {
+		$this->load->model('task_model');
+		$user_id = $this->session->userdata('user_id');
+		$result = $this->task_model->get_all_schedules($user_id);
+		
+		if($result['count'] > 0 ) {
+			echo $result['task'];
+		} else {
+			echo 0;
+		}
+		die;
+	}
 }
 

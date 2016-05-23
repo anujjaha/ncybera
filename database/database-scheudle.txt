@@ -1,0 +1,16 @@
+
+CREATE TABLE IF NOT EXISTS `cyb_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_creator` int(11) NOT NULL,
+  `user_for` varchar(20) NOT NULL,
+  `title` varchar(140) NOT NULL,
+  `description` text NOT NULL,
+  `reminder_time` datetime NOT NULL,
+  `is_sms` int(11) NOT NULL,
+  `snooze_time` varchar(10) NOT NULL,
+  `popup_time` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
