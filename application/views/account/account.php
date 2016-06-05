@@ -76,6 +76,7 @@ function fill_account_final() {
 	var s_bill_number = $("#bill_number").val();
 	var s_receipt = $("#receipt").val();
 	var customer_id = $("#customer_id").val();
+	var cmonth = $("#cmonth").val();
 	if($("#amount").val().length < 1 ||  $("#amount").val() < 1 ) {
 		alert("Please Enter Valid Amount");
 		return false;
@@ -86,7 +87,7 @@ function fill_account_final() {
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
-			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt},
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt,"cmonth":cmonth},
 			success: 
 				function(data){
 					location.reload();
@@ -144,6 +145,9 @@ function fill_discount_account() {
 	<div class="box-body table-responsive" id="add_amount" style="display:none;">
 		<table border="1" width="100%">
 			<tr>
+				<td>
+					Cheque Date : <input type="text" name="cmonth" id="cmonth" class="datepicker">
+				</td>
 				<td>
 					Cheque Number : <input type="text" name="bill_number" id="bill_number">
 				</td>

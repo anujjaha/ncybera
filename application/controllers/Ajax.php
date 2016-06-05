@@ -356,6 +356,11 @@ class Ajax extends CI_Controller {
 			$pay_data['receipt'] = $this->input->post('receipt') ? $this->input->post('receipt') : 0;
 			$pay_data['notes'] = $this->input->post('notes') ? $this->input->post('notes') : 'Cash Added';
 			$pay_data['creditedby'] =$this->session->userdata['user_id'];
+			
+			if(strlen($this->input->post('cmonth')) > 1) {
+				$pay_data['cmonth'] = date("M-Y",strtotime($this->input->post('cmonth')));
+			}
+			
 			$this->account_model->credit_amount($customer_id,$pay_data,CREDIT);
 			
 			if($this->input->post('send_sms') == "0") {
@@ -404,7 +409,7 @@ class Ajax extends CI_Controller {
 					
 					<tr>
 						<td colspan="10" align="center">
-						<h2>'.$customer_name.' ( Due - '.$c_balance.' ) </h2>
+						<h2>'.$customer_name.' (Total Due - '.$c_balance.' ) </h2>
 						</td>
 					</tr>
 					<tr>
@@ -420,13 +425,18 @@ class Ajax extends CI_Controller {
 					<td style="border:1px solid">Received By</td>
 					<td style="border:1px solid">Details</td>
 					</tr>';
+		$total_debit = $total_credit = 0;
 		foreach($data as $result) {
+			
+			
 			if($result['t_type'] == CREDIT and $result['amount'] == 0) { 
 				continue;
 			}
 			if($result['t_type'] == DEBIT ) {
+			$total_debit = $total_debit + $result['amount'];
 			$balance = $balance - $result['amount'];
 		} else {
+			$total_credit = $total_credit + $result['amount'];
 			$balance = $balance + $result['amount'];
 		}
 		
@@ -485,6 +495,11 @@ class Ajax extends CI_Controller {
 		</td></tr>';
 				
 			}
+			
+		$monthly_balance = $total_credit - $total_debit;
+		$print .= "<tr><td style='border:1px solid' colspan='4' align='right'>Total Debit</td><td style='border:1px solid'  align='right'><h3>".$total_debit."</h3></td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td></tr>";
+		$print .= "<tr><td style='border:1px solid' colspan='4' align='right'>Total Credit</td><td style='border:1px solid'>-</td><td style='border:1px solid'  align='right'><h3>".$total_credit."</h3></td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td></tr>";
+		$print .= "<tr><td style='border:1px solid' colspan='4' align='right'>Monthly Balance</td><td style='border:1px solid'>-</td><td style='border:1px solid'>-</td><td style='border:1px solid' align='right'><h3>".$monthly_balance."</h3></td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td><td style='border:1px solid'>&nbsp;</td></tr>";
 		$print .= "</table>";
 		$pdf = create_pdf($print,'A4');
 		echo $pdf;

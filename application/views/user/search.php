@@ -116,11 +116,9 @@
 		<th>Mobile</th>
 		<th>Bill Amount</th>
 		<th>Advance</th>
-		<th>Due</th>
 		<th>Date / Time</th>
 		<th>Status</th>
 		<th>Receipt</th>
-		<th>Voucher Number</th>
 		<th>Bill Number</th>
 		<th>SMS</th>
 		<th>View</th>
@@ -139,11 +137,9 @@
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due'];?></td>
 		<td><?php echo date('h:i a d-M',strtotime($job['created']));?></td>
 		<td><?php echo $job['jstatus'];?></td>
 		<td><?php echo $job['receipt'];?></td>
-		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
 		<td><?php echo $job['smscount'];?></td>
 		<td>View</td>
