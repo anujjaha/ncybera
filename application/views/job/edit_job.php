@@ -144,7 +144,9 @@ function calculate_paper_cost(){
                   amount = amount + parseFloat(data.paper_amount);
                   if(paper_print == "FB" ) {
 						if(paper_size == "13X19" || paper_size == "13x19" ) {
+							//amount = amount * 2 - 3;
 							amount = amount * 2 - 3;
+							paper_qty = paper_qty / 2;
 						}
 					}
 					
@@ -154,7 +156,7 @@ function calculate_paper_cost(){
                   if(paper_print == "FB") {
                           jQuery("#rate_"+id).val(amount * 2);
                     if(paper_size == "13X19" || paper_size == "13x19" ) {
-						  jQuery("#rate_"+id).val(amount * 2 - 3);
+						  jQuery("#rate_"+id).val(amount );
 					}
                   } else {
 					  jQuery("#rate_"+id).val(amount);
