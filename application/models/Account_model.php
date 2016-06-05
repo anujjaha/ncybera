@@ -27,8 +27,12 @@ class Account_model extends CI_Model {
 		if(isset($type)) {
 			$data['t_type']= $type;
 		}
+		
 		$data['date']=date('Y-m-d');
-		$data['cmonth']=date('M-Y');
+		if(!isset($data['cmonth'])) {
+			$data['cmonth']=date('M-Y');	
+		}
+		
 		return $this->db->insert($this->table,$data);
 	}
 	
