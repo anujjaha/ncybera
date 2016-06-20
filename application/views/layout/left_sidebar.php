@@ -80,6 +80,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>account/quick">
+                                <i class="fa fa-envelope"></i> <span>Quick Account</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>task/mytask">
                                 <i class="fa fa-envelope"></i> <span class="blink_me">Tasks Alloted</span>
                                 <small class="badge pull-right bg-yellow">
