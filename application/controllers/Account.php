@@ -34,6 +34,80 @@ class Account extends CI_Controller {
 		$this->template->load('account', 'index', $data);
 	}
 	
+	public function quick()
+	{
+		$like = null;
+		$offset= 0;
+		$limit = 10;
+		$result = $this->customer_model->get_customer_details_quick($like,$offset,$limit);
+		$data['title']="Customer Account Management";
+		$data['heading']="Customer Account Management";
+		$data['customers']= $result;
+		$data['offset'] = 0;
+		//$this->template->load('customer', 'index', $data);
+		$this->template->load('account', 'index_quick', $data);
+	}
+	
+	public function quick_ajax()
+	{
+		$like = null;
+		$offset= 0;
+		$limit = 10;
+		if($this->input->post()) {
+			$like = null;
+			if($this->input->post('search_box')) {
+				$like  = $this->input->post('search_box');
+			}
+			$offset = $this->input->post('offset');
+			if($offset > 0 ) {
+				$offset = $offset * $limit;
+			}
+			$sort_by = $this->input->post('sort_by');
+			$sort_value = $this->input->post('sort_value');
+			$limit = $this->input->post('limit');
+			$result = $this->customer_model->get_customer_details_quick($like,$offset,$limit,$sort_by,$sort_value);
+			$data['customers']= $result;
+			$data['offset']= $this->input->post('offset');
+		}
+		$ajax_result = $this->load->view('account/ajax_quick', $data);
+		return $ajax_result;
+	}
+	public function quick_ajax_balance()
+	{
+		$like = null;
+		$offset= 0;
+		$limit = 10;
+		if($this->input->post()) {
+			$like = null;
+			if($this->input->post('search_box')) {
+				$like  = $this->input->post('search_box');
+			}
+			$offset = $this->input->post('offset');
+			if($offset > 0 ) {
+				$offset = $offset * $limit;
+			}
+			$sort_by = $this->input->post('sort_by');
+			$sort_value = $this->input->post('sort_value');
+			$limit = $this->input->post('limit');
+			$result = $this->customer_model->get_customer_details_quick_balance($like,$offset,$limit,$sort_by,$sort_value);
+			$data['customers']= $result;
+			$data['offset']= $offset;
+		}
+		$ajax_result = $this->load->view('account/ajax_quick_balance', $data);
+		return $ajax_result;
+	}
+	
+	public function quick_ajax_clear()
+	{
+		$like= null;
+		$offset= 0;
+		$limit = 10;
+		$result = $this->customer_model->get_customer_details_quick($like,$offset,$limit);
+			$data['customers']= $result;
+		$ajax_result = $this->load->view('account/ajax_quick', $data);
+		return $ajax_result;
+	}
+	
 	public function account_details($user_id) {
 		$data['heading'] = $data['title']="Customer Account";
 		
