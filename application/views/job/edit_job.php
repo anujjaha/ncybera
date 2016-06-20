@@ -293,10 +293,11 @@ $modified_by = $this->session->userdata['user_id'];
 	</tr>
 	<tr>
 		<td width="5%">Sr</td>
-		<td width="5%">Rate</td>
+		
 		<td width="10%">Category</td>
 		<td width="50%">Details</td>
 		<td width="10%">Qty.</td>
+		<td width="5%">Calculate</td>
 		<td width="10%">Rate</td>
 		<td width="10%">Amount</td>
 	</tr>
@@ -308,7 +309,6 @@ $modified_by = $this->session->userdata['user_id'];
 		<td><?php echo $i;?>
 		<input type="hidden" name="jdid_<?php echo $i;?>" value="<?php if(!empty($job_details[$j]['id'])) { echo $job_details[$j]['id']; }?>" >
 		</td>
-		<td><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
 		<td>
 			<select name="category_<?php echo $i;?>" id="category_<?php echo $i;?>" onChange="check_visiting_card(<?php echo $i;?>);">
 				<option
@@ -340,6 +340,9 @@ $modified_by = $this->session->userdata['user_id'];
           
          </td>
 		<td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>" value="<?php if(!empty($job_details[$j]['jqty'])) { echo $job_details[$j]['jqty']; }?>" ></td>
+		
+		<td align="center"><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
+		
 		<td><input type="text" id="rate_<?php echo $i;?>" name="rate_<?php echo $i;?>" value="<?php if(!empty($job_details[$j]['jrate'])) { echo $job_details[$j]['jrate']; }?>" ></td>
 		<td align="right">
 		<input type="text" id="sub_<?php echo $i;?>" name="sub_<?php echo $i;?>" value="<?php if(!empty($job_details[$j]['jamount'])) { echo $job_details[$j]['jamount']; }?>" onblur="check_total(<?php echo $i;?>)" style="width:100px;">

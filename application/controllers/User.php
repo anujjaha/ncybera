@@ -77,6 +77,8 @@ class User extends CI_Controller {
 			$search = $this->input->post('q');
 			$data['dealers'] = $data['customers'] = $this->user_model->search_customers($search);
 			$data['job_data'] = $this->user_model->search_job($search);
+			//echo "<pre>";
+			//print_r($data);
 			$data['job_details'] = $this->user_model->search_jobdetails($search);
 			$data['search']=$search;
 		}
