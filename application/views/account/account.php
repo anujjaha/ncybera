@@ -172,6 +172,7 @@ function fill_discount_account() {
 		<th>Transaction ID</th>
 		<th>Date/Time</th>
 		<th>Job No.</th>
+		<th>Job Edit</th>
 		<th>Job Name</th>
 		<th>Debit</th>
 		<th>Credit</th>
@@ -221,6 +222,9 @@ function fill_discount_account() {
 			echo "-";
 		}?>
 		
+		</td>
+		<td>
+			<a target="_blank" href="<?php echo base_url();?>jobs/edit_job/<?php echo $result['job_id'];?>">Edit</a>
 		</td>
 		<td><?php echo $result['jobname'];?></td>
 		<td align="right">

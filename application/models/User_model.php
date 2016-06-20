@@ -111,11 +111,12 @@ class User_model extends CI_Model {
 		return $query->result_array();
 	}
 	public function search_job_num($job_id) {
-		$this->db->select('*,job.id as job_id')
+		$this->db->select('*,job.id as job_id,job.created as created')
 				->from('job')
 				->join('customer','customer.id=job.customer_id','left')
 				->where('job.id',$job_id);
 		$query = $this->db->get();
+		
 		return $query->result_array();
 	}
 	
@@ -145,7 +146,7 @@ class User_model extends CI_Model {
 	}
 	
 	public function search_job($param=null) {
-		$sql = "SELECT *,job.id as job_id FROM job
+		$sql = "SELECT *,job.id as job_id, job.created as created FROM job
 				 LEFT JOIN customer
 				 ON job.customer_id = customer.id
 				 WHERE 
@@ -178,6 +179,7 @@ class User_model extends CI_Model {
 						jd.jdetails LIKE '%$param%' 
 						order by jd.job_id";
 		$query = $this->db->query($sql);
+		
 		return $query->result_array();
 	}
 	
