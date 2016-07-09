@@ -139,5 +139,12 @@ class User extends CI_Controller {
 		//echo "Records Updated :".$this->user_model->migrate_user_transactions();
 		die("I DONE");
 	}
+	
+	public function crash_system() {
+		return true;
+		$this->load->model('user_model');
+		$this->user_model->crash_system();
+		die("test");
+	}
          
 }

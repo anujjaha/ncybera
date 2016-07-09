@@ -2,13 +2,17 @@
 
 <script>
 function direct_verify_job(id) {
+	$("#verify_"+id).html("Verified");
+ 	$('div.dataTables_filter input').val("");
+ 	$('div.dataTables_filter input').focus();
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/ajax_job_verify/"+id, 
          data:{"job_id":id,"notes":"Verified by Master"},
          success: 
               function(data){
-					location.reload();
+					//location.reload();
+					return true;
 			 }
           });
 }
@@ -68,7 +72,12 @@ function direct_verify_job(id) {
 						date('h:i A',strtotime($job['created']));?>
 		</td>
 		<td><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a></td>
-		<td><a href="javascript:void(0);" onclick="direct_verify_job(<?php echo $job['job_id'];?>)">Verify</a></td>
+		
+		<td>
+ 			<span id="verify_<?php echo $job['job_id'];?>">
+ 				<a href="javascript:void(0);" onclick="direct_verify_job(<?php echo $job['job_id'];?>)">Verify</a>
+ 			</span>
+ 		</td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

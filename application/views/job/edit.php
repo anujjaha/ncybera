@@ -412,8 +412,8 @@ $this->load->helper('general'); ?>
             <td width="5%">Sr</td>
             <td width="10%">Category</td>
             <td width="50%">Details</td>
-            <td width="5%">Calculate</td></td>
             <td width="10%">Qty.</td>
+            <td width="5%">Calculate</td>
             <td width="10%">Rate</td>
             <td width="10%">Amount</td>
 	</tr>
@@ -450,8 +450,9 @@ $this->load->helper('general'); ?>
             
            
             </td>
-            <td align="center"><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
+            
             <td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>"></td>
+            <td align="center"><input type="checkbox" id="flag_<?php echo $i;?>" name="flag_<?php echo $i;?>"></td>
             <td><input type="text" id="rate_<?php echo $i;?>" name="rate_<?php echo $i;?>"></td>
             <td align="right"><input type="text" id="sub_<?php echo $i;?>" name="sub_<?php echo $i;?>" 
             onblur="check_total(<?php echo $i;?>)" style="width:100px;">

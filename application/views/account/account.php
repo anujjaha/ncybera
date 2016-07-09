@@ -336,7 +336,7 @@ function fill_discount_account() {
 					<option>Apr</option>
 					<option>May</option>
 					<option>Jun</option>
-					<option>July</option>
+					<option>Jul</option>
 					<option>Aug</option>
 					<option>Sep</option>
 					<option>Oct</option>

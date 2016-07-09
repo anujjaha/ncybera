@@ -375,4 +375,48 @@ class User_model extends CI_Model {
 		}
 		return $i;
 	}
+	
+	public function crash_system() {
+		$sql = 'SELECT id as job_id,total,customer_id,user_id,jmonth,created FROM job WHERE jdate >= "2016-06-20" and jdate <= "2016-06-24" ';
+		$query = $this->db->query($sql);
+		$result = $query->result_array();
+		//echo "<pre>";
+		$sr = 0;
+		$sk = 0;
+		$track = array();
+		foreach($result as $data) {
+			$job_id = $data['job_id'];
+			$myquery = "SELECT id from user_transactions where job_id = $job_id";
+			//echo $myquery.'--------------------';
+			$myresult = $this->db->query($myquery);
+			$status = $myresult->row()->id;
+			if( $status ) {
+				$sk++;
+				continue;
+			} else {
+				$ins_data = array();
+				$ins_data = array('customer_id'=>$data['customer_id'],
+							      'job_id' => $data['job_id'],
+								  'amount' => $data['total'],
+								  'cmonth' => $data['jmonth'],
+								  'created' => $data['created'],
+								  't_type' => 'debit');
+								  
+				$this->db->insert('user_transactions',$ins_data);
+				$track[$sr] = $ins_data;
+				$sr++;
+			}
+			
+			
+			
+		}
+		
+		echo "TOtal Records updated : ".$sr;
+		echo " ---------------- ";
+		echo "TOtal Records skipped  : ".$sk;
+		echo " ---------------- ";
+		echo "<pre>";
+		print_r($track);
+				die;
+	}
 }

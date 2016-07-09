@@ -18,6 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://111.111.111.147/ncybera/';
+//$config['base_url'] = 'http://localhost/ncybera/';
 
 /*
 |--------------------------------------------------------------------------
