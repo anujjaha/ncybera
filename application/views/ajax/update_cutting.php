@@ -66,6 +66,7 @@ function update_box() {
                 <td  width="50%">
                     <label><input type="radio" <?php if($cutting_details->c_machine == "1") { echo "checked='checked'";}?> id="machine" name="c_machine" value="1">1</label>
                     <label><input type="radio" <?php if($cutting_details->c_machine == "2") { echo "checked='checked'";}?> id="machine" name="c_machine" value="2">2</label>
+                    <label><input type="radio" <?php if($cutting_details->c_machine == "Xrox") { echo "checked='checked'";}?> id="machine" name="c_machine" value="Xrox">Xrox</label>
                 </td>
             </tr>
             <tr>
@@ -83,6 +84,8 @@ function update_box() {
             <tr>
                 <td align="right">Size:</td>
                 <td>
+					<label><input type="radio" <?php if($cutting_details->c_size == "A4") { echo "checked='checked'";}?> name="c_size" id="size" value="A4">A4</label>
+					<label><input type="radio" <?php if($cutting_details->c_size == "A3") { echo "checked='checked'";}?> name="c_size" id="size" value="A3">A3</label>
                     <label><input type="radio" <?php if($cutting_details->c_size == "12X18") { echo "checked='checked'";}?> name="c_size" id="size" value="12X18">12X18</label>
                     <label><input type="radio" <?php if($cutting_details->c_size == "13X19") { echo "checked='checked'";}?> name="c_size" id="size" value="13X19">13X19</label>
                     <input type="text" name="c_sizeinfo" id="size_info" value="<?php echo $cutting_details->c_sizeinfo;?>">
@@ -103,6 +106,20 @@ function update_box() {
 				<td align="right">Corner Cutting :</td>
 				<td><input type="text" name="c_corner" id="c_corner" value="<?php echo $cutting_details->c_corner;?>"></td>
             </tr>
+            
+            <tr>
+                <td align="right">Corner Cutting Die No. :</td>
+                <td>
+                    <input type="text" name="c_cornerdie" id="c_cornerdie"  value="<?php echo $cutting_details->c_cornerdie;?>">
+                </td>
+            </tr>
+            <tr>
+                <td align="right">Round Cutting Side:</td>
+                <td>
+                    <input type="text" name="c_rcorner" id="c_rcorner"  value="<?php echo $cutting_details->c_rcorner;?>">
+                </td>
+            </tr>
+            
             <tr>
 				<td align="right">Laser Cutting :</td>
 				<td><input type="text" name="c_laser" id="c_laser" value="<?php echo $cutting_details->c_laser;?>"></td>

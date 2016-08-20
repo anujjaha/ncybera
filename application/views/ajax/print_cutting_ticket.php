@@ -11,12 +11,12 @@ $sr=1;
 foreach($cutting_info as $cutting) {
 	$content .= '<td>
 				<table align="center" border="2" width="100%" style="border:1px solid;">
-				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
 				<tr><td align="right">Material : </td><td>'.$cutting['c_material'].'</td></tr>
 				<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>
 				<tr><td align="right">Size : </td><td>'.$cutting['c_size'].'</td></tr>
-				<tr><td align="right">Size Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>
 				<tr><td align="right">Print : </td><td>'.$cutting['c_print'].'</td></tr>
+				<tr><td align="right">Cutting Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>
+				<tr><td align="right">Quantity : </td><td><strong>'.$cutting['c_qty'].'</strong></td></tr>
 				<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>
 				<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'].' '.$cutting['c_laminationinfo'] .'</td></tr>
 				<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'].' '.$cutting['c_bindinginfo'].'</td></tr>

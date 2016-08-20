@@ -539,11 +539,14 @@ $this->load->helper('general'); ?>
                 <td  width="50%">
                     <label><input type="radio" id="machine" name="machine" value="1">1</label>
                     <label><input type="radio" id="machine" name="machine" value="2">2</label>
+                    <label><input type="radio" id="machine" name="machine" value="Xrox">Xrox</label>
                 </td>
             </tr>
             <tr id="popup_size">
                 <td align="right">Size:</td>
                 <td>
+                    <label><input type="radio" name="size" id="size" value="A4">A4</label>
+                    <label><input type="radio" name="size" id="size" value="A3">A3</label>
                     <label><input type="radio" name="size" id="size" value="12X18">12X18</label>
                     <label><input type="radio" name="size" id="size" value="13X19">13X19</label>
                     <input type="text" name="size_info" id="size_info" value="1/">
