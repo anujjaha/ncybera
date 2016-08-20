@@ -123,6 +123,15 @@ function set_cutting_details_box(id){
         jQuery("#c_rcorner_"+data_id).val($("#c_rcorner").val());
         jQuery("#c_cornerdie_"+data_id).val($("#c_cornerdie").val());
         $.fancybox.close();
+        
+        if(jQuery("#c_machine_"+data_id).val().length > 0 && data_id < 5)
+        {
+			var nextElement = parseInt(data_id) + 1;
+			
+			jQuery("#category_" + nextElement).val("Cutting");
+			jQuery("#details_" + nextElement).val("Cutting");
+			jQuery("#qty_" + nextElement).focus();
+		}
 }
 function remove_cutting_details(data_id) {
     jQuery("#cut_icon_"+data_id).css('display','none');
@@ -213,7 +222,7 @@ function check_form() {
 
 function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Cutting") {
-			$("#details_"+sr).val("Cutting Details");
+			$("#details_"+sr).val("Cutting");
 		}
 		if($("#category_"+sr).val() == "Digital Print") {
 			$("#details_"+sr).val("");

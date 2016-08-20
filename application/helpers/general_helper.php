@@ -59,7 +59,7 @@ if ( ! function_exists('test_method'))
 		}
 		
 		if($type == "dealer") {
-			$sql = "SELECT id,name,companyname,dealercode FROM customer WHERE ctype=1 order by companyname";
+			$sql = "SELECT id,name,companyname,name,dealercode FROM customer WHERE ctype=1 order by companyname";
 		$ci=& get_instance();
 		$ci->load->database(); 	
 		$query = $ci->db->query($sql);
@@ -69,9 +69,10 @@ if ( ! function_exists('test_method'))
 		}
 		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Dealer</option>";
 		foreach($query->result() as $customer) {
+			$name = $customer->companyname ? $customer->companyname : $customer->name;
 				$dropdown .= "<option value='".$customer->id."'>".
-				$customer->companyname
-				."[".$customer->dealercode."]</option>";
+				$name
+				." [".$customer->dealercode."]</option>";
 		}
 		$dropdown .= '</select>';
 		return $dropdown;
