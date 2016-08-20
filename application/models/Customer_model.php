@@ -19,6 +19,7 @@ class Customer_model extends CI_Model {
 				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table.id and t_type ='debit')  as 'total_debit' ,
 				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
 				FROM $this->table 
+				where ctype = 0
 				order by companyname";
 		$query = $this->db->query($sql);
 		return $query->result();
@@ -33,6 +34,8 @@ class Customer_model extends CI_Model {
 				OR  customer.name like '%$like%'
 				OR customer.mobile like '%$like%'
 				OR customer.emailid like '%$like%'
+				AND
+				where ctype = 0
 				ORDER BY customer.$sort_by  $sort_value 
 				LIMIT $offset,$limit
 				";	
@@ -41,6 +44,7 @@ class Customer_model extends CI_Model {
 				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table.id and t_type ='debit')  as 'total_debit' ,
 				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
 				FROM $this->table 
+				where ctype = 0
 				ORDER BY customer.$sort_by $sort_value  
 				LIMIT $offset,$limit";
 		}
@@ -60,6 +64,7 @@ class Customer_model extends CI_Model {
 				OR  customer.name like '%$like%'
 				OR customer.mobile like '%$like%'
 				OR customer.emailid like '%$like%'
+				and ctype = 0
 				ORDER BY $sort_by  $sort_value 
 				LIMIT $offset,$limit
 				";	
@@ -69,6 +74,7 @@ class Customer_model extends CI_Model {
 				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit',
 				(SELECT COALESCE(total_credit - total_debit) ) as balance
 				FROM $this->table 
+				where ctype = 0
 				ORDER BY $sort_by $sort_value  
 				LIMIT $offset,$limit";
 		}

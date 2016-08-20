@@ -5,6 +5,7 @@
 		<thead>
 		<tr>
 		<th>Sr</th>
+		<th>ID</th>
 		<th>Company Name</th>
 		<th>Customer Name</th>
 		<th>Estimation Details</th>
@@ -18,6 +19,7 @@
 		foreach($estimations as $smsdata) { ?>
 		<tr>
 		<td><?php echo $sr;?></td>
+		<td><?php echo $smsdata['sms_id'];?></td>
 		<td><?php echo $smsdata['companyname'] ? $smsdata['companyname'] : $smsdata['prospectname'] ;?></td>
 		<td><?php echo $smsdata['name'] ? $smsdata['name'] : $smsdata['prospectname'];?>
 			</br>

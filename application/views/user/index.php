@@ -73,13 +73,12 @@
 		</td>
 		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
 			<?php
-				if($job['jstatus'] == JOB_PENDING) {
-					echo "<span class='red'>".$job['jstatus']."</span>";
-				} else if($job['jstatus'] == JOB_COMPLETE) {
+				if($job['jstatus'] == JOB_COMPLETE) {
 					echo "<span class='blue'>".$job['jstatus']."</span>";
 				} else {
-					echo $job['jstatus'];
-				}?>
+					echo "<span class='red'>".$job['jstatus']."</span>";
+				}
+				?>
 			</a>
 		</td>
 		<td><?php echo $job['smscount'];?></td>

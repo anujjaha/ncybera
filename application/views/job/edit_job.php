@@ -187,7 +187,7 @@ function check_form() {
 }
 function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Cutting") {
-			$("#details_"+sr).val("Cutting Details");
+			$("#details_"+sr).val("Cutting");
 		}
 		
 		if($("#category_"+sr).val() == "Laser Cutting") {
@@ -258,13 +258,12 @@ $modified_by = $this->session->userdata['user_id'];
 							Customer Name : 
 							<?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name;?>
 						</td>
-						<td width="50%" align="right">
-							<input type="hidden" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
-							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">
+						<td>
+							<strong>Job Id : <?php echo $job_data->id;?></strong>
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td width="50%">
 							Update Customer Name : 
 							<select name="customer_id" id="customer_id" onchange="customer_selected_set();">
 								<?php
@@ -277,6 +276,10 @@ $modified_by = $this->session->userdata['user_id'];
 									</option>
 								<?php } ?>
 							</select>
+						</td>
+						<td width="50%" align="right">
+							<input type="hidden" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
+							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">
 						</td>
 					</tr>
 				</table>

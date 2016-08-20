@@ -198,7 +198,9 @@ function show_notifications(data) {
 				</tr>
 				<tr>
 					<td align="right">Message:</td>
-					<td><textarea id="sms_message" name="sms_message" cols="80" rows="6"></textarea></td>
+					<td><textarea id="sms_message" name="sms_message" cols="80" rows="6"></textarea>
+						Characters : <span id="charCount">0</span>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
@@ -229,7 +231,10 @@ function show_notifications(data) {
 				</tr>
 				<tr>
 					<td align="right">Message:</td>
-					<td><textarea id="n_sms_message" name="n_sms_message" cols="80" rows="6"></textarea></td>
+					<td>
+						<textarea id="n_sms_message" name="n_sms_message" cols="80" rows="6"></textarea>
+						Characters : <span id="n_charCount">0</span>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
@@ -516,5 +521,37 @@ function set_schedule() {
       }
   });
 }
+
+
+var contentLength  = 0;
+var n_contentLength  = 0;
+jQuery(document).ready(function() {
+	
+	jQuery("#sms_message").on('keyup', function()
+	{
+		contentLength = jQuery("#sms_message").val().length;
+		if(contentLength > 140)
+		{
+			jQuery("#charCount").html('<span class="red">' +contentLength+ '</span>');
+		}
+		else
+		{
+			jQuery("#charCount").html('<span class="green">' +contentLength+ '</span>');	
+		}
+	});
+	
+	jQuery("#n_sms_message").on('keyup', function()
+	{
+		n_contentLength = jQuery("#n_sms_message").val().length;
+		if(contentLength > 140)
+		{
+			jQuery("#n_charCount").html('<span class="red">' +n_contentLength+ '</span>');
+		}
+		else
+		{
+			jQuery("#n_charCount").html('<span class="green">' +n_contentLength+ '</span>');	
+		}
+	});
+});
 </script>
 
