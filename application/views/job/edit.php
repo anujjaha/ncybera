@@ -611,17 +611,7 @@ $this->load->helper('general'); ?>
 					Half Cutting:<input type="text" name="binding_info" id="binding_info">
 				</td>
             </tr>
-            <tr id="popup_packing">
-                <td align="right">Packing:</td>
-                <td>
-                    <label><input type="radio" id="packing" name="packing" value="Paper">Paper</label>
-                    <label><input type="radio" id="packing" name="packing" value="Loose">Loose</label>
-                    <label><input type="radio" id="packing" name="packing" value="Plastic Bag">Plastic Bag</label>
-                    <label><input type="radio" id="packing" name="packing" value="Letter Head">Letter Head</label>
-                    <label><input type="radio" id="packing" name="packing" value="Parcel">Parcel</label>
-                </td>
-            </tr>
-            <!--<tr>
+                        <!--<tr>
 				<td align="right">Checking:</td>
                 <td>
 					<label><input type="radio" name="checking" value="Paper">Paper</label>
@@ -634,6 +624,19 @@ $this->load->helper('general'); ?>
                     <textarea name="details" id="details" rows="4" cols="40"></textarea>
                 </td>
             </tr>
+            
+            <tr id="popup_packing">
+                <td align="right">Packing:</td>
+                <td>
+                    <label><input type="radio" id="packing" name="packing" value="Paper">Paper</label>
+                    <label><input type="radio" id="packing" name="packing" value="Loose">Loose</label>
+                    <label><input type="radio" id="packing" name="packing" value="Plastic Bag">Plastic Bag</label>
+                    <label><input type="radio" id="packing" name="packing" value="Letter Head">Letter Head</label>
+                    <label><input type="radio" id="packing" name="packing" value="Parcel">Parcel</label>
+                </td>
+            </tr>
+
+            
             <tr>
                 <td colspan="2" align="center">
                     <input type="hidden" name="fancybox_cutting_id" value="" id="fancybox_cutting_id">

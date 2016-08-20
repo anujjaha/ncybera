@@ -9,7 +9,7 @@ var cutting_details_qty = $("#qty_"+<?php echo $sr;?>).val();
 $("#c_material").val(cutting_details_material);
 $("#c_qty").val(cutting_details_qty);
 function update_box() {
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_cornerdie,c_rcorner;
         machine = $('input:radio[name=c_machine]:checked').val();// jQuery("#machine").val();
       binding = ""; 
       var $boxes = $('input[name=c_binding]:checked');
@@ -19,6 +19,9 @@ function update_box() {
 		  }
 		});
         c_corner = jQuery("#c_corner").val();
+        
+        c_cornerdie = jQuery("#c_cornerdie").val();
+		c_rcorner   = jQuery("#c_rcorner").val();
         c_laser = jQuery("#c_laser").val();
         lamination_info = jQuery("#lamination_info").val();
         size_info = jQuery("#size_info").val();
@@ -42,7 +45,7 @@ function update_box() {
 				'c_size':size,'c_sizeinfo':size_info,'c_print':printing,
 				'c_details':details,'c_lamination':lamination,'c_laminationinfo':lamination_info,
 				'c_binding':binding,'c_bindinginfo':binding_info,'c_packing':packing,
-				'c_checking':checking,'cutting_id':cutting_id,'j_id':j_id,"c_corner":c_corner,"c_laser":c_laser
+				'c_checking':checking,'cutting_id':cutting_id,'j_id':j_id,"c_corner":c_corner,"c_laser":c_laser, "c_cornerdie":c_cornerdie, "c_rcorner": c_rcorner
 		
 			},
 		success: 
@@ -148,6 +151,14 @@ function update_box() {
 					Half Cutting:<input type="text" name="c_bindinginfo" id="binding_info" value="<?php echo $cutting_details->c_bindinginfo;?>">
 				</td>
             </tr>
+            
+            <tr>
+                <td align="right">Details:</td>
+                <td>
+                    <textarea name="c_details" id="details" rows="4" cols="40"><?php echo $cutting_details->c_details;?></textarea>
+                </td>
+            </tr>
+            
             <tr>
                 <td align="right">Packing:</td>
                 <td>
@@ -158,19 +169,8 @@ function update_box() {
                     <label><input type="radio" <?php if($cutting_details->c_packing == "Parcel") { echo "checked='checked'";}?> id="packing" name="packing" value="c_Parcel">Parcel</label>
                 </td>
             </tr>
-            <tr>
-				<td align="right">Checking:</td>
-                <td>
-					<label><input type="radio" <?php if($cutting_details->c_checking == "Paper") { echo "checked='checked'";}?> name="c_checking" value="Paper">Paper</label>
-                    <label><input type="radio" <?php if($cutting_details->c_checking == "Printing") { echo "checked='checked'";}?> name="c_checking" value="Printing">Printing</label>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Details:</td>
-                <td>
-                    <textarea name="c_details" id="details" rows="4" cols="40"><?php echo $cutting_details->c_details;?></textarea>
-                </td>
-            </tr>
+            
+            
             <tr>
                 <td colspan="2" align="center">
 					<input type="hidden" name="cutting_id" id="cutting_id" value="<?php echo $cutting_details->id;?>">

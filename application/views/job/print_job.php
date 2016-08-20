@@ -179,10 +179,6 @@ foreach($cutting_info as $cutting) {
 	$pcontent .= '<td>
 				<table align="center" border="2" width="100%" style="border:1px solid;">';
 				
-				if(!empty($cutting['c_qty'])) {
-					$pcontent .= '<tr><td align="right">Quantity : </td><td>'.$cutting['c_qty'].'</td></tr>';
-				}
-				
 				if(!empty($cutting['c_machine'])) {
 					$pcontent .= '<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
 				}
@@ -193,6 +189,10 @@ foreach($cutting_info as $cutting) {
 							$c_m_label = "";
 					}	
 					$pcontent .= '<tr><td align="right">'.$c_m_label.'  </td><td>'.$cutting['c_material'].'</td></tr>';
+				}
+				
+				if(!empty($cutting['c_qty'])) {
+					$pcontent .= '<tr><td align="right">Quantity : </td><td>'.$cutting['c_qty'].'</td></tr>';
 				}
 				
 				if(!empty($cutting['c_size'])) { 
