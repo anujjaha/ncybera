@@ -6,7 +6,7 @@
 <script>
     $(document).ready(function() {
       $('.fancybox').fancybox({
-		'width':800,
+		'width':1000,
         'height':600,
         'autoSize' : false,
         'afterClose':function () {
@@ -439,8 +439,8 @@ $modified_by = $this->session->userdata['user_id'];
 </div>
 
 
-<div id="fancy_box_demo" style="width:400px;display: none;">
-	<div style="width: 500px; margin: 0 auto; padding: 120px 0 40px;">
+<div id="fancy_box_demo" style="width:100%;display: none;">
+	<div style="width: 100%; margin: 0 auto; padding: 120px 0 40px;">
 		<input type="hidden" name="fancybox_id" id="fancybox_id">
         <ul class="tabs" data-persist="true">
             <li><a href="#paper_tab">Paper</a></li>
@@ -494,7 +494,9 @@ $modified_by = $this->session->userdata['user_id'];
 				</div>
 			</div>
             <div id="view2">
-                <p>Pqrss...</p>
+                <?php
+					require_once('visiting-card-rates.php');
+				?>
             </div>
             <div id="view3">
                 <p>5466898...</p>
