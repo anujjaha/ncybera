@@ -4,7 +4,23 @@ class Account_model extends CI_Model {
     {
                 parent::__construct();
     }
-		public $table = "user_transactions";
+		public $table 			= "user_transactions";
+		public $table_customer	= "customer";
+	
+	public function get_account_customer_details($param=null,$value=null) {
+		if(!empty($param)) {
+			$sql = "SELECT * FROM $this->table_customer WHERE $param = $value";
+			$query = $this->db->query($sql);
+			return $query->row();
+		}
+		$sql = "SELECT *, 
+				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table_customer.id and t_type ='debit')  as 'total_debit' ,
+				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
+				FROM $this->table_customer
+				order by companyname";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
 	
 	public function get_account_details($user_id) {
 		$sql = "SELECT *,

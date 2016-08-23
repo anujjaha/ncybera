@@ -26,7 +26,7 @@ class Account extends CI_Controller {
 	 */
 	public function index()
 	{
-		$result = $this->customer_model->get_customer_details();
+		$result = $this->account_model->get_account_customer_details();
 		$data['title']="Customer Account Management";
 		$data['heading']="Customer Account Management";
 		$data['customers']= $result;
