@@ -26,6 +26,23 @@ class Master extends CI_Controller {
 		$data['unverify_jobs'] = $this->master_model->get_all_unverify_jobs();
 		$this->template->load('master', 'index', $data);
 	}
+	
+	public function unverifyjobs() {
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Unverified Job List";
+		$data['unverify_jobs'] = $this->master_model->get_all_unverify_jobs();
+		$this->template->load('master', 'unverifyjobs', $data);
+	}
+	
+	public function verifyjobs() {
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Verified Job List";
+		$data['unverify_jobs'] = $this->master_model->get_all_verified_jobs();
+		$this->template->load('master', 'verifiedjobs', $data);
+	}
+	
 	public function all() {
 		$this->load->model('master_model');
 		$data = array();

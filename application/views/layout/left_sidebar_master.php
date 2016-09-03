@@ -45,6 +45,16 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>master/verifyjobs">
+                                <i class="fa fa-envelope"></i> <span>All Verified Jobs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>master/unverifyjobs">
+                                <i class="fa fa-envelope"></i> <span>All Unverified Jobs</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url();?>master/manage_users">
                                 <i class="fa fa-envelope"></i> <span>All Users</span>
                             </a>
