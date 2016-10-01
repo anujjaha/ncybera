@@ -15,9 +15,18 @@
 		<td> &nbsp; </td>
 		<td colspan="2" align="center">300 GSM Matt Card </td>
 		<td colspan="2" align="center">350 GSM Matt Card </td>
-		<td colspan="2" align="center">Economy </td>
-		<td colspan="2" align="center">Premium </td>
-		<td colspan="2" align="center">Exclusive </td>
+		<td colspan="2" align="center">Economy
+			<br>
+			<strong>Code 01 to 33</strong>
+		 </td>
+		<td colspan="2" align="center">Premium 
+			<br>
+			<strong>Code 34 to 65</strong>
+		</td>
+		<td colspan="2" align="center">Exclusive 
+			<br>
+			<strong>Code 66 to 70</strong>
+		</td>
 		<td colspan="2" align="center">Velvet </td>
 	</tr>
 	
