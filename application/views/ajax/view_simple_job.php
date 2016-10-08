@@ -5,7 +5,7 @@
 		$restricted = false;
 	}
 	/*echo "<pre>";
-	print_r($job_data);*/
+	print_r($cuttingInfo);*/
 ?>
 <div class="col-md-12">
 <table width="100%" border="2">
@@ -129,6 +129,53 @@
 <center>
 	Job Created by : <?php echo $userInfo->nickname;?>
 </center>
+<hr>
+<div class="test">
+	<table border="1" class="table">
+	<tr>
+		<td> QTY </td>
+		<td> Material </td>
+		<td> Machine </td>
+		<td> Size </td>
+		<td> Details </td>
+		<td> Print </td>
+		<td> Corner </td>
+		<td> Laser Cut </td>
+		<td> Round Corner </td>
+		<td> Die </td>
+		<td> Notes </td>
+		<td> Lamination  </td>
+		<td> Binding </td>
+		<td> Binding Details </td>
+		<td> Packing </td>
+	</tr>
+	<?php
+		foreach($cuttingInfo as $cutInfo)
+		{
+	?>
+		<tr>
+		<td> <?php echo $cutInfo['c_qty'];?> </td>
+		<td> <?php echo $cutInfo['c_material'];?> </td>
+		<td> <?php echo $cutInfo['c_machine'];?> </td>
+		<td> <?php echo $cutInfo['c_size'];?> </td>
+		<td> <?php echo $cutInfo['c_sizeinfo'];?> </td>
+		<td> <?php echo $cutInfo['c_print'];?> </td>
+		<td> <?php echo $cutInfo['c_corner'];?> </td>
+		<td> <?php echo $cutInfo['c_laser'];?> </td>
+		<td> <?php echo $cutInfo['c_rcorner'];?> </td>
+		<td> <?php echo $cutInfo['c_cornerdie'];?> </td>
+		<td> <?php echo $cutInfo['c_details'];?> </td>
+		<td> <?php echo $cutInfo['c_lamination'];?> 
+			<br>
+			<?php echo $cutInfo['c_laminationinfo'];?> 
+		</td>
+		<td> <?php echo $cutInfo['c_binding'];?> </td>
+		<td> <?php echo $cutInfo['c_bindinginfo'];?> </td>
+		<td> <?php echo $cutInfo['c_packing'];?> </td>
+		</tr>
+	<?php } ?>
+</table>
+</div>
 <hr>
 <table width="100%" border="2">
 	<tr>

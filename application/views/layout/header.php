@@ -178,7 +178,7 @@ function show_notifications(data) {
 				<tr>
 					<td align="right"> Select Customer :</td>
 					<td> 
-						<select class="form-control" name="customer" id="customer" onchange="show_sms_mobile();">
+						<select class="form-control estimate-customer-select" name="customer" id="customer" onchange="show_sms_mobile();">
 							<option value="0" selected="selected">Select Customer</option>
 							<?php
 							foreach($all_customer as $customer) {
@@ -264,7 +264,22 @@ function show_notifications(data) {
 		lang:'en',
 		disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
 		step:10
-	});    
+	});  
+	
+	  var options_sms_customer = $('select.estimate-customer-select option');
+     var arr = options_sms_customer.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    options_sms_customer.each(function(i, o) {
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });  
      
     /*$('.datepicker').datepicker({
       viewMode: 'years'

@@ -48,11 +48,11 @@ if ( ! function_exists('test_method'))
 			$dropdown = "<select  class='form-control select-customer' name='customer' $extra><option value=0> Select Customer</option>";
 			
 			foreach($query->result() as $customer) {
-					$cname = $customer->name;
+					$cname = ucwords($customer->name);
 					if($customer->companyname) {
-						$cname = $customer->companyname;
+						$cname = ucwords($customer->companyname);
 					}
-					$dropdown .= "<option value='".$customer->id."'>".$cname."</option>";
+					$dropdown .= "<option value='".$customer->id."'>".strtolower($cname)."</option>";
 			}
 			$dropdown .= '</select>';
 			return $dropdown;
@@ -60,23 +60,24 @@ if ( ! function_exists('test_method'))
 		
 		if($type == "dealer") {
 			$sql = "SELECT id,name,companyname,name,dealercode FROM customer WHERE ctype=1 order by companyname";
-		$ci=& get_instance();
-		$ci->load->database(); 	
-		$query = $ci->db->query($sql);
-		$extra ="";
-		if($flag) {
-			$extra = 'onchange="customer_selected('."'dealer'".',this.value)"';
+			$ci=& get_instance();
+			$ci->load->database(); 	
+			$query = $ci->db->query($sql);
+			$extra ="";
+			if($flag) {
+				$extra = 'onchange="customer_selected('."'dealer'".',this.value)"';
+			}
+			$dropdown = "<select  class='form-control select-dealer' name='customer' $extra><option value=0> Select Dealer</option>";
+			foreach($query->result() as $customer) {
+				$name = $customer->companyname ? $customer->companyname : $customer->name;
+					$dropdown .= "<option value='".$customer->id."'>".
+					strtolower($name)
+					." [".$customer->dealercode."]</option>";
+			}
+			$dropdown .= '</select>';
+			return $dropdown;
 		}
-		$dropdown = "<select  class='form-control select-dealer' name='customer' $extra><option value=0> Select Dealer</option>";
-		foreach($query->result() as $customer) {
-			$name = $customer->companyname ? $customer->companyname : $customer->name;
-				$dropdown .= "<option value='".$customer->id."'>".
-				$name
-				." [".$customer->dealercode."]</option>";
-		}
-		$dropdown .= '</select>';
-		return $dropdown;
-		}
+		
 		if($type == "voucher") {
 			$sql = "SELECT id,name,companyname FROM customer WHERE ctype=2 order by companyname";
 		$ci=& get_instance();
@@ -91,7 +92,7 @@ if ( ! function_exists('test_method'))
 				$c_name = $customer->companyname ? $customer->companyname : $customer->name;
 			
 				$dropdown .= "<option value='".$customer->id."'>".
-				$c_name
+				strtolower($c_name)
 				."</option>";
 		}
 		$dropdown .= '</select>';

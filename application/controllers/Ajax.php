@@ -35,6 +35,8 @@ class Ajax extends CI_Controller {
 		$data['job_data']=$job_data;
 		$data['heading'] = $data['title']='View Job';
 		$data['courier'] = $this->user_model->get_courier($job_id);
+		$data['userInfo'] = get_user_by_param('id', $job_data->user_id);
+		$data['cuttingInfo'] = $this->job_model->get_cutting_details($job_id);
 		$this->load->view('ajax/view_job', $data);
 	}
 	public function ajax_job_simple_details($job_id=null) {
@@ -45,6 +47,7 @@ class Ajax extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->model('account_model');
 		$job_data = $this->job_model->get_job_data($job_id);
+		$data['cuttingInfo'] = $this->job_model->get_cutting_details($job_id);
 		$job_details = $this->job_model->get_job_details($job_id);
 		$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
 		$data['userInfo'] = get_user_by_param('id', $job_data->user_id);
