@@ -4,9 +4,28 @@
 	if( in_array($this->session->userdata('department'),$restricted_dept)) {
 		$restricted = false;
 	}
+	/*echo "<pre>";
+	print_r($job_data);*/
 ?>
 <div class="col-md-12">
 <table width="100%" border="2">
+	<tr>
+		<td colspan="2">
+			<div id="regular_customer" style="display:block;">
+				<table width="100%">
+					<tr>
+						<td width="50%">
+							Job Id : <?php echo $job_data->id;?>
+						</td>
+						<td width="50%" align="right">
+							Date : <?php echo date('d-m-Y H:i A', strtotime($job_data->created));?>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	
 	<tr>
 		<td colspan="2">
 			<div id="regular_customer" style="display:block;">
@@ -106,6 +125,10 @@
 		<td align="right"> <?php echo $job_data->settlement_amount; ?></td>
 	</tr> <?php } ?>
 </table>
+<hr>
+<center>
+	Job Created by : <?php echo $userInfo->nickname;?>
+</center>
 <hr>
 <table width="100%" border="2">
 	<tr>

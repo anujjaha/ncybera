@@ -46,6 +46,12 @@ class Jobs extends CI_Controller {
         if($this->input->post()) {
 			    $this->load->model('customer_model');
                 if($this->input->post('customer_type') == 'new') {
+					
+					if( ( strlen($this->input->post('name')) < 1)  && ( strlen ($this->input->post('companyname')) < 1) )
+					{
+						redirect("jobs/edit", 'refresh');
+					}
+					
                         $data=array();
 
                         $data['name'] = $this->input->post('name');
@@ -54,6 +60,12 @@ class Jobs extends CI_Controller {
                         $data['emailid'] = $this->input->post('emailid');
                         $customer_id = $this->customer_model->insert_customer($data);
                 } else {
+					
+						if(strlen($this->input->post('customer_id')) < 1)
+						{
+							redirect("jobs/edit", 'refresh');
+						}
+					
                         $customer_id = $this->input->post('customer_id');
                 }
 
@@ -329,5 +341,11 @@ class Jobs extends CI_Controller {
 		$data['estimations'] = $this->emodel->get_all_estimations();
 		$data['heading'] = $data['title']="SMS Estimation - Cybera Print Art";
 		$this->template->load('estimationsms', 'index', $data);
+	}
+	
+	public function test()
+	{
+		$data =  create_customer_dropdown('customer',true);
+		die('test');
 	}
 }

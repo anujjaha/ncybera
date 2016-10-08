@@ -45,7 +45,7 @@ if ( ! function_exists('test_method'))
 			if($flag) {
 				$extra = 'onchange="customer_selected('."'customer'".',this.value)"';
 			}
-			$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Customer</option>";
+			$dropdown = "<select  class='form-control select-customer' name='customer' $extra><option value=0> Select Customer</option>";
 			
 			foreach($query->result() as $customer) {
 					$cname = $customer->name;
@@ -67,7 +67,7 @@ if ( ! function_exists('test_method'))
 		if($flag) {
 			$extra = 'onchange="customer_selected('."'dealer'".',this.value)"';
 		}
-		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Dealer</option>";
+		$dropdown = "<select  class='form-control select-dealer' name='customer' $extra><option value=0> Select Dealer</option>";
 		foreach($query->result() as $customer) {
 			$name = $customer->companyname ? $customer->companyname : $customer->name;
 				$dropdown .= "<option value='".$customer->id."'>".
@@ -86,7 +86,7 @@ if ( ! function_exists('test_method'))
 		if($flag) {
 			$extra = 'onchange="customer_selected('."'voucher'".',this.value)"';
 		}
-		$dropdown = "<select  class='form-control' name='customer' $extra><option value=0> Select Voucher Customer</option>";
+		$dropdown = "<select  class='form-control select-voucher' name='customer' $extra><option value=0> Select Voucher Customer</option>";
 		foreach($query->result() as $customer) {
 				$c_name = $customer->companyname ? $customer->companyname : $customer->name;
 			

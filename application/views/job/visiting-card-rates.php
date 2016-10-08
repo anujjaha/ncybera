@@ -182,8 +182,8 @@
 			</span>
 		</td>
 		<td>
-			<span class="price btn btn-primary gsmExclusive" data-price="1150" data-card="V_Card_Code" data-type="FB">
-				1150
+			<span class="price btn btn-primary gsmExclusive" data-price="1050" data-card="V_Card_Code" data-type="FB">
+				1050
 			</span>
 		</td>
 		
@@ -411,7 +411,7 @@
 		
 		<td>
 			<span class="price btn btn-primary gsmVelvet" data-price="5400" data-card="Velvet_Touch_Card" data-type="SS">
-				540
+				5400
 			</span>
 		</td>
 		<td>

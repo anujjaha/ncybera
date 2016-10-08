@@ -9,6 +9,57 @@ $(document).ready(function() {
 			fancy_box_closed();
 		},
     });
+    
+    
+    var options_dealer = $('select.select-dealer option');
+     var arr = options_dealer.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    options_dealer.each(function(i, o) {
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });
+    
+    var select_voucher = $('select.select-voucher option');
+    var arr = select_voucher.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    select_voucher.each(function(i, o) {
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });
+    
+    var options = $('select.select-customer option');
+    var arr = options.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    options.each(function(i, o) {
+        //console.log(i);
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });
+
+	console.log('done');
+
+
 });
 
 function show_due(userid) {

@@ -6,7 +6,7 @@
         }
 td{font-size:9px; font-family:Arial, Helvetica, sans-serif}
 .own-address td {
-	font-size:10px;
+	font-size:12px;
 	
 }
 .customer-address  td{
@@ -269,17 +269,17 @@ echo $pcontent;
 <table align="center" border="0" width="90%">
 	<tr>
 		<td>
-			<table align="left" width="100%" border="0">
+			<table align="left" width="100%" border="0" style="margin-left: 50px; margin-top: 20px;">
 			<tr>
 				<td> 
-					<span style="font-size:14px;">
+					<span style="font-size:20px;">
 						<strong>To, </strong>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td> 
-					<span style="font-size:14px;">
+					<span style="font-size:20px;">
 						<strong><?php echo $customer_details->companyname ?  $customer_details->companyname :  $customer_details->name;?> </strong>
 					</span>
 				</td>
@@ -288,17 +288,17 @@ echo $pcontent;
 				<td>
 					<table width="100%" border="0" class="customer-address">
 					<tr>
-						<td>
+						<td style="font-size:20px;">
 							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style="font-size:20px;">
 							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style="font-size:20px;">
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
@@ -312,14 +312,14 @@ echo $pcontent;
 		<td>
 			<table align="center" width="100%">
 			<tr>
-				<td width="40%">&nbsp;</td>
+				<td width="50%">&nbsp;</td>
 				<td>
-					<table width='100%' align='right' border='0' class="own-address">
+					<table width='100%' align='right' border='0' style="font-size: 14px;" class="own-address">
 					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
 					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
 					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,</td></tr>
-					<tr><td>&nbsp;</td><td>Nr. Klassic Gold Hotel,</td></tr>
+					<tr><td>&nbsp;</td><td>Nr. Girish Cold Drinks,</td></tr>
 					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura</td></tr>
 					<tr><td>&nbsp;</td><td>Ahmedabad - 009</td></tr>
 					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720</td></tr>

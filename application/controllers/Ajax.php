@@ -47,6 +47,7 @@ class Ajax extends CI_Controller {
 		$job_data = $this->job_model->get_job_data($job_id);
 		$job_details = $this->job_model->get_job_details($job_id);
 		$customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+		$data['userInfo'] = get_user_by_param('id', $job_data->user_id);
 		$data['customer_details']=$customer_details;
 		$data['job_details']=$job_details;
 		$data['job_data']=$job_data;
