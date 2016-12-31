@@ -110,3 +110,13 @@ define('TASK_CREATED','Task Assigned');
 define('TASK_COMPLETED','Task Completed');
 define('TASK_PENDING','Task Pending');
 define('TASK_IN_PROGRESS','Task In Progress');
+
+define("SITE_SIGNATURE", 'Hello <br><p></p><p><strong>CYBERA PRINT ART</strong><br />G/3 &amp; 12, SAMUDRA ANNEXE,&nbsp;NR. HOTEL KLASSIC GOLD, <br />OFF C. G. ROAD, NAVRANGPURA,&nbsp;AHMEDABAD, GUJARAT, INDIA.</p>
+<div>Phone : +91 79 2 65 65 720 / 2 64 65 720</div>
+<div>Mobile : <a href="tel:0%2098%2098%2030%2098%2097" target="_blank">0 98 98 30 98 97</a><br />WEBSITE : <a href="http://www.cybera.in/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=en-GB&amp;q=http://www.cybera.in&amp;source=gmail&amp;ust=1477681956691000&amp;usg=AFQjCNEAajUeeC_HxQtAH5-HOpleFdOxlA">www.cybera.in</a>
+<div>&nbsp;</div>
+<div><strong><span style="color: #ff0000;">OUR WORKING HOURS</span></strong></div>
+<div>MONDAY TO SATURDAY &nbsp;10:00 AM TO 8:00 PM</div>
+<div>SUNDAY CLOSED</div>
+<div><br /><span style="color: #ff6600;"><strong>FOR SUGGESTIONS &amp; COMPLAINTS</strong></span><br />Mobile : <a href="tel:0%2098%2098%2061%2086%2097" target="_blank">0 98 98 61 86 97</a><br />E-mail : <a href="mailto:shaishav77@gmail.com" target="_blank">shaishav77@gmail.com</a></div>
+</div>');

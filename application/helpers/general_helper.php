@@ -132,6 +132,17 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
+	function getAllEmailEstimationCustomers($param=null,$value=null) {
+		$sql = "SELECT DISTINCT('id'), customer.* FROM customer order by companyname";
+		if(!empty($param)) {
+			$sql = "SELECT DISTINCT('id'), customer.* FROM customer where $param = '".$value."' order by companyname";
+		}
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->result();
+	}
+	
 	function send_sms($user_id=null,$customer_id=null,$mobile,$sms_text=null,$prospect_id=0) {
 		//return true;
 		$ci=& get_instance();
@@ -294,16 +305,47 @@ function get_department_revenue() {
 	return $query->row();
 }
 
-function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
+function send_mail($to, $from,$subject="Cybera Email System",$content=null) {
 	$mail = new PHPMailer();
-	$mail->Host     = "smtp.gmail.com"; // SMTP server
-	$mail->SMTPAuth    = TRUE; // enable SMTP authentication
-	$mail->SMTPSecure  = "tls"; //Secure conection
-	$mail->Port        = 587; // set the SMTP port
-	$mail->Username    = 'cyberaprintart@gmail.com'; // SMTP account username
-	$mail->Password    = 'cyb_1215@printart'; // SMTP account password
+	$mail->Host     	= "smtp.gmail.com"; // SMTP server
+	$mail->SMTPAuth    	= TRUE; // enable SMTP authentication
+	$mail->SMTPSecure  	= "tls"; //Secure conection
+	$mail->Port        	= 587; // set the SMTP port
+	$mail->Username    	= 'cyberaprintart@gmail.com'; // SMTP account username
+	$mail->Password     = 'cyb_1215@printart'; // SMTP account password
 	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
-	$mail->AddAddress($to);
+	$mail->AddAddress($sendTo);	
+	$mail->isHTML( TRUE );
+	$mail->Subject  = $subject;
+	$mail->Body     = $content;
+	if(!$mail->Send()) {
+	  echo 'Message was not sent.';
+	 // echo 'Mailer error: ' . $mail->ErrorInfo;
+	} else {
+	  return true;
+	}
+}
+
+function sendEstimationEmail($to, $from,$subject="Cybera Email System",$content=null) {
+	$mail = new PHPMailer();
+	$mail->Host     	= "smtp.gmail.com"; // SMTP server
+	$mail->SMTPAuth    	= TRUE; // enable SMTP authentication
+	$mail->SMTPSecure  	= "tls"; //Secure conection
+	$mail->Port        	= 587; // set the SMTP port
+	$mail->Username    	= 'cyberaprintart@gmail.com'; // SMTP account username
+	$mail->Password     = 'cyb_1215@printart'; // SMTP account password
+	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
+	
+	foreach($to as $sendTo) 
+	{
+		if(isset($sendTo))
+		{
+			$mail->AddAddress(trim($sendTo));		
+		}
+		
+	}
+	
+	$mail->AddCC("cyberaprintart@gmail.com");
 	$mail->isHTML( TRUE );
 	$mail->Subject  = $subject;
 	$mail->Body     = $content;
@@ -398,4 +440,16 @@ function get_task_user_list() {
 	?>
 	</select>
 	<?php
+}
+
+function pr($data, $flag = true)
+{
+	echo "<pre>";
+		print_r($data);
+	echo "</pre>";
+	
+	if($flag)
+	{
+		die;
+	}
 }

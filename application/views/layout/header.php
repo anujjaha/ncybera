@@ -61,6 +61,11 @@ function show_notifications(data) {
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
 						<li class="dropdown messages-menu">
+							<a href="<?php echo base_url().'estimation/index'?>">
+								Email Estimation
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
 							<a href="<?php echo base_url().'cdirectory/index'?>">
 								Directory
 							</a>
