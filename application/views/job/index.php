@@ -25,7 +25,6 @@ function show_job_details(job_id){
 		<th>Job Name</th>
 		<th>Mobile</th>
 		<th>Bill Amount</th>
-		<th>Advance</th>
 		<th>Due</th>
 		<th>Date</th>
 		<th>Time</th>
@@ -46,7 +45,6 @@ function show_job_details(job_id){
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
 		<td>
 		<?php //echo $job['jpaid'] ? "<span class='paid'>Paid</span>" :$job['due'];?>
 		<?php

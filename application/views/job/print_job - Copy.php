@@ -35,14 +35,13 @@ function printDiv(divName) {
 
 
 </script>
-<button class="btn btn-primary" onclick="print_job()">PRINT NOW</button>
-<?php if($cutting_info) {?>
-<span class="btn btn-primary" id="printCuttingPdfBtn" onclick="print_cutting_pdf(<?php echo $job_data->id;?>);">Cutting Slip</span>
- <?php } ?>
-<button class="btn btn-primary" onclick="print_courier()">Courier Slip</button>
-<button class="btn btn-primary" onclick="print_courier_small()">Small Courier Slip</button>
-<button class="btn btn-primary" onclick="edit_job()">Edit Job</button>
-<!--<button class="btn btn-primary" onclick="print_cutting()">Cutting Slip</button>-->
+<button onclick="print_job()">PRINT NOW</button>
+<?php if($cutting_info) { ?>
+<button onclick="print_cutting()">Cutting Slip</button> <?php } ?>
+<button onclick="print_courier()">Courier Slip</button>
+<button onclick="print_courier_small()">Small Courier Slip</button>
+<button onclick="edit_job()">Edit Job</button>
+
 <div class="row">
 	<div class="col-md-12">
 		<h1>Print Job Details</h1>
@@ -174,24 +173,27 @@ $pcontent .= '<table align="center" width="90%" align="center" style="border:1px
 				<td align="left">Job Name : <strong>'.$job_data->jobname.'</strong></td>
 				<td align="right">Job Num : <strong>'.$job_data->id.'</strong></td>
 			</tr></table>';
+
 $pcontent .='<table align="center" border="2" width="90%" style="border:1px solid;"><tr>';
 $sr=1;
+
+$cuttingBlock = $cornerBlock = $laserBlock = $laminationBlock = $bindingBlock = '';
 foreach($cutting_info as $cutting) {
 	$pcontent .= '<td>
 				<table align="center" border="2" width="100%" style="border:1px solid;">';
 				
-				if(!empty($cutting['c_machine'])) {
+				/*if(!empty($cutting['c_machine'])) {
 					$pcontent .= '<tr><td align="right">Machine : </td><td>'.$cutting['c_machine'].'</td></tr>';
-				}
+				}*/
 				
 				if(!empty($cutting['c_material'])) {
 					$c_m_label = "Material : ";
 					if($cutting['c_material'] == "ROUND CORNER CUTTING") {
 							$c_m_label = "";
 					}	
-					$pcontent .= '<tr><td align="right">'.$c_m_label.'  </td><td>'.$cutting['c_material'].'</td></tr>';
+					//$pcontent .= '<tr><td align="right">'.$c_m_label.'  </td><td>'.$cutting['c_material'].'</td></tr>';
 				}
-				
+				/*
 				if(!empty($cutting['c_qty'])) {
 					$pcontent .= '<tr><td align="right">Quantity : </td><td>'.$cutting['c_qty'].'</td></tr>';
 				}
@@ -205,28 +207,154 @@ foreach($cutting_info as $cutting) {
 				}
 				
 				if(!empty($cutting['c_sizeinfo']) && strlen($cutting['c_sizeinfo']) > 2 ) { 
-					$pcontent .= '<tr><td align="right"><strong>Cutting Details :</strong> </td><td>'.$cutting['c_sizeinfo'].'</td></tr>';
+					$pcontent .= '<tr><td align="right">Cutting Details : </td><td>'.$cutting['c_sizeinfo'].'</td></tr>';
 				}
-				
+				*/
+				$cuttingBlock .= '<table width="80%" align="center" border="1">
+								<tr>
+									<td colspan="2">
+										<strong>Cutting Details</strong>
+									</td>
+								</tr>
+								<tr>
+									<td width="50%" align="right"> Machine : </td>
+									<td> '.$cutting['c_machine'].' </td>
+								</tr>
+								<tr>
+									<td align="right"> ' .$c_m_label. ' : </td>
+									<td> '.$cutting['c_material'].' </td>
+								</tr>
+								<tr>
+									<td align="right"> Quantity : </td>
+									<td> '.$cutting['c_qty'].' </td>
+								</tr>
+								<tr>
+									<td align="right"> Size : </td>
+									<td> '.$cutting['c_size'].' </td>
+								</tr>
+								<tr>
+									<td align="right"> Print : </td>
+									<td> '.$cutting['c_print'].' </td>
+								</tr>
+								<tr>
+									<td align="right"> Cutting Details : </td>
+									<td> '.$cutting['c_sizeinfo'].' </td>
+								</tr>
+							</table>';
 							
-				if(!empty($cutting['c_corner'])) {
-					$pcontent .= '<tr><td align="right"><strong>Corner Cut : </strong></td><td>'.$cutting['c_corner'].'</td></tr>';
+				$cornerBlock .= '<table width="80%" align="center" border="1">
+								<tr>
+									<td colspan="2">
+										<strong>Corner Cutting Details</strong>
+									</td>
+								</tr>';
+								
+								if(!empty($cutting['c_corner'])) {
+									$cornerBlock .= '<tr>
+										<td width="50%" align="right"> Corner Cut : </td>
+										<td> '.$cutting['c_corner'] .' </td>
+									</tr>';	
+								}
+								
+								if(!empty($cutting['c_cornerdie'])) {
+									$cornerBlock .= '<tr>
+									<td align="right"> Corner Die : </td>
+									<td> '.$cutting['c_cornerdie'] .' </td>
+								</tr>';	
+								}
+								
+								if(!empty($cutting['c_rcorner'])) {
+									$cornerBlock .= '<tr>
+									<td align="right"> Round Cutting Side : </td>
+									<td> '.$cutting['c_rcorner'] .' </td>
+								</tr>';	
+								}
+								
+								
+				$cornerBlock .=	'</table>';
+				
+				$laserBlock .= '<table width="80%" align="center" border="1">
+								<tr>
+									<td colspan="2">
+										<strong>Laser Cutting</strong>
+									</td>
+								</tr>
+								<tr>
+									<td width="50%" align="right"> Laser Cut : </td>
+									<td> '.$cutting['c_laser'] .' </td>
+								</tr>
+							</table>';
+							
+				$laminationBlock .= '<table width="80%" align="center" border="1">
+								<tr>
+									<td colspan="2">
+										<strong>Lamination Details</strong>
+									</td>
+								</tr>';
+								
+								if(!empty($cutting['c_lamination']))
+								{
+									$laminationBlock .= '<tr>
+										<td width="50%" align="right"> Lamination : </td>
+										<td> '.$cutting['c_lamination'] .' </td>
+									</tr>';
+								}
+								
+								if(!empty($cutting['c_laminationinfo']))
+								{
+									$laminationBlock .= '<tr>
+									<td align="right"> Lamination Extra Details : </td>
+									<td> '.$cutting['c_laminationinfo'].' </td>
+								</tr>';
+								}
+								
+				$laminationBlock .= '</table>';
+							
+				$bindingBlock .= '<table width="80%" align="center" border="1">
+								<tr>
+									<td colspan="2">
+										<strong>Binding Details</strong>
+									</td>
+								</tr>';
+									
+								if(!empty($cutting['c_binding']))
+								{
+									$bindingBlock .= '<tr>
+										<td width="50%" align="right"> Binding Detaiils : </td>
+										<td> '.$cutting['c_binding']  .' </td>
+									</tr>';
+								}
+								if(!empty($cutting['c_bindinginfo']))
+								{
+									$bindingBlock .= '<tr>
+										<td align="right"> Binding Extra Details : </td>
+										<td> '.$cutting['c_bindinginfo']  .' </td>
+									</tr>';
+								}
+								
+						$bindingBlock .= '</table>';
+				
+				
+				 		
+				
+				/*if(!empty($cutting['c_corner'])) {
+					$pcontent .= '<tr><td align="right">Corner Cut : </td><td>'.$cutting['c_corner'].'</td></tr>';
 				}
 				
 				if(!empty($cutting['c_cornerdie'])) {
-					$pcontent .= '<tr><td align="right"><strong>Corner Die No : </strong></td><td>'.$cutting['c_cornerdie'].'</td></tr>';
+					$pcontent .= '<tr><td align="right">Corner Die No : </td><td>'.$cutting['c_cornerdie'].'</td></tr>';
 				}
 				
 				if(!empty($cutting['c_rcorner'])) {
-					$pcontent .= '<tr><td align="right"><strong>Round Cutting Side : </strong></td><td>'.$cutting['c_rcorner'].'</td></tr>';
+					$pcontent .= '<tr><td align="right">Round Cutting Side : </td><td>'.$cutting['c_rcorner'].'</td></tr>';
 				}
 				
 				if(!empty($cutting['c_laser'])) {
-					$pcontent .= '<tr><td align="right"><strong>Laser Cut : </strong></td><td>'.$cutting['c_laser'].'</td></tr>';
+					$pcontent .= '<tr><td align="right">Laser Cut : </td><td>'.$cutting['c_laser'].'</td></tr>';
 				}
 			
 				if(!empty($cutting['c_lamination'])) {
-					$pcontent .= '<tr><td align="right"><strong>Lamination Details : </strong></td><td>'.$cutting['c_lamination'];
+					$pcontent .= '<tr><td align="right">Lamination Details : </td><td>'.$cutting['c_lamination'];
 					if(!empty($cutting['c_laminationinfo'])) {
 						$pcontent .= '<br>'.$cutting['c_laminationinfo'];
 					}
@@ -235,21 +363,28 @@ foreach($cutting_info as $cutting) {
 				}
 			
 				if(!empty($cutting['c_binding'])) {	
-					$pcontent .= '<tr><td align="right"><strong>Binding Details : </strong></td><td>'.$cutting['c_binding'];
+					$pcontent .= '<tr><td align="right">Binding Details : </td><td>'.$cutting['c_binding'];
 					
 					if(!empty($cutting['c_bindinginfo'])) {
 						$pcontent .= '<br>'.$cutting['c_bindinginfo'];
 					}
 					$pcontent .= '</td></tr>';
-				}
-			
+				} */
+				//$pcontent .= $cuttingBlock . $cornerBlock . $laserBlock . $laminationBlock . $bindingBlock;
+				$pcontent .= '<tr><td colspan="2">' .$cuttingBlock.'</td></tr>';
+				$pcontent .= '<tr><td colspan="2">' .$cornerBlock.'</td></tr>';
+				$pcontent .= '<tr><td colspan="2">' .$laserBlock.'</td></tr>';
+				$pcontent .= '<tr><td colspan="2">' .$laminationBlock.'</td></tr>';
+				$pcontent .= '<tr><td colspan="2">' .$bindingBlock.'</td></tr>';
+				
 				if(!empty($cutting['c_details'])) {
-					$pcontent .= '<tr><td colspan="2">Description : <strong>'.$cutting['c_details'].'</strong></td></tr>';
+					$pcontent .= '<tr><td align="right">Description : </td><td>'.$cutting['c_details'].'</td></tr>';
 				}
 				
 				if(!empty($cutting['c_packing'])) {
 					$pcontent .= '<tr><td align="right">Packing Details : </td><td>'.$cutting['c_packing'].'</td></tr>';
 				}
+
 			
 				$pcontent .= '</table> </td>';
 				if($sr > 1 && ($sr % 2) ==0) {
@@ -446,30 +581,5 @@ function print_courier() {
 
 function edit_job() {
 	window.location.assign("<?php echo site_url();?>/jobs/edit_job/<?php echo $job_data->id;?>");
-}
-
-function print_cutting_pdf(id)
-{
-	jQuery("#printCuttingPdfBtn").attr('disabled', 'disabled');
-	jQuery.ajax({
-		url: "<?php echo site_url();?>/ajax/generaeAjaxCuttingSlip/"+id,
-		method: "GET",
-		dataType: 'JSON',
-		success: function(data)
-		{
-			if(data.status == true)
-			{
-				window.open(data.link);
-			}
-			else
-			{
-				alert("Unable to Create PDF");
-			}
-		},
-		complete: function(data) {
-			jQuery("#printCuttingPdfBtn").removeAttr('disabled');
-		}
-	});
-
 }
 </script>

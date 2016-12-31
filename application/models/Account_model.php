@@ -99,6 +99,16 @@ class Account_model extends CI_Model {
 				(select nickname from user_meta um where um.user_id=ut.creditedby) as 'receivedby'
 				FROM user_transactions ut where ut.customer_id = $user_id
 				ORDER by ut.id ";
+		} 
+		else if(is_array($month)) {
+			$sql = "SELECT *,
+				(select due from job where job.id=ut.job_id) as 'due',
+				(select receipt from job where job.id=ut.job_id) as 'j_receipt',
+				(select bill_number from job where job.id=ut.job_id) as 'j_bill_number',
+				(select jobname from job where job.id=ut.job_id) as 'jobname',
+				(select nickname from user_meta um where um.user_id=ut.creditedby) as 'receivedby'
+				FROM user_transactions ut where ut.customer_id = $user_id AND cmonth IN (".implode(",", $month).")
+				ORDER by ut.id ";
 		} else {
 			$sql = "SELECT *,
 				(select due from job where job.id=ut.job_id) as 'due',
@@ -109,6 +119,8 @@ class Account_model extends CI_Model {
 				FROM user_transactions ut where ut.customer_id = $user_id AND cmonth = '".$month."'
 				ORDER by ut.id ";
 		}
+		
+		
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}

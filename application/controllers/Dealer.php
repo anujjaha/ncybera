@@ -44,6 +44,16 @@ class Dealer extends CI_Controller {
 		$this->template->load('voucher', 'index', $data);
 	}
 	
+	public function outstation()
+	{
+		$today = date("Y-m-d");
+		$condition = array('condition'=>array('jdate'=>$today))	;
+		$result = $this->dealer_model->get_outstation_customer_details();
+		$data['heading'] = $data['title']="Outstation Customer Management";
+		$data['customers']= $result;
+		$this->template->load('outstation', 'index', $data);
+	}
+	
 	public function edit($dealer_id=null) {
 		$this->load->model('dealer_model');
 		$data['title']="Add Dealer";

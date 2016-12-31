@@ -52,7 +52,9 @@ function show_job_details(job_id){
 
 function fill_account() {
 	var s_receipt = $("#receipt").val();
-	if(s_receipt.length > 0 ){
+	var other = $("#other").val();	
+	if(s_receipt.length > 0 )
+	{
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
@@ -67,6 +69,8 @@ function fill_account() {
 					}
 			 }
           });
+	} else if(other.length > 0 ) {
+		fill_account_final();
 	} else {
 		fill_account_final();
 	}
@@ -77,17 +81,19 @@ function fill_account_final() {
 	var s_receipt = $("#receipt").val();
 	var customer_id = $("#customer_id").val();
 	var cmonth = $("#cmonth").val();
+	var other = jQuery("#other").val()
+		
 	if($("#amount").val().length < 1 ||  $("#amount").val() < 1 ) {
 		alert("Please Enter Valid Amount");
 		return false;
-	}else  if($("#bill_number").val().length < 1 && $("#receipt").val().length < 1 ) {
+	}else  if($("#bill_number").val().length < 1 && $("#receipt").val().length < 1 && $("#other").val().length < 1 ) {
 		alert("Please Enter Receipt Number or Cheque Number");
 		return false;
 	} else {
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
-			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt,"cmonth":cmonth},
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt,"cmonth":cmonth, "other":other},
 			success: 
 				function(data){
 					location.reload();
@@ -155,6 +161,9 @@ function fill_discount_account() {
 					Receipt Number : <input type="text"  name="receipt" id="receipt">
 				</td>
 				<td>
+					Other : <input type="text"  name="other" id="other">
+				</td>
+				<td>
 					Amount : <input type="text"  name="amount" id="amount" required="required" value="0">
 				</td>
 				<td>
@@ -179,6 +188,7 @@ function fill_discount_account() {
 		<th>Balance</th>
 		<th>Reference</th>
 		<th>Credit Note</th>
+		<th>Other PayMode</th>
 		<th>Received By</th>
 		<th>Details</th>
 		<th>Delete</th>
@@ -269,6 +279,9 @@ function fill_discount_account() {
 			} ?>
 		</td>
 		<td>
+			<?php echo $result['other'];?>
+		</td>
+		<td>
 			<?php echo $result['receivedby'];?>-<?php echo $result['amountby'];?>
 		</td>
 		<td>
@@ -328,7 +341,7 @@ function fill_discount_account() {
 		<tr>
 			<td align="right" width="50%"> Select Month : </td>
 			<td width="50%"> 
-				<select name="p_month" id="p_month">
+				<select name="p_month[]" id="p_month" multiple="multiple" class="form-control">
 					<option value="all">All</option>
 					<option>Jan</option>
 					<option>Feb</option>
@@ -350,8 +363,9 @@ function fill_discount_account() {
 				Select Year :
 			</td><td> 
 				<select name="p_year" id="p_year">
-					<option value="all">All</option>
 					<option><?php echo date('Y');?></option>
+					<option><?php echo date("Y",strtotime("-1 year"));?></option>
+					<option value="all">All</option>
 				</select>
 			</td>
 		</tr>

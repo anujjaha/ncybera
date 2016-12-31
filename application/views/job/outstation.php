@@ -88,6 +88,26 @@ jQuery("#customer_id").val(userid);
         show_due(userid);
         }
   });
+  
+  $.ajax({
+     type: "GET",
+     url: "<?php echo site_url();?>/ajax/getOutstationTransporterName/"+userid, 
+     dataType: 'JSON',
+     success: function(data){
+		 if(data.status == true)
+		 {
+			 setTransporterDetails(data.transporter);
+		 }
+	}
+  });
+}
+
+
+function setTransporterDetails(object)
+{
+	jQuery("#tranporter_name").val(object.name);
+	jQuery("#tranporter_contact_person").val(object.contact_person);
+	jQuery("#tranporter_contact_number").val(object.contact_number);
 }
 
 function auto_suggest_price(id){
@@ -134,9 +154,8 @@ function set_cutting_details(id){
 	
 }
 
-function set_cutting_details_box(id)
-{
-	var data_id = jQuery("#fancybox_cutting_id").val();
+function set_cutting_details_box(id){
+	var data_id =jQuery("#fancybox_cutting_id").val();
 	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_rcorner,c_cornerdie;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
@@ -176,18 +195,13 @@ function set_cutting_details_box(id)
         jQuery("#c_cornerdie_"+data_id).val($("#c_cornerdie").val());
         $.fancybox.close();
         
-        if(jQuery("#category_"+data_id).val() != "Visiting Card" && jQuery("#c_machine_"+data_id).val().length > 0 && data_id < 5)
+        if(jQuery("#c_machine_"+data_id).val().length > 0 && data_id < 5)
         {
 			var nextElement = parseInt(data_id) + 1;
 			
 			jQuery("#category_" + nextElement).val("Cutting");
 			jQuery("#details_" + nextElement).val("Cutting");
 			jQuery("#qty_" + nextElement).focus();
-		}
-		
-		if(jQuery("#category_"+data_id).val() == "Visiting Card")
-		{
-			jQuery("#sub_"+data_id).focus();
 		}
 }
 function remove_cutting_details(data_id) {
@@ -343,29 +357,11 @@ function open_price_list(sr)
 				'height':600,
 				'autoSize' : false,
 				'afterClose':function () {
-					
 					fancy_box_closed();
-					setTimeout(function()
-					{
-						openCuttingSlip(sr, catValue);	
-					}, 10);
 				}
             });
 	}
 	
-}
-
-function openCuttingSlip(id, catValue)
-{
-	if(catValue == "Visiting Card")
-	{
-		set_cutting_details(id);
-		
-		$.fancybox({
-                'href': '#fancy_box_cutting',
-                
-        });
-	}
 }
 
 function check_existing_customer(value) {
@@ -414,96 +410,10 @@ $this->load->helper('general'); ?>
 <table width="100%" border="2">
 	<tr>
         <td colspan="2" align="center">
-        <h3>Customer Type</h3>
+        <h3>Outstation Customer Type</h3>
         <p id="balance"  align="right"><h2 class="red" id="show_balance" ></h2></p>
-        <div class="row">
-            <div class="col-md-3">
-                <span onClick="set_customer('new_customer');">
-                    New Customer
-                </span>
-            </div>
-            <div class="col-md-3">
-                <span onClick="set_customer('regular_customer');">
-                    Regular Customer
-                </span>
-            </div>
-            <div class="col-md-3">
-                <span onClick="set_customer('voucher_customer');">
-                    Vocuher Customer
-                </span>
-            </div>
-            <div class="col-md-3">
-                <span onClick="set_customer('cybera_dealer');" >
-                    Cybera Dealer
-                </span>
-            </div>
-        </div>
+        Customer Name : <?php echo create_customer_dropdown('outstation',true); ?>
         </td>
-	</tr>
-	<tr>
-        <td colspan="2">
-            <div id="new_customer" style="display:none;">
-                <div class="col-md-6">
-					<div class="form-group">
-                                    <label>Company Name</label>
-                                    <input type="text" class="form-control" 
-                                    name="companyname" id="new_customer_companyname" value="" placeholder="Company Name">
-                            </div>
-                    <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" id="new_customer_name" name="name" value="" placeholder="Name">
-                    </div>
-                </div>
-                    <div class="col-md-6">
-							<div class="form-group">
-								<label>Contact Number <span style="color:red;font-size:14px;" id="mobile_error_message"></span></label>
-								<input type="text" class="form-control" onblur="check_existing_customer(this.value);" name="user_mobile" value="" placeholder="Mobile Number">
-							</div>
-                            <div class="form-group">
-                                    <label>Email Id</label>
-                                    <input type="text" class="form-control"
-                                           name="emailid" value="" placeholder="Email Id">
-                            </div>
-                    </div>
-
-            </div>
-                <div id="regular_customer" style="display:none;">
-                        <table width="100%">
-                                <tr>
-                                        <td width="50%">
-                                                Customer Name : <?php echo create_customer_dropdown('customer',true); ?>
-                                        </td>
-                                        <td width="50%" align="right">
-                                                Contact Number : <input type="text" name="mobile" id="mobile_customer">
-                                        </td>
-                                </tr>
-                        </table>
-                </div>
-                <div id="cybera_voucher" style="display:none;">
-                        <table width="100%">
-                        <tr>
-                                <td width="50%">
-                                        Customer Name : <?php echo create_customer_dropdown('voucher',true); ?>
-                                </td>
-                                <td width="50%" align="right">
-                                        Contact Number : <input type="text" name="mobile" id="mobile_voucher">
-                                </td>
-                        </tr>
-                        </table>
-                </div>
-                <div id="cybera_dealer" style="display:none;">
-                        <table width="100%">
-                        <tr>
-                                <td width="50%">
-                                        Dealer Name : <?php echo create_customer_dropdown('dealer',true); ?>
-                                </td>
-                                <td width="50%" align="right">
-                                        Contact Number : <input type="text" name="mobile" id="mobile_dealer">
-                                </td>
-                        </tr>
-                        </table>
-                </div>
-		</td>
 	</tr>
 </table>
 
@@ -612,6 +522,21 @@ $this->load->helper('general'); ?>
 </table>
 </form>
 
+<table align="center" border="1" width="100%">
+	<tr>
+		<td width="30%" align="right"> Transporter Name: </td>
+		<td> <input type="text" name="tranporter_name" id="tranporter_name"> </td>
+	</tr>
+	<tr>
+		<td width="30%" align="right"> Transporter Contact Person: </td>
+		<td> <input type="text" name="tranporter_contact_person" id="tranporter_contact_person"> </td>
+	</tr>
+	<tr>
+		<td width="30%" align="right"> Transporter Contact Number: </td>
+		<td> <input type="text" name="tranporter_contact_number" id="tranporter_contact_number"> </td>
+	</tr>
+</table>
+
 <div id="fancy_box_cutting" style="width:800px;display: none;">
     <div style="width: 800px; margin: 0 auto;">
         <table  width="80%" border="2" align="center">
@@ -620,19 +545,11 @@ $this->load->helper('general'); ?>
 					<h1 id="cutting_title">Fill Cutting Details</h1>
                 </td>
             </tr>
-            <tr>
-                <td align="center">
-					<span class="btn btn-primary setCuttingAuto" data-side="1" data-size-info="1/24" data-machine="1">Single Side</span>
-                </td>
-                <td align="center">
-					<span class="btn btn-primary setCuttingAuto" data-side="2" data-size-info="1/24" data-machine="1">Front Back</span>
-                </td>
-            </tr>
             <tr id="popup_machine">
                 <td align="right" width="50%">Machine:</td>
                 <td  width="50%">
                     <label><input type="radio" id="machine" name="machine" value="1">1</label>
-                    <label><input type="radio"  checked="checked" id="machine" name="machine" value="2">2</label>
+                    <label><input type="radio" id="machine" name="machine" value="2">2</label>
                     <label><input type="radio" id="machine" name="machine" value="Xrox">Xrox</label>
                 </td>
             </tr>
@@ -641,19 +558,18 @@ $this->load->helper('general'); ?>
                 <td>
                     <label><input type="radio" name="size" id="size" value="A4">A4</label>
                     <label><input type="radio" name="size" id="size" value="A3">A3</label>
-                    <label><input type="radio" checked="checked" name="size" id="size" value="12X18">12X18</label>
+                    <label><input type="radio" name="size" id="size" value="12X18">12X18</label>
                     <label><input type="radio" name="size" id="size" value="13X19">13X19</label>
                     <input type="text" name="size_info" id="size_info" value="1/">
                 </td>
             </tr>
             <tr id="popup_printing">
                 <td align="right">Printing:</td>
-                <td class="pRadioBtn">
+                <td>
                     <label>
-                        <input type="radio" class="single_side" id="printing" name="printing" value="SS">Single Side
+                        <input type="radio" id="printing" name="printing" value="SS">Single Side
                     </label>
-                    <label>
-                    <input type="radio" class="double_side" id="printing" name="printing" value="FB">
+                    <label><input type="radio" id="printing" name="printing" value="FB">
                         Double Side
                     </label>
                 </td>
@@ -814,34 +730,6 @@ $this->load->helper('general'); ?>
     </div>
 </div>
 
-<script>
-jQuery(".setCuttingAuto").on('click', function()
-{
-	 var sizeInfo 		= jQuery(this).attr("data-size-info"),
-		currentIndex 	= jQuery("#fancybox_cutting_id").val(),
-		 details  		= jQuery("#details_"+currentIndex).val(),
-		 side 			= jQuery(this).attr("data-side");
-	 
-	 jQuery('input:radio[class=single_side]').prop('checked', true);
-	 
-	 jQuery("#size_info").val(sizeInfo);
-	 jQuery("#details").val(details);
-	 
-	 if(side == 1 )
-	 {
-		 var singleHtml = '<label><input type="radio" class="single_side" id="printing" checked="checked" name="printing" value="SS">Single Side</label><label><input type="radio" class="double_side" id="printing" name="printing" value="FB">Double Side</label>';
-		 jQuery(".pRadioBtn").html(singleHtml);
-	 }
-	 
-	 if(side == 2 )
-	 {
-		 var singleHtml = '<label><input type="radio" class="single_side" id="printing" name="printing" value="SS">Single Side</label><label><input type="radio" class="double_side" checked="checked"  id="printing" name="printing" value="FB">Double Side</label>';
-		 jQuery(".pRadioBtn").html(singleHtml);
-	 }
-	 
-	 
-});
-</script>
 <?php 
 for($i=1;$i<6;$i++) { ?>
 <div style="display:none;">

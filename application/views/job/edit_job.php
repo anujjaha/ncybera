@@ -445,7 +445,7 @@ $modified_by = $this->session->userdata['user_id'];
         <ul class="tabs" data-persist="true">
             <li><a href="#paper_tab">Paper</a></li>
             <li><a href="#view2">Visiting Cards</a></li>
-            <li><a href="#view3">Binding</a></li>
+            <li><a href="#view3">Exclusive Visiting Cards</a></li>
         </ul>
         <div class="tabcontents">
 			<div id="paper_tab">
@@ -499,7 +499,9 @@ $modified_by = $this->session->userdata['user_id'];
 				?>
             </div>
             <div id="view3">
-                <p>5466898...</p>
+				<?php
+					require_once('excluive-visiting-card-rates.php');
+				?>
             </div>
             
         </div>

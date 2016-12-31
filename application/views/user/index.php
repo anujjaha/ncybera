@@ -22,7 +22,6 @@
 		<th>Job Name</th>
 		<th>Mobile</th>
 		<th>Bill Amount</th>
-		<th>Advance</th>
 		<th>Due</th>
 		<th>Date</th>
 		<th>Time</th>
@@ -44,7 +43,6 @@
 		<td><?php echo $job['jobname'];?></td>
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
-		<td><?php echo $job['advance'];?></td>
 		<td><?php
 			$user_bal = get_balance($job['customer_id']) ;
 			if($user_bal > 0 ) { 

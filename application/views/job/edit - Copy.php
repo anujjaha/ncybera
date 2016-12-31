@@ -134,9 +134,8 @@ function set_cutting_details(id){
 	
 }
 
-function set_cutting_details_box(id)
-{
-	var data_id = jQuery("#fancybox_cutting_id").val();
+function set_cutting_details_box(id){
+	var data_id =jQuery("#fancybox_cutting_id").val();
 	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_rcorner,c_cornerdie;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
@@ -176,18 +175,13 @@ function set_cutting_details_box(id)
         jQuery("#c_cornerdie_"+data_id).val($("#c_cornerdie").val());
         $.fancybox.close();
         
-        if(jQuery("#category_"+data_id).val() != "Visiting Card" && jQuery("#c_machine_"+data_id).val().length > 0 && data_id < 5)
+        if(jQuery("#c_machine_"+data_id).val().length > 0 && data_id < 5)
         {
 			var nextElement = parseInt(data_id) + 1;
 			
 			jQuery("#category_" + nextElement).val("Cutting");
 			jQuery("#details_" + nextElement).val("Cutting");
 			jQuery("#qty_" + nextElement).focus();
-		}
-		
-		if(jQuery("#category_"+data_id).val() == "Visiting Card")
-		{
-			jQuery("#sub_"+data_id).focus();
 		}
 }
 function remove_cutting_details(data_id) {
@@ -343,29 +337,11 @@ function open_price_list(sr)
 				'height':600,
 				'autoSize' : false,
 				'afterClose':function () {
-					
 					fancy_box_closed();
-					setTimeout(function()
-					{
-						openCuttingSlip(sr, catValue);	
-					}, 10);
 				}
             });
 	}
 	
-}
-
-function openCuttingSlip(id, catValue)
-{
-	if(catValue == "Visiting Card")
-	{
-		set_cutting_details(id);
-		
-		$.fancybox({
-                'href': '#fancy_box_cutting',
-                
-        });
-	}
 }
 
 function check_existing_customer(value) {
@@ -620,19 +596,11 @@ $this->load->helper('general'); ?>
 					<h1 id="cutting_title">Fill Cutting Details</h1>
                 </td>
             </tr>
-            <tr>
-                <td align="center">
-					<span class="btn btn-primary setCuttingAuto" data-side="1" data-size-info="1/24" data-machine="1">Single Side</span>
-                </td>
-                <td align="center">
-					<span class="btn btn-primary setCuttingAuto" data-side="2" data-size-info="1/24" data-machine="1">Front Back</span>
-                </td>
-            </tr>
             <tr id="popup_machine">
                 <td align="right" width="50%">Machine:</td>
                 <td  width="50%">
                     <label><input type="radio" id="machine" name="machine" value="1">1</label>
-                    <label><input type="radio"  checked="checked" id="machine" name="machine" value="2">2</label>
+                    <label><input type="radio" id="machine" name="machine" value="2">2</label>
                     <label><input type="radio" id="machine" name="machine" value="Xrox">Xrox</label>
                 </td>
             </tr>
@@ -641,19 +609,18 @@ $this->load->helper('general'); ?>
                 <td>
                     <label><input type="radio" name="size" id="size" value="A4">A4</label>
                     <label><input type="radio" name="size" id="size" value="A3">A3</label>
-                    <label><input type="radio" checked="checked" name="size" id="size" value="12X18">12X18</label>
+                    <label><input type="radio" name="size" id="size" value="12X18">12X18</label>
                     <label><input type="radio" name="size" id="size" value="13X19">13X19</label>
                     <input type="text" name="size_info" id="size_info" value="1/">
                 </td>
             </tr>
             <tr id="popup_printing">
                 <td align="right">Printing:</td>
-                <td class="pRadioBtn">
+                <td>
                     <label>
-                        <input type="radio" class="single_side" id="printing" name="printing" value="SS">Single Side
+                        <input type="radio" id="printing" name="printing" value="SS">Single Side
                     </label>
-                    <label>
-                    <input type="radio" class="double_side" id="printing" name="printing" value="FB">
+                    <label><input type="radio" id="printing" name="printing" value="FB">
                         Double Side
                     </label>
                 </td>
@@ -814,34 +781,6 @@ $this->load->helper('general'); ?>
     </div>
 </div>
 
-<script>
-jQuery(".setCuttingAuto").on('click', function()
-{
-	 var sizeInfo 		= jQuery(this).attr("data-size-info"),
-		currentIndex 	= jQuery("#fancybox_cutting_id").val(),
-		 details  		= jQuery("#details_"+currentIndex).val(),
-		 side 			= jQuery(this).attr("data-side");
-	 
-	 jQuery('input:radio[class=single_side]').prop('checked', true);
-	 
-	 jQuery("#size_info").val(sizeInfo);
-	 jQuery("#details").val(details);
-	 
-	 if(side == 1 )
-	 {
-		 var singleHtml = '<label><input type="radio" class="single_side" id="printing" checked="checked" name="printing" value="SS">Single Side</label><label><input type="radio" class="double_side" id="printing" name="printing" value="FB">Double Side</label>';
-		 jQuery(".pRadioBtn").html(singleHtml);
-	 }
-	 
-	 if(side == 2 )
-	 {
-		 var singleHtml = '<label><input type="radio" class="single_side" id="printing" name="printing" value="SS">Single Side</label><label><input type="radio" class="double_side" checked="checked"  id="printing" name="printing" value="FB">Double Side</label>';
-		 jQuery(".pRadioBtn").html(singleHtml);
-	 }
-	 
-	 
-});
-</script>
 <?php 
 for($i=1;$i<6;$i++) { ?>
 <div style="display:none;">

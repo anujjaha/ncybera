@@ -69,9 +69,9 @@
                         <li>
                             <a href="<?php echo base_url();?>jobs">
                                 <i class="fa fa-envelope"></i> <span>Jobs</span>
-                                <small class="badge pull-right bg-yellow">
+                                <!--<small class="badge pull-right bg-yellow">
                                 <span id="show_jobs"></span>
-                                </small>
+                                </small>-->
                             </a>
                         </li>
                         <li>
@@ -87,41 +87,49 @@
                         <li>
                             <a href="<?php echo base_url();?>task/mytask">
                                 <i class="fa fa-envelope"></i> <span class="blink_me">Tasks Alloted</span>
-                                <small class="badge pull-right bg-yellow">
+                                <!--<small class="badge pull-right bg-yellow">
 									<span id="show_tasks"></span>
-                                </small>
+                                </small>-->
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>dealer">
                                 <i class="fa fa-calendar"></i> <span>Dealers</span>
-                                <small class="badge pull-right bg-red">
+                                <!--<small class="badge pull-right bg-red">
                                 <span id="show_dealers"></span>
-                                </small>
+                                </small>-->
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>customer">
                                 <i class="fa fa-calendar"></i> <span>Customers</span>
-                                <small class="badge pull-right bg-red">
+                                <!--<small class="badge pull-right bg-red">
                                 <span id="show_customers"></span>
-                                </small>
+                                </small>-->
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>dealer/vcustomers">
                                 <i class="fa fa-calendar"></i> <span>Voucher Customers</span>
-                                <small class="badge pull-right bg-red">
+                                <!--<small class="badge pull-right bg-red">
                                 <span id="show_vouchers"></span>
-                                </small>
+                                </small>-->
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>dealer/outstation">
+                                <i class="fa fa-calendar"></i> <span>Outstation Customers</span>
+                                <!--<small class="badge pull-right bg-red">
+                                <span id="show_vouchers"></span>
+                                </small>-->
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>customer/prospects">
                                 <i class="fa fa-calendar"></i> <span>Business Prospects</span>
-                                <small class="badge pull-right bg-red">
+                                <!--<small class="badge pull-right bg-red">
                                 <span id="show_prospects"></span>
-                                </small>
+                                </small>-->
                             </a>
                         </li>
                         <li>
@@ -147,7 +155,7 @@
             </aside>
 <script>
 jQuery("document").ready(function(){
-	$.ajax({
+	/*$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/user/get_leftbar_status/", 
           dataType: 'json',
@@ -168,7 +176,7 @@ jQuery("document").ready(function(){
 					$('.blink_me').fadeIn(500);
 				}
 				setInterval(blinker, 1000); //Runs every second
-				*/
+				* /
 				
 				if(data.tasks > 0 ) {
 					function blinker() {
@@ -179,6 +187,6 @@ jQuery("document").ready(function(){
 					setInterval(blinker, 3000); 
 				}
 			}
-          });
+          });*/
 });
 </script>

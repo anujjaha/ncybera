@@ -36,6 +36,21 @@ class Dealer_model extends CI_Model {
 		return $query->result();
 	}
 	
+	public function get_outstation_customer_details($param=null,$value=null) {
+		if(!empty($param)) {
+			$sql = "SELECT * FROM $this->table WHERE $param = $value";
+			$query = $this->db->query($sql);
+			return $query->row();
+		}
+		$sql = "SELECT *, 
+				(SELECT SUM(total) from job WHERE job.customer_id = $this->table.id)  as 'total_amount' ,
+				(SELECT SUM(due) from job WHERE job.customer_id = $this->table.id)  as 'due' 
+				FROM $this->table WHERE ctype=3
+				order by name";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	
 	public function insert_dealer($data) {
 		$status = $this->db->insert($this->table,$data);
 		$dealer_id = $this->db->insert_id();

@@ -5,9 +5,10 @@ class Customer_model extends CI_Model {
                 parent::__construct();
                 date_default_timezone_set('Asia/Kolkata');
     }
-    public $table = "customer";
-    public $table_prospects = "prospects";
-    public $table_categories = "ccategories";
+    public $table 				= "customer";
+    public $table_prospects 	= "prospects";
+    public $table_categories 	= "ccategories";
+	public $table_transporters 	= "transporter_details";
 	
 	public function get_customer_details($param=null,$value=null) {
 		if(!empty($param)) {
@@ -35,7 +36,7 @@ class Customer_model extends CI_Model {
 				OR customer.mobile like '%$like%'
 				OR customer.emailid like '%$like%'
 				AND
-				where ctype = 0
+				ctype = 0
 				ORDER BY customer.$sort_by  $sort_value 
 				LIMIT $offset,$limit
 				";	
@@ -192,6 +193,21 @@ class Customer_model extends CI_Model {
 			$this->db->where('id',$id);
 			return $this->db->delete($this->table);
 		}
+		return false;
+	}
+	
+	public function getTransporterDetailsByCustomerId($customerId = null)
+	{
+		if($customerId)
+		{
+			$sql = "SELECT *
+					FROM $this->table_transporters
+					where customer_id = $customerId";
+					
+			$query = $this->db->query($sql);
+			return $query->row() ? $query->row() : false;
+		}
+		
 		return false;
 	}
 }
