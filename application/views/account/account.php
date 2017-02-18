@@ -55,6 +55,7 @@ function fill_account() {
 	var other = $("#other").val();	
 	if(s_receipt.length > 0 )
 	{
+		jQuery("#fillAccBtn").html('<img src="<?php echo site_url();?>/assets/img/load.gif">');
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
@@ -62,11 +63,17 @@ function fill_account() {
 				function(data){
 					if(data == 1) {
 						$("#receipt").focus();
+						jQuery("#fillAccBtn").html('<button class="btn btn-success btn-sm text-center" onclick="fill_account()">Pay Amount</button>');
 						alert("Receipt Alread Exist !");
 						return false;
 					} else {
 						fill_account_final();
 					}
+					
+			 },
+			 complete: function(data)
+			 {
+				 //jQuery("#fillAccBtn").show();
 			 }
           });
 	} else if(other.length > 0 ) {
@@ -168,7 +175,9 @@ function fill_discount_account() {
 				</td>
 				<td>
 				<input type="hidden" name="customer_id" id="customer_id" value="<?php echo $customer->id;?>">
-					<button class="btn btn-success btn-sm text-center" onclick="fill_account()">Pay Amount</button>
+					<span id="fillAccBtn" >
+						<button class="btn btn-success btn-sm text-center" onclick="fill_account()">Pay Amount</button>
+					</span>
 				</td>
 			</tr>
 		</table>

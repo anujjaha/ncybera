@@ -143,6 +143,51 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
+	function getAllEmailBulkCustomers($param=null,$value=null) {
+		$sql = "SELECT DISTINCT('id'), customer.* FROM customer WHERE emailid != '' order by companyname";
+		if(!empty($param)) {
+			$sql = "SELECT DISTINCT('id'), customer.* FROM customer where $param = '".$value."' AND WHERE emailid != '' order by companyname";
+		}
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->result();
+	}
+	
+	
+	function getAllEmailBulkCustomersOnly($param=null,$value=null) {
+		$sql = "SELECT DISTINCT('id'), customer.* FROM customer WHERE emailid != '' AND ctype = 0 order by companyname";
+		if(!empty($param)) {
+			$sql = "SELECT DISTINCT('id'), customer.* FROM customer where $param = '".$value."' AND WHERE emailid != '' AND ctype = 0  order by companyname";
+		}
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->result();
+	}
+	
+	function getAllEmailBulkDealersOnly($param=null,$value=null) {
+		$sql = "SELECT DISTINCT('id'), customer.* FROM customer WHERE emailid != '' AND ctype = 1 order by companyname";
+		if(!empty($param)) {
+			$sql = "SELECT DISTINCT('id'), customer.* FROM customer where $param = '".$value."' AND WHERE emailid != '' AND ctype = 1  order by companyname";
+		}
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->result();
+	}
+	
+	function getAllEmailBulkVourcherCustomerOnly($param=null,$value=null) {
+		$sql = "SELECT DISTINCT('id'), customer.* FROM customer WHERE emailid != '' AND ctype = 2 order by companyname";
+		if(!empty($param)) {
+			$sql = "SELECT DISTINCT('id'), customer.* FROM customer where $param = '".$value."' AND WHERE emailid != '' AND ctype = 2  order by companyname";
+		}
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->result();
+	}
+	
 	function send_sms($user_id=null,$customer_id=null,$mobile,$sms_text=null,$prospect_id=0) {
 		//return true;
 		$ci=& get_instance();
@@ -305,6 +350,22 @@ function get_department_revenue() {
 	return $query->row();
 }
 
+function sendCorePHPMail($to, $from, $subject="Cybera Email System", $content=null)
+{
+	// Always set content-type when sending HTML email
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+	// More headers
+	$headers .= 'From: Cybera<'.$from.'>' . "\r\n";
+	
+	if(! mail($to, $subject, $content, $headers))
+	{
+		return 'Unable to send an Email';
+	}
+	
+	return true;
+}
 function send_mail($to, $from,$subject="Cybera Email System",$content=null) {
 	$mail = new PHPMailer();
 	$mail->Host     	= "smtp.gmail.com"; // SMTP server
@@ -356,6 +417,38 @@ function sendEstimationEmail($to, $from,$subject="Cybera Email System",$content=
 	  return true;
 	}
 }	
+
+function sendBulkEmail($to, $from,$subject="Cybera Email System",$content=null) {
+	$mail = new PHPMailer();
+	$mail->Host     	= "smtp.gmail.com"; // SMTP server
+	$mail->SMTPAuth    	= TRUE; // enable SMTP authentication
+	$mail->SMTPSecure  	= "tls"; //Secure conection
+	$mail->Port        	= 587; // set the SMTP port
+	$mail->Username    	= 'cyberaprintart@gmail.com'; // SMTP account username
+	$mail->Password     = 'cyb_1215@printart'; // SMTP account password
+	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
+	
+	foreach($to as $sendTo) 
+	{
+		if(isset($sendTo))
+		{
+			$mail->AddAddress(trim($sendTo));		
+		}
+		
+	}
+	
+	$mail->isHTML( TRUE );
+	$mail->Subject  = $subject;
+	$mail->Body     = $content;
+	if(!$mail->Send()) {
+	  echo 'Message was not sent.';
+	 // echo 'Mailer error: ' . $mail->ErrorInfo;
+	} else {
+	  return true;
+	}
+}	
+
+
 	function get_balance($user_id=null) {
 		$ci = & get_instance();
 		$sql = "SELECT id,

@@ -395,6 +395,18 @@ class Job_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	
+	public function addJobBillNumber($jobId, $billNumber)
+	{
+		$data = array(
+			'bill_number' 	=> $billNumber,
+			'modified' 		=> date('Y-m-d H:i:s')
+		);
+		
+		$this->db->where('id', $jobId);
+		
+		return $this->db->update($this->table, $data);
+	}
 }
 
 

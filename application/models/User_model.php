@@ -120,6 +120,19 @@ class User_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function search_job_date($search)
+	{
+		$sql = "SELECT *,job.id as job_id, job.created as created FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 date_format(job.created, '%d-%m-%y') = '$search'
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
 	public function old_search_jobdetails($param=null,$flag=null) {
 		$sql = "SELECT * from old_job_details 
 						WHERE  

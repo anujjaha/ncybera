@@ -61,11 +61,6 @@ function show_notifications(data) {
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
 						<li class="dropdown messages-menu">
-							<a href="<?php echo base_url().'estimation/index'?>">
-								Email Estimation
-							</a>
-						</li>
-						<li class="dropdown messages-menu">
 							<a href="<?php echo base_url().'cdirectory/index'?>">
 								Directory
 							</a>
@@ -88,6 +83,11 @@ function show_notifications(data) {
 						<li class="dropdown messages-menu">
 							<a href="#estimation_details" class="fancybox">
 								SMS Estimatation
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
+							<a href="<?php echo base_url().'estimation/index'?>">
+								Email Estimation
 							</a>
 						</li>
                         <!-- Messages: style can be found in dropdown.less-->
@@ -305,6 +305,7 @@ function create_estimation(){
          data:{'customer_id':customer_id,'customer_email':customer_email,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
          success: 
             function(data){
+				//console.log(data);
 				alert("SMS Sent :"+data);
 				$.fancybox.close();
             }

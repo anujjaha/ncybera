@@ -84,6 +84,21 @@ class User extends CI_Controller {
 		}
 		$this->template->load('user', 'search', $data);
 	}
+	
+	public function search_date()
+	{
+		$data=array();
+		$data['heading'] = $data['title']="Search Result";
+		$data['search']="";
+		if($this->input->post('q')) {
+			$search = $this->input->post('q');
+			$data['job_data'] = $this->user_model->search_job_date($search);
+			$data['search']=$search;
+		}
+		
+		$this->template->load('user', 'search_job', $data);
+	}
+	
 	public function search_job() {
 		$data=array();
 		$data['heading'] = $data['title']="Search Result";

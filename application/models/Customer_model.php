@@ -10,6 +10,23 @@ class Customer_model extends CI_Model {
     public $table_categories 	= "ccategories";
 	public $table_transporters 	= "transporter_details";
 	
+	public function checkCustomerByEmailId($emailId = null)
+	{
+		if($emailId)
+		{
+			$sql = "SELECT id from customer where emailid = '". $emailId ."'";
+			
+			$query = $this->db->query($sql);
+			
+			if($query->row())
+			{
+				return $query->row();
+			}
+		}
+			
+		return false;
+	}
+	
 	public function get_customer_details($param=null,$value=null) {
 		if(!empty($param)) {
 			$sql = "SELECT * FROM $this->table WHERE $param = $value";

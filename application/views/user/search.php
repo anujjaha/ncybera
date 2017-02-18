@@ -34,6 +34,7 @@
 		<th>SMS</th>
 		<th>View</th>
 		<th>Edit</th>
+		<th>Edit</th>
 		</tr>
 		</thead>
 	<tbody>
@@ -58,6 +59,7 @@
 		<a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a>
 		</td>
 		<td><a href="<?php echo site_url();?>/jobs/edit_job/<?php echo $job['job_id'];?>">Edit</a></td>
+		<td><a href="<?php echo site_url();?>/jobs/job_print/<?php echo $job['job_id'];?>">Print</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>

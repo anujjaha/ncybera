@@ -3,22 +3,34 @@ function pay_job(id) {
 	var settlement_amount = $("#settlement_amount").val();
 	var s_bill_number = $("#s_bill_number").val();
 	var s_receipt = $("#s_receipt").val();
+	var s_other = $("#s_other").val();
+	var s_cmonth = $("#cmonth").val();
+	var s_cheque_number = $("#cheque_number").val();
+	var payRef = jQuery("input[name=pay_ref]").val();
+	var payRefNote = jQuery("#pay_ref_note").val();
+	
 	
 	if($("#settlement_amount").val().length < 1 ) {
 		alert("Please Enter Valid Amount");
 		return false;
-	}else  if($("#s_bill_number").val().length < 1 && $("#s_receipt").val().length < 1 ) {
-		alert("Please Enter Receipt Number or Bill Number");
+	}
+	else  if($("#cheque_number").val().length <1 && $("#s_receipt").val().length < 1  && $("#s_other").val().length < 1 ) {
+		alert("Please Enter Cheque Number OR Receipt Number OR  Payment Type");
 		return false;
 	} else {
+		
+		jQuery("#payBtn").hide();
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/pay_job/"+id, 
-			data:{"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt},
+			data:{"settlement_amount":settlement_amount,"receipt":s_receipt, "other": s_other,
+				"cheque_number": s_cheque_number,  "cmonth": s_cmonth, "payRef": payRef, "payRefNote": payRefNote
+			},
 			success: 
 				function(data){
 					$.fancybox.close();
 					location.reload();
+					jQuery("#payBtn").show();
 			 }
           });
     }
@@ -153,11 +165,16 @@ function pay_job(id) {
 <table width="100%" border="2">
 	<tr>
 		<td>
-			Bill Number : 
-            <input type="text" name="s_bill_number" id="s_bill_number" value="">
+			Cheque Date : <input type="text" name="cmonth" id="cmonth"  value="<?php echo date('d-m-Y');?>" class="datepicker">
+		</td>
+		<td>
+			Cheque Number : <input type="text" name="cheque_number" id="cheque_number">
 		</td>
 		<td>
 			Reciept Number : <input type="text" name="s_receipt" id="s_receipt">
+		</td>
+		<td>
+			Other : <input type="text" name="s_other" id="s_other">
 		</td>
 		<td>
 		<?php $settlment_amount =  $job_data->total - $job_data->advance;?>
@@ -165,13 +182,34 @@ function pay_job(id) {
 			Amount : <input type="text" name="settlement_amount" id="settlement_amount" placeholder="0">
 		</td>
 		<td>
-			<button class="btn btn-success btn-sm text-center"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Amount</button>
+			<button class="btn btn-success btn-sm text-center" id="payBtn"  onclick="pay_job(<?php echo $job_data->id;?>)">Pay Amount</button>
 		</td>
 		
 	</tr>
+	<tr>
+		<td colspan="4" align="center">
+			<label><input type="radio" checked="checked" onChange="setPayRefNote('Cash');" name="pay_ref" value="Cash">Cash </label>
+			<label><input type="radio" name="pay_ref"  onChange="setPayRefNote('NEFT/RTGS');" value="NEFT/RTGS">NEFT/RTGS </label>
+			<label><input type="radio" name="pay_ref" onChange="setPayRefNote('Cheque');"  value="Cheque">Cheque </label>
+			<label><input type="radio" name="pay_ref" onChange="setPayRefNote('PayTm');" value="PayTm">PayTm </label>
+			<label><input type="radio" name="pay_ref" onChange="setPayRefNote('Credit/Debit Card');" value="Credit/Debit Card">Credit/Debit Card </label>
+		</td>
+		<td colspan="2" align="center">
+			<input type="text" name="pay_ref_note" id="pay_ref_note" value="Cash">
+		</td>
+	</tr>
 </table> 
 <?php } ?>   
-
+<?php if(! isset($job_data->billNumber) && strlen($job_data->billNumber) < 2 ) 
+{?>
+<table class="table" width="100%" id="billNumberContainer">
+	<tr>
+		<td align="right"> Add Bill Number :</td>
+		<td> <input type="text" name="add_bill_number" id="add_bill_number"></td>
+		<td><span class="btn btn-success" id="addBill" onclick="addBill(<?php echo $job_data->id;?>);">Add Bill</span></td>
+	</tr>
+</table>
+<?php } ?>
 <hr>
 <center>
 	Job Created by : <?php echo $userInfo->nickname;?>
@@ -314,3 +352,88 @@ if(count($cuttingInfo) > 0 )
 		</center>
 </div>
 <hr>
+
+
+<script>
+
+function fill_account() {
+	var s_receipt = $("#receipt").val();
+	var other = $("#other").val();	
+	if(s_receipt.length > 0 )
+	{
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_check_receipt/"+s_receipt, 
+			success: 
+				function(data){
+					if(data == 1) {
+						$("#receipt").focus();
+						alert("Receipt Alread Exist !");
+						return false;
+					} else {
+						fill_account_final();
+					}
+			 }
+          });
+	} else if(other.length > 0 ) {
+		fill_account_final();
+	} else {
+		fill_account_final();
+	}
+}
+function fill_account_final() {
+	var settlement_amount = $("#amount").val();
+	var s_bill_number = $("#bill_number").val();
+	var s_receipt = $("#receipt").val();
+	var customer_id = $("#customer_id").val();
+	var cmonth = $("#cmonth").val();
+	var other = jQuery("#other").val()
+		
+	if($("#amount").val().length < 1 ||  $("#amount").val() < 1 ) {
+		alert("Please Enter Valid Amount");
+		return false;
+	}else  if($("#bill_number").val().length < 1 && $("#receipt").val().length < 1 && $("#other").val().length < 1 ) {
+		alert("Please Enter Receipt Number or Cheque Number");
+		return false;
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url();?>/ajax/ajax_credit_amount/", 
+			data:{"customer_id":customer_id,"settlement_amount":settlement_amount,"bill_number":s_bill_number,"receipt":s_receipt,"cmonth":cmonth, "other":other},
+			success: 
+				function(data){
+					location.reload();
+			 }
+          });
+    }
+}
+
+function addBill(jobId)
+{
+	var billNumber = jQuery("#add_bill_number").val();
+	
+	$.ajax(
+	{
+			type: 		"POST",
+			url: 		"<?php echo site_url();?>/ajax/ajax_add_billnumber/"+jobId, 
+			dataType: 	'JSON',
+			data: {
+				'billNumber': billNumber
+			},
+			success: function(data)
+			{
+				if(data.status == true)		
+				{
+					jQuery("#billNumberContainer").remove();
+					$.fancybox.close();
+					location.reload();
+				}
+			}
+          });	
+}
+
+function setPayRefNote(value)
+{
+	jQuery("#pay_ref_note").val(value);
+}
+</script>

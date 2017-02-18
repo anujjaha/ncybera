@@ -1,20 +1,96 @@
 <?php
-	$attributes = array('class' => 'form', 'id' => 'create_email');
-	echo form_open('estimation/create', $attributes);
+	$attributes = array('class' => 'form', 'id' => 'create_bulk');
+	echo form_open('estimation/bulk', $attributes);
 ?>
 <div class="row">
 		<div class="col-md-11">
 		 	<div class="box box-success">
 			
 			<div class="box-header with-border">
-			  <h3 class="box-title">Create Email</h3>
+			  
+			  <?php
+			  if(isset($msg))
+			  {
+				  echo "<h3 class='box-title'>".$msg."</h3>";
+			  }
+			  else
+			  {
+				echo '<h3 class="box-title">Create Email</h3>';
+			  }
+			  ?>
 			</div>
 			
 			<div class="box-body">
-			Select Customer:
+			
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-4">
+						<h4>Customers</h4>
+						<?php 
+							$chtml = '';
+							$all_customer = getAllEmailBulkCustomers(); 
+							foreach($all_customer as $customer) 
+							{
+								$c_name = $customer->companyname;
+								
+								if(empty($c_name)) {
+									$c_name = $customer->name;
+								}
+								$chtml .= "<option value='".$customer->emailid."'>".$c_name." [".$customer->emailid."]</option>";
+							}
+							?>
+							<select multiple="multiple" class="form-control estimation-customer-list" name="estimation_customer[]" id="estimation_customer">
+								<?php echo $chtml;?>	
+							</select>
+							
+					</div>
+					<div class="col-md-4">
+						<h4>Dealers</h4>
+						<?php 
+						$dhtml = '';
+						$all_customer = getAllEmailBulkDealersOnly(); 
+						foreach($all_customer as $customer) 
+						{
+							$c_name = $customer->companyname;
+							
+							if(empty($c_name)) {
+								$c_name = $customer->name;
+							}
+							$dhtml .= "<option value='".$customer->emailid."'>".$c_name." [".$customer->emailid."]</option>";
+						}
+						?>
+						<select multiple="multiple" class="form-control estimation-dealer-list" name="estimation_customer[]" id="estimation_dealer_customer">
+							<?php echo $dhtml;?>	
+						</select>
+						
+					</div>
+					<div class="col-md-4">
+						<h4>Voucher Customers</h4>
+						<?php 
+						$vhtml = '';
+						$all_customer = getAllEmailBulkVourcherCustomerOnly(); 
+						foreach($all_customer as $customer) 
+						{
+							$c_name = $customer->companyname;
+							
+							if(empty($c_name)) {
+								$c_name = $customer->name;
+							}
+							$vhtml .= "<option value='".$customer->emailid."'>".$c_name." [".$customer->emailid."]</option>";
+						}
+						?>
+						<select multiple="multiple" class="form-control estimation-voucher-list" name="estimation_customer[]" id="estimation_voucher_customer">
+							<?php echo $vhtml;?>	
+						</select>
+						
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--Select Customer:-->
 			<?php 
-			$html = '';
-			$all_customer = getAllEmailEstimationCustomers(); 
+			/*$html = '';
+			$all_customer = getAllEmailBulkCustomers(); 
 			foreach($all_customer as $customer) 
 			{
 				$c_name = $customer->companyname;
@@ -22,34 +98,14 @@
 				if(empty($c_name)) {
 					$c_name = $customer->name;
 				}
-				$html .= "<option value='".$customer->id."'>".$c_name."</option>";
+				$html .= "<option value='".$customer->emailid."'>".$c_name." [".$customer->emailid."]</option>";
 			}
 			?>
-			<select class="form-control estimation-customer-list" name="estimation_customer" id="estimation_customer" onchange="show_sms_mobile();">
-				<option value="0" selected="selected">Select Customer</option>
+			<select multiple="multiple" class="form-control estimation-customer-list" name="estimation_customer[]" id="estimation_customer">
 				<?php echo $html;?>	
 			</select>
-						
+				*/?>		
 			</div>
-			<hr>
-				<center><h1>OR </h1></center>
-			<hr>
-			<div class="box-body">
-				<h3>Create New : </h3>
-				<input type="text" value="" name="new_customer" id="new_customer" class="form-control">
-			</div>
-			
-			<div class="box-body">
-				<h3>Mobile</h3>
-			<input type="text" value="" name="mobile" id="mobile" class="form-control">
-			</div>
-			
-			<div class="box-body">
-				<h3>Email id</h3>
-			<input type="text" value="" name="email_id" id="email_id" class="form-control" required="required">
-			</div>
-			
-			
 			<div class="box-body">
 				<h3>Subject</h3>
 			<input type="text" value="" name="subject" id="name" class="form-control" required="required">
@@ -127,27 +183,7 @@
 
 <script type="text/javascript" language="javascript" src="<?php echo site_url();?>assets/tinymce/tinymce.min.js"></script>
 <script>
-	function show_sms_mobile() 
-	{
-		var customer_id = jQuery("#estimation_customer").val();
-	if(customer_id == 0 ) {
-		jQuery("#mobile").val('');
-		return true;
-	}
-    $.ajax({
-     type: "POST",
-     dataType:"json",
-     url: "<?php echo site_url();?>/ajax/ajax_get_customer/"+customer_id, 
-     success: 
-        function(data){
-			jQuery("#email_id").val(data['emailid']);
-			jQuery("#mobile").val(data['mobile']);
-			jQuery("#customer_name").val(data['name']);
-			jQuery("#subject").focus();
-		}
-  });
-}
-
+	
 //Tiny Mce Editor
 tinymce.init({
 	selector: 'textarea',
@@ -192,7 +228,22 @@ function validateForm()
 	return true;
 }
 
-var options_dealer = $('select.estimation-customer-list option');
+var options_customer = $('select.estimation-customer-list option');
+     var arr = options_customer.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    options_customer.each(function(i, o) {
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });
+
+var options_dealer = $('select.estimation-dealer-list option');
      var arr = options_dealer.map(function(_, o) {
         return {
             t: $(o).text(),
@@ -203,6 +254,21 @@ var options_dealer = $('select.estimation-customer-list option');
         return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
     });
     options_dealer.each(function(i, o) {
+        o.value = arr[i].v;
+        $(o).text(arr[i].t);
+    });
+    
+var options_voucher = $('select.estimation-voucher-list option');
+     var arr = options_voucher.map(function(_, o) {
+        return {
+            t: $(o).text(),
+            v: o.value
+        };
+    }).get();
+    arr.sort(function(o1, o2) {
+        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+    });
+    options_voucher.each(function(i, o) {
         o.value = arr[i].v;
         $(o).text(arr[i].t);
     });

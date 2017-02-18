@@ -156,9 +156,13 @@ class Ajax extends CI_Controller {
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
 			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
+			sendCorePHPMail('cybera.printart@gmail.com', 'cybera.printart@gmail.com', 'Cybera Estimation - ' .$sms_customer_name, $sms_text);
+			
 			if($customer_email) {
-					send_mail($customer_email,'cybera.printart@gmail.com','Estimation - Cybera',$sms_text);
+				$emailStatus = send_mail($customer_email,'cybera.printart@gmail.com','Estimation - Cybera',$sms_text);
 			}
+			
+			
 			echo $sms_text;
 		}
 		return true;
@@ -215,14 +219,21 @@ class Ajax extends CI_Controller {
 			}
 			$this->job_model->update_job($job_id,$data);
 			
+			$cMonth = date("M-Y",strtotime($this->input->post('cmonth')));	
+			
 			$job_data = $this->job_model->get_job_data($job_id);
 			$pay_data['job_id'] = $job_id;
 			$pay_data['customer_id'] = $job_data->customer_id;
 			$pay_data['amount'] = $data['settlement_amount'];
 			$pay_data['amountby'] = 'Cash';
-			$pay_data['bill_number'] = $this->input->post('bill_number');
+			$pay_data['bill_number'] = $this->input->post('bill_number') ? $this->input->post('bill_number') : "";
 			$pay_data['receipt'] = $this->input->post('receipt');
-			$pay_data['notes'] = 'Job Settlement Amount';
+			$pay_data['other'] = $this->input->post('other') ? $this->input->post('other') : '';
+			$pay_data['cmonth'] = $cMonth;
+			$pay_data['pay_ref'] = $this->input->post('payRef');
+			$pay_data['notes'] = $this->input->post('payRefNote');
+			
+			$pay_data['cheque_number'] = $this->input->post('cheque_number') ? $this->input->post('cheque_number') : '';
 			$pay_data['creditedby'] =$this->session->userdata['user_id'];
 			$this->account_model->credit_amount($job_data->customer_id,$pay_data,CREDIT);
 			return true;
@@ -904,6 +915,32 @@ class Ajax extends CI_Controller {
 				'status' => false
 			));
 		die;
+	}
+	
+	public function ajax_add_billnumber($jobId)
+	{
+		if($this->input->post()) 
+		{
+			$billNumber = $this->input->post('billNumber');
+			
+			$this->load->model('job_model');
+			
+			$status = $this->job_model->addJobBillNumber($jobId, $billNumber);
+			
+			if($status)
+			{
+				echo json_encode(array(
+					'status' => true
+				));
+			
+			die;
+		}
+		
+		echo json_encode(array(
+				'status' => false
+			));
+		die;
+		}
 	}
 }
 

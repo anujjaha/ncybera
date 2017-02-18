@@ -17,16 +17,15 @@
 		<thead>
 		<tr>
 		<th>Sr</th>
+		<th>Date</th>
 		<th>J Num</th>
 		<th>Name</th>
 		<th>Job Name</th>
 		<th>Mobile</th>
 		<th>Bill Amount</th>
 		<th>Due</th>
-		<th>Date</th>
-		<th>Time</th>
-		<th>Bill</th>
 		<th>Receipt</th>
+		<th>Bill</th>
 		<th>Status</th>
 		<th>SMS</th>
 		<th>Action</th>
@@ -38,6 +37,14 @@
 		foreach($jobs as $job) { ?>
 		<tr>
 		<td><?php echo $sr;?></td>
+		<td width="60px;">
+			<span style="font-size:11px;">
+				<?php echo date('d-m-y',strtotime($job['created']));?>
+			</span> || 
+			<span style="font-size:11px;">
+				<?php echo 	date('h:i A',strtotime($job['created']));?>
+			</span>
+		</td>
 		<td width="10px"><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
@@ -47,27 +54,21 @@
 			$user_bal = get_balance($job['customer_id']) ;
 			if($user_bal > 0 ) { 
 				$due_amt = $job['due'] - $job['discount'];
-				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>Paid</span>";	
+				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>0</span>";	
+				echo "<br>";
+				echo "----------";
+				echo "<br>";
 				
+				echo get_acc_balance($job['customer_id']);
 			} else {
 				echo "-";
 			} ?>
 		 </td>
-		<td width="60px;">
-			<span style="font-size:11px;">
-		<?php echo date('d-m-y',strtotime($job['created']));?>
-					</span>
-		</td>
-		<td width="50px;">
-			<span style="font-size:11px;">
-		<?php echo 	date('h:i A',strtotime($job['created']));?>
-			</span>
+		<td>
+			<?php echo  str_replace(","," ",$job['receipt'].$job['t_reciept']);?>
 		</td>
 		<td>
 			<?php echo str_replace(","," ",$job['bill_number'].$job['t_bill_number']);?>
-		</td>
-		<td>
-			<?php echo  str_replace(","," ",$job['receipt'].$job['t_reciept']);?>
 		</td>
 		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
 			<?php

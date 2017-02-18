@@ -20,7 +20,7 @@
                     </div>
                     <!-- search form -->
                    
-                    <form action="<?php echo base_url();?>user/old_search" method="post" class="sidebar-form">
+                    <form target="_blank" action="<?php echo base_url();?>user/old_search" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php
                         $q = $this->input->post('q');
@@ -31,7 +31,7 @@
                             </span>
                         </div>
                     </form>
-                    <form action="<?php echo base_url();?>user/search_job" method="post" class="sidebar-form">
+                    <form target="_blank" action="<?php echo base_url();?>user/search_job" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php
                         $q = $this->input->post('job_number');
@@ -42,12 +42,23 @@
                             </span>
                         </div>
                     </form>
-                    <form action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
+                    <form target="_blank" action="<?php echo base_url();?>user/search" method="post" class="sidebar-form">
                         <div class="input-group">
                         <?php
                         $q = $this->input->post('q');
                         ?>
                             <input type="text" name="q" value="<?php echo $q;?>" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <form target="_blank" action="<?php echo base_url();?>user/search_date" method="post" class="sidebar-form">
+                        <div class="input-group">
+                        <?php
+                        $q = $this->input->post('q');
+                        ?>
+                            <input type="text" name="q" value="<?php echo $q;?>" class="form-control" placeholder="Search By date  d-m-y"/>
                             <span class="input-group-btn">
                                 <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                             </span>
@@ -62,12 +73,12 @@
                             </a>
                         </li>
                         <li class="active">
-                            <a href="<?php echo base_url();?>jobs/edit">
+                            <a target="_blank" href="<?php echo base_url();?>jobs/edit">
                                 <i class="fa fa-dashboard"></i> <span>New Job</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>jobs">
+                            <a target="_blank" href="<?php echo base_url();?>jobs">
                                 <i class="fa fa-envelope"></i> <span>Jobs</span>
                                 <!--<small class="badge pull-right bg-yellow">
                                 <span id="show_jobs"></span>
@@ -75,17 +86,22 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>account">
+                            <a target="_blank" href="<?php echo base_url();?>account">
                                 <i class="fa fa-envelope"></i> <span>Account</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>account/quick">
+                            <a target="_blank" href="<?php echo base_url();?>estimation/bulk">
+                                <i class="fa fa-envelope"></i> <span>Bulk Email</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="<?php echo base_url();?>account/quick">
                                 <i class="fa fa-envelope"></i> <span>Quick Account</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>task/mytask">
+                            <a target="_blank" href="<?php echo base_url();?>task/mytask">
                                 <i class="fa fa-envelope"></i> <span class="blink_me">Tasks Alloted</span>
                                 <!--<small class="badge pull-right bg-yellow">
 									<span id="show_tasks"></span>
@@ -93,7 +109,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>dealer">
+                            <a target="_blank" href="<?php echo base_url();?>dealer">
                                 <i class="fa fa-calendar"></i> <span>Dealers</span>
                                 <!--<small class="badge pull-right bg-red">
                                 <span id="show_dealers"></span>
@@ -101,7 +117,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>customer">
+                            <a target="_blank" href="<?php echo base_url();?>customer">
                                 <i class="fa fa-calendar"></i> <span>Customers</span>
                                 <!--<small class="badge pull-right bg-red">
                                 <span id="show_customers"></span>
@@ -109,7 +125,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>dealer/vcustomers">
+                            <a target="_blank" href="<?php echo base_url();?>dealer/vcustomers">
                                 <i class="fa fa-calendar"></i> <span>Voucher Customers</span>
                                 <!--<small class="badge pull-right bg-red">
                                 <span id="show_vouchers"></span>
@@ -117,7 +133,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>dealer/outstation">
+                            <a target="_blank" href="<?php echo base_url();?>dealer/outstation">
                                 <i class="fa fa-calendar"></i> <span>Outstation Customers</span>
                                 <!--<small class="badge pull-right bg-red">
                                 <span id="show_vouchers"></span>
@@ -125,7 +141,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>customer/prospects">
+                            <a target="_blank" href="<?php echo base_url();?>customer/prospects">
                                 <i class="fa fa-calendar"></i> <span>Business Prospects</span>
                                 <!--<small class="badge pull-right bg-red">
                                 <span id="show_prospects"></span>
@@ -133,7 +149,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>jobs/estimation_sms">
+                            <a target="_blank" href="<?php echo base_url();?>jobs/estimation_sms">
                                 <i class="fa fa-calendar"></i> <span>Estimation SMS</span>
                             </a>
                         </li>

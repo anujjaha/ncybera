@@ -34,6 +34,34 @@ class Estimation extends CI_Controller {
 		
 		$this->template->load('estimations', 'index', $data);
 	}
+	public function bulk()
+	{
+		if($this->input->post())
+		{
+			$data = $this->input->post();
+			
+			$emailList = $this->input->post('estimation_customer');
+			$counter = 0;
+			foreach($emailList as $email)
+			{
+				$email = array($email);
+				$status = sendBulkEmail($email, $data['from_email'], $data['subject'], $data['html_content']);
+				
+				if($status) 
+				{
+					$counter++;
+				}
+				else
+				{
+					echo $status;
+				}
+			}
+			
+			$data['msg'] =  "Total <strong>".$counter."</strong> Mail sent";
+		}
+		$data['heading'] = $data['title'] = "Create Bulk Send Email - Cybera Print Art";
+		$this->template->load('estimations', 'bulk', $data);
+	}
 	
 	public function create()
 	{
@@ -43,9 +71,35 @@ class Estimation extends CI_Controller {
 			
 			if(isset($data['email_id']))
 			{
+				$customerName 	= $data['customer_name'];
+				$customerId 	= $data['estimation_customer'];
+				
+				$this->load->model('customer_model');
+				
+				if(isset($data['new_customer']) && !empty($data['new_customer']))
+				{
+					$customerName 	= $data['new_customer'];	
+					$cybCustomer 	= $this->customer_model->checkCustomerByEmailId($data['email_id']);
+					
+					if($cybCustomer)
+					{
+						$customerId = $cybCustomer->id;	
+					}
+					else
+					{
+						$newCustomerData = array(
+							'name' 		=> $data['new_customer'],
+							'emailid' 	=> $data['email_id'],
+							'mobile' 	=> $data['mobile']
+						);
+						
+						$customerId = $this->customer_model->insert_customer($newCustomerData);
+					}
+				}
+				
 				$insertEstimation = array(
-					'customer_id' 	=> $data['estimation_customer'],
-					'name' 			=> $data['customer_name'],
+					'customer_id' 	=> $customerId,
+					'name' 			=> $customerName,
 					'mobile' 		=> $data['mobile'],
 					'emailid' 		=> $data['email_id'],
 					'subject' 		=> $data['subject'],
@@ -86,9 +140,35 @@ class Estimation extends CI_Controller {
 				$picData = $this->upload->data();  
 			
 				$imageUrl = site_url('assets/emailpictures/'.$picData['file_name']);
-
-
-				echo "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('".$imageUrl."').closest('.mce-window').find('.mce-primary').click();</script>".$imageUrl;
+				
+				/* FTP Account */
+				$ftp_host = 'cyberaprint.com'; /* host */
+				$ftp_user_name = 'media@cyberaprint.com'; /* username */
+				$ftp_user_pass = '123456'; /* password */
+				
+				
+				$local_file = 'C:\wamp\www\ncybera\assets\emailpictures\xxx'.$picData['file_name'];
+				
+				$local_file = str_replace("xxx","",$local_file);
+				$remote_file = $picData['file_name'];
+				
+				$connect_it = ftp_connect( $ftp_host );
+				$login_result = ftp_login( $connect_it, $ftp_user_name, $ftp_user_pass );
+				
+				
+				
+					/* Send $local_file to FTP */
+					if ( ftp_put( $connect_it, $remote_file, $local_file, FTP_BINARY ) ) {
+						$status =  "WOOT! Successfully transfer $local_file\n";
+					}
+					else {
+						$status = "Doh! There was a problem\n";
+					}
+					/* Close the connection */
+					ftp_close( $connect_it );
+					
+				$myImageUrl = "http://media.cyberaprint.com/".$picData['file_name'];
+				echo "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('".$myImageUrl."').closest('.mce-window').find('.mce-primary').click();</script>".$imageUrl;
 			}
 			else 
 			{

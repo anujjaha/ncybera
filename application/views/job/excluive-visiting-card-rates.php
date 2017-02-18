@@ -318,15 +318,16 @@
 			<input type="hidden" name="v_card_price-ex" id="v_card_price-ex">
 			<input type="hidden" id="original_v_card_price-ex" name="original_v_card_price-ex">
 		</td>
-		<td> 
-			Total Names : 
-			<br>
-			<input type="text" id="v_card_names-ex" name="v_card_names-ex" class="form-control" value="1" onBlur="updateQtyEx()"> 
-		</td>
+		
 		<td> 
 			Paper Code : 
 			<br>
 			<input type="text" id="paper_code-ex" name="paper_code-ex" class="form-control" onblur="setPaperCodeValueEx();"> 
+		</td>
+		<td> 
+			Total Names : 
+			<br>
+			<input type="text" id="v_card_names-ex" name="v_card_names-ex" class="form-control" value="1" onBlur="updateQtyEx()"> 
 		</td>
 		<td align="center">
 			<input type="hidden" name="paper_side-ex" id="paper_side-ex">
@@ -502,6 +503,7 @@ function saveVCardEx()
 
 function setPaperCodeValueEx()
 {
+	/*
 	if(jQuery(".Vcard_active-ex").attr("data-card") == "300_GSM_Matt_Card" )
 	{
 		jQuery("#paper_code-ex").val("");
@@ -531,6 +533,7 @@ function setPaperCodeValueEx()
 	
 	jQuery("#v_card_type-ex").val("V_Card_Code_"+paperCode+"_"+printSide);
 	jQuery("#show_v_card_type-ex").html("<h2>"+"V_Card_Code_"+paperCode+"_"+printSide+"</h2>");
+	*/
 }
 
 function updateQtyEx()
@@ -554,14 +557,14 @@ function updateQtyEx()
 	{
 		console.log("OrignalTilte", cardTitle);
 		
-		var finalTitle = "V_Card_Code_"+paperCode+"_"+printSide+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
+		var finalTitle = cardTitle+"_"+paperCode+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
 		
 		setCardTypeEx(finalTitle);
 		
 		return true;
 	}
 	
-	var finalTitle = "V_Card_Code_"+printSide+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
+	var finalTitle = cardTitle+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
 	
 	
 	setCardTypeEx(cardTitle);
