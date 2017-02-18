@@ -535,6 +535,20 @@ function get_task_user_list() {
 	<?php
 }
 
+function getCustomerPreferCourierService($customerId = null)
+{
+	if($customerId)
+	{
+		$sql = "SELECT * FROM transporter_details WHERE customer_id = $customerId";
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		return $query->row()->name;
+	}
+	
+	return false;
+}
+
 function pr($data, $flag = true)
 {
 	echo "<pre>";

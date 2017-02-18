@@ -126,6 +126,14 @@ class Ajax extends CI_Controller {
 			$data['docket_number'] = $this->input->post('docket_number');
 			$data['user_id'] = $this->session->userdata['user_id'];
 			$data['created'] = date('Y-m-d H:i:s');
+			
+			$this->load->model('job_model');
+			$job_data = $this->job_model->get_job_data($job_id);
+			$customer = $this->job_model->get_customer_details($job_data->customer_id);
+			
+			$sms_text = 'Dear '.$customer->name.', We have dispatched your parcel via - '.$this->input->post('courier_name').' and the docket number is '.$this->input->post('docket_number').'. Thank You.';
+			send_sms($this->session->userdata['user_id'], $customer->id,$customer->mobile,$sms_text);
+			
 			$this->user_model->save_courier($job_id,$data);
 		}
 		return true;
