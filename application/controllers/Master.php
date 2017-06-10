@@ -27,6 +27,17 @@ class Master extends CI_Controller {
 		$this->template->load('master', 'index', $data);
 	}
 	
+	public function dealercustomerunverify()
+	{
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Master Admin - All Customer/Dealers Jobs";
+		$data['statstics'] = get_master_statistics();
+		$data['unverify_jobs'] = $this->master_model->get_dealercustomer_jobs_master();
+		
+		$this->template->load('master', 'index', $data);
+		
+	}
 	public function unverifyjobs() {
 		$this->load->model('master_model');
 		$data = array();
@@ -49,6 +60,37 @@ class Master extends CI_Controller {
 		$data['heading'] = $data['title']="Master Admin - All Jobs";
 		$data['all_jobs'] = $this->master_model->get_jobs_master();
 		$this->template->load('master', 'all_jobs', $data);
+	}
+	
+	public function customer_job() {
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Master Admin - All Customer Regular Jobs";
+		$data['statstics'] = get_master_statistics();
+		$data['unverify_jobs'] = $this->master_model->get_customer_jobs_master();
+		
+		$this->template->load('master', 'index', $data);
+	}
+	
+	public function dealer_job() 
+	{
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Master Admin - All Dealer Jobs";
+		$data['statstics'] = get_master_statistics();
+		$data['unverify_jobs'] = $this->master_model->get_dealer_jobs_master();
+		
+		$this->template->load('master', 'index', $data);
+	}
+	
+	public function voucher_job() {
+		$this->load->model('master_model');
+		$data = array();
+		$data['heading'] = $data['title']="Master Admin - All Voucher Jobs";
+		$data['statstics'] = get_master_statistics();
+		$data['unverify_jobs'] = $this->master_model->get_voucher_jobs_master();
+		
+		$this->template->load('master', 'index', $data);
 	}
 	
 	public function manage_users() {
@@ -118,6 +160,31 @@ class Master extends CI_Controller {
 		$data['heading'] = $data['title']="Master - Job Categories";
 		$this->template->load('master', 'job_categories', $data);
 	}
+	
+	public function attendance() {
+		$this->load->model('attendance_model');
+		$data = array();
+		$data['items'] = $this->attendance_model->getAllAttendance();
+		$data['heading'] = $data['title']="Attendance - Cybera Print Art";
+		
+		$this->template->load('attendance', 'index', $data);
+	}
+	
+	public function viewattendance($empId = null) 
+	{
+		if($empId)
+		{
+			$this->load->model('attendance_model');
+			$this->load->model('employee_model');
+			$data 					= array();
+			$data['items'] 			= (array) $this->attendance_model->getAllAttendanceById($empId);
+			$data['heading'] 		= $data['title']="Attendance View - Cybera Print Art";
+			$data['employeeInfo']  	= $this->employee_model->getEmployeeById($empId);
+			
+			$this->template->load('attendance', 'details', $data);	
+		}
+	}
+	
 	public function migration() {
 			$this->load->model('master_model');
 			$this->master_model->user_migration();

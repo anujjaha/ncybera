@@ -16,8 +16,8 @@
 		<td colspan="2" align="center">300 GSM Matt Card </td>
 		<td colspan="2" align="center">350 GSM Matt Card </td>
 		<td colspan="2" align="center">350 GSM Gloss Card </td>
-		<td colspan="2" align="center">350 GSM Matt/Gloss Laminated </td>
-		<td colspan="2" align="center">350 GSM Velvet Laminated </td>
+		<td colspan="2" align="center">350 GSM Matt Laminated Card </td>
+		<td colspan="2" align="center">400 GSM IVORY Card </td>
 	</tr>
 	
 	<tr>
@@ -78,26 +78,26 @@
 				350
 			</span>
 		 </td>
-		 
+
 		<td> 
-			<span class="price btn btn-primary laminated350" data-price="450" data-card="350_GSM_Matt/Gloss_Laminated" data-type="SS">
+			<span class="price btn btn-primary gsm350" data-price="450" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="SS">
 				450
 			</span>
 		</td>
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="450" data-card="350_GSM_Matt/Gloss_Laminated" data-type="FB">
+		<td>
+			<span class="price btn btn-primary gsm350" data-price="450" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="FB">
 				450
 			</span>
-		</td>
+		 </td>
 		 
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="700" data-card="350_GSM_VELVET_Laminated" data-type="SS">
-				700
+			<span class="price btn btn-primary gsmVelvet" data-price="300" data-card="400_GSM_IVORY" data-type="SS">
+				300
 			</span>
 		</td>
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="700" data-card="350_GSM_VELVET_Laminated" data-type="FB">
-				700
+			<span class="price btn btn-primary gsmVelvet" data-price="450" data-card="400_GSM_IVORY" data-type="FB">
+				450
 			</span>
 		</td>
 	</tr>
@@ -141,26 +141,26 @@
 				500
 			</span>
 		 </td>
-		
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="700" data-card="350_GSM_Matt/Gloss_Laminated" data-type="SS">
+		 
+		 <td> 
+			<span class="price btn btn-primary gsm350" data-price="700" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="SS">
 				700
 			</span>
 		</td>
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="700" data-card="350_GSM_Matt/Gloss_Laminated" data-type="FB">
-				700
-			</span>
-		</td>
-		
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="1050" data-card="350_GSM_VELVET_Laminated" data-type="SS">
-				1050
+			<span class="price btn btn-primary gsm350" data-price="700" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="FB">
+				700
 			</span>
 		 </td>
+		
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="1050" data-card="350_GSM_VELVET_Laminated" data-type="FB">
-				1050
+			<span class="price btn btn-primary gsmVelvet" data-price="450" data-card="400_GSM_IVORY" data-type="SS">
+				450
+			</span>
+		</td>
+		<td>
+			<span class="price btn btn-primary gsmVelvet" data-price="700" data-card="400_GSM_IVORY" data-type="FB">
+				700
 			</span>
 		</td>
 	</tr>
@@ -193,8 +193,8 @@
 				700
 			</span>
 		 </td>
-
-		<td> 
+		 
+		 <td> 
 			<span class="price btn btn-primary gsm350" data-price="400" data-card="350_GSM_Gloss_Card" data-type="SS">
 				400
 			</span>
@@ -204,26 +204,26 @@
 				700
 			</span>
 		 </td>
-		
+
 		<td> 
-			<span class="price btn btn-primary laminated350" data-price="950" data-card="350_GSM_Matt/Gloss_Laminated" data-type="SS">
+			<span class="price btn btn-primary gsm350" data-price="950" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="SS">
 				950
 			</span>
 		</td>
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="950" data-card="350_GSM_Matt/Gloss_Laminated" data-type="FB">
+		<td>
+			<span class="price btn btn-primary gsm350" data-price="950" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="FB">
 				950
 			</span>
-		</td>
+		 </td>
 		
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="1500" data-card="350_GSM_VELVET_Laminated" data-type="SS">
-				1500
+			<span class="price btn btn-primary gsmVelvet" data-price="600" data-card="400_GSM_IVORY" data-type="SS">
+				600
 			</span>
 		</td>
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="1500" data-card="350_GSM_VELVET_Laminated" data-type="FB">
-				1500
+			<span class="price btn btn-primary gsmVelvet" data-price="950" data-card="400_GSM_IVORY" data-type="FB">
+				950
 			</span>
 		</td>
 	</tr>
@@ -256,7 +256,6 @@
 				900
 			</span>
 		 </td>
-
 		<td> 
 			<span class="price btn btn-primary gsm350" data-price="600" data-card="350_GSM_Gloss_Card" data-type="SS">
 				600
@@ -267,26 +266,26 @@
 				900
 			</span>
 		 </td>
-		
+
 		<td> 
-			<span class="price btn btn-primary laminated350" data-price="1400" data-card="350_GSM_Matt/Gloss_Laminated" data-type="SS">
+			<span class="price btn btn-primary gsm350" data-price="1400" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="SS">
 				1400
 			</span>
 		</td>
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="1400" data-card="350_GSM_Matt/Gloss_Laminated" data-type="FB">
+		<td>
+			<span class="price btn btn-primary gsm350" data-price="1400" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="FB">
 				1400
 			</span>
-		</td>
+		 </td>
 		
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="2250" data-card="350_GSM_VELVET_Laminated" data-type="SS">
-				2250
+			<span class="price btn btn-primary gsmVelvet" data-price="900" data-card="400_GSM_IVORY" data-type="SS">
+				900
 			</span>
 		</td>
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="2250" data-card="350_GSM_VELVET_Laminated" data-type="FB">
-				2250
+			<span class="price btn btn-primary gsmVelvet" data-price="1400" data-card="400_GSM_IVORY" data-type="FB">
+				1400
 			</span>
 		</td>
 	</tr>
@@ -308,7 +307,7 @@
 				1400
 			</span>
 		</td>
-		
+
 		<td> 
 			<span class="price btn btn-primary gsm350" data-price="1100" data-card="350_GSM_Matt_Card" data-type="SS">
 				1100
@@ -320,6 +319,7 @@
 			</span>
 		 </td>
 
+		
 		<td> 
 			<span class="price btn btn-primary gsm350" data-price="1100" data-card="350_GSM_Gloss_Card" data-type="SS">
 				1100
@@ -330,26 +330,26 @@
 				1600
 			</span>
 		 </td>
-		
+
 		<td> 
-			<span class="price btn btn-primary laminated350" data-price="2700" data-card="350_GSM_Matt/Gloss_Laminated" data-type="SS">
+			<span class="price btn btn-primary gsm350" data-price="2700" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="SS">
 				2700
 			</span>
 		</td>
-		<td> 
-			<span class="price btn btn-primary laminated350" data-price="2700" data-card="350_GSM_Matt/Gloss_Laminated" data-type="FB">
+		<td>
+			<span class="price btn btn-primary gsm350" data-price="2700" data-card="350_GSM_Matt/Gloss_Laminated_Card" data-type="FB">
 				2700
 			</span>
-		</td>
+		 </td>
 		
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="3700" data-card="350_GSM_VELVET_Laminated" data-type="SS">
-				3700
+			<span class="price btn btn-primary gsmVelvet" data-price="1700" data-card="400_GSM_IVORY" data-type="SS">
+				1700
 			</span>
 		</td>
 		<td>
-			<span class="price btn btn-primary gsmVelvet" data-price="3700" data-card="350_GSM_VELVET_Laminated" data-type="FB">
-				3700
+			<span class="price btn btn-primary gsmVelvet" data-price="2700" data-card="400_GSM_IVORY" data-type="FB">
+				2700
 			</span>
 		</td>
 	</tr>
@@ -524,7 +524,7 @@ function saveVCard()
 {
 	var multiple = 1;
 	
-	//updateQty();
+	updateQty();
 	
 	if(jQuery("#v_card_names").val().length > 0 )
 	{

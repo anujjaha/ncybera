@@ -34,6 +34,16 @@ class Estimation extends CI_Controller {
 		
 		$this->template->load('estimations', 'index', $data);
 	}
+	
+	public function forward($estimationId)
+	{
+		$data = array();
+		$data['item']   = $this->estimation_model->getEstimation($estimationId);
+		$data['heading'] = $data['title']="Update Estimations - Cybera Print Art";
+		
+		$this->template->load('estimations', 'edit', $data);
+	}
+	
 	public function bulk()
 	{
 		if($this->input->post())
@@ -44,7 +54,8 @@ class Estimation extends CI_Controller {
 			$counter = 0;
 			foreach($emailList as $email)
 			{
-				$email = array($email);
+				$email = explode("," ,$email);
+				
 				$status = sendBulkEmail($email, $data['from_email'], $data['subject'], $data['html_content']);
 				
 				if($status) 
@@ -68,7 +79,6 @@ class Estimation extends CI_Controller {
 		if($this->input->post())
 		{
 			$data = $this->input->post();
-			
 			if(isset($data['email_id']))
 			{
 				$customerName 	= $data['customer_name'];
@@ -96,6 +106,10 @@ class Estimation extends CI_Controller {
 						$customerId = $this->customer_model->insert_customer($newCustomerData);
 					}
 				}
+				else
+				{
+					$this->customer_model->checkOrUpdateCustomerEmailId($customerId, $data['email_id']);
+				}
 				
 				$insertEstimation = array(
 					'customer_id' 	=> $customerId,
@@ -114,7 +128,7 @@ class Estimation extends CI_Controller {
 				{
 					$subject = isset($data['subject']) ? $data['subject'] : "Cybera Estimation";
 					$receivers =  explode(",", $data['email_id']);
-					sendEstimationEmail($receivers, $data['from_email'], $subject, $data['html_content']);
+					sendEstimationEmail($receivers, $data['from_email'], $customerName. ' - ' .$subject, $data['html_content']);
 				}
 			}
 			
@@ -122,6 +136,42 @@ class Estimation extends CI_Controller {
 		}
 		$data['heading'] = $data['title'] = "Create Estimation - Cybera Print Art";
 		$this->template->load('estimations', 'create', $data);
+	}
+	
+	public function edited()
+	{
+		$data = $this->input->post();
+		if(isset($data['email_id']))
+		{
+			$customerName 	= $data['customer_name'];
+			$customerId 	= $data['estimation_customer'];
+			
+			$this->load->model('customer_model');
+			
+			$this->customer_model->checkOrUpdateCustomerEmailId($customerId, $data['email_id']);
+			
+			$insertEstimation = array(
+				'customer_id' 	=> $customerId,
+				'name' 			=> $customerName,
+				'mobile' 		=> $data['mobile'],
+				'emailid' 		=> $data['email_id'],
+				'subject' 		=> $data['subject'],
+				'content' 		=> $data['html_content'],
+				'validity' 		=> $data['validity'],
+				'created_at' 	=> date('Y-m-d H:i:s')
+			);
+			
+			$status = $this->estimation_model->createNewEstimation($insertEstimation);
+			
+			if($status)
+			{
+				$subject = isset($data['subject']) ? $data['subject'] : "Cybera Estimation";
+				$receivers =  explode(",", $data['email_id']);
+				sendEstimationEmail($receivers, $data['from_email'], $customerName. ' - ' .$subject, $data['html_content']);
+			}
+		}
+			
+			redirect("estimation/index", "refresh");
 	}
 	
 	public function uploadImage()

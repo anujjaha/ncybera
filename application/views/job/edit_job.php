@@ -62,6 +62,7 @@ function set_fbox_data(data) {
 	$("#lamination_info").val(data['c_laminationinfo']);
 	$("#binding").val(data['c_binding']);
 	$("#binding_info").val(data['c_bindinginfo']);
+	$("#c_blade_per_sheet").val(data['c_blade_per_sheet']);
 	$("#packing").val(data['c_packing']);
 	$("#checking").val(data['c_checking']);
 	$("#details").val(data['c_details']);
@@ -69,7 +70,7 @@ function set_fbox_data(data) {
 
 function set_cutting_details_box(id){
 	var data_id =jQuery("#fancybox_cutting_id").val();
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking, c_blade_per_sheet;
         machine = $('input:radio[name=machine]:checked').val();// jQuery("#machine").val();
         
       binding = ""; 
@@ -83,6 +84,7 @@ function set_cutting_details_box(id){
         lamination_info = jQuery("#lamination_info").val();
         size_info = jQuery("#size_info").val();
         binding_info = jQuery("#binding_info").val();
+        c_blade_per_sheet = jQuery("#c_blade_per_sheet").val();
         details = jQuery("#details").val();
         lamination = $('input:radio[name=lamination]:checked').val();//jQuery("#lamination").val();
         checking = $('input:radio[name=checking]:checked').val();//jQuery("#lamination").val();
@@ -99,6 +101,7 @@ function set_cutting_details_box(id){
         jQuery("#c_packing_"+data_id).val(packing);
         jQuery("#c_laminationinfo_"+data_id).val(lamination_info);
         jQuery("#c_sizeinfo_"+data_id).val(size_info);
+        jQuery("#c_blade_per_sheet_"+data_id).val(c_blade_per_sheet);
         jQuery("#c_bindinginfo_"+data_id).val(binding_info);
         jQuery("#c_binding_"+data_id).val(binding);
         jQuery("#c_checking_"+data_id).val(checking);
@@ -210,6 +213,9 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Designing") {
 			$("#details_"+sr).val("Designing");
 		}
+		if($("#category_"+sr).val() == "Editing Charge") {
+			$("#details_"+sr).val("Editing Charge");
+		}
 		if($("#category_"+sr).val() == "Binding") {
 			$("#details_"+sr).val("Binding");
 		}
@@ -280,6 +286,7 @@ $modified_by = $this->session->userdata['user_id'];
 						<td width="50%" align="right">
 							<input type="hidden" name="original_customer_id" value="<?php echo $job_data->customer_id;?>">
 							Contact Number : <input type="text" value="<?php echo $customer_details->mobile;?>" name="user_mobile" id="mobile_customer">
+							<input type="text" name="jsmsnumber" id="jsmsnumber" value="<?php echo $job_data->jsmsnumber;?>">
 						</td>
 					</tr>
 				</table>
@@ -321,6 +328,7 @@ $modified_by = $this->session->userdata['user_id'];
 				<option <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Offset Print' ) { echo 'selected="selected"';} ?>>Offset Print</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Cutting' ) { echo 'selected="selected"';} ?>>Cutting</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Designing' ) { echo 'selected="selected"';} ?>>Designing</option>
+				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Editing Charge' ) { echo 'selected="selected"';} ?>>Editing Charge</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Binding' ) { echo 'selected="selected"';} ?>>Binding</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Sticker Sheet' ) { echo 'selected="selected"';} ?>>Sticker Sheet</option>
 				<option  <?php if( !empty($job_details[$j]['jtype']) && $job_details[$j]['jtype'] == 'Packaging and Forwading' ) { echo 'selected="selected"';} ?>>Packaging and Forwading</option>

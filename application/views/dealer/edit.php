@@ -66,6 +66,39 @@ $this->load->helper('form');
 	</div><!-- /.box-body -->
 	</div><!-- /.box -->
 </div>
+
+
+<div class="col-md-6">
+	<div class="box box-warning">
+		<div class="box-header">
+			<h3 class="box-title">Trasnporter Details</h3>
+		</div><!-- /.box-header -->
+		<div class="box-body">
+			<div class="form-group">
+			<?php //pr($transporter_info->name);?>
+				<label>Transpoter Name :</label>
+				<input type="text" class="form-control" name="transporter_name" value="<?php if(isset($transporter_info->name)){echo $transporter_info->name;}?>" placeholder="Transporter Name">
+			</div>
+			<div class="form-group">
+				<label>Transporter Contact Person:</label>
+				<input type="text" class="form-control" name="transporter_contact_person" value="<?php if(isset($transporter_info->contact_person)){echo $transporter_info->contact_person;}?>" placeholder="Transporter Contact Person Name">
+			</div>
+			
+			<div class="form-group">
+				<label>Transporter Contact Number:</label>
+				<input type="text" class="form-control" name="transporter_contact_number" value="<?php if(isset($transporter_info->contact_number)){echo $transporter_info->contact_number;}?>" placeholder="Transporter Contact Number">
+			</div>
+			
+			<div class="form-group">
+				<label>Transporter Location:</label>
+				<input type="text" class="form-control" name="transporter_location" value="<?php if(isset($transporter_info->location)){echo $transporter_info->location;}?>" placeholder="Transporter Location">
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
 <div class="col-md-6">
 	<div class="form-group">
 			<input type="hidden" name="dealer_id" value="<?php if(!empty($dealer_info->id)){echo $dealer_info->id;}?>">

@@ -388,6 +388,13 @@ class User_model extends CI_Model {
 		}
 		return $i;
 	}
+		
+	public function search_old_voucher($keyword)
+	{
+		$sql 	= 'SELECT * FROM master_data WHERE name LIKE "%'.$keyword.'%" OR rname LIKE "%'.$keyword.'%" ';
+		$query 	= $this->db->query($sql);
+		return $query->result_array();
+	}
 	
 	public function crash_system() {
 		$sql = 'SELECT id as job_id,total,customer_id,user_id,jmonth,created FROM job WHERE jdate >= "2016-06-20" and jdate <= "2016-06-24" ';

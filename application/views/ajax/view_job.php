@@ -55,6 +55,11 @@ function pay_job(id) {
 						</td>
 						<td width="50%" align="right">
 							<?php echo $customer_details->mobile;?>
+							<?php
+							if(strlen($job_data->jsmsnumber) > 2 )
+							{
+								echo " / ". $job_data->jsmsnumber;
+							}?>
 						</td>
 					</tr>
 				</table>
@@ -144,7 +149,7 @@ function pay_job(id) {
 		
 		 echo $show_due; ?></td>
 	</tr> <?php } else {
-		echo "2";
+		//echo "2";
 		
 		 ?>
 	<tr>
@@ -289,11 +294,40 @@ if(count($cuttingInfo) > 0 )
 				}
 			?>
 			<input type="text" style="width:350px;" id="courier_name" name="courier_name" value="<?php echo $courierName;?>"></td>
-			<td align="center" width="30%">Docket Number : <input type="text" id="docket_number" name="docket_number" value="<?php if($courier->docket_number) { echo $courier->docket_number;} ?>"></td>
+			<td align="center" width="30%">Docket Number : 
+				<?php
+					if(isset($courier->docket_number)) 
+					{
+						echo $courier->docket_number;
+					}
+					else
+					{
+				?>
+				<input type="text" id="docket_number" name="docket_number" value="">
+				<?php } ?>
+			</td>
 			<td align="center" width="10%">
-		<button class="btn btn-success btn-sm text-center" id="saveShippingBtn"  onclick="save_shipping(<?php echo $job_data->id;?>)">Save Shipping</button></td>
+			<?php
+			if(! isset($courier->docket_number)) { ?>
+			<button class="btn btn-success btn-sm text-center" id="saveShippingBtn"  onclick="save_shipping(<?php echo $job_data->id;?>)">Save Shipping</button></td>
+			<?php } ?>
 		</tr>	
 	</table>
+	
+	<?php
+		$userBalance =  get_acc_balance($job_data->customer_id);
+		$due = $job_data->due - $job_data->discount;
+		
+		if($due > 0 && $userBalance < 1)
+		{
+	?>
+	<table align="center" width="100%" border="2">
+		<tr>
+			<td align="center">Discount : <input value="0" type="number" max="<?php echo $job_data->due;?>" name="amountDiscount" id="amountDiscount"> <span data-customer-id="<?php echo $job_data->customer_id;?>" data-id="<?php echo $job_data->id;?>" id="addDiscount"  class="btn btn-success btn-sm">Discount</span></td>
+		</tr>
+	</table>
+	<?php } ?>
+	<?php /*
 		   <table align="center" border="2" width="100%">
 			<tr>
 				<td width="50%"> 
@@ -352,10 +386,10 @@ if(count($cuttingInfo) > 0 )
 						<input type="radio" <?php if($job_data->jstatus == JOB_HOLD){ echo "checked='checked'"; };?> name="jstatus" value="Hold">
 						<?php echo JOB_HOLD;?>
 						</label>
-				</td>*/?>
+				</td>* / ?>
 				
 			</tr>
-		</table>
+		</table>*/?>
     </div>
 </div>
 <div class="row">
@@ -449,4 +483,43 @@ function setPayRefNote(value)
 {
 	jQuery("#pay_ref_note").val(value);
 }
+
+jQuery("#addDiscount").on('click', function()
+{
+	var jobId 		= jQuery(this).attr('data-id'),
+		customerId 	= jQuery(this).attr('data-customer-id');
+	
+	if(typeof jobId == "undefined" || jobId == 0)
+	{
+		return ;
+	}
+	
+	var discount = jQuery("#amountDiscount").val();
+	
+	if(discount < 1 )
+	{
+		return;
+	}
+	
+	jQuery.ajax({
+		type: 		"POST",
+			url: 		"<?php echo site_url();?>/ajax/ajax_add_discount/"+jobId, 
+			dataType: 	'JSON',
+			data: {
+				'discountAmount': discount,
+				'customerId':	customerId
+			},
+			success: function(data)
+			{
+				if(data.status == true)		
+				{
+					jQuery("#billNumberContainer").remove();
+					$.fancybox.close();
+					location.reload();
+				}
+			}
+	});
+	jQuery("#amountDiscount").val();
+		alert('etst');
+});
 </script>

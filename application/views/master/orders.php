@@ -60,7 +60,7 @@ function direct_verify_job(id) {
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
+		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>0</span>";?></td>
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>

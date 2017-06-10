@@ -54,11 +54,13 @@ class Dealer_model extends CI_Model {
 	public function insert_dealer($data) {
 		$status = $this->db->insert($this->table,$data);
 		$dealer_id = $this->db->insert_id();
+		$update_data['ctype'] 	= 1;
 		$update_data['username'] = 'dealer'.$dealer_id;
 		$update_data['password'] = 'dealer'.$dealer_id;
 		$update_data['dealercode'] = 'D-'.$dealer_id;
 		$update_data['created'] = date('Y-m-d H:i:s');
-		return $this->update_dealer($dealer_id,$update_data);
+		$status = $this->update_dealer($dealer_id,$update_data);
+		if($status) { return $dealer_id;}
 	}
 	
 	public function update_dealer($dealer_id=null,$data) {

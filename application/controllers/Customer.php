@@ -73,6 +73,7 @@ class Customer extends CI_Controller {
 			$data['title']="Edit Customer";
 			$data['heading']="Edit Customer";
 			$data['dealer_info']= $this->customer_model->get_customer_details('id',$customer_id);
+			$data['transporter_info'] = $this->customer_model->getTransporterDetailsByCustomerId($customer_id);
 		}
 		if($this->input->post()) {
 			$data = array();
@@ -87,11 +88,31 @@ class Customer extends CI_Controller {
 			$data['state'] = $this->input->post('state');
 			$data['pin'] = $this->input->post('pin');
 			$customer_id = $this->input->post('customer_id');
+			$transporter_id = $this->input->post('transporter_id');
+			
 			if($customer_id) {
 				$this->customer_model->update_customer($customer_id,$data);
 			} else {
-				$this->customer_model->insert_customer($data);
+				$customer_id = $this->customer_model->insert_customer($data);
 			}
+			
+			$transporterData = array(
+				'customer_id' 		=> $customer_id,
+				'name'		  		=> $this->input->post('transporter_name'),
+				'contact_person'	=> $this->input->post('transporter_contact_person'),
+				'contact_number'	=> $this->input->post('transporter_contact_number'),
+				'location'		  	=> $this->input->post('transporter_location')
+			);
+			 
+			if(isset($transporter_id) && $transporter_id != '') 
+			{
+				$this->customer_model->updateTransporterDetails($transporter_id, $transporterData);
+			}
+			else
+			{
+				$this->customer_model->addTransporterDetails($transporterData);
+			}
+			
 			$this->load->helper('url');
 			redirect("customer/index",'refresh');
 		}

@@ -53,6 +53,8 @@ function show_job_details(job_id){
 function fill_account() {
 	var s_receipt = $("#receipt").val();
 	var other = $("#other").val();	
+	
+	jQuery("#fillAccBtn").html('<img src="<?php echo site_url();?>/assets/img/load.gif">');
 	if(s_receipt.length > 0 )
 	{
 		jQuery("#fillAccBtn").html('<img src="<?php echo site_url();?>/assets/img/load.gif">');

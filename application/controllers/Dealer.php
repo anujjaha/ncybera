@@ -6,6 +6,7 @@ class Dealer extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('dealer_model');
+		$this->load->model('customer_model');
 	}
 
 	/**
@@ -62,6 +63,7 @@ class Dealer extends CI_Controller {
 			$data['title']="Edit Dealer";
 			$data['heading']="Edi tDealer";
 			$data['dealer_info']= $this->dealer_model->get_dealer_details('id',$dealer_id);
+			$data['transporter_info'] = $this->customer_model->getTransporterDetailsByCustomerId($dealer_id);
 		}
 		if($this->input->post()) {
 			$data = array();
@@ -76,12 +78,32 @@ class Dealer extends CI_Controller {
 			$data['state'] = $this->input->post('state');
 			$data['pin'] = $this->input->post('pin');
 			$dealer_id = $this->input->post('dealer_id');
+			$transporter_id = $this->input->post('transporter_id');
+			
 			if($dealer_id) {
 				$this->dealer_model->update_dealer($dealer_id,$data);
 			} else {
 				$data['ctype'] = 1;
-				$this->dealer_model->insert_dealer($data);
+				$dealer_id = $this->dealer_model->insert_dealer($data);
 			}
+			
+			$transporterData = array(
+				'customer_id' 		=> $dealer_id,
+				'name'		  		=> $this->input->post('transporter_name'),
+				'contact_person'	=> $this->input->post('transporter_contact_person'),
+				'contact_number'	=> $this->input->post('transporter_contact_number'),
+				'location'		  	=> $this->input->post('transporter_location')
+			);
+			 
+			if(isset($transporter_id) && $transporter_id != '') 
+			{
+				$this->customer_model->updateTransporterDetails($transporter_id, $transporterData);
+			}
+			else
+			{
+				$this->customer_model->addTransporterDetails($transporterData);
+			}
+			
 			$this->load->helper('url');
 			redirect("dealer/index",'refresh');
 		}

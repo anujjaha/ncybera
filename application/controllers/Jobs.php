@@ -5,7 +5,10 @@ class Jobs extends CI_Controller {
 	
 	public function __construct() {
 		parent::__construct();
-		//$this->load->model('dealer_model');
+		$this->load->model('dealer_model');
+		$this->load->model('customer_model');
+		$this->load->model('user_model');
+		
 	}
 
 	/**
@@ -45,8 +48,8 @@ class Jobs extends CI_Controller {
         $data['heading']="Jobs";
         if($this->input->post()) {
 			    $this->load->model('customer_model');
-                if($this->input->post('customer_type') == 'new') {
-					
+                if($this->input->post('customer_type') == 'new') 
+                {
 					if( ( strlen($this->input->post('name')) < 1)  && ( strlen ($this->input->post('companyname')) < 1) )
 					{
 						redirect("jobs/edit", 'refresh');
@@ -58,16 +61,38 @@ class Jobs extends CI_Controller {
                         $data['mobile'] = $this->input->post('user_mobile');
                         $data['companyname'] = $this->input->post('companyname');
                         $data['emailid'] = $this->input->post('emailid');
-                        $customer_id = $this->customer_model->insert_customer($data);
+                        
+                        if($this->input->post('customerType')  == "NewDealer")
+                        {
+							$customer_id = $this->dealer_model->insert_dealer($data);
+						}else
+						{
+							$customer_id = $this->customer_model->insert_customer($data);
+						}
                 } else {
-					
 						if(strlen($this->input->post('customer_id')) < 1)
 						{
 							redirect("jobs/edit", 'refresh');
 						}
 					
                         $customer_id = $this->input->post('customer_id');
-                }
+                        $customerType = getCustomerType($customer_id);
+                        
+                        if($customerType == 0 )
+                        {
+							$jsmsnumber = $this->input->post('regular_extra_contact_number');
+						}
+						
+                        if($customerType == 1 )
+                        {
+							$jsmsnumber = $this->input->post('dealer_extra_contact_number');
+						}
+						
+                        if($customerType == 2 )
+                        {
+							$jsmsnumber = $this->input->post('voucher_extra_contact_number');
+						}
+				}
 
 
                 $this->load->model('job_model');
@@ -84,6 +109,7 @@ class Jobs extends CI_Controller {
                 $jobdata['receipt'] = $this->input->post('receipt');
                 $jobdata['voucher_number'] = $this->input->post('voucher_number');
                 $jobdata['bill_number'] = $this->input->post('bill_number');
+                $jobdata['jsmsnumber']=$jsmsnumber;
                 $jobdata['jmonth'] = date('M-Y');
                 $jobdata['jdate'] = date('Y-m-d');
                 $job_id = $this->job_model->insert_job($jobdata);
@@ -117,6 +143,7 @@ class Jobs extends CI_Controller {
                                        'c_lamination'=>$this->input->post('c_lamination_'.$i),
                                        'c_laminationinfo'=>$this->input->post('c_laminationinfo_'.$i),
                                        'c_binding'=>$this->input->post('c_binding_'.$i),
+                                       'c_blade_per_sheet'=>$this->input->post('c_blade_per_sheet_'.$i),
                                        'c_bindinginfo'=>$this->input->post('c_bindinginfo_'.$i),
                                        'c_checking'=>$this->input->post('c_checking_'.$i),
                                        'c_packing'=>$this->input->post('c_packing_'.$i),
@@ -215,6 +242,7 @@ class Jobs extends CI_Controller {
                                        'c_details'=>$this->input->post('c_details_'.$i),
                                        'c_lamination'=>$this->input->post('c_lamination_'.$i),
                                        'c_laminationinfo'=>$this->input->post('c_laminationinfo_'.$i),
+                                       'c_blade_per_sheet'=>$this->input->post('c_blade_per_sheet_'.$i),
                                        'c_binding'=>$this->input->post('c_binding_'.$i),
                                        'c_bindinginfo'=>$this->input->post('c_bindinginfo_'.$i),
                                        'c_checking'=>$this->input->post('c_checking_'.$i),
@@ -281,11 +309,9 @@ class Jobs extends CI_Controller {
 				$jobdata['voucher_number'] = $this->input->post('voucher_number');
 				$jobdata['receipt'] = $this->input->post('receipt');
 				$jobdata['discount'] = $this->input->post('discount');
+				$jobdata['jsmsnumber'] = $this->input->post('jsmsnumber');
 				$jobdata['jmonth'] = date('M-Y');
 				
-				
-				
-				//print_r($jobdata);die;
 				//$jobdata['jdate'] = date('Y-m-d');
 				$this->job_model->update_job($job_id,$jobdata);
 				$this->load->model('account_model');
@@ -350,6 +376,8 @@ class Jobs extends CI_Controller {
 			$data['title']='Print Job';
 			$data['heading']='Cybera Print View';
 			$data['cutting_info'] = $this->job_model->get_cutting_details($job_id);
+			$data['transporter_info'] = $this->customer_model->getTransporterDetailsByCustomerId($job_data->customer_id);
+			
 			$this->template->load('job', 'print_job', $data);
 		}
 	}
@@ -446,5 +474,13 @@ class Jobs extends CI_Controller {
 	{
 		$data =  create_customer_dropdown('customer',true);
 		die('test');
+	}
+	
+	public function courier()
+	{
+		$this->load->model('job_model');
+		$data['items']  = $this->job_model->getAllCourierServices();
+		$data['heading'] = $data['title']="Courier Job Details - Cybera Print Art";
+		$this->template->load('job', 'couriers', $data);
 	}
 }

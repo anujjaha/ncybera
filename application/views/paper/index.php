@@ -26,7 +26,7 @@
 		$sr =1;	
 		foreach($papers as $paper) { 
 			?>
-		<tr>
+		<tr id="item-<?php echo $paper['id'];?>">
 		<td><?php echo $sr;?></td>
 		<td><?php echo $paper['paper_name'];?></td>
 		<td><?php echo $paper['paper_gram'];?></td>
@@ -69,7 +69,8 @@ function delete_paper(id) {
          data:{'id':id},
          success: 
               function(data){
-				 location.reload();
+				  jQuery("#item-" + id).hide();
+				 //location.reload();
 			 }
           });
     }

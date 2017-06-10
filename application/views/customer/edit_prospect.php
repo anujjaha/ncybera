@@ -20,13 +20,13 @@ $this->load->helper('form');
 		</div>
 		<div class="form-group">
 			<label>Category</label>
+			
 			<select name="ccategory" class="form-control">
 			<?php
 				foreach($categories as $cat) {
 			?>
-				<option <?php if($dealer_info->ccategory == $cat->ccategory) { echo "selected='selected'";} ?>
-				 value="<?php echo $cat->ccategory;?>">
-				 <?php echo $cat->ccategory;?>
+				<option>
+				 <?php echo $cat->name;?>
 				 </option>
 			<?php } ?>
 			</select>

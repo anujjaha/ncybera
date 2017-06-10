@@ -40,6 +40,22 @@ class User extends CI_Controller {
         }
 
 		public function dashboard() {
+		
+		if(sendDueEmailToday() == 0 )
+		{
+			$message = getAccountInfo();
+			$pdfFile = create_pdf($message);
+			$fileName = explode("/", $pdfFile);
+			$pdfFileName = array_pop($fileName);
+
+			$attachment ="account_pdf_report/".$pdfFileName;
+			$content = "Hello Shaishav, \n\n <br><br>
+						Application First Login - ".date('d-m-Y H:i A')."
+						Please find attached PDF For Due Amount List with Company Names." ;
+			$subject = 'List of Companies Due Amount - '.date('d-m-Y H:i A');
+			$status = send_email_attachment('cyberaprintart@gmail.com', $subject, $content, $attachment);
+		}
+		
        	$this->load->model('job_model');
 		$data = array();
 		$data['jobs'] = $this->job_model->get_dashboard_details();
@@ -98,6 +114,19 @@ class User extends CI_Controller {
 		
 		$this->template->load('user', 'search_job', $data);
 	}
+
+	public function search_voucher()
+	{
+		$data=array();
+		$data['heading'] = $data['title']="Search Result";
+		$data['search']="";
+		if($this->input->post('voucher_search')) {
+			$search = $this->input->post('voucher_search');
+			$data['items'] = $this->user_model->search_old_voucher($search);
+			$data['search']=$search;
+		}
+		$this->template->load('user', 'search_voucher', $data);
+	}
 	
 	public function search_job() {
 		$data=array();
@@ -135,6 +164,22 @@ class User extends CI_Controller {
                                        'profile_pic'=>$result->profile_pic
                                        );
                 $this->session->set_userdata($set_data);
+                
+            if(sendDueEmailToday() == 0 )
+            {
+				addDueEmailToday();	
+				$message = getAccountInfo();
+				$pdfFile = create_pdf($message);
+				$fileName = explode("/", $pdfFile);
+				$pdfFileName = array_pop($fileName);
+		
+				$attachment ="account_pdf_report/".$pdfFileName;
+				$content = "Hello Shaishav, \n\n <br><br>
+							Application First Login - ".date('d-m-Y H:i A')."
+							Please find attached PDF For Due Amount List with Company Names." ;
+				$subject = 'List of Companies Due Amount - '.date('d-m-Y H:i A');
+				$status = send_email_attachment('cyberaprintart@gmail.com', $subject, $content, $attachment);
+			}
                 redirect("user/dashboard/",'refresh');
                 } else {
                     $this->session->set_flashdata('msg', 'Invalid Credentials');

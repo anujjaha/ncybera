@@ -96,6 +96,31 @@ class Master_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function get_dealercustomer_jobs_master()
+	{
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id ) 
+				as j_view,
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 job.verify_id = 0 
+				 AND 
+				 ( customer.ctype = 0 OR customer.ctype = 1 )
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
 	public function user_migration() {
 		$this->db->select('*')
 				->from('nportal_customers')
@@ -128,6 +153,78 @@ class Master_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	
+	public function get_customer_jobs_master() {
+		
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id ) 
+				as j_view,
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 job.verify_id = 0 
+				 AND customer.ctype = 0
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	public function get_dealer_jobs_master() {
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id ) 
+				as j_view,
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 job.verify_id = 0 
+				 AND customer.ctype = 1
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	public function get_voucher_jobs_master() {
+		$sql = "SELECT *,job.id as job_id,job.created as 'created',
+				(select count(id) from job_views where job_views.j_id =job.id ) 
+				as j_view,
+				(select  group_concat(bill_number separator ',') as 'ref_bill_number'
+				from user_transactions where user_transactions.job_id = job.id) as 't_bill_number',
+				(select  group_concat(receipt separator ',') as 'ref_receipt'
+				from user_transactions where user_transactions.job_id = job.id) as 't_reciept',
+				
+				(select j_status from job_transaction where job_transaction.j_id=job.id ORDER BY id DESC LIMIT 0,1) 
+				as jstatus
+				FROM job
+				 LEFT JOIN customer
+				 ON job.customer_id = customer.id
+				 WHERE 
+				 job.verify_id = 0 
+				 AND customer.ctype = 2
+				 order by job.id DESC
+				";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+	
+	
 	public function get_today_details_master($param=null,$value=null) {
 		$condition = "";
 		if(!empty($param)) {

@@ -828,6 +828,14 @@ class Ajax extends CI_Controller {
 											<td style="font-size:16px;"> '.$cutting['c_binding']  .' </td>
 										</tr>';
 									}
+
+									if(!empty($cutting['c_blade_per_sheet']))
+									{
+										$bindingBlock .= '<tr>
+											<td style="width:100px; font-size: 16px;" align="right"> Blade Per Sheet : </td>
+											<td style="font-size:16px;"> '.$cutting['c_blade_per_sheet']  .' </td>
+										</tr>';
+									}
 									if(!empty($cutting['c_bindinginfo']))
 									{
 										$bindingBlock .= '<tr>
@@ -949,6 +957,48 @@ class Ajax extends CI_Controller {
 			));
 		die;
 		}
+	}
+	
+	public function ajax_add_discount($jobId = null)
+	{
+		if($jobId)
+		{
+			$discount = $this->input->post('discountAmount');
+			$customerId = $this->input->post('customerId');
+			
+			$data = array(
+				'customer_id' 	=> $customerId,
+				'job_id' 		=> $jobId,
+				'amount'		=> $discount,
+				't_type'		=> 'credit',
+				'notes'			=> 'Apply Discount',
+				'creditedby'	=> $this->session->userdata['user_id'],
+				'cmonth' 		=> date('M-Y'),
+				'date'			=> date('Y-m-d')
+			);
+			$this->load->model('job_model');
+			
+			$jobData = array(
+				'discount' => $discount
+			);
+			$this->job_model->update_job($jobId, $jobData);
+			
+			$status = $this->job_model->insert_transaction($data);
+			
+			if($status)
+			{
+			echo json_encode(array(
+					'status' => true
+				));
+			
+			die;
+			}
+		}
+		
+		echo json_encode(array(
+				'status' => false
+			));
+		die;
 	}
 }
 

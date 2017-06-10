@@ -96,7 +96,8 @@ function update_status(id,value) {
          url: "<?php echo site_url();?>/dealer/update_dealer_status/"+id+"/"+value, 
          success: 
               function(data){
-				  location.reload();
+				  alert("Status Updated");
+				 // location.reload();
 			 }
           });
 }
@@ -107,7 +108,8 @@ function switch_customer(id){
          url: "<?php echo site_url();?>/ajax/ajax_switch_customer/"+id+"/0", 
          success: 
             function(data){
-				location.reload();
+				///location.reload();
+				alert("Dealer Updated");
             }
           });
 }

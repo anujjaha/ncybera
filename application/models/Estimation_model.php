@@ -19,6 +19,24 @@ class Estimation_model  extends CI_Model
 		return $query->result_array();
 	}
 	
+	public function getEstimation($estimationId = null)
+	{
+		if($estimationId)
+		{
+			$this->db->select("*")
+				->from($this->table)
+				->where('id', $estimationId)
+				->order_by("id", "DESC");
+			
+			$query = $this->db->get();
+			
+			return $query->row();
+		}
+		
+		return false;
+	}
+	
+	
 	public function createNewEstimation($data)
 	{
 		$this->db->insert($this->table, $data);

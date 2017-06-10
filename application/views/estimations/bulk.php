@@ -25,10 +25,10 @@
 			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-4">
-						<h4>Customers</h4>
+						<h4>Customers (<?php echo count(getAllEmailBulkCustomersOnly());?>)</h4>
 						<?php 
 							$chtml = '';
-							$all_customer = getAllEmailBulkCustomers(); 
+							$all_customer = getAllEmailBulkCustomersOnly(); 
 							foreach($all_customer as $customer) 
 							{
 								$c_name = $customer->companyname;
@@ -45,7 +45,7 @@
 							
 					</div>
 					<div class="col-md-4">
-						<h4>Dealers</h4>
+						<h4>Dealers (<?php echo count(getAllEmailBulkDealersOnly());?>)</h4>
 						<?php 
 						$dhtml = '';
 						$all_customer = getAllEmailBulkDealersOnly(); 
@@ -65,7 +65,7 @@
 						
 					</div>
 					<div class="col-md-4">
-						<h4>Voucher Customers</h4>
+						<h4>Voucher Customers(<?php echo count(getAllEmailBulkVourcherCustomerOnly());?>)</h4>
 						<?php 
 						$vhtml = '';
 						$all_customer = getAllEmailBulkVourcherCustomerOnly(); 

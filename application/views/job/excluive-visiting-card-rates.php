@@ -21,11 +21,12 @@
 			<br>
 			<strong>Code 34 to 65</strong>
 		</td>
-		<td colspan="2" align="center">Exclusive 
-			<br>
-			<strong>Code 66 to 70</strong>
+		<td colspan="2" align="center">350 GSM Velvet Touch Card 
 		</td>
-		<td colspan="2" align="center">Velvet </td>
+		<td colspan="2" align="center">400 GSM Velvet Touch 
+			<br>
+			<strong>Code 101</strong>
+		</td>
 	</tr>
 	
 	<tr>
@@ -73,23 +74,23 @@
 		</td>
 		
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="450" data-card="Exclusive_Texture_Card" data-type="SS">
-				450
+			<span class="price-ex btn btn-primary eetc" data-price="700" data-card="350_GSM_Velvet_Touch_Card" data-type="SS">
+				700
 			</span>
 		</td>
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="700" data-card="Exclusive_Texture_Card" data-type="FB">
+			<span class="price-ex btn btn-primary eetc" data-price="700" data-card="350_GSM_Velvet_Touch_Card" data-type="FB">
 				700
 			</span>
 		</td>
 		
 				<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="900" data-card="Velvet_Touch_Card" data-type="SS">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="900" data-card="400_GSM_Velvet_Touch_Card" data-type="SS">
 				900
 			</span>
 		</td>
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="900" data-card="Velvet_Touch_Card" data-type="FB">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="900" data-card="400_GSM_Velvet_Touch_Card" data-type="FB">
 				900
 			</span>
 		</td>
@@ -125,23 +126,23 @@
 		</td>
 		
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="700" data-card="Exclusive_Texture_Card" data-type="SS">
-				700
+			<span class="price-ex btn btn-primary eetc" data-price="1050" data-card="350_GSM_Velvet_Touch_Card" data-type="SS">
+				1050
 			</span>
 		</td>
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="1050" data-card="Exclusive_Texture_Card" data-type="FB">
+			<span class="price-ex btn btn-primary eetc" data-price="1050" data-card="350_GSM_Velvet_Touch_Card" data-type="FB">
 				1050
 			</span>
 		</td>
 		
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="1400" data-card="Velvet_Touch_Card" data-type="SS">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="1400" data-card="400_GSM_Velvet_Touch_Card" data-type="SS">
 				1400
 			</span>
 		</td>
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="1400" data-card="Velvet_Touch_Card" data-type="FB">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="1400" data-card="400_GSM_Velvet_Touch_Card" data-type="FB">
 				1400
 			</span>
 		</td>
@@ -177,23 +178,23 @@
 		</td>
 		
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="1000" data-card="Exclusive_Texture_Card" data-type="SS">
-				1000
+			<span class="price-ex btn btn-primary eetc" data-price="1500" data-card="350_GSM_Velvet_Touch_Card" data-type="SS">
+				1500
 			</span>
 		</td>
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="1500" data-card="Exclusive_Texture_Card" data-type="FB">
+			<span class="price-ex btn btn-primary eetc" data-price="1500" data-card="350_GSM_Velvet_Touch_Card" data-type="FB">
 				1500
 			</span>
 		</td>
 		
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="1900" data-card="Velvet_Touch_Card" data-type="SS">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="1900" data-card="400_GSM_Velvet_Touch_Card" data-type="SS">
 				1900
 			</span>
 		</td>
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="1900" data-card="Velvet_Touch_Card" data-type="FB">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="1900" data-card="GSM_Velvet_Touch_Card" data-type="FB">
 				1900
 			</span>
 		</td>
@@ -229,23 +230,23 @@
 		</td>
 		
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="1500" data-card="Exclusive_Texture_Card" data-type="SS">
-				1500
+			<span class="price-ex btn btn-primary eetc" data-price="2250" data-card="350_GSM_Velvet_Touch_Card" data-type="SS">
+				2250
 			</span>
 		</td>
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="2250" data-card="Exclusive_Texture_Card" data-type="FB">
+			<span class="price-ex btn btn-primary eetc" data-price="2250" data-card="350_GSM_Velvet_Touch_Card" data-type="FB">
 				2250
 			</span>
 		</td>
 		
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="2800" data-card="Velvet_Touch_Card" data-type="SS">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="2800" data-card="400_GSM_Velvet_Touch_Card" data-type="SS">
 				2800
 			</span>
 		</td>
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="2800" data-card="Velvet_Touch_Card" data-type="FB">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="2800" data-card="400_GSM_Velvet_Touch_Card" data-type="FB">
 				2800
 			</span>
 		</td>
@@ -281,23 +282,23 @@
 		</td>
 		
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="2500" data-card="Exclusive_Texture_Card" data-type="SS">
-				2500
+			<span class="price-ex btn btn-primary eetc" data-price="3700" data-card="350_GSM_Velvet_Touch_Card" data-type="SS">
+				3700
 			</span>
 		</td>
 		<td> 
-			<span class="price-ex btn btn-primary eetc" data-price="3700" data-card="Exclusive_Texture_Card" data-type="FB">
+			<span class="price-ex btn btn-primary eetc" data-price="3700" data-card="350_GSM_Velvet_Touch_Card" data-type="FB">
 				3700
 			</span>
 		</td>
 		
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="5400" data-card="Velvet_Touch_Card" data-type="SS">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="5400" data-card="400_GSM_Velvet_Touch_Card" data-type="SS">
 				5400
 			</span>
 		</td>
 		<td>
-			<span class="price-ex btn btn-primary gsmVelvet" data-price="5400" data-card="Velvet_Touch_Card" data-type="FB">
+			<span class="price-ex btn btn-primary gsmVelvet" data-price="5400" data-card="400_GSM_Velvet_Touch_Card" data-type="FB">
 				5400
 			</span>
 		</td>
@@ -495,7 +496,18 @@ function saveVCardEx()
 	jQuery("#qty_" +id).val(getCardQtyEx());
 	jQuery("#rate_" +id).val(getCardRateEx());
 	jQuery("#sub_" +id).val(getCardPriceEx());
+	var cardTitle = jQuery("#original_title-ex").val();
+	
+	if(getCardQtyEx() >= 1000 && (cardTitle == "Premium_Texture_Card_FB" || cardTitle == "Premium_Texture_Card_SS" || cardTitle == "Economy_Texture_Card_SS" || cardTitle == "Economy_Texture_Card_FB"))
+	{
+		var nextId = parseInt(id ) + 1;
 		
+		jQuery("#details_" +nextId).val("Free Card Holder");
+		jQuery("#qty_" +nextId).val(1);
+		jQuery("#rate_" +nextId).val(0);
+		jQuery("#sub_" +nextId).val(0);
+	}
+	
 	jQuery.fancybox.close();
 	
 	return false;
@@ -553,10 +565,8 @@ function updateQtyEx()
 	var paperCode = jQuery("#paper_code-ex").val();
 	var printSide = getPaperPrintSideEx();
 	
-	if(jQuery("#paper_code-ex").val().length > 0) 
+	if(jQuery("#paper_code-ex").val() != '' &&  jQuery("#paper_code-ex").val().length > 0) 
 	{
-		console.log("OrignalTilte", cardTitle);
-		
 		var finalTitle = cardTitle+"_"+paperCode+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
 		
 		setCardTypeEx(finalTitle);
@@ -564,10 +574,10 @@ function updateQtyEx()
 		return true;
 	}
 	
+	
 	var finalTitle = cardTitle+"_"+jQuery("#original_v_card_qty-ex").val()+"*"+multiple;
 	
-	
-	setCardTypeEx(cardTitle);
+	setCardTypeEx(finalTitle);
 		
 	return true;
 }

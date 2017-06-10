@@ -60,10 +60,10 @@ $('#example1').dataTable( {
 				if($customer->status == '1') { $status = "Active"; }
 				echo $status;
 		?></td>
-		<td>
+		<td id="setDealer-<?php echo $customer->id;?>">
 			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,1);">Set Dealer</a>
 		</td>
-		<td>
+		<td id="setVoucher-<?php echo $customer->id;?>">
 			<a href="javascript:void(0);" onclick="switch_customer(<?php echo $customer->id;?>,2);">Set Voucher</a>
 		</td>
 		<td><?php echo date('h:i A', strtotime($customer->created));?></td>
@@ -109,7 +109,9 @@ function switch_customer(id,type){
          url: "<?php echo site_url();?>/ajax/ajax_switch_customer/"+id+"/"+type, 
          success: 
             function(data){
-				location.reload();
+				jQuery("#setDealer-" + id).html("Updated");
+				jQuery("#setVoucher-" + id).html("Updated");
+				//location.reload();
             }
           });
 }            

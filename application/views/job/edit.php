@@ -150,6 +150,7 @@ function set_cutting_details_box(id)
         
         lamination_info = jQuery("#lamination_info").val();
         size_info = jQuery("#size_info").val();
+        blade_per_sheet = jQuery("#blade_per_sheet").val();
         binding_info = jQuery("#binding_info").val();
         details = jQuery("#details").val();
         lamination = $('input:radio[name=lamination]:checked').val();//jQuery("#lamination").val();
@@ -167,6 +168,7 @@ function set_cutting_details_box(id)
         jQuery("#c_packing_"+data_id).val(packing);
         jQuery("#c_laminationinfo_"+data_id).val(lamination_info);
         jQuery("#c_sizeinfo_"+data_id).val(size_info);
+        jQuery("#c_blade_per_sheet_"+data_id).val(blade_per_sheet);
         jQuery("#c_bindinginfo_"+data_id).val(binding_info);
         jQuery("#c_binding_"+data_id).val(binding);
         jQuery("#c_checking_"+data_id).val(checking);
@@ -230,7 +232,7 @@ function calculate_paper_cost(){
 					if(paper_print == "FB" ) {
 						if(paper_size == "13X19" || paper_size == "13x19" ) {
 							//amount = amount * 2 - 3;
-							amount = amount * 2 - 3;
+							amount = amount * 2 - 2;
 							paper_qty = paper_qty / 2;
 						}
 					}
@@ -292,6 +294,9 @@ function check_visiting_card(sr) {
 		}
 		if($("#category_"+sr).val() == "Designing") {
 			$("#details_"+sr).val("Designing");
+		}
+		if($("#category_"+sr).val() == "Editing Charge") {
+			$("#details_"+sr).val("Editing Charge");
 		}
 		if($("#category_"+sr).val() == "Sticker Sheet") {
 			$("#details_"+sr).val("Sticker Sheet");
@@ -465,7 +470,13 @@ $this->load->helper('general'); ?>
                                            name="emailid" value="" placeholder="Email Id">
                             </div>
                     </div>
-
+					
+					<div class="col-md-12 text-center">
+							<div class="form-group">
+								<label><input type="radio" checked="checked" name="customerType" value="NewCustomer">Customer</label>
+								<label><input type="radio" name="customerType" value="NewDealer">Dealer</label>
+							</div>
+					</div>
             </div>
                 <div id="regular_customer" style="display:none;">
                         <table width="100%">
@@ -475,6 +486,7 @@ $this->load->helper('general'); ?>
                                         </td>
                                         <td width="50%" align="right">
                                                 Contact Number : <input type="text" name="mobile" id="mobile_customer">
+                                                <input type="text" name="regular_extra_contact_number" id="regular_extra_contact_number">
                                         </td>
                                 </tr>
                         </table>
@@ -487,6 +499,7 @@ $this->load->helper('general'); ?>
                                 </td>
                                 <td width="50%" align="right">
                                         Contact Number : <input type="text" name="mobile" id="mobile_voucher">
+                                        <input type="text" name="voucher_extra_contact_number" id="voucher_extra_contact_number">
                                 </td>
                         </tr>
                         </table>
@@ -499,6 +512,7 @@ $this->load->helper('general'); ?>
                                 </td>
                                 <td width="50%" align="right">
                                         Contact Number : <input type="text" name="mobile" id="mobile_dealer">
+                                        <input type="text" name="dealer_extra_contact_number" id="dealer_extra_contact_number">
                                 </td>
                         </tr>
                         </table>
@@ -535,6 +549,7 @@ $this->load->helper('general'); ?>
                             <option>Offset Print</option>
                             <option>Cutting</option>
                             <option>Designing</option>
+                            <option>Editing Charge</option>
                             <option>Binding</option>
                             <option>Sticker Sheet</option>
                             <option>Lamination</option>
@@ -705,8 +720,11 @@ $this->load->helper('general'); ?>
 					<label><input type="checkbox" name="binding" value="Perfect Binding">Perfect Binding</label>
 					<label><input type="checkbox" name="binding" value="Perforation">Perforation</label>
 					<label><input type="checkbox" name="binding" value="Folding">Folding</label>
+					<label><input type="checkbox" name="binding" value="Half Cutting">Half Cutting</label>
 					<br>
 					Half Cutting:<input type="text" name="binding_info" id="binding_info">
+					<br>
+					Half Cutting Blades:<input type="number" style="width: 80px;" name="blade_per_sheet" id="blade_per_sheet">
 				</td>
             </tr>
                         <!--<tr>
@@ -817,6 +835,7 @@ $this->load->helper('general'); ?>
 <script>
 jQuery(".setCuttingAuto").on('click', function()
 {
+	alert("Do you want Corner Cutting ?");
 	 var sizeInfo 		= jQuery(this).attr("data-size-info"),
 		currentIndex 	= jQuery("#fancybox_cutting_id").val(),
 		 details  		= jQuery("#details_"+currentIndex).val(),
@@ -856,6 +875,9 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_laminationinfo_<?php echo $i;?>" id="c_laminationinfo_<?php echo $i;?>">
     <input type="text" name="c_sizeinfo_<?php echo $i;?>" id="c_sizeinfo_<?php echo $i;?>">
     <input type="text" name="c_bindinginfo_<?php echo $i;?>" id="c_bindinginfo_<?php echo $i;?>">
+    
+    
+    <input type="text" name="c_blade_per_sheet_<?php echo $i;?>" id="c_blade_per_sheet_<?php echo $i;?>">
     <input type="text" name="c_binding_<?php echo $i;?>" id="c_binding_<?php echo $i;?>">
     <input type="text" name="c_checking_<?php echo $i;?>" id="c_checking_<?php echo $i;?>">
     <input type="text" name="c_corner_<?php echo $i;?>" id="c_corner_<?php echo $i;?>">

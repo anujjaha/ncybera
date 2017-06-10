@@ -1,3 +1,10 @@
+<?php
+if(strtolower($this->session->userdata['department']) == "master")
+{
+	redirect('master/dealercustomerunverify', 'refresh');
+	die;
+}
+?>
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.fancybox.js?v=2.1.5"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
@@ -48,21 +55,36 @@
 		<td width="10px"><?php echo $job['job_id'];?></td>
 		<td><?php echo $job['companyname'] ? $job['companyname'] : $job['name'] ;?></td>
 		<td><?php echo $job['jobname'];?></td>
-		<td><?php echo $job['mobile'];?></td>
+		<td><?php echo $job['mobile'];?>
+			<hr>
+			<?php echo $job['jsmsnumber'];?>
+		</td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php
 			$user_bal = get_balance($job['customer_id']) ;
 			if($user_bal > 0 ) { 
 				$due_amt = $job['due'] - $job['discount'];
 				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>0</span>";	
-				echo "<br>";
+				
+			} else {
+				echo "-";
+			}
+			
+			echo "<br>";
 				echo "----------";
 				echo "<br>";
 				
-				echo get_acc_balance($job['customer_id']);
-			} else {
-				echo "-";
-			} ?>
+				$userBalance =  get_acc_balance($job['customer_id']);
+				if($userBalance > 0 )
+				{
+					echo "<span style='color:green;font-weight:bold;'>".$userBalance."</span>";	
+				}
+				else
+				{
+					echo "<span style='color:red;font-weight:bold;'>".$userBalance."</span>";	
+				}
+				
+				?>
 		 </td>
 		<td>
 			<?php echo  str_replace(","," ",$job['receipt'].$job['t_reciept']);?>
@@ -158,6 +180,9 @@ function update_job_status(id) {
 	var bill_number = $( "#bill_number").val();
 	var voucher_number = $( "#voucher_number").val();
 	var receipt = $( "#receipt").val();
+	
+	jQuery("#saveJobStatusBtn").attr('disabled', true);
+	
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/prints/update_job_status/"+id, 

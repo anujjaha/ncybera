@@ -13,15 +13,58 @@ class Account_model extends CI_Model {
 			$query = $this->db->query($sql);
 			return $query->row();
 		}
-		$sql = "SELECT *, 
+		$sql = "SELECT customer.id, customer.name, customer.companyname, customer.mobile, customer.emailid, customer.city, 
 				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = $this->table_customer.id and t_type ='debit')  as 'total_debit' ,
 				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
 				FROM $this->table_customer
 				order by companyname";
+
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 	
+
+	public function get_all_list($like=null, $offset=0, $limit=10) 
+	{
+		$this->db->select("customer.id, customer.name, customer.companyname, customer.mobile, customer.emailid, customer.city,
+				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = customer.id and t_type ='debit')  as 'total_debit' ,
+				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'")
+			->from($this->table_customer)
+			->order_by("companyname");
+
+		if(isset($like))
+		{
+			 $this->db->or_like("name",$like);
+			 $this->db->or_like("companyname",$like);
+		}
+
+        $this->db->limit($limit,$offset);
+
+        $query = $this->db->get();
+    	
+    	return $query->result_array();
+	}
+	
+	 public function get_all() {
+                            $this->db->select("customer.id, customer.name, customer.companyname, customer.mobile, 
+				(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = customer.id and t_type ='debit')  as 'total_debit' ,
+				(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'")
+                            ->from($this->table_customer)
+                            ->order_by("companyname");
+                             $this->db->limit(10, 0);
+                            $query = $this->db->get();
+                            return $query->result_array();
+                    }
+
+    public function count_all() 
+    {
+        $this->db->select("count(id) as total_records")
+                ->from($this->table_customer);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
 	public function get_account_details($user_id) {
 		$sql = "SELECT *,
 				(select due from job where job.id=ut.job_id) as 'due',

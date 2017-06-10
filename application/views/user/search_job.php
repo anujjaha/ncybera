@@ -38,10 +38,10 @@ function show_job_details(job_id){
 		<th>Advance</th>
 		<th>Due</th>
 		<th>Date / Time</th>
-		<th>Status</th>
 		<th>Receipt</th>
 		<th>Voucher Number</th>
 		<th>Bill Number</th>
+		<th>Status</th>
 		<th>SMS</th>
 		<th>View</th>
 		<th>Edit</th>
@@ -63,22 +63,46 @@ function show_job_details(job_id){
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
 		<td><?php
-			$customerBalance =  get_balance($job['customer_id']);
-			if($customerBalance < 0)
-			{
+			$user_bal = get_balance($job['customer_id']) ;
+			if($user_bal > 0 ) { 
+				$due_amt = $job['due'] - $job['discount'];
+				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>0</span>";	
+				
+			} else {
 				echo "-";
 			}
-			else
-			{
-				echo $customerBalance;
-			}
-			?>
+			
+			echo "<br>";
+				echo "-----";
+				echo "<br>";
+				
+				$userBalance =  get_acc_balance($job['customer_id']);
+				if($userBalance > 0 )
+				{
+					echo "<span style='color:green;font-weight:bold;'>".$userBalance."</span>";	
+				}
+				else
+				{
+					echo "<span style='color:red;font-weight:bold;'>".$userBalance."</span>";	
+				}
+				
+				?>
 		</td>
-		<td><?php echo date('h:i a d-M',strtotime($job['created']));?></td>
-		<td><?php echo $job['jstatus'];?></td>
+		<td><?php echo date('h:i a d-M-Y',strtotime($job['created']));?></td>
+	
 		<td><?php echo $job['receipt'];?></td>
 		<td><?php echo $job['voucher_number'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
+		<td><a class="fancybox" href="#view_job_status" onclick="show_job_status(<?php echo $job['job_id'];?>);">
+			<?php
+				if(!empty($job['jstatus']) && $job['jstatus'] == JOB_COMPLETE) {
+					echo "<span class='blue'>".$job['jstatus']."</span>";
+				} else {
+					echo "<span class='red'>".$job['jstatus']."</span>";
+				}
+				?>
+			</a>
+		</td>
 		<td><?php echo $job['smscount'];?></td>
 		<td>
 			<a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a>

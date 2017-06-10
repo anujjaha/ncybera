@@ -40,6 +40,7 @@
 			<input type="hidden" id="hiddenConent-<?php echo $item['id'];?>" value='<?php echo $item['content'];?>'>
 			<input type="hidden" id="hiddenCreatedDate-<?php echo $item['id'];?>" value="<?php echo date('d-m-Y H:i A', strtotime($item['created_at']));?>">
 			<a class="fancybox"  onclick="showEstimationContent(<?php echo $item['id'];?>);" href="#viewEstimationContent">View</a>
+			<a href="<?php echo site_url();?>/estimation/forward/<?php echo $item['id'];?>">Forward</a>
 		</td>
 		</tr>
 		<?php $sr++; } ?>

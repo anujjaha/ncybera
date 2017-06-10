@@ -33,6 +33,95 @@ class Account extends CI_Controller {
 		//$this->template->load('customer', 'index', $data);
 		$this->template->load('account', 'index', $data);
 	}
+	
+	
+
+	public function pdf()
+	{
+		if(isset($_GET['sEcho']))
+		{
+			return $this->ajax_list();
+		}
+		$data["data"] = $this->account_model->get_all();
+ 		$data['title']="Customer Account Management";
+		$data['heading']="Customer Account Management";
+		$this->template->load('account', 'pdf', $data);
+	}
+	
+	public function sendmail()
+	{
+		$message = getAccountInfo();
+		$pdfFile = create_pdf($message);
+		$fileName = explode("/", $pdfFile);
+		$pdfFileName = array_pop($fileName);
+
+		$attachment ="account_pdf_report/".$pdfFileName;
+		$content = "Hello Shaishav, \n\n <br><br>
+						Send an Email - ".date('d-m-Y H:i A')."
+						Please find attached PDF For Due Amount List with Company Names." ;
+		$subject = 'List of Companies Due Amount - '.date('d-m-Y H:i A');
+		$status = send_email_attachment('cyberaprintart@gmail.com', $subject, $content, $attachment);
+		
+		if($status)
+		{
+			redirect('user/index','refresh');
+		}
+	}
+
+	public function ajax_list()
+	{
+        $offset = 0;
+        $limit = 10;
+        if ( isset( $_GET["start"] ) && $_GET["start"] != "-1"  ) {
+            $offset = $_GET["start"];
+            $limit = $_GET["length"];
+        }
+    
+        $like = "";
+        if (isset( $_GET["search"]["value"] ) &&   $_GET["search"]["value"] != "" ) {
+            $like =  $_GET["search"]["value"];
+        }
+    
+        $records = $this->account_model->get_all_list($like,$offset,$limit);
+        $total_modules = $this->account_model->count_all();
+        $iTotal = $total_modules->total_records;
+        $init_val = 1;
+        if(isset($_GET["draw"]))
+        {
+        	$init_val = $_GET["draw"];
+        }
+        $output = array(  "recordsTotal" => $iTotal,"recordsFiltered" => $iTotal, "data"=>array());	
+        $sr=0;
+       	
+       	$balance = 0;
+       	foreach($records as $record) 
+       	{
+       		$balance = round($record['total_credit'] - $record['total_debit'], 0);
+
+       		$show = '<span class="green">'.$balance.'</span>';
+			if($balance < 0 ) {
+				$show = '<span class="red">'.$balance.'</span>';
+			} 
+
+        	$output["data"][$sr] = array(
+        		$sr+1,
+        		$record["name"],
+        		$record["companyname"],
+        		$record["total_debit"],
+        		$record["total_credit"],
+        		$show,
+        		$record["mobile"],
+        		$record["emailid"],
+        		$record['city'],
+        		'<a target="_blank" href="'.site_url().'/account/account_details/'.$record['id'].'">View</a>'
+        	);
+            $sr++;
+        }
+        
+        echo json_encode($output);
+                    die;
+                            
+    }
 
 	public function index_bk()
 	{

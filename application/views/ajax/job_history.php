@@ -27,13 +27,19 @@
 </table>
 <div class="row">
 <hr>
-	<div class="col-md-12">
+<div class="col-md-12">
 		   <table align="center" border="0" width="90%">
 			<tr>
 				<td> 
 					<label>
 						<input type="radio" <?php if($job_data->jstatus == JOB_PENDING){ echo "checked='checked'"; };?> name="jstatus" value="Pending">
 						<?php echo JOB_PENDING;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_EDIT){ echo "checked='checked'"; };?> name="jstatus" value="Edited">
+						<?php echo JOB_EDIT;?>
 						</label>
 				</td>
 				<td> 
@@ -65,7 +71,7 @@
 		<label><input type="radio" id="send_sms" name="send_sms" value="Yes">Send SMS</label>
 		<label><input type="radio" id="send_sms" name="send_sms" checked="checked" value="No">No</label>
 		<br>
-		<button class="btn btn-success btn-lg text-center"  onclick="update_job_status(<?php echo $job_data->id;?>)">Save Job</button>
+		<button id="saveJobStatusBtn" class="btn btn-success btn-lg text-center"  onclick="update_job_status(<?php echo $job_data->id;?>)">Save Job</button>
 		</center>
 </div>
 <hr>

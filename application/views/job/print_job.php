@@ -53,17 +53,24 @@ function printDiv(divName) {
 $created_info = get_user_by_param('id',$job_data->user_id);
 $show_name = $customer_details->companyname ? $customer_details->companyname :$customer_details->name;
 $content ='';
+$customerTitle = "Name";
+if($customer_details->ctype == 1 )
+{
+	$customerTitle = "Dealer";
+}
 		 for($j=0; $j<2; $j++)
 		 {
+			 $mobileNumber = (strlen($job_data->jsmsnumber) > 1 ) ? "-".$job_data->jsmsnumber : '';
+			 $mobileNumber = $customer_details->mobile.$mobileNumber;
 			$content .= '
 				<table align="center" width="90%" border="0" style="border:0px solid;font-size:9px;height:3in;">
 				<tr>
 				<td width="100%" align="left">
 					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
-							<td style="font-size:12px;">Name : <strong>'.$show_name.'</strong>
+							<td style="font-size:12px;">'.$customerTitle.' : <strong>'.$show_name.'</strong>
 							</td>
-							<td align="right" style="font-size:12px;">Mobile : <strong>'.$customer_details->mobile.'</strong> </td>
+							<td align="right" style="font-size:12px;">Mobile : <strong>'.$mobileNumber.'</strong> </td>
 						</tr>
 						<tr>
 						<td  style="font-size:12px;" >Job Id : <strong>'.$job_data->id.'</strong> </td>
@@ -167,7 +174,7 @@ if($cutting_info) {
 $pcontent = "";
 $pcontent .= '<table align="center" width="90%" align="center" style="border:1px solid;">
 			<tr>
-				<td align="left" width="50%">Customer Name : '.$customer_details->companyname.'</td>
+				<td align="left" width="50%">'.$customerTitle.' : '.$customer_details->companyname.'</td>
 				<td align="right">Date : '.$job_data->jdate.'</td>
 			</tr>
 			<tr>
@@ -302,6 +309,15 @@ echo $pcontent;
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
+					<?php
+					if(isset($transporter_info)) {
+					?>
+					<tr>
+						<td style="font-size:20px;">
+							Delivery By : <?php echo $transporter_info->name;?>
+						</td>
+					</tr>
+					<?php } ?>
 					</table>
 				</td>
 			</tr>
@@ -372,6 +388,15 @@ echo $pcontent;
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
+					<?php
+					if(isset($transporter_info)) {
+					?>
+					<tr>
+						<td style="font-size:8px;">
+							Delivery By : <?php echo $transporter_info->name;?>
+						</td>
+					</tr>
+					<?php } ?>
 					</table>
 				</td>
 			</tr>

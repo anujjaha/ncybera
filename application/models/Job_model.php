@@ -174,6 +174,7 @@ class Job_model extends CI_Model {
 				 job.status != 0 OR job.jdate = '".$today."'
 				 order by job.id DESC
 				";
+		
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -406,6 +407,18 @@ class Job_model extends CI_Model {
 		$this->db->where('id', $jobId);
 		
 		return $this->db->update($this->table, $data);
+	}
+	
+	public function getAllCourierServices()
+	{
+		$sql = 'SELECT *, courier_services.id as id, courier_services.created as courier_created FROM courier_services  
+				LEFT JOIN job ON courier_services.j_id = job.id
+				LEFT JOIN customer ON customer.id = job.customer_id
+				order by courier_services.id DESC
+				';
+		$query = $this->db->query($sql);
+		
+		return $query->result_array(); 
 	}
 }
 

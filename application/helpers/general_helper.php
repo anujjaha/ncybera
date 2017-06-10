@@ -189,7 +189,6 @@ if ( ! function_exists('test_method'))
 	}
 	
 	function send_sms($user_id=null,$customer_id=null,$mobile,$sms_text=null,$prospect_id=0) {
-		//return true;
 		$ci=& get_instance();
 		$ci->load->database(); 
 		if(! $user_id) {
@@ -220,6 +219,20 @@ if ( ! function_exists('test_method'))
 	return true;
 	}
 	
+}
+
+function send_account_sms($mobile,$sms_text=null)
+{
+		$msg = str_replace(" ","+",$sms_text);
+		$url = "http://ip.infisms.com/smsserver/SMS10N.aspx?Userid=cyberabill&UserPassword=cyb123&PhoneNumber=$mobile&Text=$msg&GSM=CYBERA";
+		$url = urlencode($url);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, urldecode($url));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+		$response = curl_exec($ch);
+		curl_close($ch);
 }
 
 function create_pdf($content=null,$size ='A5-L') {
@@ -253,7 +266,7 @@ function get_user_by_param($param=null,$value=null) {
 }
 
 function get_restricted_department() {
-	return array("prints","cuttings","master");
+	return array("prints","cuttings");
 }
 
 function get_papers_size() {
@@ -269,7 +282,7 @@ function job_complete_sms($job_id=null) {
 		$ci = & get_instance();
 		$sql = "SELECT if(CHAR_LENGTH(c.companyname) > 0,c.companyname,c.name) as customer_name,
 				job.smscount,job.customer_id,c.mobile,job.smscount,
-				job.total,job.due,
+				job.total,job.due, job.jsmsnumber,
 				(SELECT SUM(total) from job WHERE job.customer_id = c.id)  as 'total_amount' ,
 				(SELECT SUM(due) from job WHERE job.customer_id = c.id)  as 'total_due' ,
 				(select sum(amount) from user_transactions where user_transactions.customer_id=c.id) as 'total_credit'
@@ -298,10 +311,16 @@ function job_complete_sms($job_id=null) {
 		
 		$customer_id = $result->customer_id;
 		$mobile = $result->mobile;
+		$otherMobile = $result->jsmsnumber;
 		//$mobile = "9898618697";
 		$user_id = $ci->session->userdata['user_id'];
 		
 		send_sms($user_id,$customer_id,$mobile,$sms_text);
+		if(strlen($otherMobile) > 2 )
+		{
+			send_sms($user_id,$customer_id,$otherMobile,$sms_text);
+		}
+		
 		return true;
 	}
 	return true;
@@ -366,6 +385,7 @@ function sendCorePHPMail($to, $from, $subject="Cybera Email System", $content=nu
 	
 	return true;
 }
+
 function send_mail($to, $from,$subject="Cybera Email System",$content=null) {
 	$mail = new PHPMailer();
 	$mail->Host     	= "smtp.gmail.com"; // SMTP server
@@ -385,6 +405,35 @@ function send_mail($to, $from,$subject="Cybera Email System",$content=null) {
 	} else {
 	  return true;
 	}
+}
+
+function send_email_attachment($to, $subject="Cybera Email System", $content=null, $attachment = null)
+{
+	$mail = new PHPMailer();
+	$mail->Host     	= "smtp.gmail.com"; // SMTP server
+	$mail->SMTPAuth    	= TRUE; // enable SMTP authentication
+	$mail->SMTPSecure  	= "tls"; //Secure conection
+	$mail->Port        	= 587; // set the SMTP port
+	$mail->Username    	= 'cyberaprintart@gmail.com'; // SMTP account username
+	$mail->Password     = 'cyb_1215@printart'; // SMTP account password
+	$mail->SetFrom('cybera.printart@gmail.com', 'Cybera Print Art');
+	$mail->AddAddress($to);	
+	$mail->isHTML( TRUE );
+	$mail->Subject  = $subject;
+	$mail->Body     = $content;
+	if($attachment)
+	{
+		$mail->AddAttachment($attachment);
+	}
+
+	if(!$mail->Send()) 
+	{
+		return false;
+	}else
+	{
+		addDueEmailToday();	
+	}
+	return true;
 }
 
 function sendEstimationEmail($to, $from,$subject="Cybera Email System",$content=null) {
@@ -559,4 +608,212 @@ function pr($data, $flag = true)
 	{
 		die;
 	}
+}
+
+function getEmployeeSelectBoxForAttendance($month = null, $year = null)
+{
+	if(! $month)
+	{
+		$month = date('F');
+	}
+	
+	if(! $year)
+	{
+		$year = date('Y');	
+	}
+	
+	
+	$sql = 'SELECT id,name FROM employees
+			WHERE id NOT IN ( SELECT emp_id from attendance WHERE month = "'.$month.'" and year = "'.$year.'")
+			order by name';
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+	$extra ="";
+	
+	$dropdown = "<select  class='form-control select-customer' name='emp_id' ><option value=0> Select Emplooyee</option>";
+	
+	foreach($query->result() as $customer) 
+	{
+			$cname = ucwords($customer->name);
+			$dropdown .= "<option value='".$customer->id."'>".$cname."</option>";
+	}
+	$dropdown .= '</select>';
+	return $dropdown;
+}
+
+
+function  getEmployeeSelectBox()
+{
+	$sql = 'SELECT id,name FROM employees
+			WHERE id NOT IN ( SELECT emp_id from attendance WHERE month = "'.$month.'" and year = "'.$year.'")
+			order by name';
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+	$extra ="";
+	
+	$dropdown = "<select  class='form-control select-customer' name='emp_id' ><option value=0> Select Emplooyee</option>";
+	
+	foreach($query->result() as $customer) 
+	{
+			$cname = ucwords($customer->name);
+			$dropdown .= "<option value='".$customer->id."'>".$cname."</option>";
+	}
+	$dropdown .= '</select>';
+	return $dropdown;
+}
+
+function getBusinessByDate($date = null)
+{
+	$todayDate = date('d-m-y');
+	
+	if($date)
+	{
+		$todayDate = date('d-m-y', strtotime($date));
+	}
+	$sql = 'SELECT SUM(amount) totalBusiness FROM  user_transactions WHERE 
+			t_type = "debit" AND date_format(created, "%d-%m-%y") = "'.$todayDate.'"';
+			
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+	
+	return $query->row()->totalBusiness;
+}
+
+function getBusinessCollectionByDate($date = null)
+{
+	$todayDate = date('d-m-y');
+	
+	if($date)
+	{
+		$todayDate = date('d-m-y', strtotime($date));
+	}
+	$sql = 'SELECT SUM(amount) totalCollection FROM  user_transactions WHERE 
+			t_type = "credit" AND date_format(created, "%d-%m-%y") = "'.$todayDate.'"';
+			
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+	
+	return $query->row()->totalCollection;
+}
+
+function getAccountInfo()
+{
+	$sql = "select DISTINCT(job.customer_id), customer.id, customer.name, customer.companyname, customer.mobile from job 
+		LEFT JOIN customer  on customer.id = job.customer_id";
+			
+		$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+		
+
+		$html = '<table align="center" border="2" style="border: solid 2px black;">
+				<tr>
+					<td style="border: solid 2px;"> Sr </td>
+					<td style="border: solid 2px;"> Company Name </td>
+					<td style="border: solid 2px;"> Name </td>
+					<td style="border: solid 2px;"> Mobile </td>
+					<td style="border: solid 2px;"> Credit </td>
+					<td style="border: solid 2px;"> Debit </td>
+				</tr>';
+			$sr = 1;
+		foreach($query->result() as $customer)
+		{
+			if(! $customer->id )
+			{
+				continue;
+			}
+				$customerSql = "select 
+							(SELECT SUM(amount) from user_transactions ut WHERE ut.customer_id = customer.id and t_type ='debit')  as 'total_debit' ,
+							(select sum(amount) from user_transactions ut where ut.customer_id=customer.id  and t_type ='credit') as 'total_credit'
+										from customer where id = ".$customer->id;
+				
+				$customerBalance = $ci->db->query($customerSql)->row();
+				if(! $customerBalance)
+				{
+					continue;
+				}
+				//$customerBal = mysql_fetch_row($customerBalance);
+				
+				
+				$balance = round($customerBalance->total_credit - $customerBalance->total_debit, 0);
+				if($balance != 0 )
+				{
+					$debit = $credit = " - ";
+					
+					if($balance > 0 )
+					{
+						$credit = $balance;
+					}
+					else
+					{
+						$debit = $balance;
+					}
+					
+					$html .= '<tr>
+								<td style="border: solid 2px;"> '.$sr.' </td>
+								<td style="border: solid 2px;"> '. $customer->companyname .' </td>
+								<td style="border: solid 2px;"> '. $customer->name .' </td>
+								<td style="border: solid 2px;"> '. $customer->mobile  .' </td>
+								<td style="border: solid 2px; color: green;"> ' .$credit . ' </td>
+								<td style="border: solid 2px; color: red;"> ' .$debit . ' </td>
+							</tr>';
+				}
+				else
+				{
+					continue;
+				}
+				
+				$sr++; 
+		} 
+
+		$html .= '</table>';
+		return $html;
+}
+
+function sendDueEmailToday()
+{
+	$todayDate = date('Y-m-d');
+	
+	$sql = 'SELECT count(id) as todayEmailCount from daily_mail_status where checkdate = "'.$todayDate.'" ';
+			
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	$query = $ci->db->query($sql);
+	
+	return $query->row()->todayEmailCount;
+}
+
+
+function addDueEmailToday()
+{
+	$todayDate = date('Y-m-d');
+	
+	$data = array(
+		'checkdate' 	=> $todayDate,
+		'created_at' 	=> date('Y-m-d H:i:s')
+	);
+	
+	$ci=& get_instance();
+	$ci->load->database(); 	
+	return $ci->db->insert('daily_mail_status', $data);
+}
+
+function getCustomerType($customerId)
+{
+	if($customerId)
+	{
+		$sql = 'SELECT ctype as customerType from customer where id = "'.$customerId.'" ';
+			
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		
+		return $query->row()->customerType;
+	}
+	
+	return false;
 }

@@ -58,7 +58,18 @@
                         <?php
                         $q = $this->input->post('q');
                         ?>
-                            <input type="text" name="q" value="<?php echo $q;?>" class="form-control" placeholder="Search By date  d-m-y"/>
+                            <input type="text" name="q" value="<?php echo $q;?>" class="form-control" placeholder="By date  d-m-y 01-01-17"/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <form target="_blank" action="<?php echo base_url();?>user/search_voucher" method="post" class="sidebar-form">
+                        <div class="input-group">
+                        <?php
+                        $q = $this->input->post('voucher_search');
+                        ?>
+                            <input type="text" name="voucher_search" value="<?php echo $q;?>" class="form-control" placeholder="Old Voucher"/>
                             <span class="input-group-btn">
                                 <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                             </span>
@@ -83,6 +94,11 @@
                                 <!--<small class="badge pull-right bg-yellow">
                                 <span id="show_jobs"></span>
                                 </small>-->
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="<?php echo base_url();?>jobs/courier">
+                                <i class="fa fa-envelope"></i> <span>Job Courier</span>
                             </a>
                         </li>
                         <li>
@@ -133,6 +149,11 @@
                             </a>
                         </li>
                         <li>
+                            <a target="_blank" href="<?php echo base_url();?>attendance">
+                                <i class="fa fa-calendar"></i> <span>Attendance</span>
+                            </a>
+                        </li>
+                        <li>
                             <a target="_blank" href="<?php echo base_url();?>dealer/outstation">
                                 <i class="fa fa-calendar"></i> <span>Outstation Customers</span>
                                 <!--<small class="badge pull-right bg-red">
@@ -156,6 +177,16 @@
                         <li>
                             <a href="<?php echo base_url();?>paper">
                                 <i class="fa fa-calendar"></i> <span>Manage Papers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>category">
+                                <i class="fa fa-envelope"></i> <span>Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="<?php echo base_url();?>account/sendmail">
+                                <i class="fa fa-envelope"></i> <span>Account Email</span>
                             </a>
                         </li>
                         <li>

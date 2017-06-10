@@ -45,6 +45,27 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url();?>master/dealercustomerunverify">
+                                <i class="fa fa-envelope"></i> <span>Unverify Dealer/Customer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>master/customer_job">
+                                <i class="fa fa-envelope"></i> <span>All Customer Unverified Jobs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>master/dealer_job">
+                                <i class="fa fa-envelope"></i> <span>All Dealer Unverified Jobs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url();?>master/voucher_job">
+                                <i class="fa fa-envelope"></i> <span>All Voucher Unverified Jobs</span>
+                            </a>
+                        </li>
+                        
+                        <li>
                             <a href="<?php echo base_url();?>master/verifyjobs">
                                 <i class="fa fa-envelope"></i> <span>All Verified Jobs</span>
                             </a>
@@ -65,9 +86,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="fa fa-envelope"></i> <span>Inbox</span>
-                                <small class="badge pull-right bg-yellow">2</small>
+                            <a href="<?php echo base_url();?>master/attendance">
+                                <i class="fa fa-envelope"></i> <span>Attendance</span>
                             </a>
                         </li>
                         <li>

@@ -197,8 +197,8 @@ class Customer_model extends CI_Model {
 	
 	public function get_customer_categories() {
 		$sql = "SELECT *
-				FROM $this->table_categories
-				order by ccategory";
+				FROM data_categories
+				order by name";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -226,5 +226,34 @@ class Customer_model extends CI_Model {
 		}
 		
 		return false;
+	}
+	
+	public function addTransporterDetails($data)
+	{
+		$status = $this->db->insert($this->table_transporters, $data);
+		if($status)
+		{
+			return $this->db->insert_id();
+		}
+		
+		return false;
+	}
+	
+	public function updateTransporterDetails($id, $data)
+	{
+		$this->db->where('id', $id);
+		
+		return $this->db->update($this->table_transporters, $data);
+	}
+	
+	public function checkOrUpdateCustomerEmailId($customerId = null, $emailId = null)
+	{
+		if($customerId)
+		{
+			$data['emailid'] = $emailId;
+			
+			$this->db->where('id', $customerId);
+			return $this->db->update($this->table, $data);
+		}
 	}
 }

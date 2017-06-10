@@ -61,6 +61,11 @@ function show_notifications(data) {
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
 						<li class="dropdown messages-menu">
+							<a href="<?php echo base_url().'employee/index'?>">
+								Employee
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
 							<a href="<?php echo base_url().'cdirectory/index'?>">
 								Directory
 							</a>
@@ -88,6 +93,11 @@ function show_notifications(data) {
 						<li class="dropdown messages-menu">
 							<a href="<?php echo base_url().'estimation/index'?>">
 								Email Estimation
+							</a>
+						</li>
+						<li class="dropdown messages-menu">
+							<a href="<?php echo base_url().'cashier'?>">
+								Cashier
 							</a>
 						</li>
                         <!-- Messages: style can be found in dropdown.less-->
@@ -333,6 +343,14 @@ function create_estimation_new(){
 <script>
 function header_calculate_paper_cost(){
 	var paper_gram,paper_size,paper_print,ori_paper_qty,paper_qty,amount=0,total=0,id,mby=1;
+	
+	
+	var est_cutting_charge = jQuery("#est_cutting_charge").val();
+	var est_binding_charge = jQuery("#est_binding_charge").val();
+	var est_other_charges = jQuery("#est_other_charges").val();
+	var est_lamination_charge = jQuery("#est_lamination_charge").val();
+	
+	
 	paper_gram = jQuery("#hpaper_gram").val();
 	paper_size = jQuery("#hpaper_size").val();
 	paper_print = jQuery("#hpaper_print").val();
@@ -342,6 +360,9 @@ function header_calculate_paper_cost(){
 	if(paper_print == "FB") {
 		paper_qty = paper_qty *2;
 	}
+	/*if(paper_print == "FB") {
+		paper_qty = paper_qty *2;
+	}*/
 	
 	$.ajax({
          type: "POST",
@@ -356,12 +377,14 @@ function header_calculate_paper_cost(){
                   amount = amount + parseFloat(data.paper_amount);
 					if(paper_print == "FB" ) {
 						if(paper_size == "13X19" || paper_size == "13x19" ) {
-							amount = amount * 2 - 3;
+							amount = amount * 2 - 2;
 						}
 					}
+                  var otherTotal = parseInt(est_cutting_charge) + parseInt(est_binding_charge) + parseInt(est_other_charges) + parseInt(est_lamination_charge);
+                  total = ((amount * paper_qty )* mby ) ;
                   
-                  total = (amount * paper_qty )* mby;
-                  jQuery("#hresult_paper_cost").html("--- "+paper_qty +" * "+amount+" [per unit] * "+paper_print+" = "+total );
+                  var masterTotal = parseInt(otherTotal) + parseInt(total);
+                  jQuery("#hresult_paper_cost").html("--- "+paper_qty +" * "+amount+" [per unit] * "+paper_print+" = "+total + "<br> Including other Charges Total : <strong>"+ masterTotal+ "</strong>");
                   
             } else {
                   jQuery("#hresult_paper_cost").html("[ Data not Found - Insert Manual Price]");
@@ -396,56 +419,30 @@ function show_sms_mobile() {
 
 
 <div id="hfancy_box_demo" style="width:800px;display: none;">
-	<div style="width: 600px; margin: 0 auto; padding: 120px 0 40px;">
-			<?php
-				$data = get_papers_size();
-				$paper_gsm = $data['papers'];
-				$paper_size = $data['size'];
-			?>
-			<div class="row">
-			<table width="80%" border="2">
-				<tr>
-					<td align="right">Select Paper : </td>
-					<td><select  name="paper_gram" id="hpaper_gram">
-						<?php foreach($paper_gsm as $gsm) {?>
-						<option value="<?php echo strtolower($gsm['paper_gram']);?>">
-						<?php echo $gsm['paper_gram'];?></option>
-						<?php } ?>
-					</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">Select Paper Size: </td>
-					<td><select name="paper_size" id="hpaper_size">
-						<?php foreach($paper_size as $psize) {?>
-						<option value="<?php echo strtolower($psize['paper_size']);?>">
-						<?php echo $psize['paper_size'];?></option>
-						<?php } ?>
-						<option>10X10</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">Print Side: </td>
-					<td><select name="paper_print" id="hpaper_print">
-						<option value="SS">Single</option>
-						<option value="FB">Double ( front & Back )</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">Quantity : </td>
-					<td><input type="text" name="paper_qty" value="1" id="hpaper_qty"></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					<span class="btn btn-primary btn-sm" onclick="header_calculate_paper_cost()">Estimate Cost</span>
-					<span style="font-size:20px;" id="hresult_paper_cost"></span>
-					</td>
-				</tr>
-			</table>
-	</div>
-    </div>
+		<ul class="tabs" data-persist="true">
+            <li><a href="#h-paperTab">Paper</a></li>
+            <li><a href="#h-visiCard">Visiting Cards</a></li>
+            <li><a href="#h-executieCard">Exclusive Visiting Cards</a></li>
+        </ul>
+        <div class="tabcontents">
+			<div id="h-paperTab">
+				<?php   require_once('paper-estimation.php');?>
+				
+			</div>
+			<div id="h-visiCard">
+				<?php
+					if( $this->router->fetch_class() != 'jobs' && ( $this->router->fetch_method() != 'edit' || $this->router->fetch_method() != 'edit_job'))
+						require_once('layout-visiting-card.php');
+				 ?>
+			</div>
+			<div id="h-executieCard">
+				<?php
+					if( $this->router->fetch_class() != 'jobs' && ( $this->router->fetch_method() != 'edit' || $this->router->fetch_method() != 'edit_job'))
+						require_once('layout-excluive-visiting-card-rates.php');
+				?>
+			</div>
+		</div>
+</div>
 </div>
 
 

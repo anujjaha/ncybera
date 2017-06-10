@@ -9,7 +9,7 @@ var cutting_details_qty = $("#qty_"+<?php echo $sr;?>).val();
 $("#c_material").val(cutting_details_material);
 $("#c_qty").val(cutting_details_qty);
 function update_box() {
-	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_cornerdie,c_rcorner;
+	var machine,size,details,lamination,printing,packing,lamination_info,binding,checking,c_corner,c_laser,c_cornerdie,c_rcorner,c_blade_per_sheet;
         machine = $('input:radio[name=c_machine]:checked').val();// jQuery("#machine").val();
       binding = ""; 
       var $boxes = $('input[name=c_binding]:checked');
@@ -36,11 +36,14 @@ function update_box() {
         c_qty = $("#c_qty").val();
         c_material = $("#c_material").val();
         j_id = $("#j_id").val();
-       
+        c_blade_per_sheet = $("#c_blade_per_sheet").val();
+
+
         $.ajax({
 		type: "POST",
 		url: "<?php echo site_url();?>/ajax/save_edit_cutting_details/", 
 		data:{	
+				'c_blade_per_sheet': c_blade_per_sheet,
 				'c_qty':c_qty,'c_material':c_material,'c_machine':machine,
 				'c_size':size,'c_sizeinfo':size_info,'c_print':printing,
 				'c_details':details,'c_lamination':lamination,'c_laminationinfo':lamination_info,
@@ -147,8 +150,11 @@ function update_box() {
 					<label><input type="checkbox" <?php if(in_array('Perfect Binding',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perfect Binding">Perfect Binding</label>
 					<label><input type="checkbox" <?php if(in_array('Perforation',$binding)) { echo "checked='checked'";}?>name="c_binding" value="Perforation">Perforation</label>
 					<label><input type="checkbox" <?php if(in_array('Folding',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Folding">Folding</label>
+					<label><input type="checkbox" <?php if(in_array('Half Cutting',$binding)) { echo "checked='checked'";}?> name="c_binding" value="Half Cutting">Half Cutting</label>
 					<br>
 					Half Cutting:<input type="text" name="c_bindinginfo" id="binding_info" value="<?php echo $cutting_details->c_bindinginfo;?>">
+					<br>
+					Half Cutting Blades:<input type="number" style="width: 80px;" name="c_blade_per_sheet" id="c_blade_per_sheet"  value="<?php echo $cutting_details->c_blade_per_sheet;?>">
 				</td>
             </tr>
             

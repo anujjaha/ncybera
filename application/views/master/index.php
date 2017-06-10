@@ -62,7 +62,14 @@ function direct_verify_job(id) {
 		<td><?php echo $job['mobile'];?></td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php echo $job['advance'];?></td>
-		<td><?php echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>Paid</span>";?></td>
+		<td>
+			<?php
+				echo $job['due']?$job['due']:"<span style='color:green;font-weight:bold;'>0</span>";
+				echo "<br>------<br>";
+				$userBalance =  get_acc_balance($job['customer_id']);
+				echo ( $userBalance >= 0 ) ? "<span style='color:green;font-weight:bold;'>".$userBalance."</span>" :  "<span style='color:red;font-weight:bold;'>".$userBalance."</span>";
+			?>
+		</td>
 		<td><?php 
 		echo str_replace(","," ", $job['t_reciept']);
 		 echo $job['receipt'];?></td>
