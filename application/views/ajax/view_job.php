@@ -48,7 +48,15 @@ function pay_job(id) {
 	<tr>
 		<td colspan="2">
 			<div id="regular_customer" style="display:block;">
-				<table width="100%">
+				<table width="100%" border="2">
+					<tr>
+						<td width="50%">
+							Job Id : <?php echo $job_data->id;?>
+						</td>
+						<td width="50%" align="right">
+							Date : <?php echo date('d-m-Y', strtotime($job_data->created));?>
+						</td>
+					</tr>
 					<tr>
 						<td width="50%">
 							Custome Name : <?php echo $customer_details->companyname ? $customer_details->companyname : $customer_details->name ;?>
@@ -216,6 +224,9 @@ function pay_job(id) {
 </table>
 <?php } ?>
 <hr>
+<center>
+	<a target="_blank" id="copyJobFunction" onclick="copyJobFunction();" href="<?php echo site_url();?>/jobs/copyjob/<?php echo $job_data->id;?>" class="btn btn-primary">Copy Job</a>
+</center>
 <center>
 	Job Created by : <?php echo $userInfo->nickname;?>
 </center>
@@ -402,7 +413,11 @@ if(count($cuttingInfo) > 0 )
 
 
 <script>
-
+function copyJobFunction()
+{
+	alert("Copy Job Done!");
+	$.fancybox.close();	
+}
 function fill_account() {
 	var s_receipt = $("#receipt").val();
 	var other = $("#other").val();	

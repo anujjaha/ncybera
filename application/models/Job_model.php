@@ -109,6 +109,20 @@ class Job_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function getJobById($jobId = null)
+	{
+		if($jobId)
+		 {
+			$this->db->select('*, job.id as id, job.created as "created",customer.*')
+					->from($this->table)
+					->join('customer','job.customer_id=customer.id','left')
+					->where('job.id ='.$jobId);
+			$query = $this->db->get();
+			return $query->row();
+		}
+		return false;
+	}
+	
 	public function get_job_details($job_id) {
 		$this->db->select('*')
 				->from($this->table_details)

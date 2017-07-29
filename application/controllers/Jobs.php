@@ -10,6 +10,95 @@ class Jobs extends CI_Controller {
 		$this->load->model('user_model');
 		
 	}
+	
+	public function copyjob($jobId = null)
+	{
+		if($jobId)
+		{
+			$this->load->model('job_model');
+			
+			$jobData 			= $this->job_model->get_job_data($jobId);
+			$jobDetails 		= $this->job_model->get_job_details($jobId);
+			$jobCuttingDetails 	= $this->job_model->get_cutting_details($jobId);
+			
+			
+			
+			$jobdata['customer_id'] = $jobData->customer_id;
+            $jobdata['user_id'] = $this->session->userdata['user_id'];
+            $jobdata['jobname'] = $jobData->jobname;
+            $jobdata['subtotal'] = $jobData->subtotal;
+            $jobdata['tax'] = $jobData->tax;
+            $jobdata['total'] = $jobData->total;
+            $jobdata['advance'] = $jobData->advance;
+            $jobdata['due'] = $jobData->due;
+            $jobdata['notes'] = $jobData->notes;
+            $jobdata['receipt'] = '';
+            $jobdata['voucher_number'] = '';
+            $jobdata['bill_number'] = '';
+            $jobdata['jsmsnumber']= $jobData->jsmsnumber;
+            $jobdata['jmonth'] = date('M-Y');
+            $jobdata['jdate'] = date('Y-m-d');
+            
+            $job_id = $this->job_model->insert_job($jobdata);
+			$j_status =$this->add_job_transaction($job_id,JOB_PENDING);
+			
+			
+			foreach($jobDetails as $jobDetails)
+			{
+				$jobDetails = (object)$jobDetails;
+				if(isset($jobDetails->jdetails) && !empty($jobDetails->jdetails))
+				{
+					$job_details[] = array(
+						'job_id' 	=> $job_id,
+						'jtype' 	=> $jobDetails->jtype,
+						'jdetails' 	=> $jobDetails->jdetails,
+						'jqty' 		=> $jobDetails->jqty,
+						'jrate' 	=> $jobDetails->jrate,
+						'jamount' 	=> $jobDetails->jamount,
+						'created' 	=> date('Y-m-d H:i:s')
+					);
+				}
+			}
+			
+			$this->job_model->insert_jobdetails($job_details);
+			
+			if(count($jobCuttingDetails))
+			{
+				foreach($jobCuttingDetails as $jobCuttingDetail)
+				{
+					$jobCuttingDetail = (object) $jobCuttingDetail;
+					if(isset($jobCuttingDetail->c_qty) && !empty($jobCuttingDetail->c_qty))
+					{
+						 $cutting_details[] = array('j_id'=>$job_id,
+                                       'c_machine' 		=> $jobCuttingDetail->c_machine,
+                                       'c_material' 	=> $jobCuttingDetail->c_material,
+                                       'c_qty' 			=> $jobCuttingDetail->c_qty,
+                                       'c_size' 		=> $jobCuttingDetail->c_size,
+                                       'c_sizeinfo' 	=> $jobCuttingDetail->c_sizeinfo,
+                                       'c_print' 		=> $jobCuttingDetail->c_print,
+                                       'c_details'		=> $jobCuttingDetail->c_details,
+                                       'c_lamination'	=> $jobCuttingDetail->c_lamination,
+                                       'c_laminationinfo'=>$jobCuttingDetail->c_laminationinfo,
+                                       'c_binding' 		=> $jobCuttingDetail->c_binding,
+                                       'c_blade_per_sheet' => $jobCuttingDetail->c_blade_per_sheet,
+                                       'c_bindinginfo' 	=> $jobCuttingDetail->c_bindinginfo,
+                                       'c_checking' 	=> $jobCuttingDetail->c_checking,
+                                       'c_packing' 		=> $jobCuttingDetail->c_packing,
+                                       'c_corner' 		=> $jobCuttingDetail->c_corner,
+                                       'c_laser' 		=> $jobCuttingDetail->c_laser,
+                                       'c_rcorner' 		=> $jobCuttingDetail->c_rcorner,
+                                       'c_cornerdie'	=> $jobCuttingDetail->c_cornerdie,
+                                    );
+					}
+				}
+				$this->job_model->insert_cuttingdetails($cutting_details);
+			}
+			
+			redirect("jobs/edit_job/".$job_id,'refresh');
+		}
+		
+		redirect("user/index", 'refresh');
+	}
 
 	/**
 	 * Index Page for this controller.
@@ -116,7 +205,8 @@ class Jobs extends CI_Controller {
 				$j_status =$this->add_job_transaction($job_id,JOB_PENDING);
         $job_details = array();
         $cutting_details = array();
-        for($i=1;$i<6;$i++) {
+        for($i=1;$i<6;$i++) 
+        {
         $check = $this->input->post('details_'.$i);
         $check_cutting = $this->input->post('c_machine_'.$i);
         $check_rount_cutting = $this->input->post('c_rcorner_'.$i);
@@ -157,6 +247,22 @@ class Jobs extends CI_Controller {
                 $this->job_model->insert_jobdetails($job_details);
                 if($cutting_details) {
 					$this->job_model->insert_cuttingdetails($cutting_details);
+				}
+				
+				if($this->input->post('remindMe') == 1 )
+				{
+					$jobInfo 		= $this->job_model->getJobById($job_id);
+					$customerName 	= isset($jobInfo->companyname) ? $jobInfo->companyname : $jobInfo->name;
+					
+					$sdata['title'] = $this->input->post('jobname');
+					$sdata['description'] = '<span style="color: red; font-size: 18px;">PLEASE DELIVER JOB ! </span> <br> <span style="font-size: 18px;"> Customer Name : <strong>' . $customerName . ' </strong> - Est Id<strong> - '. $job_id . '</strong></span>' ;
+					$sdata['reminder_time'] = $this->input->post('reminder_time');
+					$sdata['user_for'] = 6;
+					$sdata['is_sms'] = 1;
+					$sdata['status'] = 0;
+					$sdata['user_creator'] = 6;
+					$this->load->model('task_model');
+					$this->task_model->save_scheduler($sdata);
 				}
                 redirect("jobs/job_print/".$job_id,'refresh');
         }

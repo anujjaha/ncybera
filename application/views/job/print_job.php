@@ -23,6 +23,11 @@ td{font-size:9px; font-family:Arial, Helvetica, sans-serif}
 	font-size:8px;
 }
 
+.table-curved {
+    border-collapse:separate;
+    border: solid #ccc 1px;
+    border-radius: 25px;
+}
 </style>
 <script type="text/javascript">
 function printDiv(divName) {
@@ -68,18 +73,23 @@ if($customer_details->ctype == 1 )
 				<td width="100%" align="left">
 					<table width="100%"  align="left" style="border:1px solid;font-size:9px;">
 						<tr>
+							<td align="center" style="font-size:12px;" colspan="2">
+								<strong>Estimate</strong>
+							</td>
+						</tr>
+						<tr>
 							<td style="font-size:12px;">'.$customerTitle.' : <strong>'.$show_name.'</strong>
 							</td>
 							<td align="right" style="font-size:12px;">Mobile : <strong>'.$mobileNumber.'</strong> </td>
 						</tr>
 						<tr>
-						<td  style="font-size:12px;" >Job Id : <strong>'.$job_data->id.'</strong> </td>
+						<td  style="font-size:12px;" >Est Id : <strong>'.$job_data->id.'</strong> </td>
 							
-							<td style="font-size:12px;"  align="right">Job date : <strong>'.date('d-m-Y',strtotime($job_data->jdate)).' </strong></td>
+							<td style="font-size:12px;"  align="right">Est date : <strong>'.date('d-m-Y',strtotime($job_data->jdate)).' </strong></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center" style="font-size:12px;">
-								Job Name : <strong>'.$job_data->jobname.'</strong>
+								Title : <strong>'.$job_data->jobname.'</strong>
 							</td>
 						</tr>
 						<tr>
@@ -178,8 +188,8 @@ $pcontent .= '<table align="center" width="90%" align="center" style="border:1px
 				<td align="right">Date : '.$job_data->jdate.'</td>
 			</tr>
 			<tr>
-				<td align="left">Job Name : <strong>'.$job_data->jobname.'</strong></td>
-				<td align="right">Job Num : <strong>'.$job_data->id.'</strong></td>
+				<td align="left">Title : <strong>'.$job_data->jobname.'</strong></td>
+				<td align="right">Est Id : <strong>'.$job_data->id.'</strong></td>
 			</tr></table>';
 $pcontent .='<table align="center" border="2" width="90%" style="border:1px solid;"><tr>';
 $sr=1;
@@ -273,20 +283,23 @@ echo $pcontent;
 
 <!--Print Courier Service-->
 <div id="printCourierTickret" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
-<table align="center" border="0" width="90%">
+<table align="center" border="2" width="85%" style="border: 2px solid #000000; border-radius: 10px;">
+<tr>
+<td>
+<table align="center" border="0" width="100%">
 	<tr>
 		<td>
-			<table align="left" width="100%" border="0" style="margin-left: 50px; margin-top: 20px;">
+			<table align="left" width="100%" border="0" style="margin-left: 10px; margin-top: 20px; line-height: 95%;">
 			<tr>
 				<td> 
-					<span style="font-size:20px;">
+					<span style="font-size:20px; line-height: 95%;">
 						<strong>To, </strong>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td> 
-					<span style="font-size:20px;">
+					<span style="font-size:20px; font-weight: bold; line-height: 95%;">
 						<strong><?php echo $customer_details->companyname ?  $customer_details->companyname :  $customer_details->name;?> </strong>
 					</span>
 				</td>
@@ -295,17 +308,17 @@ echo $pcontent;
 				<td>
 					<table width="100%" border="0" class="customer-address">
 					<tr>
-						<td style="font-size:20px;">
+						<td style="font-size:18px; line-height: 95%;">
 							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
 						</td>
 					</tr>
 					<tr>
-						<td style="font-size:20px;">
+						<td style="font-size:18px; line-height: 95%;">
 							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
 						</td>
 					</tr>
 					<tr>
-						<td style="font-size:20px;">
+						<td style="font-size:18px; line-height: 95%;">
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
@@ -313,7 +326,7 @@ echo $pcontent;
 					if(isset($transporter_info)) {
 					?>
 					<tr>
-						<td style="font-size:20px;">
+						<td style="font-size:18px; line-height: 95%;">
 							Delivery By : <?php echo $transporter_info->name;?>
 						</td>
 					</tr>
@@ -328,16 +341,14 @@ echo $pcontent;
 		<td>
 			<table align="center" width="100%">
 			<tr>
-				<td width="50%">&nbsp;</td>
+				<td width="16%">&nbsp;</td>
 				<td>
-					<table width='100%' align='right' border='0' style="font-size: 14px;" class="own-address">
+					<table width='100%' align='right' border='0' style="font-size:15px; line-height: 95%;" class="own-address">
 					<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td><strong>From</strong> </td></tr>
-					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong></td></tr>
-					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe,</td></tr>
-					<tr><td>&nbsp;</td><td>Nr. Girish Cold Drinks,</td></tr>
-					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura</td></tr>
-					<tr><td>&nbsp;</td><td>Ahmedabad - 009</td></tr>
+					<tr><td>&nbsp;</td><td><strong>From, </strong></td></tr>
+					<tr><td>&nbsp;</td><td><strong>CYBERA PRINT ART</strong> </td></tr>
+					<tr><td>&nbsp;</td><td>G/3, Samudra Annexe, Nr. Girish Cold Drinks Cross Road,</td></tr>
+					<tr><td>&nbsp;</td><td>Off C.G. Road, Navrangpura, Ahmedabad - 009</td></tr>
 					<tr><td>&nbsp;</td><td>Call : 079-26565720 / 26465720</td></tr>
 					<tr><td>&nbsp;</td><td>Mobile : 9898309897</td></tr>
 				</table>
@@ -347,44 +358,52 @@ echo $pcontent;
 		</td>
 	</tr>
 </table>
+
+</td>
+</tr>
+
+</table>
 </div>
 
 
 <!--Small Print Courier Service-->
-<div id="smallprintCourierTickret" style="height:3.5in; width:2.5in;  font-family:Arial, Helvetica, sans-serif;">
-<table align="center" border="0" width="90%">
+<div id="smallprintCourierTickret" style="height:3.5in; width:3.5in;  font-family:Arial, Helvetica, sans-serif;">
+<table align="center" border="2" width="65%" style="border: 2px solid #000000; border-radius: 10px;">
+<tr>
+<td>
+<table align="center" border="0" width="95%">
 	<tr>
 		<td>
 			<table align="left" width="100%" border="0">
 			<tr>
 				<td> 
-					<span style="font-size:10px;">
+					<span style="font-size:15px;  line-height: 95%;">
 						<strong>To, </strong>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td> 
-					<span style="font-size:10px;">
+					<span style="font-size:15px; font-weight: bold;  line-height: 95%;">
 						<strong><?php echo $customer_details->companyname ?  $customer_details->companyname :  $customer_details->name;?> </strong>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<table width="100%" border="0" class="small-customer-address" style="font-size:8px;">
+					<table width="100%" border="0" class="small-customer-address" style="font-size:14px;  line-height: 95%;">
 					<tr>
-						<td style="font-size:8px;">
-							<?php echo $customer_details->add1."<br>".$customer_details->add2;?>
+						<td style="font-size:14px;  line-height: 95%;">
+							<?php echo $customer_details->add1." ".$customer_details->add2;?>
 						</td>
 					</tr>
 					<tr>
-						<td style="font-size:8px;">
+						<td style="font-size:14px;  line-height: 95%;">
 							<?php echo $customer_details->city." ".$customer_details->state." ".$customer_details->pin;?>
 						</td>
 					</tr>
 					<tr>
-						<td style="font-size:8px;">
+						<td style="font-size:14px;  line-height: 95%;">
 							Mobile - <?php echo $customer_details->mobile;?>
 						</td>
 					</tr>
@@ -392,7 +411,7 @@ echo $pcontent;
 					if(isset($transporter_info)) {
 					?>
 					<tr>
-						<td style="font-size:8px;">
+						<td style="font-size:14px;  line-height: 95%;">
 							Delivery By : <?php echo $transporter_info->name;?>
 						</td>
 					</tr>
@@ -407,14 +426,12 @@ echo $pcontent;
 		<td>
 			<table align="center" width="100%">
 			<tr>
-				<td width="20%">&nbsp;</td>
+				<td width="8%">&nbsp;</td>
 				<td>
 					<table width='100%' align='right' border='0' class="small-own-address">
-					<tr style="height:5px;"><td>&nbsp;</td><td>&nbsp;</td></tr>
-					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;"><strong>From</strong> </td></tr>
-					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;"><strong>CYBERA PRINT ART</strong></td></tr>
-					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:8px;">
-					G/3, Samudra Annexe,Nr. Klassic Gold Hotel,
+					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:12px;  line-height: 14px;"><strong>From, CYBERA PRINT ART</strong> </td></tr>
+					<tr style="height:5px;"><td>&nbsp;</td><td style="font-size:12px;  line-height: 14px;">
+					G/3, Samudra Annexe,Nr. Girish Cold Drink Cross Road,
 					<br>
 					Off C.G. Road, Navrangpura Ahmedabad - 009
 					<br>
@@ -425,6 +442,9 @@ echo $pcontent;
 		</table>
 		</td>
 	</tr>
+</table>
+</td>
+</tr>
 </table>
 </div>
 <!--Small Print Courier Service End-->

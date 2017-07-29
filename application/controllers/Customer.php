@@ -33,6 +33,17 @@ class Customer extends CI_Controller {
 		$data['customers']= $result;
 		$this->template->load('customer', 'index', $data);
 	}
+	
+	public function quick()
+	{
+		$offset= 0;
+		$limit = 10;
+		$data['title']="Quick Customer Management";
+		$data['heading']="Quick Customer Management";
+		$data['customers']= $this->customer_model->get_quick_customer_details($offset, $limit);
+		$this->template->load('customer', 'quick', $data);
+	}
+	
 	public function admin()
 	{
 		$today = date("Y-m-d");

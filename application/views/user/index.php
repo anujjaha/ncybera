@@ -41,7 +41,9 @@ if(strtolower($this->session->userdata['department']) == "master")
 	<tbody>
 		<?php
 		$sr =1;	
-		foreach($jobs as $job) { ?>
+		foreach($jobs as $job) { 
+			//pr($job);
+			?>
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td width="60px;">

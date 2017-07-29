@@ -162,7 +162,7 @@ class Ajax extends CI_Controller {
 			$quote_data['mobile'] = $mobile = $sms_mobile;
 			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
-			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 5% VAT Extra.Quote No. ".$quote_id." valid for 7 days.";
+			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 18% GST Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
 			sendCorePHPMail('cybera.printart@gmail.com', 'cybera.printart@gmail.com', 'Cybera Estimation - ' .$sms_customer_name, $sms_text);
 			
@@ -654,6 +654,16 @@ class Ajax extends CI_Controller {
 		$this->load->model('task_model');
 		$user_id = $this->session->userdata('user_id');
 		$result = $this->task_model->get_all_schedules($user_id);
+		
+		/*$today = strtotime('today 14:30');
+		$now =  strtotime('now');
+		$today = ($today * 10 ) + 10000;
+		
+		if($today >= $now || $today <= $now)
+		{
+			echo 'Please Check Delivery Jobs !';
+			die;
+		}*/
 		
 		if($result['count'] > 0 ) {
 			echo $result['task'];

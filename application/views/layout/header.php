@@ -19,20 +19,25 @@ function show_calculator()
 
 window.setInterval(function(){
   check_notifications();
-}, 60000);
+}, 10000);
 
-function check_notifications() {
-	
+function check_notifications() 
+{
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/ajax/check_notifications/", 
 		 success: 
             function(data){
+				if(data == 'Please Check Delivery Jobs !')
+				{
+					alert(data);
+					return;
+				}
 				if(data != 0) {
+					alert('New Notifiction');
 					show_notifications(data);
 				}
-				
-            }
+			}
           });
 }
 

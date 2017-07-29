@@ -23,7 +23,7 @@
 		</td>
 		<td colspan="2" align="center">350 GSM Velvet Touch Card 
 		</td>
-		<td colspan="2" align="center">400 GSM Velvet Touch 
+		<td colspan="2" align="center">Velvet Touch 
 			<br>
 			<strong>Code 101</strong>
 		</td>

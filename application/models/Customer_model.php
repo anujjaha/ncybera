@@ -27,6 +27,14 @@ class Customer_model extends CI_Model {
 		return false;
 	}
 	
+	public function get_quick_customer_details()
+	{
+		$sql = "SELECT * FROM $this->table 
+				order by companyname";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	
 	public function get_customer_details($param=null,$value=null) {
 		if(!empty($param)) {
 			$sql = "SELECT * FROM $this->table WHERE $param = $value";

@@ -24,8 +24,8 @@ function calc_tax() {
 	var tax_f,tax_l=0;
 	if (document.getElementById('cb_checkbox').checked) {
 		
-		tax_f = Math.round( (jQuery("#subtotal").val() * 4 ) / 100);
-		tax_l = Math.round( (jQuery("#subtotal").val() * 1 ) / 100);
+		tax_f = 0;//Math.round( (jQuery("#subtotal").val() * 9 ) / 100);
+		tax_l = Math.round( (jQuery("#subtotal").val() * 18 ) / 100);
 		tax_amount = parseFloat(tax_f) + parseFloat(tax_l);
 		jQuery("#tax").val(tax_amount);
 	} else {

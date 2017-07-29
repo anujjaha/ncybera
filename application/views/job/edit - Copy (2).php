@@ -1,18 +1,5 @@
 <script src="<?php echo base_url();?>assets/js/job_details.js"></script>
 <script>
-function showRemindContainer()		
-{		
-	var value = jQuery("#remindMe").val();		
-	if(value == 1)		
-	{		
-		jQuery("#remindContainer").show();		
-	}		
-	else		
-	{		
-		jQuery("#remindContainer").hide();		
-	}		
-}
-
 $(document).ready(function() {
       $('.fancybox').fancybox({
 		'width':1000,
@@ -69,8 +56,12 @@ $(document).ready(function() {
         o.value = arr[i].v;
         $(o).text(arr[i].t);
     });
+
 	console.log('done');
+
+
 });
+
 function show_due(userid) {
 	$.ajax({
 		 type: "POST",
@@ -98,6 +89,7 @@ jQuery("#customer_id").val(userid);
         }
   });
 }
+
 function auto_suggest_price(id){
     jQuery("#fancybox_id").val(id);
 }
@@ -141,6 +133,7 @@ function set_cutting_details(id){
 	}
 	
 }
+
 function set_cutting_details_box(id)
 {
 	var data_id = jQuery("#fancybox_cutting_id").val();
@@ -213,6 +206,7 @@ function remove_cutting_details(data_id) {
 function fancy_box_closed(id){
 	//alert(jQuery("#fancybox_id").val());
 }
+
 function calculate_paper_cost(){
 	var paper_gram,paper_size,paper_print,ori_paper_qty,paper_qty,amount=0,total=0,id,mby=1;
 	paper_gram = jQuery("#paper_gram").val();
@@ -284,6 +278,7 @@ function check_form() {
 	
 	return false;
 }
+
 function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Cutting") {
 			$("#details_"+sr).val("Cutting");
@@ -339,6 +334,7 @@ function check_visiting_card(sr) {
 		
 		open_price_list(sr);
 }
+
 function open_price_list(sr)
 {
 	auto_suggest_price(sr);
@@ -363,6 +359,7 @@ function open_price_list(sr)
 	}
 	
 }
+
 function openCuttingSlip(id, catValue)
 {
 	if(catValue == "Visiting Card")
@@ -375,6 +372,7 @@ function openCuttingSlip(id, catValue)
         });
 	}
 }
+
 function check_existing_customer(value) {
 	if(jQuery("#new_customer_name").val().length > 0 || jQuery("#new_customer_companyname").val().length > 0 ) {
 		$.ajax({
@@ -626,29 +624,32 @@ $this->load->helper('general'); ?>
 			<input type="submit" name="save" id="save_button"  value="Save" class="btn btn-success btn-lg">
 		</td>
 	</tr>
+	
+	
+	
+</table>
+<table align="center">
+	<tr>
+		<td> Remind Me : </td>
+		<td>
+		<select name="remindMe" id="remindMe" onchange="showRemindContainer()">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+		</td>
+	</tr>
+	
+	<tr id="remindContainer" style="display: none;">
+	<td>
+			Reminder Time :
+	</td>
+	<td>
+			<input type="text" name="reminder_time"  id="sc_reminder_time" value="<?php echo date('Y/m/d H:i', strtotime('now +1 hour'));?>"  class="form-control datepicker" required="required">
+		</td>
+	</tr>
 </table>
 
-<table align="center">		
-	<tr>		
-		<td> Remind Me : </td>		
-		<td>		
-		<select name="remindMe" id="remindMe" onchange="showRemindContainer()">		
-			<option value="0">No</option>		
-			<option value="1">Yes</option>		
-		</select>		
-		</td>		
-	</tr>		
-			
-	<tr id="remindContainer" style="display: none;">		
-	<td>		
-			Reminder Time :		
-	</td>		
-	<td>		
-			<input type="text" name="reminder_time"  id="sc_reminder_time" value="<?php echo date('Y/m/d H:i', strtotime('now +1 hour'));?>"  class="form-control datepicker" required="required">		
-		</td>		
-	</tr>		
-</table>		
-
+</div>
 </form>
 
 <div id="fancy_box_cutting" style="width:800px;display: none;">
@@ -859,7 +860,6 @@ $this->load->helper('general'); ?>
 <script>
 jQuery(".setCuttingAuto").on('click', function()
 {
-	jQuery("#lamination_info").val('');
 	alert("Do you want Corner Cutting ?");
 	 var sizeInfo 		= jQuery(this).attr("data-size-info"),
 		currentIndex 	= jQuery("#fancybox_cutting_id").val(),
@@ -885,6 +885,19 @@ jQuery(".setCuttingAuto").on('click', function()
 	 
 	 
 });
+
+function showRemindContainer()
+{
+	var value = jQuery("#remindMe").val();
+	if(value == 1)
+	{
+		jQuery("#remindContainer").show();
+	}
+	else
+	{
+		jQuery("#remindContainer").hide();
+	}
+}
 </script>
 <?php 
 for($i=1;$i<6;$i++) { ?>

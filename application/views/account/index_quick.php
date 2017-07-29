@@ -114,7 +114,10 @@
 				if($customer->status == '1') { $status = "Active"; }
 				echo $status;
 		?></td>
-		<td><a target="_blank" href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a></td>
+		<td>
+			<a target="_blank" href="<?php echo site_url();?>/account/account_details/<?php echo $customer->id;?>">View</a>
+			||
+			<a target="_blank" href="<?php echo site_url();?>/customer/edit/<?php echo $customer->id;?>">Edit</a></td>
 		</tr>
 		<?php $sr++; } ?>
 	</tfoot>
