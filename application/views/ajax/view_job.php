@@ -213,7 +213,10 @@ function pay_job(id) {
 	</tr>
 </table> 
 <?php } ?>   
-<?php if(! isset($job_data->billNumber) && strlen($job_data->billNumber) < 2 ) 
+
+<?php 
+
+if(strlen($job_data->bill_number) < 2) 
 {?>
 <table class="table" width="100%" id="billNumberContainer">
 	<tr>

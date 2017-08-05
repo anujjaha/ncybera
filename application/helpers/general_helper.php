@@ -817,3 +817,40 @@ function getCustomerType($customerId)
 	
 	return false;
 }
+
+function addBillToJobClearDueAmount($jobId = null, $billNumber = null)
+{
+	if($jobId)
+	{
+		$ci = & get_instance();
+		$ci->load->model('job_model');
+		$jobInfo = $ci->job_model->getJobById($jobId);
+		$jobTransactionInfo = array(
+			'customer_id' 	=> $jobInfo->customer_id,
+			'job_id' 		=> $jobId,
+			'amount' 		=> $jobInfo->due,
+			'bill_number' 	=> '',
+			'other' 		=> 'Bill-Created',
+			'pay_ref' 		=> 'Bill-Created',
+			'notes' 		=> 'Bill-Created - For Job',
+			't_type' 		=> 'credit',
+			'cmonth'		=> date('M-Y'),
+			'date'			=> date('Y-m-d'),
+			'creditedby'	=> $ci->session->userdata['user_id']
+		);
+		
+		$status = $ci->job_model->insert_transaction($jobTransactionInfo);
+		
+		if($status)
+		{
+			$updateJob = array(
+				'settlement_amount' => $jobInfo->due,
+				'due'				=> 0,
+				'jpaid'				=> 1
+			);
+			$ci->job_model->update_job($jobId, $updateJob);
+		}
+		
+		return true;
+	}
+}

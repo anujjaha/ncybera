@@ -117,6 +117,7 @@ class Master_model extends CI_Model {
 				 ( customer.ctype = 0 OR customer.ctype = 1 )
 				 order by job.id DESC
 				";
+				
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}

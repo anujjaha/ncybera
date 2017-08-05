@@ -945,12 +945,16 @@ class Ajax extends CI_Controller {
 	
 	public function ajax_add_billnumber($jobId)
 	{
+		
 		if($this->input->post()) 
 		{
 			$billNumber = $this->input->post('billNumber');
 			
 			$this->load->model('job_model');
 			
+			addBillToJobClearDueAmount($jobId, $billNumber);
+			
+		
 			$status = $this->job_model->addJobBillNumber($jobId, $billNumber);
 			
 			if($status)

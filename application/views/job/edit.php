@@ -306,6 +306,9 @@ function check_visiting_card(sr) {
 		if($("#category_"+sr).val() == "Sticker Sheet") {
 			$("#details_"+sr).val("Sticker Sheet");
 		}
+		if($("#category_"+sr).val() == "Flex") {
+			$("#details_"+sr).val("Flex");
+		}
 		if($("#category_"+sr).val() == "Binding") {
 			$("#details_"+sr).val("Binding");
 		}
@@ -549,6 +552,7 @@ $this->load->helper('general'); ?>
                             <option>Digital Print</option>
                             <option>Visiting Card</option>
                             <option>Offset Print</option>
+                            <option>Flex</option>
                             <option>Cutting</option>
                             <option>Designing</option>
                             <option>Editing Charge</option>
