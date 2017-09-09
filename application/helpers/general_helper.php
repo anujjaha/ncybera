@@ -143,6 +143,20 @@ if ( ! function_exists('test_method'))
 		return $query->result();
 	}
 	
+	function getCustomerOutside($customerId = null)
+	{
+		if($customerId)
+		{
+			$sql = "SELECT outside FROM customer where id = '".$customerId."'";
+			$ci=& get_instance();
+			$ci->load->database(); 	
+			$query = $ci->db->query($sql);
+			return $query->row()->outside;
+		}
+		
+		return false;
+	}
+	
 	function getAllEmailBulkCustomers($param=null,$value=null) {
 		$sql = "SELECT DISTINCT('id'), customer.* FROM customer WHERE emailid != '' order by companyname";
 		if(!empty($param)) {
@@ -300,9 +314,9 @@ function job_complete_sms($job_id=null) {
 		}
 		
 		if( $balance < 0 ) {
-			$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Total due Rs. $balance Thank You.";
+			$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Total due Rs. $balance (GST Extra) Thank You.";
 		} else {
-				$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Pay ".$result->due." due amt. to collect your job. Thank You.";
+				$sms_text = "Dear ".$result->customer_name." Your Job Num $job_id of rs. ".$result->total." completed and ready for delivery. Pay ".$result->due." due amt. (GST Extra) to collect your job. Thank You.";
 		}
 		
 		$data['smscount'] = $result->smscount  + 1;
@@ -337,6 +351,9 @@ function get_department_revenue() {
 	$sql = "SELECT 
 			(select sum(jamount) from job_details 
 			where jtype = 'Digital Print') as dprint,
+			
+			(select sum(jamount) from job_details 
+			where jtype = 'Flex') as dflex,
 
 			(select sum(jamount) from job_details 
 			where jtype = 'Cutting' ) as 'dcutting' ,
@@ -702,8 +719,10 @@ function getBusinessCollectionByDate($date = null)
 
 function getAccountInfo()
 {
-	$sql = "select DISTINCT(job.customer_id), customer.id, customer.name, customer.companyname, customer.mobile from job 
-		LEFT JOIN customer  on customer.id = job.customer_id";
+	$sql = "select DISTINCT(job.customer_id), customer.id, customer.name, customer.companyname, customer.mobile 
+			from job 
+			LEFT JOIN customer  on customer.id = job.customer_id
+			WHERE ctype != 2";
 			
 		$ci=& get_instance();
 	$ci->load->database(); 	
@@ -818,6 +837,51 @@ function getCustomerType($customerId)
 	return false;
 }
 
+function getBillStatus($jobId = null)
+{
+		if($jobId)
+		{
+			$ci = & get_instance();
+			$ci->load->model('job_model');
+			$jobInfo = $ci->job_model->getJobById($jobId);
+			
+			if(isset($jobInfo->bill_number) && strlen($jobInfo->bill_number))
+			{
+				return $jobInfo->bill_number;
+			}
+			
+			$sql = "SELECT bill_number FROM user_transactions WHERE job_id = '". $jobId ."'";
+			
+			$ci->load->database(); 	
+			$query = $ci->db->query($sql);
+			
+			foreach($query->result() as $jobBill)
+			{
+				if($jobBill->bill_number && strlen($jobBill->bill_number) > 2 )
+				{
+					return $jobBill->bill_number;
+				}
+			}
+			
+		}
+		
+		return false;
+	
+}
+
+function clearUserTransactionsByJobId($jobId = null)
+{
+	if($jobId)
+	{
+			$sql = "Delete from user_transactions WHERE job_id = '". $jobId ."'";
+			$ci=& get_instance();
+			$ci->load->database(); 	
+			return $ci->db->query($sql);
+	}
+	
+	return false;
+}
+
 function addBillToJobClearDueAmount($jobId = null, $billNumber = null)
 {
 	if($jobId)
@@ -852,5 +916,31 @@ function addBillToJobClearDueAmount($jobId = null, $billNumber = null)
 		}
 		
 		return true;
+	}
+}
+
+
+function jobSettleAmount($jobId = null, $amount = 0)
+{
+	if($jobId)
+	{
+		$ci = & get_instance();
+		$ci->load->model('job_model');
+		$jobInfo = $ci->job_model->getJobById($jobId);
+		$jobTransactionInfo = array(
+			'customer_id' 	=> $jobInfo->customer_id,
+			'job_id' 		=> $jobId,
+			'amount' 		=> $amount,
+			'bill_number' 	=> '',
+			'other' 		=> '',
+			'pay_ref' 		=> '',
+			'notes' 		=> '',
+			't_type' 		=> 'debit',
+			'cmonth'		=> date('M-Y'),
+			'date'			=> date('Y-m-d'),
+			'creditedby'	=> $ci->session->userdata['user_id']
+		);
+		
+		return $ci->job_model->insert_transaction($jobTransactionInfo);
 	}
 }

@@ -77,6 +77,7 @@ class Dealer extends CI_Controller {
 			$data['city'] = $this->input->post('city');
 			$data['state'] = $this->input->post('state');
 			$data['pin'] = $this->input->post('pin');
+			$data['outside'] = $this->input->post('outside');
 			$dealer_id = $this->input->post('dealer_id');
 			$transporter_id = $this->input->post('transporter_id');
 			

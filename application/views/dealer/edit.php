@@ -19,6 +19,13 @@ $this->load->helper('form');
 			<input type="text" class="form-control" name="companyname"  value="<?php if(!empty($dealer_info->companyname)){echo $dealer_info->companyname;}?>" placeholder="Company Name">
 		</div>
 		<div class="form-group">
+			<label>Outside Customer</label>
+			<select name="outside" class="form-control" id="outside">
+				<option <?php if(isset($dealer_info->outside) && $dealer_info->outside == 1) echo 'selected="selected"';?> value="1"> Yes </option>
+				<option <?php if(isset($dealer_info->outside) && $dealer_info->outside == 0) echo 'selected="selected"';?> value="0"> No </option>
+			</select>
+		</div>
+		<div class="form-group">
 			<label>Contact Number</label>
 			<input type="text" class="form-control" name="mobile" value="<?php if(!empty($dealer_info->mobile)){echo $dealer_info->mobile;}?>" placeholder="Mobile Number">
 		</div>
@@ -62,6 +69,9 @@ $this->load->helper('form');
 		<div class="form-group">
 			<label>Pin</label>
 			<input type="text" class="form-control" name="pin" value="<?php if(!empty($dealer_info->pin)){echo $dealer_info->pin;}?>" placeholder="Pincode">
+		</div>
+		<div class="form-group">
+			<br><br><br>
 		</div>
 	</div><!-- /.box-body -->
 	</div><!-- /.box -->

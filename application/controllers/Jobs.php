@@ -27,10 +27,10 @@ class Jobs extends CI_Controller {
             $jobdata['user_id'] = $this->session->userdata['user_id'];
             $jobdata['jobname'] = $jobData->jobname;
             $jobdata['subtotal'] = $jobData->subtotal;
-            $jobdata['tax'] = $jobData->tax;
+            $jobdata['tax'] = 0;
             $jobdata['total'] = $jobData->total;
-            $jobdata['advance'] = $jobData->advance;
-            $jobdata['due'] = $jobData->due;
+            $jobdata['advance'] = 0;
+            $jobdata['due'] = $jobData->total;
             $jobdata['notes'] = $jobData->notes;
             $jobdata['receipt'] = '';
             $jobdata['voucher_number'] = '';
@@ -150,12 +150,22 @@ class Jobs extends CI_Controller {
                         $data['mobile'] = $this->input->post('user_mobile');
                         $data['companyname'] = $this->input->post('companyname');
                         $data['emailid'] = $this->input->post('emailid');
-                        
+                        $data['add1'] = $this->input->post('add1');
+						$data['add2'] = $this->input->post('add2');
+						$data['city'] = $this->input->post('city');
+						$data['state'] = $this->input->post('state');
+						$data['pin'] = $this->input->post('pin');
+                                                
                         if($this->input->post('customerType')  == "NewDealer")
                         {
+							
 							$customer_id = $this->dealer_model->insert_dealer($data);
 						}else
 						{
+							if($this->input->post('customerType')  == "NewVoucher")
+							{
+								$data['ctype'] = 2;
+							}
 							$customer_id = $this->customer_model->insert_customer($data);
 						}
                 } else {
@@ -257,10 +267,10 @@ class Jobs extends CI_Controller {
 					$sdata['title'] = $this->input->post('jobname');
 					$sdata['description'] = '<span style="color: red; font-size: 18px;">PLEASE DELIVER JOB ! </span> <br> <span style="font-size: 18px;"> Customer Name : <strong>' . $customerName . ' </strong> - Est Id<strong> - '. $job_id . '</strong></span>' ;
 					$sdata['reminder_time'] = $this->input->post('reminder_time');
-					$sdata['user_for'] = 6;
+					$sdata['user_for'] = $this->session->userdata['user_id'];
 					$sdata['is_sms'] = 1;
 					$sdata['status'] = 0;
-					$sdata['user_creator'] = 6;
+					$sdata['user_creator'] = $this->session->userdata['user_id'];
 					$this->load->model('task_model');
 					$this->task_model->save_scheduler($sdata);
 				}
@@ -386,7 +396,11 @@ class Jobs extends CI_Controller {
 			$data['job_details']=$job_details;
 			$data['job_data']=$job_data;
 			
+			
 			if($this->input->post()) {
+				
+				
+				
 				$customer_id = $this->input->post('customer_id');
 				$original_customer_id = $this->input->post('original_customer_id');
 					
@@ -422,6 +436,15 @@ class Jobs extends CI_Controller {
 				$this->job_model->update_job($job_id,$jobdata);
 				$this->load->model('account_model');
 				$transaction_data['amount'] = $jobdata['total'];
+				
+				// Update JOB Bill settings
+				$isBillNumber = getBillStatus($job_id);	
+				if(isset($isBillNumber) && strlen($isBillNumber) > 2)
+				{
+					clearUserTransactionsByJobId($job_id);
+					jobSettleAmount($job_id, $jobdata['subtotal']);
+					addBillToJobClearDueAmount($job_id, $jobBill->bill_number);
+				}
 				
 				//Update Total - Transaction
 				$tcondition = array('job_id'=>$job_id,'t_type'=>DEBIT);
@@ -462,6 +485,26 @@ class Jobs extends CI_Controller {
 					}
 				}
 			}
+			
+			if($this->input->post('remindMe') == 1 )
+			{
+				$jobInfo 		= $this->job_model->getJobById($job_id);
+				$customerName 	= isset($jobInfo->companyname) ? $jobInfo->companyname : $jobInfo->name;
+				
+				$sdata['title'] = $this->input->post('jobname');
+				$sdata['description'] = '<span style="color: red; font-size: 18px;">PLEASE DELIVER JOB ! </span> <br> <span style="font-size: 18px;"> Customer Name : <strong>' . $customerName . ' </strong> - Est Id<strong> - '. $job_id . '</strong></span>' ;
+				$sdata['reminder_time'] = $this->input->post('reminder_time');
+				$sdata['user_for'] = $this->session->userdata['user_id'];
+				$sdata['is_sms'] = 1;
+				$sdata['status'] = 0;
+				$sdata['user_creator'] = $this->session->userdata['user_id'];
+				$this->load->model('task_model');
+				$this->task_model->save_scheduler($sdata);
+			}
+			
+			
+			
+			
 			redirect("jobs/job_print/".$job_id,'refresh');	
 			}
 			$data['all_customers'] = $this->job_model->get_all_customers();

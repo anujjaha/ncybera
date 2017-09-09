@@ -33,6 +33,11 @@
 		</tr>
 		<tr>
 			<td>5.</td>
+			<td>Flex</td>
+			<td><?php echo $dept->dflex;?></td>
+		</tr>
+		<tr>
+			<td>5.</td>
 			<td>Cutting</td>
 			<td><?php echo $dept->dcutting;?></td>
 		</tr>

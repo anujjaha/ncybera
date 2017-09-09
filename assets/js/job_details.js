@@ -7,6 +7,15 @@ function check_total(id) {
 		result = jQuery("#sub_"+id).val() / jQuery("#qty_"+id).val();
 		jQuery("#rate_"+id).val(result);
 	}
+	
+	if(id == 1 && jQuery("#is_outside").val() == 1)
+	{
+		jQuery("#category_2").val('Packaging and Forwading');
+		jQuery("#details_2").val('Packaging and Forwading');
+		jQuery("#qty_2").val('1');
+		jQuery("#rate_2").val('50');
+		jQuery("#sub_2").val('50');
+	}
 }
 
 function calc_subtotal() {
@@ -24,8 +33,8 @@ function calc_tax() {
 	var tax_f,tax_l=0;
 	if (document.getElementById('cb_checkbox').checked) {
 		
-		tax_f = 0;//Math.round( (jQuery("#subtotal").val() * 9 ) / 100);
-		tax_l = Math.round( (jQuery("#subtotal").val() * 18 ) / 100);
+		tax_f = 0; //Math.round( (jQuery("#subtotal").val() * 9 ) / 100);
+		tax_l = 0; //Math.round( (jQuery("#subtotal").val() * 18 ) / 100);
 		tax_amount = parseFloat(tax_f) + parseFloat(tax_l);
 		jQuery("#tax").val(tax_amount);
 	} else {

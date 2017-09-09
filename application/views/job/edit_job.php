@@ -379,7 +379,7 @@ $modified_by = $this->session->userdata['user_id'];
 		</td>
 		<td><input type="text" id="subtotal" name="subtotal"  onblur="calc_subtotal()" value="<?php if(!empty($job_data->subtotal)) { echo $job_data->subtotal; }?>"></td>
 	</tr>
-	<tr>
+	<tr style="display: none;">
 		<td align="right">
 			Tax :
 		</td>
@@ -403,7 +403,7 @@ $modified_by = $this->session->userdata['user_id'];
 		</td>
 	</tr>
 	<tr>
-		<td colspan="6" align="right">
+		<td align="right">
 			Due :
 		</td>
 		<td><input type="text" id="due" value="<?php if(!empty($job_data->due)) { echo $job_data->due; }?>" name="due" onfocus="calc_due()"></td>
@@ -441,6 +441,29 @@ $modified_by = $this->session->userdata['user_id'];
 		
 	</div>
 </div>
+
+<table align="center">		
+	<tr>		
+		<td> Remind Me : </td>		
+		<td>		
+		<select name="remindMe" id="remindMe" onchange="showRemindContainer()">		
+			<option value="0">No</option>		
+			<option value="1">Yes</option>		
+		</select>		
+		</td>		
+	</tr>		
+			
+	<tr id="remindContainer" style="display: none;">		
+	<td>		
+			Reminder Time :		
+	</td>		
+	<td>		
+			<input type="text" name="reminder_time"  id="sc_reminder_time" value="<?php echo date('Y/m/d H:i', strtotime('now +1 hour'));?>"  class="form-control datepicker" required="required">		
+		</td>		
+	</tr>		
+</table>		
+
+
 </form>
 
 
@@ -519,3 +542,18 @@ $modified_by = $this->session->userdata['user_id'];
         </div>
     </div>
 </div>
+
+<script>
+function showRemindContainer()		
+{		
+	var value = jQuery("#remindMe").val();		
+	if(value == 1)		
+	{		
+		jQuery("#remindContainer").show();		
+	}		
+	else		
+	{		
+		jQuery("#remindContainer").hide();		
+	}		
+}
+</script>

@@ -1,3 +1,29 @@
+<?php
+/*
+$html = '<table align="center" border="2" style="border: solid 2px black;">
+				<tr>
+					<td style="border: solid 2px;"> Customer Id </td>
+					<td style="border: solid 2px;"> Dealer Code </td>
+					<td style="border: solid 2px;"> Company Name </td>
+					<td style="border: solid 2px;"> Name </td>
+					<td style="border: solid 2px;"> Mobile </td>
+				</tr>';
+			$sr = 1;
+		foreach($customers as $customer)
+		{
+			$html .= '<tr>
+						<td style="border: solid 2px;"> '.$customer->id.' </td>
+						<td style="border: solid 2px;"> '. $customer->dealercode .' </td>
+						<td style="border: solid 2px;"> '. $customer->companyname .' </td>
+						<td style="border: solid 2px;"> '. $customer->name .' </td>
+						<td style="border: solid 2px;"> '. $customer->mobile  .' </td>
+					</tr>';
+		}
+		$html .= '</table>';
+echo create_pdf($html);
+die;*/
+?>
+
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 
 <div class="box">

@@ -162,7 +162,7 @@ class Ajax extends CI_Controller {
 			$quote_data['mobile'] = $mobile = $sms_mobile;
 			$quote_data['user_id'] = $user_id =  $this->session->userdata['user_id'];
 			$quote_id = $this->estimationsms_model->insert_estimation($quote_data);
-			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." 18% GST Extra.Quote No. ".$quote_id." valid for 7 days.";
+			$sms_text = "Dear ".$sms_customer_name.", ".$sms_message." GST Extra.Quote No. ".$quote_id." valid for 7 days.";
 			send_sms($user_id,$customer_id,$mobile,$sms_text,$prospect_id);
 			sendCorePHPMail('cybera.printart@gmail.com', 'cybera.printart@gmail.com', 'Cybera Estimation - ' .$sms_customer_name, $sms_text);
 			
@@ -356,6 +356,18 @@ class Ajax extends CI_Controller {
 		$this->load->model('user_model');
 		$data['jobdata'] = $this->user_model->get_old_job($id);
 		$this->load->view('ajax/view_old_job',$data);
+	}
+	
+	public function get_customer_due_with_outside($user_id=null) {
+		if($user_id) {
+			
+			echo json_encode(array(
+				'balance' 		=> round(get_balance($user_id)),
+				'outsideStatus' => getCustomerOutside($user_id)
+			));
+			die;
+		}
+		return false;
 	}
 	
 	public function get_customer_due($user_id=null) {
@@ -682,6 +694,7 @@ class Ajax extends CI_Controller {
 			$jobDetails 		= $this->job_model->get_job_details($jobId);
 			$customerDetails 	= $this->job_model->get_customer_details($jobData->customer_id);
 			$cutting_info 		= $this->job_model->get_cutting_details($jobId);
+			$created_info 		= get_user_by_param('id', $jobData->user_id);
 			
 			$pcontent = "";
 			$sr=0;
@@ -692,12 +705,16 @@ class Ajax extends CI_Controller {
 			$cuttingBlock = $cornerBlock = $laserBlock = $laminationBlock = $bindingBlock = '';
 			$pcontent .= '<table align="center" width="90%" align="center" style="border:1px solid;">
 						<tr>
-							<td style="font-size: 16px;" align="left" width="70%">Customer Name : '.$customerDetails->companyname.'</td>
-							<td style="font-size: 16px;" align="right">Date : '.$jobData->jdate.'</td>
+							<td style="font-size: 15px;" align="left" width="50%">Customer Name : '.$customerDetails->companyname.'</td>
+							<td style="font-size: 15px;" align="right" width="50%">Date : '. date('d-m-Y H:i A', strtotime($jobData->created)).'</td>
 						</tr>
 						<tr>
 							<td style="font-size: 14px;" align="left">Job Name : <strong>'.$jobData->jobname.'</strong></td>
 							<td style="font-size: 14px;" align="right">Job Num : <strong>'.$jobData->id.'</strong></td>
+						</tr>
+						<tr>
+							<td colspan="2" style="font-size: 12px;" align="center">Created By : <strong>'. strtoupper( $created_info->nickname ).'</strong></td>
+							
 						</tr></table>';
 
 			$pcontent .='<table align="center" border="2" width="90%" style="border:1px solid;"><tr>';

@@ -98,9 +98,9 @@ class Customer extends CI_Controller {
 			$data['city'] = $this->input->post('city');
 			$data['state'] = $this->input->post('state');
 			$data['pin'] = $this->input->post('pin');
+			$data['outside'] = $this->input->post('outside');
 			$customer_id = $this->input->post('customer_id');
 			$transporter_id = $this->input->post('transporter_id');
-			
 			if($customer_id) {
 				$this->customer_model->update_customer($customer_id,$data);
 			} else {

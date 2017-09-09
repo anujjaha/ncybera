@@ -74,11 +74,15 @@ $(document).ready(function() {
 function show_due(userid) {
 	$.ajax({
 		 type: "POST",
-		 url: "<?php echo site_url();?>/ajax/get_customer_due/"+userid, 
+		 url: "<?php echo site_url();?>/ajax/get_customer_due_with_outside/"+userid, 
+		 dataType: 'JSON',
 		 success: 
-			function(data){
-				if(data.length > 0 ){ 
-					jQuery("#show_balance").html("Due : "+data);
+			function(data)
+			{
+				if(data)
+				{ 
+					jQuery("#show_balance").html("Due : "+data.balance);
+					jQuery("#is_outside").val(data.outsideStatus);
 				} else {
 					jQuery("#show_balance").html("");
 				}
@@ -268,11 +272,11 @@ function calculate_paper_cost(){
 function check_form() {
 	if(jQuery("#confirmation").val().length > 0 ) {
 		
-		var status = confirm("Do You want to Create Bill ?");
+		/*var status = confirm("Do You want to Create Bill ?");
 		if(status) {
 			jQuery("#subtotal").focus();
 			return false;
-		}
+		}*/
 		
 		return true;
 	}
@@ -476,10 +480,46 @@ $this->load->helper('general'); ?>
                             </div>
                     </div>
 					
-					<div class="col-md-12 text-center">
+					<div class="col-md-6">
+						<!-- text input -->
+						<div class="form-group">
+							<label>Address Line 1</label>
+							<input type="text" class="form-control" name="add1" value="<?php if(!empty($dealer_info->add1)){echo $dealer_info->add1;}?>" placeholder="Address">
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Address Line 2</label>
+							<input type="text" class="form-control" name="add2" value="<?php if(!empty($dealer_info->add2)){echo $dealer_info->add2;}?>" placeholder="Address">
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>City</label>
+							<input type="text" class="form-control" name="city" value="<?php if(!empty($dealer_info->city)){echo $dealer_info->city;}else{ echo"Ahmedabad";}?>" placeholder="City">
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>State</label>
+							<input type="text" class="form-control" name="state" value="<?php if(!empty($dealer_info->state)){echo $dealer_info->state;}else { echo "Gujarat";}?>" placeholder="State">
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Pin</label>
+							<input type="text" class="form-control" name="pin" value="<?php if(!empty($dealer_info->pin)){echo $dealer_info->pin;}?>" placeholder="Pincode">
+						</div>
+					</div>
+					<div class="col-md-6 text-center">
 							<div class="form-group">
 								<label><input type="radio" checked="checked" name="customerType" value="NewCustomer">Customer</label>
 								<label><input type="radio" name="customerType" value="NewDealer">Dealer</label>
+								<label><input type="radio" name="customerType" value="NewVoucher">Voucher</label>
 							</div>
 					</div>
             </div>
@@ -600,7 +640,7 @@ $this->load->helper('general'); ?>
         <td><input type="text" id="subtotal"
                        name="subtotal" required="required" onblur="calc_subtotal()" style="width: 80px;"></td>
 	</tr>
-	<tr>
+	<tr style="display: none;">
             <td align="right">
                     Tax :
             </td>
@@ -653,6 +693,7 @@ $this->load->helper('general'); ?>
 	</tr>		
 </table>		
 
+<input type="hidden" name="is_outside" id="is_outside" value="0">
 </form>
 
 <div id="fancy_box_cutting" style="width:800px;display: none;">
@@ -674,8 +715,8 @@ $this->load->helper('general'); ?>
             <tr id="popup_machine">
                 <td align="right" width="50%">Machine:</td>
                 <td  width="50%">
-                    <label><input type="radio" id="machine" name="machine" value="1">1</label>
-                    <label><input type="radio"  checked="checked" id="machine" name="machine" value="2">2</label>
+                    <label><input type="radio"  checked="checked" id="machine" name="machine" value="1">1</label>
+                    <label><input type="radio"  id="machine" name="machine" value="2">2</label>
                     <label><input type="radio" id="machine" name="machine" value="Xrox">Xrox</label>
                 </td>
             </tr>

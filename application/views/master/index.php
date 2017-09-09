@@ -43,6 +43,7 @@ function direct_verify_job(id) {
 		<th>Due</th>
 		<th>Receipt</th>
 		<th>Bill Number</th>
+		<th>Pay Ref</th>
 		<th>Date / Time</th>
 		<th>View</th>
 		<th>Verify</th>
@@ -74,6 +75,7 @@ function direct_verify_job(id) {
 		echo str_replace(","," ", $job['t_reciept']);
 		 echo $job['receipt'];?></td>
 		<td><?php echo $job['bill_number'];?></td>
+		<td><?php echo $job['other_pay_ref'];?></td>
 		<td><?php echo date('d-m-Y',strtotime($job['created']))
 						." - ".
 						date('h:i A',strtotime($job['created']));?>

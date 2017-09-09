@@ -1,7 +1,7 @@
 <?php
 if(strtolower($this->session->userdata['department']) == "master")
 {
-	redirect('master/dealercustomerunverify', 'refresh');
+	redirect('master/unverifyjobs', 'refresh');
 	die;
 }
 ?>
@@ -63,17 +63,12 @@ if(strtolower($this->session->userdata['department']) == "master")
 		</td>
 		<td><?php echo $job['total'];?></td>
 		<td><?php
-			$user_bal = get_balance($job['customer_id']) ;
-			if($user_bal > 0 ) { 
-				$due_amt = $job['due'] - $job['discount'];
-				echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>0</span>";	
-				
-			} else {
-				echo "-";
-			}
-			
-			echo "<br>";
-				echo "----------";
+		
+			if(getBillStatus($job['job_id']))
+			{
+				echo '-';
+				echo "<br>";
+				echo "-------";
 				echo "<br>";
 				
 				$userBalance =  get_acc_balance($job['customer_id']);
@@ -85,7 +80,35 @@ if(strtolower($this->session->userdata['department']) == "master")
 				{
 					echo "<span style='color:red;font-weight:bold;'>".$userBalance."</span>";	
 				}
+			}
+			else
+			{
 				
+				$user_bal = get_balance($job['customer_id']) ;
+				if($user_bal > 0 ) { 
+					
+					
+					$due_amt = $job['due'] - $job['discount'];
+					echo $due_amt?$due_amt:"<span style='color:green;font-weight:bold;'>0</span>";	
+					
+				} else {
+					echo "-";
+				}
+				
+					echo "<br>";
+					echo "----------";
+					echo "<br>";
+					
+					$userBalance =  get_acc_balance($job['customer_id']);
+					if($userBalance > 0 )
+					{
+						echo "<span style='color:green;font-weight:bold;'>".$userBalance."</span>";	
+					}
+					else
+					{
+						echo "<span style='color:red;font-weight:bold;'>".$userBalance."</span>";	
+					}
+				}	
 				?>
 		 </td>
 		<td>
@@ -176,23 +199,42 @@ function show_job_details(job_id){
             }
           });
 }
-function update_job_status(id) {
+function update_job_status(id, defaultstatus) {
+	
+	var setDefault = false;
+	
+	if(defaultstatus)
+	{
+		setDefault = true;
+	}
 	var value = $( "input:radio[name=jstatus]:checked" ).val();
 	var send_sms = $( "input:radio[name=send_sms]:checked" ).val();
+	var is_delivered = $( "input:radio[name=is_delivered]:checked" ).val();
 	var bill_number = $( "#bill_number").val();
 	var voucher_number = $( "#voucher_number").val();
 	var receipt = $( "#receipt").val();
 	
 	jQuery("#saveJobStatusBtn").attr('disabled', true);
 	
+	if(jQuery("#jobStatusTbl") && setDefault == false)
+	{
+		alert('Job Status Updated');
+		jQuery("#jobStatusTbl").hide();
+	}
+	
 	$.ajax({
          type: "POST",
          url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
-         data:{"j_id":id,"j_status":value,"send_sms" : send_sms,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
+         data:{"j_id":id, "is_delivered": is_delivered,"j_status":value,"send_sms" : send_sms,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
          success: 
               function(data){
-							$.fancybox.close();
+				  console.log(data);
+				  if(setDefault)
+				  {
+					  $.fancybox.close();
                             location.reload();
+				  }
+							
 			 }
           });
 }
@@ -223,6 +265,20 @@ function save_shipping(jid) {
 		alert("Courier Name is missig !");
 	}
 }
+
+jQuery(document).on('click', ".fancybox-close", function()
+{
+	location.reload();
+});
+
+$(document).keyup(function(e) 
+{
+     if (e.keyCode == 27)
+     {
+		 location.reload();
+    }
+});
+
 </script>
 <div id="view_job_status" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">

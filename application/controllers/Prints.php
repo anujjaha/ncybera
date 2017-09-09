@@ -33,6 +33,7 @@ class Prints extends CI_Controller {
             if(! $job_id) {
                 return false;
             }
+           
 			$this->load->model('job_model');
             $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
             $flag = false;
@@ -49,6 +50,12 @@ class Prints extends CI_Controller {
 				$flag = true;
 			}
 			if($flag) {
+				$jdata['is_delivered'] = $this->input->post('is_delivered');
+				$this->job_model->update_job($job_id,$jdata);
+			}
+			else
+			{
+				$jdata['is_delivered'] = $this->input->post('is_delivered');
 				$this->job_model->update_job($job_id,$jdata);
 			}
 			

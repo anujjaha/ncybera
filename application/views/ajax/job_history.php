@@ -65,13 +65,22 @@
 		</table>
     </div>
 </div>
+
+<div class="row">
+	<div class="col-md-12">
+	<center>
+		<label><input type="radio" id="is_delivered" <?php if($job_data->is_delivered == 1) echo 'checked="checked"';?> name="is_delivered" value="1">Mark Delivered</label>
+		<label><input type="radio" id="is_delivered"  <?php if($job_data->is_delivered == 0) echo 'checked="checked"';?> name="is_delivered" value="0">Un Delivered</label>
+		<br>
+	</center>
+</div>
 <div class="row">
 	<div class="col-md-12">
 	<center>
 		<label><input type="radio" id="send_sms" name="send_sms" value="Yes">Send SMS</label>
 		<label><input type="radio" id="send_sms" name="send_sms" checked="checked" value="No">No</label>
 		<br>
-		<button id="saveJobStatusBtn" class="btn btn-success btn-lg text-center"  onclick="update_job_status(<?php echo $job_data->id;?>)">Save Job</button>
+		<button id="saveJobStatusBtn" class="btn btn-success btn-lg text-center"  onclick="update_job_status(<?php echo $job_data->id;?>, 1)">Save Job</button>
 		</center>
 </div>
 <hr>

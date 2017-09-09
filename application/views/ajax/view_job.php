@@ -28,9 +28,10 @@ function pay_job(id) {
 			},
 			success: 
 				function(data){
-					$.fancybox.close();
+					alert('Payment Added Successfully');
+					/*$.fancybox.close();
 					location.reload();
-					jQuery("#payBtn").show();
+					jQuery("#payBtn").show();*/
 			 }
           });
     }
@@ -226,6 +227,60 @@ if(strlen($job_data->bill_number) < 2)
 	</tr>
 </table>
 <?php } ?>
+
+
+<hr>
+<div class="col-md-12">
+		   <table id="jobStatusTbl" align="center" border="0" width="100%">
+			<tr>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_PENDING){ echo "checked='checked'"; };?> name="jstatus" value="Pending">
+						<?php echo JOB_PENDING;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_EDIT){ echo "checked='checked'"; };?> name="jstatus" value="Edited">
+						<?php echo JOB_EDIT;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_HOLD){ echo "checked='checked'"; };?> name="jstatus" value="Hold">
+						<?php echo JOB_HOLD;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_COMPLETE){ echo "checked='checked'"; };?> name="jstatus" value="<?php echo JOB_COMPLETE;?>">
+						<?php echo JOB_COMPLETE;?>
+						</label>
+				</td>
+				<td> 
+					<label>
+						<input type="radio" <?php if($job_data->jstatus == JOB_CLOSE){ echo "checked='checked'"; };?> name="jstatus" value="<?php echo JOB_CLOSE;?>">
+						<?php echo JOB_CLOSE;?>
+						</label>
+				</td>
+				<td>
+					<label><input type="radio" id="is_delivered" <?php if($job_data->is_delivered == 1) echo 'checked="checked"';?> name="is_delivered" value="1">Mark Delivered</label>
+					<br>
+					<label><input type="radio" id="is_delivered"  <?php if($job_data->is_delivered == 0) echo 'checked="checked"';?> name="is_delivered" value="0">Un Delivered</label>
+				</td>
+				<td>
+						<center>
+						<label><input type="radio" id="send_sms" name="send_sms" value="Yes">Send SMS</label>
+						<label><input type="radio" id="send_sms" name="send_sms" checked="checked" value="No">No</label>
+						<br>
+						<button id="saveJobStatusBtn" class="btn btn-success btn-sm text-center"  onclick="update_job_status(<?php echo $job_data->id;?>)">Save Job</button>
+						</center>
+				</td>
+			</tr>
+		</table>
+    </div>
+</div>
+
 <hr>
 <center>
 	<a target="_blank" id="copyJobFunction" onclick="copyJobFunction();" href="<?php echo site_url();?>/jobs/copyjob/<?php echo $job_data->id;?>" class="btn btn-primary">Copy Job</a>

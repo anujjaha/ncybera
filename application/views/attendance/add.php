@@ -25,7 +25,8 @@
 				</select>
 				
 				<select name="month" style="width: 50%;"  class="form-control">
-					<option> January </option>
+					<?php
+					/*<option> January </option>
 					<option> February </option>
 					<option> March </option>
 					<option> April </option>
@@ -36,10 +37,9 @@
 					<option> September </option>
 					<option> Octomber </option>
 					<option> November </option>
-					<option> December </option>
-					<?php
-					/*<option><?php echo date('F', strtotime('Last Month'));?></option>
-					<option><?php echo date('F');?></option>*/?>
+					<option> December </option> */?>
+					<option><?php echo date('F', strtotime('Last Month'));?></option>
+					<option><?php echo date('F');?></option>
 				</select>
 			</p>
 		</tr>
