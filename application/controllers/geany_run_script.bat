@@ -1,4 +1,4 @@
-php "Jobs.php"
+php "Ajax.php"
 
 pause
 del "%0"

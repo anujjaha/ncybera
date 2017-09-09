@@ -1,4 +1,5 @@
 <link href="<?php echo base_url('assets/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+
 <script>
 function show_add_amount() {
 	jQuery("#add_amount").toggle("slide");
@@ -155,6 +156,7 @@ function fill_discount_account() {
 	<div class="box-header">
 		<span>
 		<button class="btn btn-success btn-sm text-center" onclick="show_add_amount()">Add Amount</button>
+		<button class="btn btn-success btn-sm text-center" onclick="createBills()">Create Bills</button>
 		</span>
 	</div>
 	<div class="box-body table-responsive" id="add_amount" style="display:none;">
@@ -432,7 +434,108 @@ function fill_discount_account() {
                 });
             });
         </script>
+<script>
+function createBills()
+{
+	var customer_id = $("#customer_id").val();
+	
+	jQuery.ajax(
+	{
+		url: "<?php echo site_url();?>/ajax/getJobsWithoutBill/" + customer_id,
+		method: 'GET',
+		dataType: 'JSON',
+		success: function(data)
+		{
+			if(data.status == true)
+			{
+				var appendHtml 	= '',
+					jobs 		= data.jobs;
+					
+				for(var i = 0; i < jobs.length; i++)
+				{
+					appendHtml += '<tr>';
+						
+						appendHtml += '<td><label><input class="job-check-box" value="'+jobs[i].id+'" type="checkbox" name="job-'+jobs[i].id+'" id="job-'+jobs[i].id+'"> '+ jobs[i].id +' </label></td>';
+						
+						appendHtml += '<td>' + jobs[i].jobname + '</td>';
+						
+						appendHtml += '<td>' + jobs[i].total + '</td>';
+						
+						appendHtml += '<td>' + jobs[i].created + '</td>';
+						
+					appendHtml += '</tr>';
+				}
+				
+				jQuery("#jobRecords").append(appendHtml);
+			}
+			
+		},
+		error: function(data)
+		{
+			console.log(data);
+		}	
+	});
+	
+	jQuery("#general_bill_number").val('');
+	$("#billModalPopup").modal('show');
 
+}
+
+function setBillToSelectedJobs()
+{
+	var selectedJobs = [];
+	
+	jQuery('input[type=checkbox]:checked').each(function(item)
+	{                                        
+		selectedJobs.push(jQuery(this).val());
+	});
+	
+	if(selectedJobs.length > 0 && jQuery("#general_bill_number").val().length > 0 )
+	{
+		var confirmBox = confirm('Do you want to lock Bills for Selected Jobs');
+	
+		if(confirmBox)
+		{
+			console.log(jQuery("#general_bill_number").val());
+			console.log(selectedJobs);
+			alert("Go Ahed");
+			
+			jQuery.ajax(
+			{
+				url: "<?php echo site_url();?>/ajax/setBillForSelectedJobs",
+				method: 'POST',
+				dataType: 'JSON',
+				data: {
+					jobIds: selectedJobs,
+					customerId: jQuery("#customer_id").val(),
+					billNumber: jQuery("#general_bill_number").val()
+				},
+				success: function(data)
+				{
+					if(data.status == true)
+					{
+-						alert("Total "+ data.process + " Job Processed Successfully !");
+						$("#billModalPopup").modal('hide');
+						window.location.reload();
+					}
+				},
+				error: function(data)
+				{
+					alert("Something Went Wrong ! Error Found");
+				}
+			});
+		}
+		
+		return false;
+	}
+	else
+	{
+		alert("Please Select Jobs or Provide Valid Bill Number");
+		return false;
+	}
+	
+}
+</script>
 <div id="view_job_details" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">
     <div id="job_view"></div>
@@ -440,3 +543,42 @@ function fill_discount_account() {
 </div>
 
 	
+
+
+<!-- MOdal BOx for Bills -->
+
+<div id="billModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Bills</h4>
+      </div>
+      <div class="modal-body">
+		<table id="jobRecords" class="table">
+			<tr>
+				<td> Job Id </td>
+				<td> Job Name </td>
+				<td> Total </td>
+				<td> Date/Time </td>
+			</tr>
+		</table>
+      </div>
+      <div class="modal-footer">
+		<div class="text-center">
+			<div class="col-md-6">
+				Add Bill Number : 
+			</div>
+			<div class="col-md-6">
+				<input type="text" id="general_bill_number" name="general_bill_number" class="form-control">
+			</div>
+		</div>
+        <button type="button" class="btn btn-primary" onclick="setBillToSelectedJobs()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -7,7 +7,7 @@
 	<table class="table" border="1" width="100%">
 		<tr>
 			<td align="right"> <label>Open Balance : </label></td>
-			<td> <input type="number" min="0" name="open_balance" value="0" required="required" class="form-control"> </td>
+			<td> <input type="number" min="0" name="open_balance" value="<?php echo $record->close_balance;?>" required="required" class="form-control"> </td>
 		</tr>
 		<tr>
 			<td align="right"> <label>Total : </label></td>

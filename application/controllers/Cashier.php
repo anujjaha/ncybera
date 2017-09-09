@@ -25,7 +25,7 @@ class Cashier extends CI_Controller {
 	 */
 	public function index()
 	{
-		echo addDueEmailToday();
+		//echo addDueEmailToday();
 		$data = array();
 		$data['items'] = $this->cashier_model->getAllCashier();
 		$data['heading'] = $data['title']="Cashier - Cybera Print Art";
@@ -49,6 +49,8 @@ class Cashier extends CI_Controller {
 			
 			redirect('cashier', "refresh");
 		}
+		
+		$data['record'] =$this->cashier_model->getLastRecord();
 		
 		$this->template->load('cashier', 'add', $data);
 	}

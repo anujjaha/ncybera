@@ -989,6 +989,87 @@ class Ajax extends CI_Controller {
 		die;
 		}
 	}
+		
+		
+	public function getJobsWithoutBill($customerId = null)
+	{
+			if($customerId)
+			{
+				$this->load->model('job_model');
+				$jobs = $this->job_model->getJobsWithoutBill($customerId);
+				
+				if($jobs)
+				{
+					echo json_encode(array(
+						'status' 	=> true,
+						'jobs' 		=> $jobs
+					));
+					
+					die;
+				}
+			}
+			
+			echo json_encode(array(
+				'status' => false
+			));
+			die;
+	}
+	
+	public function setBillForSelectedJobs()
+	{
+		if($this->input->post())
+		{
+			$jobIds = $this->input->post('jobIds');
+			$billNumber = $this->input->post('billNumber');
+			$customerId = $this->input->post('customerId');
+			$this->load->model('job_model');
+			
+			$sr = 0;
+			foreach($jobIds as $jobId)
+			{
+				$jobData = array(
+					'bill_number' => $billNumber
+				);
+				$this->job_model->update_job($jobId, $jobData);
+				addBillToJobClearDueAmount($jobId, $billNumber);
+				$sr++;
+			}
+			
+			echo json_encode(array(
+					'status' 	=> true,
+					'process' 	=> $sr
+			));
+			die;
+		}
+		
+		echo json_encode(array(
+				'status' => false
+			));
+			die;
+	}
+	
+	public function delieveredJobSuccess()
+	{
+		if($this->input->post())
+		{
+			$jobId = $this->input->post('jobId');
+			$this->load->model('job_model');
+			$jobData = array(
+				'is_delivered' => 1
+			);
+			$this->job_model->update_job($jobId, $jobData);
+			
+			echo json_encode(array(
+				'status' => true
+			));
+			die;
+		}
+		
+		echo json_encode(array(
+				'status' => false
+			));
+			die;
+	}
 	
 	public function ajax_add_discount($jobId = null)
 	{

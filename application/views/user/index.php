@@ -124,8 +124,19 @@ if(strtolower($this->session->userdata['department']) == "master")
 				} else {
 					echo "<span class='red'>".$job['jstatus']."</span>";
 				}
+				
+				echo "</a><br>";
+				
+				if($job['is_delivered'] == 0 )
+				{
+					echo  '<span id="jobd-'.$job['job_id'].'"><a href="javascript:void(0);" onclick="setDelievered(' .$job['job_id']. ')">Un-Delievered</a></span>';
+				}
+				else
+				{
+					 echo " ( Delivered )";
+				}
 				?>
-			</a>
+			
 		</td>
 		<td><?php echo $job['smscount'];?></td>
 		<td width="85px;"><a class="fancybox"  onclick="show_job_details(<?php echo $job['job_id'];?>);" href="#view_job_details">View</a>
@@ -279,6 +290,30 @@ $(document).keyup(function(e)
     }
 });
 
+
+function setDelievered(jobId)
+{
+	jQuery.ajax(
+	{
+		url: "<?php echo site_url();?>/ajax/delieveredJobSuccess",
+		method: 'POST',
+		dataType: 'JSON',
+		data: {
+			jobId: jobId
+		},
+		success: function(data)
+		{
+			if(data.status == true)
+			{
+				jQuery("#jobd-"+jobId).html("( Delivered )");
+			}
+		},
+		error: function(data)
+		{
+			alert("Something Went Wrong !");
+		}
+	});
+}
 </script>
 <div id="view_job_status" style="width:900px;display: none;margin-top:-75px;">
 <div style="width: 900px; margin: 0 auto; padding: 120px 0 40px;">

@@ -434,6 +434,19 @@ class Job_model extends CI_Model {
 		
 		return $query->result_array(); 
 	}
+	
+	public function getJobsWithoutBill($customerId = null)
+	{
+		
+		$this->db->select('*')
+				->from($this->table)
+				->where('customer_id', $customerId)
+				->where('bill_number !=',  '')
+				->order_by('id');
+		$query = $this->db->get();
+		
+		return $query->result_array();
+	}
 }
 
 

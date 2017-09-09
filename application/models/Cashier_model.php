@@ -18,6 +18,16 @@ class Cashier_model extends CI_Model
 		return $query->result_array();
 	}
 	
+	public function getLastRecord() 
+    {
+		$this->db->select('*')
+				->from($this->table)
+				->order_by('id', 'DESC')
+				->limit(1);
+				
+		return $this->db->get()->row();
+	}
+	
 	public function createCashier($data=array())
 	{
 		if(is_array($data) && count($data))
