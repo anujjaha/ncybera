@@ -43,8 +43,49 @@ function check_notifications()
 
 function show_notifications(data) {
 	jQuery("#notification_div").html(data);
+
+	$('.datepicker').datetimepicker({
+		dayOfWeekStart : 1,
+		lang:'en',
+		disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+		step:10
+	});  
+	
+
 	$.fancybox({
                 'href': '#notification_div'
+	});
+
+	jQuery("#setSnooze").on('click', function()
+	{
+		var reScheduleId = jQuery(this).attr('data-id');
+
+		if(reScheduleId != 0)
+		{
+			jQuery.ajax(
+			{
+	        	type: 		"POST",
+	        	dataType: 	'JSON',
+	         	url: 		"<?php echo site_url();?>/ajax/reschedule_timer/", 
+	         	data: {
+	         		id: reScheduleId,
+	         		value: jQuery("#re_reminder_time").val()
+	         	},
+	         success: 
+	            function(data)
+	            {
+	            	if(data.status == true)
+	            	{
+	            		alert("Reschedule Reminder To : "+jQuery("#re_reminder_time").val()+" Successfully Done.");
+						$.fancybox.close();
+
+						return;
+	            	}
+	            	alert("Reschedule Reminder To : "+jQuery("#re_reminder_time").val()+" Successfully Done.");
+	            	//alert("Something Went Wrong !");
+	            }
+	        });
+		}
 	});
 }
 </script>

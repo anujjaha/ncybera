@@ -377,7 +377,7 @@ $modified_by = $this->session->userdata['user_id'];
 		<td align="right">
 			Sub Total :
 		</td>
-		<td><input type="text" id="subtotal" name="subtotal"  onblur="calc_subtotal()" required="required"></td>
+		<td><input type="text" id="subtotal" name="subtotal"  onblur="calc_subtotal()" value="" required="required"></td>
 	</tr>
 	<tr style="display: none;">
 		<td align="right">

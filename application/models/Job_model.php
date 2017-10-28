@@ -437,15 +437,11 @@ class Job_model extends CI_Model {
 	
 	public function getJobsWithoutBill($customerId = null)
 	{
+		$sql = "SELECT * FROM job WHERE customer_id = ".$customerId." AND ( bill_number = '' OR bill_number = 0 ) order by id ";
+
+		$query = $this->db->query($sql);
 		
-		$this->db->select('*')
-				->from($this->table)
-				->where('customer_id', $customerId)
-				->where('bill_number !=',  '')
-				->order_by('id');
-		$query = $this->db->get();
-		
-		return $query->result_array();
+		return $query->result_array(); 
 	}
 }
 

@@ -13,7 +13,20 @@ function showRemindContainer()
 	}		
 }
 
-$(document).ready(function() {
+$(document).ready(function() 
+{
+	jQuery(document).on('click', '.show-offset-modal-box', function()
+	{
+		console.log(jQuery(this));
+		console.log();
+		
+		//jQuery("#offsetModalPopup").modal('show');
+		
+		//jQuery("#offset_job_id").val(jQuery(this).attr('data-id'));
+		
+			//alert('test');
+	});
+	
       $('.fancybox').fancybox({
 		'width':1000,
         'height':600,
@@ -324,7 +337,13 @@ function check_visiting_card(sr) {
 		}
 		if($("#category_"+sr).val() == "Offset Print") {
 			$("#details_"+sr).val("Offset Print");
+			$("#offsetjob-"+sr).show();
 		}
+		else
+		{
+			$("#offsetjob-"+sr).hide();
+		}
+		
 		if($("#category_"+sr).val() == "Visiting Card") {
 			$("#details_"+sr).val("Visiting Card");
 		}
@@ -614,6 +633,9 @@ $this->load->helper('general'); ?>
             </a>-->
 
             <input  type="text" id="details_<?php echo $i;?>" name="details_<?php echo $i;?>" style="width: 90%;">
+            
+            <span id="offsetjob-<?php echo $i;?>" data-sr="<?php echo $i;?>" data-id="0" class="show-offset-modal-box" style="display: none;"><i class="fa fa-check" aria-hidden="true"></i></span>
+            
             </td>
             
             <td><input type="text" id="qty_<?php echo $i;?>" name="qty_<?php echo $i;?>"  style="width: 60px;"></td>
@@ -930,6 +952,11 @@ jQuery(".setCuttingAuto").on('click', function()
 	 
 	 
 });
+
+function saveOffsetJob()
+{
+	
+}
 </script>
 <?php 
 for($i=1;$i<6;$i++) { ?>
@@ -956,3 +983,68 @@ for($i=1;$i<6;$i++) { ?>
     <input type="text" name="c_cornerdie_<?php echo $i;?>" id="c_cornerdie_<?php echo $i;?>">
 </div>
 <?php } ?>
+
+
+<!-- MOdal BOx for Bills -->
+<div id="offsetModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Offset</h4>
+      </div>
+      <div class="modal-body">
+			<div class="col-md-3">
+					Printing Paper : 
+			</div>
+			<div class="col-md-9">
+				<textarea name="off_printing_paper" id="off_printing_paper" class="form-control"></textarea>
+			</div>
+			
+			<br>
+			<div class="clearfix"></div>
+			
+			
+			<div class="col-md-3">
+				Printing : 
+			</div>
+			<div class="col-md-9">
+				<textarea name="off_printing" id="off_printing" class="form-control"></textarea>
+			</div>
+			
+			<br>
+			<div class="clearfix"></div>
+			
+			
+			<div class="col-md-3">
+				Binding : 
+			</div>
+			<div class="col-md-9">
+				<textarea name="off_printing_binding" id="off_printing_binding"  class="form-control"></textarea>
+			</div>
+			
+			<div class="col-md-3">
+				Numbering : 
+			</div>
+			<div class="col-md-9">
+				<textarea name="off_printing_numbering"  id="off_printing_numbering"  class="form-control"></textarea>
+			</div>
+			
+			<div class="col-md-3">
+				Delivery Time : 
+			</div>
+			<div class="col-md-9">
+				<textarea name="off_printing_timing" id="off_printing_timing"  class="form-control"></textarea>
+			</div>
+      </div>
+      <div class="modal-footer">
+		<input type="text" name="offset_job_id" id="offset_job_id">
+		  <button type="button" class="btn btn-primary" onclick="saveOffsetJob()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

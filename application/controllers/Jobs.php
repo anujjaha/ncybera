@@ -530,6 +530,24 @@ class Jobs extends CI_Controller {
 			$this->template->load('job', 'print_job', $data);
 		}
 	}
+
+  public function job_print_with($job_id=null) {
+    if($job_id) {
+      $this->load->model('job_model');
+      $job_data = $this->job_model->get_job_data($job_id);
+      $job_details = $this->job_model->get_job_details($job_id);
+      $customer_details = $this->job_model->get_customer_details($job_data->customer_id);
+      $data['customer_details']=$customer_details;
+      $data['job_details']=$job_details;
+      $data['job_data']=$job_data;
+      $data['title']='Print Job';
+      $data['heading']='Cybera Print View';
+      $data['cutting_info'] = $this->job_model->get_cutting_details($job_id);
+      $data['transporter_info'] = $this->customer_model->getTransporterDetailsByCustomerId($job_data->customer_id);
+      
+      $this->template->load('job', 'print_with_edit_job', $data);
+    }
+  }
         
         public function view_job($job_id) {
             if($job_id) {

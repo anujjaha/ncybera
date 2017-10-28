@@ -129,7 +129,7 @@ if(strtolower($this->session->userdata['department']) == "master")
 				
 				if($job['is_delivered'] == 0 )
 				{
-					echo  '<span id="jobd-'.$job['job_id'].'"><a href="javascript:void(0);" onclick="setDelievered(' .$job['job_id']. ')">Un-Delievered</a></span>';
+					echo  '<span id="jobd-'.$job['job_id'].'"><a href="javascript:void(0);" onclick="setDelievered(' .$job['job_id']. ')" class="red">Un-Delievered</a></span>';
 				}
 				else
 				{

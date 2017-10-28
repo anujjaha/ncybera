@@ -520,9 +520,214 @@ function print_cutting_pdf(id)
 }
 </script>
 <div id="editCuttingSlipLive">
+<center><h3> Updte Cutting Slip</h3></center>
 <?php
-//pr($cutting_info);
-	//	pr($job_data);
+$sr = 1;
+foreach($cutting_info as $cutting)
+{
 ?>
-		this is test
+<table align="center" width="100%" class="table-bordered own-address">
+<tr>
+		<td>Machine Info</td>
+		<td>
+			<label><input <?php if($cutting['c_machine'] == 1) echo 'checked="checked"'; ?> type="radio" value="1" name="c_machine_<?php echo $sr;?>">1</label>
+			<label><input <?php if($cutting['c_machine'] == 2) echo 'checked="checked"'; ?> type="radio" value="2" name="c_machine_<?php echo $sr;?>">2</label>
+			<label><input <?php if($cutting['c_machine'] == 'Xrox') echo 'checked="checked"'; ?> type="radio" value="Xrox" name="c_machine_<?php echo $sr;?>">Xrox</label>
+		</td>
+	</tr>
+	<tr>
+		<td>Size</td>
+		
+		<td>
+			<label><input  <?php if($cutting['c_size'] == 'A4') echo 'checked="checked"'; ?> type="radio" value="A4" name="c_size_<?php echo $sr;?>">A4</label>
+			<label><input  <?php if($cutting['c_size'] == 'A3') echo 'checked="checked"'; ?> type="radio" value="A3" name="c_size_<?php echo $sr;?>">A3</label>
+			<label><input  <?php if($cutting['c_size'] == '12X18') echo 'checked="checked"'; ?> type="radio" value="12X18" name="c_size_<?php echo $sr;?>">12X18</label>
+			<label><input  <?php if($cutting['c_size'] == '13X19') echo 'checked="checked"'; ?> type="radio" value="13X19" name="c_size_<?php echo $sr;?>">13X19</label>
+		
+				<br>
+
+			<input type="text" id="c_sizeinfo_<?php echo $sr;?>" name="c_sizeinfo_<?php echo $sr;?>" value="<?php echo $cutting['c_sizeinfo'];?>">
+		</td>
+	</tr>
+	<tr>
+		<td>Printing</td>
+
+		<td>
+			<label><input  <?php if($cutting['c_print'] == 'FB') echo 'checked="checked"'; ?> type="radio" value="FB" name="c_print_<?php echo $sr;?>">Front Back</label>
+			<label><input  <?php if($cutting['c_print'] == 'SS') echo 'checked="checked"'; ?> type="radio" value="SS" name="c_print_<?php echo $sr;?>">Single Side</label>
+		</td>
+	</tr>
+	<tr>
+		<td>Corner</td>	
+		<td>
+				<input type="text" id="c_corner_<?php echo $sr;?>" name="c_corner_<?php echo $sr;?>" value="<?php echo $cutting['c_corner'];?>">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Die
+		</td>
+		<td>
+				<input type="text" id="c_cornerdie_<?php echo $sr;?>" name="c_cornerdie_<?php echo $sr;?>" value="<?php echo $cutting['c_cornerdie'];?>">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Corner
+		</td>
+		<td>
+			<input type="text" id="c_rcorner_<?php echo $sr;?>" name="c_rcorner_<?php echo $sr;?>" value="<?php echo $cutting['c_rcorner'];?>">	
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Laser
+		</td>
+		<td>
+				<input type="text" id="c_laser_<?php echo $sr;?>" name="c_laser_<?php echo $sr;?>" value="<?php echo $cutting['c_laser'];?>">	
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Lamination
+		</td>
+		<td>
+			<label><input  <?php if($cutting['c_lamination'] == 'FB') echo 'checked="checked"'; ?> type="radio" value="FB" name="c_lamination_<?php echo $sr;?>">Front Back</label>
+			<label><input  <?php if($cutting['c_lamination'] == 'SS') echo 'checked="checked"'; ?> type="radio" value="SS" name="c_lamination_<?php echo $sr;?>">Single Side</label>	
+				<label><input  <?php if($cutting['c_lamination'] == 'NA') echo 'checked="checked"'; ?> type="radio" value="NA" name="c_lamination_<?php echo $sr;?>">NA</label>	
+				
+				<br>
+
+			<input type="text" id="c_laminationinfo_<?php echo $sr;?>" name="c_laminationinfo_<?php echo $sr;?>" value="<?php echo $cutting['c_laminationinfo'];?>">	
+
+		</td>
+	</tr>
+	<tr>
+		<td>
+				Binding
+		</td>
+		<td>
+				<label>
+					<input class="cb" <?php if(in_array('Creasing', explode(',', $cutting['c_binding']))) echo 'checked="checked"'; ?> type="checkbox" name="c_binding_<?php echo $sr;?>" value="Creasing"> Creasing
+				</label>
+
+				<label>
+					<input  class="cb" <?php if(in_array('Center Pin', explode(',', $cutting['c_binding']))) echo 'checked="checked"'; ?> type="checkbox" name="c_binding_<?php echo $sr;?>" value="Center Pin"> Center Pin
+				</label>
+				<label>
+					<input  class="cb" <?php if(in_array('Perfect Binding', explode(',', $cutting['c_binding']))) echo 'checked="checked"'; ?> type="checkbox" name="c_binding_<?php echo $sr;?>" value="Perfect Binding"> Perfect Binding
+				</label>
+				<label>
+					<input  class="cb" <?php if(in_array('Perforation', explode(',', $cutting['c_binding']))) echo 'checked="checked"'; ?> type="checkbox" name="c_binding_<?php echo $sr;?>" value="Perforation"> Perforation
+				</label>
+				<label>
+					<input  class="cb" <?php if(in_array('Folding', explode(',', $cutting['c_binding']))) echo 'checked="checked"'; ?> type="checkbox" name="c_binding_<?php echo $sr;?>" value="Folding"> Folding
+				</label>
+
+				<br><br>
+					Half Cutting:<input type="text" name="c_binding_info_<?php echo $sr;?>" id="c_binding_info_<?php echo $sr;?>" value="<?php echo $cutting['c_bindinginfo'];?>"> 
+				<br><br>
+					Half Cutting Blades:<input type="number" style="width: 80px;" name="c_blade_per_sheet_<?php echo $sr;?>" id="c_blade_per_sheet_<?php echo $sr;?>"  value="<?php echo $cutting['c_blade_per_sheet'];?>">
+		</td>
+	</tr>
+	<tr>
+		<td>
+				Notes
+		</td>
+		<td>
+				<textarea id="c_details_<?php echo $sr;?>" class="form-control" name="c_details_<?php echo $sr;?>"><?php echo $cutting['c_details'];?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+				<span class="btn btn-primary update-cutting" data-sr="<?php echo $sr;?>" data-id="<?php echo $cutting['id'];?>">Update </span>
+		</td>
+	</tr>
+</table>
+<hr>
+<?php
+$sr++;
+}
+?>
+
+
 </div>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function()
+	{
+		jQuery(".update-cutting").on('click', function()
+		{
+			updateCuttingDetails(this);
+		});
+	});
+
+
+function updateCuttingDetails(element)
+{
+	var dataId 		= jQuery(element).attr('data-sr'),
+		elementId 	= jQuery(element).attr('data-id');
+	
+
+	console.log(element);
+	console.log(dataId);
+
+
+
+    var machine 		= jQuery('input:radio[name=c_machine_'+dataId+']:checked').val(),
+    	size 			= jQuery('input:radio[name=c_size_'+dataId+']:checked').val(),
+    	sizeinfo 		= jQuery("#c_sizeinfo_"+dataId).val(),
+    	printing  		= jQuery('input:radio[name=c_print_'+dataId+']:checked').val(),
+    	corner 			= jQuery("#c_corner_"+dataId).val(),
+    	cornerDie 		= jQuery("#c_cornerdie_"+dataId).val(),
+    	roundcorner 	= jQuery("#c_rcorner_"+dataId).val(),
+    	laserCut 		= jQuery("#c_laser_"+dataId).val(),
+    	lamination 		= jQuery('input:radio[name=c_lamination_'+dataId+']:checked').val(),
+    	laminationDetail = jQuery("#c_laminationinfo_"+dataId).val(),
+    	binding 		= '',
+    	bindingInfo 	= jQuery("#c_binding_info_"+dataId).val(),
+    	bladePerSheet 	= jQuery("#c_blade_per_sheet_"+dataId).val(),
+    	details 		= jQuery("#c_details_"+dataId).val();
+
+  		binding = ""; 
+      var $boxes = $('input[name=c_binding_'+dataId+']:checked');
+      $boxes.each(function(){
+		  if($(this).val().length > 0 ) {
+			binding = $(this).val() + ","+binding;  
+		  }
+		});
+    
+    console.log(binding);
+
+    jQuery.ajax(
+    {
+    	type: 		"POST",
+		url: 		"<?php echo site_url();?>/ajax/update_cutting_slip/", 
+		data: {
+			'id': elementId,		
+			'machine': machine, 'size': size, 'sizeinfo': sizeinfo, 'printing': printing,
+			'corner': corner, 'cornerDie': cornerDie, 'roundcorner': roundcorner,
+			'laserCut': laserCut, 'lamination': lamination, 'laminationDetail': laminationDetail,
+			'binding': binding, 'bindingInfo': bindingInfo, 'bladePerSheet': bladePerSheet,
+			'details': details
+		},	
+		dataType: 	'JSON',
+		success: 
+			function(data)
+			{
+				if(data.status == true)
+				{
+					jQuery("html, body").animate(
+					{
+						scrollTop: 0 
+					}, "slow");
+					alert("Cutting Slip Updated Successfully. ");
+					return ;
+				}
+
+				alert("Something went wrong !");
+			}
+    });
+}
+</script>

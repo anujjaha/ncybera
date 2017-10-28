@@ -1112,5 +1112,79 @@ class Ajax extends CI_Controller {
 			));
 		die;
 	}
+
+	public function reschedule_timer()
+	{
+		if($this->input->post())
+		{
+			$id = $this->input->post('id');	
+			
+			$data = array(
+				'reminder_time' => $this->input->post('value'),
+				'status' 		=> 0
+			);
+			
+			$this->load->model('task_model');
+			$status = $this->task_model->update_schedule($id,$data);
+
+			if($status)
+			{
+				echo json_encode(array(
+					'status' => true
+				));
+			
+			die;	
+			}
+		}
+
+		echo json_encode(array(
+				'status' => false
+			));
+		die;	
+	}
+
+	public function update_cutting_slip()
+	{
+
+		if($this->input->post())
+		{
+			$cuttingId = $this->input->post('id');
+
+
+			$updateData = array(
+				'c_machine' 		=> $this->input->post('machine'),
+				'c_size' 			=> $this->input->post('size'),
+				'c_sizeinfo' 		=> $this->input->post('sizeinfo'),
+				'c_print' 			=> $this->input->post('printing'),
+				'c_corner'			=> $this->input->post('corner'),
+				'c_laser' 			=> $this->input->post('laserCut'),
+				'c_rcorner' 		=> $this->input->post('roundcorner'),
+				'c_cornerdie' 		=> $this->input->post('cornerDie'),
+				'c_details' 		=> $this->input->post('details'),
+				'c_lamination' 		=> $this->input->post('lamination'),
+				'c_laminationinfo' 	=> $this->input->post('laminationDetail'),
+				'c_binding' 		=> $this->input->post('binding'),
+				'c_bindinginfo' 	=> $this->input->post('bindingInfo'),
+				'c_blade_per_sheet' => $this->input->post('bladePerSheet')
+			);
+
+			$this->load->model('job_model');
+			$status = $this->job_model->update_cutting_details($cuttingId, $updateData);
+				
+			if($status)
+			{
+				echo json_encode(array(
+					'status' => true
+				));	
+				exit;
+			}
+		}
+	
+		echo json_encode(array(
+			'status' => false
+		));
+		die;	
+	}
+
 }
 

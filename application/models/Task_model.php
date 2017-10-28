@@ -44,6 +44,13 @@ class Task_model extends CI_Model {
 		$this->db->update($this->table,$data);
 		
 	}
+
+	public function update_schedule($id,$data) 
+	{
+		$this->db->where('id',$id);
+		$this->db->update($this->table_sc, $data);
+		
+	}
 	
 	public function delete_task($id) {
 		$this->db->where('id',$id);
@@ -77,7 +84,10 @@ class Task_model extends CI_Model {
 						<td>Reminder Time</td>
 					</tr>';
 		$count = 0;
+		$snoozeId = 0;
 		foreach($result as $data) {
+
+			$snoozeId = $data['master_id'];
 			$reminder_time = strtotime($data['reminder_time']);
 			$now = time();//new DateTime( date('Y-m-d H:i:s'));
 			$interval  = $reminder_time - $now;
@@ -118,7 +128,11 @@ class Task_model extends CI_Model {
 				continue;
 			}
 		}
+
+		$nextSchedule = date('Y/m/d H:i', strtotime('now +1 hour'));
 		$task .= "</table>";
+		$task .= '<div class="row"><div class="col-md-3"><span id="setSnooze" data-id="'.$snoozeId.'"  class="btn btn-primary">Snooze</span></div><div class="col-md-6"><input type="text" name="re_reminder_time"  id="re_reminder_time" value="'.$nextSchedule.'"  class="form-control datepicker" required="required"> </div></div>';
+
 		$return['task'] = $task;
 		$return['count'] = $count;
 		return $return;	

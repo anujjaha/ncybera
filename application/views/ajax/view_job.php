@@ -19,7 +19,10 @@ function pay_job(id) {
 		return false;
 	} else {
 		
-		jQuery("#payBtn").hide();
+		jQuery("#paymentTable").hide();
+		jQuery("#paymentTableMsg").html('Paymet in Progress');
+		
+		
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url();?>/ajax/pay_job/"+id, 
@@ -28,6 +31,13 @@ function pay_job(id) {
 			},
 			success: 
 				function(data){
+					jQuery("#paymentTableMsg").html('');
+					$("#settlement_amount").val('');
+					$("#s_bill_number").val('');
+					$("#s_receipt").val('');
+					$("#s_other").val('');
+					
+					jQuery("#paymentTable").show();
 					alert('Payment Added Successfully');
 					/*$.fancybox.close();
 					location.reload();
@@ -176,6 +186,8 @@ function pay_job(id) {
 	 <?php } ?>
 </table>
 <?php if($job_data->jpaid == 0 && $restricted && $show_due > 0){ ?>
+<span id="paymentTableMsg"></span>
+<span  id="paymentTable">
 <table width="100%" border="2">
 	<tr>
 		<td>
@@ -213,12 +225,14 @@ function pay_job(id) {
 		</td>
 	</tr>
 </table> 
+</span>
 <?php } ?>   
 
 <?php 
 
 if(strlen($job_data->bill_number) < 2) 
 {?>
+<span id="billNumberMsg"></span>
 <table class="table" width="100%" id="billNumberContainer">
 	<tr>
 		<td align="right"> Add Bill Number :</td>
@@ -544,9 +558,10 @@ function addBill(jobId)
 			{
 				if(data.status == true)		
 				{
+					jQuery("#billNumberMsg").html("Added Bill Number Successfully, Bill Number :" + billNumber);
 					jQuery("#billNumberContainer").remove();
-					$.fancybox.close();
-					location.reload();
+					/*$.fancybox.close();
+					location.reload();*/
 				}
 			}
           });	

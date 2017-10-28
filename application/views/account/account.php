@@ -268,7 +268,16 @@ function fill_discount_account() {
 				?>
 		</td>
 		<td align="right">
-			<?php echo $balance;?>
+			<?php 
+				if($balance > 0 )
+				{
+					echo '<span class="green">'.$balance.'</span>';
+				}
+				else
+				{
+					echo $balance;
+				}
+			?>
 		</td>
 		<td>
 			<?php
@@ -465,7 +474,7 @@ function createBills()
 						
 					appendHtml += '</tr>';
 				}
-				
+				jQuery("#jobRecords").html('');
 				jQuery("#jobRecords").append(appendHtml);
 			}
 			
@@ -546,7 +555,6 @@ function setBillToSelectedJobs()
 
 
 <!-- MOdal BOx for Bills -->
-
 <div id="billModalPopup" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -557,13 +565,16 @@ function setBillToSelectedJobs()
         <h4 class="modal-title">Add Bills</h4>
       </div>
       <div class="modal-body">
-		<table id="jobRecords" class="table">
+		<table id="jobRecords1" class="table">
 			<tr>
 				<td> Job Id </td>
 				<td> Job Name </td>
 				<td> Total </td>
 				<td> Date/Time </td>
 			</tr>
+		</table>
+		<table id="jobRecords" class="table">
+			
 		</table>
       </div>
       <div class="modal-footer">

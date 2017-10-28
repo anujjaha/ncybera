@@ -192,9 +192,9 @@ class Estimation extends CI_Controller {
 				$imageUrl = site_url('assets/emailpictures/'.$picData['file_name']);
 				
 				/* FTP Account */
-				$ftp_host = 'cyberaprint.com'; /* host */
-				$ftp_user_name = 'media@cyberaprint.com'; /* username */
-				$ftp_user_pass = '123456'; /* password */
+				$ftp_host 		= 'abhayradiator.com'; /* host */
+				$ftp_user_name 	= 'cybmedia@abhayradiator.com'; /* username */
+				$ftp_user_pass 	= '123456'; /* password */
 				
 				
 				$local_file = 'C:\wamp\www\ncybera\assets\emailpictures\xxx'.$picData['file_name'];
