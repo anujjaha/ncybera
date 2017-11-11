@@ -242,8 +242,8 @@ function update_job_status(id, defaultstatus) {
 				  console.log(data);
 				  if(setDefault)
 				  {
-					  $.fancybox.close();
-                            location.reload();
+					$.fancybox.close();
+                    location.reload();
 				  }
 							
 			 }

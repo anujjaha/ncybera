@@ -112,7 +112,7 @@ function show_notifications(data) {
 							</a>
 						</li>
 						<li class="dropdown messages-menu">
-							<a href="<?php echo base_url().'cdirectory/index'?>">
+							<a href="<?php echo base_url().'cdirectory/index'?>">l
 								Directory
 							</a>
 						</li>
@@ -232,6 +232,7 @@ function show_notifications(data) {
     <ul class="tabs" data-persist="true">
             <li><a href="#regular_customers">Regular Customers</a></li>
             <li><a href="#new_customers">New Customer</a></li>
+            <li><a href="#send_address">Cybera Address</a></li>
     </ul>
     <div class="tabcontents">
 		<div id="regular_customers">
@@ -239,7 +240,7 @@ function show_notifications(data) {
 				<tr>
 					<td align="right"> Select Customer :</td>
 					<td> 
-						<select class="form-control estimate-customer-select" name="customer" id="customer" onchange="show_sms_mobile();">
+						<select class="form-control estimate-customer-select" name="customer" id="customer" onchange="show_sms_mobile_address();">
 							<option value="0" selected="selected">Select Customer</option>
 							<?php
 							foreach($all_customer as $customer) {
@@ -304,6 +305,33 @@ function show_notifications(data) {
 				</tr>
 			</table>
 		</div>
+		<div id="send_address">
+			<table align="center" border="2" width="80%">
+				<tr>
+					<td align="right"> Select Customer :</td>
+					<td> 
+						<input type="text" class="form-control" name="address_customer" id="address_customer">
+						</td>
+				</tr>
+				<tr>
+					<td align="right">Contact Number:</td>
+					<td><input type="text" class="form-control" id="address_sms_mobile" name="address_sms_mobile"></td>
+				</tr>
+				<tr>
+					<td align="right">Message:</td>
+					<td><textarea id="address_sms_message" name="address_sms_message" cols="80" rows="6">Cybera G-3 and 4, Samudra Annexe, Nr. Girish Cold Drinks Cross Road, Off C.G. Road, Navrangpura, Ahmedabad-009 Call 079-26565720 / 9898309897 goo.gl/Fpci9H</textarea>
+						Characters : <span id="charCount">0</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="hidden" id="address_customer_email" name="customer_email">
+						<input type="hidden" name="sms_customer_name" id="address_sms_customer_name">
+						<input type="submit" name="send" class="btn btn-success btn-lg" value="Send SMS" onclick="send_address();">
+					</td>
+				</tr>
+			</table>
+		</div>
     </div>
     
     </div>
@@ -348,6 +376,28 @@ function show_notifications(data) {
   
     
 });
+
+function send_address()
+{
+	var customer_id,sms_message,sms_mobile;
+	customer_id = $("#address_customer").val();
+	sms_message = $("#address_sms_message").val();
+	sms_mobile = $("#address_sms_mobile").val();
+	sms_customer_name = $("#address_sms_customer_name").val();
+	customer_email = $("#address_customer_email").val();
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/send_address/", 
+         data:{'customer_id':customer_id,'customer_email':customer_email,"sms_message":sms_message,"sms_mobile":sms_mobile,"sms_customer_name":sms_customer_name},
+         success: 
+            function(data){
+				//console.log(data);
+				alert("SMS Sent :"+data);
+				$.fancybox.close();
+            }
+          });
+}
+
 function create_estimation(){
 	var customer_id,sms_message,sms_mobile;
 	customer_id = $("#customer").val();
@@ -437,6 +487,32 @@ function header_calculate_paper_cost(){
             }
         }
           });
+}
+
+function show_sms_mobile_address()
+{
+		var customer_id = jQuery("#address_customer").val();
+	if(customer_id == 0 ) {
+		jQuery("#address_sms_mobile").val('');
+		return true;
+	}
+    $.ajax({
+     type: "POST",
+     dataType:"json",
+     url: "<?php echo site_url();?>/ajax/ajax_get_customer/"+customer_id, 
+     success: 
+        function(data){
+			jQuery("#address_customer_email").val(data['emailid']);
+
+			jQuery("#address_sms_mobile").val(data['mobile']);
+			if(jQuery("#address_sms_customer_name").val(data['name']).length > 0 ) {
+					jQuery("#address_sms_customer_name").val(data['name']);
+			} else {
+					jQuery("#address_sms_customer_name").val(data['companyname']);
+			}
+		}
+  });
+
 }
 
 function show_sms_mobile() {

@@ -37,19 +37,24 @@ class Prints extends CI_Controller {
 			$this->load->model('job_model');
             $data = array('j_status'=>$this->input->post('j_status'),'j_id'=>$this->input->post('j_id'));
             $flag = false;
-            if($this->input->post('bill_number')) {
+
+            if($this->input->post('bill_number')) 
+            {
 				$jdata['bill_number'] = $this->input->post('bill_number');
 				$flag = true;
 			}
-            if($this->input->post('voucher_number')) {
+            if($this->input->post('voucher_number')) 
+            {
 				$jdata['voucher_number'] = $this->input->post('voucher_number');
 				$flag = true;
 			}
-            if($this->input->post('receipt')) {
+            if($this->input->post('receipt')) 
+            {
 				$jdata['receipt'] = $this->input->post('receipt');
 				$flag = true;
 			}
-			if($flag) {
+			if($flag) 
+			{
 				$jdata['is_delivered'] = $this->input->post('is_delivered');
 				$this->job_model->update_job($job_id,$jdata);
 			}
@@ -59,16 +64,22 @@ class Prints extends CI_Controller {
 				$this->job_model->update_job($job_id,$jdata);
 			}
 			
-			if($this->input->post('send_sms') == 'Yes') {
-				job_complete_sms($job_id);
+			if($this->input->post('send_sms') == 'Yes') 
+			{
+				$this->job_model->add_job_transaction($data);
+				return job_complete_sms($job_id);
 			}
 			
-			if( $this->input->post('j_status') == JOB_PRINT_COMPLETED ) {
+			if( $this->input->post('j_status') == 'Completed' )
+			{
+				$this->job_model->add_job_transaction($data);
 				$is_cutting = $this->job_model->is_cutting($job_id);
+
 				if(! $is_cutting ) {
-					job_complete_sms($job_id);
+					return job_complete_sms($job_id);
 				}
 			}
+			
             return $this->job_model->add_job_transaction($data);
         }
 	public function get_all()

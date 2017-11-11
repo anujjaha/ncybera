@@ -224,15 +224,19 @@ if ( ! function_exists('test_method'))
 		$response = curl_exec($ch);
 		curl_close($ch);
 		
-		$ci->load->model('sms_transaction_model','sms');
-		$sms_data['user_id'] = $user_id;
-		$sms_data['customer_id'] = $customer_id;
-		$sms_data['prospect_id'] = $prospect_id;
-		$sms_data['sms_text'] = $sms_text;
-		$sms_data['mobile'] = $mobile;
-		$sms_data['char_count'] = strlen($sms_text);
-		$sms_data['status'] = $response;
-		$ci->sms->insert_sms($sms_data);
+		
+		if($user_id && $customer_id)
+		{
+			$ci->load->model('sms_transaction_model','sms');
+			$sms_data['user_id'] = $user_id;
+			$sms_data['customer_id'] = $customer_id;
+			$sms_data['prospect_id'] = $prospect_id;
+			$sms_data['sms_text'] = $sms_text;
+			$sms_data['mobile'] = $mobile;
+			$sms_data['char_count'] = strlen($sms_text);
+			$sms_data['status'] = $response;
+			$ci->sms->insert_sms($sms_data);
+		}
 	return true;
 	}
 	

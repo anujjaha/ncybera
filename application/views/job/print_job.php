@@ -47,7 +47,7 @@ function printDiv(divName) {
 <button class="btn btn-primary" onclick="print_courier()">Courier Slip</button>
 <button class="btn btn-primary" onclick="print_courier_small()">Small Courier Slip</button>
 <button class="btn btn-primary" onclick="edit_job()">Edit Job</button>
-<a href="#editCuttingSlipLive">Quick Edit Cutting Slip</a>
+<a href="<?php echo site_url();?>jobs/job_print_with/<?php echo $job_data->id;?>#editCuttingSlipLive">Quick Edit Cutting Slip</a>
 <!--<button class="btn btn-primary" onclick="print_cutting()">Cutting Slip</button>-->
 <div class="row">
 	<div class="col-md-12">

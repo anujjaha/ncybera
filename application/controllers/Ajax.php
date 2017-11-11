@@ -1186,5 +1186,30 @@ class Ajax extends CI_Controller {
 		die;	
 	}
 
+	public function send_address()
+	{
+		if($this->input->post())
+		{
+			$sms_message = $this->input->post('sms_message');
+			$sms_mobile = $this->input->post('sms_mobile');
+				
+			echo $sms_mobile . "<br>";
+			$msg = str_replace(" ","+",$sms_message);
+			$url = "http://ip.infisms.com/smsserver/SMS10N.aspx?Userid=cyberabill&UserPassword=cyb123&PhoneNumber=$sms_mobile&Text=$msg&GSM=CYBERA";
+			
+			$url = urlencode($url);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, urldecode($url));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+			$response = curl_exec($ch);
+			curl_close($ch);
+			
+			//send_sms(NULL, 0,$sms_mobile,$sms_message);
+			echo $sms_message;
+		}
+		return true;
+	}
 }
 

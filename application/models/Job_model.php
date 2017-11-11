@@ -437,11 +437,50 @@ class Job_model extends CI_Model {
 	
 	public function getJobsWithoutBill($customerId = null)
 	{
-		$sql = "SELECT * FROM job WHERE customer_id = ".$customerId." AND ( bill_number = '' OR bill_number = 0 ) order by id ";
+		$billJobIds = "SELECT DISTINCT(job_id) from user_transactions where customer_id = ".$customerId." AND bill_number = ''";
+		$bQuery 	= $this->db->query($billJobIds);
+		$bResult	= $bQuery->result_array(); 
+		$response 	= array();
+		$jobIds 	= $this->getJobIds($bResult);
+
+		
+		$withBill   = "SELECT DISTINCT(job_id) from user_transactions where customer_id = ".$customerId." AND job_id NOT IN (".implode(',', $jobIds).")";
+
+		$billQ 		= $this->db->query($withBill);
+		$billResult	= $billQ->result_array(); 
+		$response 	= array();
+		$billIds 	= $this->getJobIds($billResult);
+
+		$sql = "SELECT * FROM job WHERE customer_id = ".$customerId." order by id ";
 
 		$query = $this->db->query($sql);
 		
-		return $query->result_array(); 
+		$results = $query->result_array(); 
+
+		foreach($results as $result)
+		{
+			if(strlen($result['bill_number']) > 0 )
+				continue;
+			
+			if(in_array($result['job_id'], $billIds))
+				continue;
+
+			$response[] = $result;
+		}
+
+		return $response;
+	}
+
+	public function getJobIds($jobs)
+	{
+		$result = array();
+
+		foreach($jobs as $job)
+		{
+			$result[] = $job['job_id']		;
+		}
+
+		return $result;
 	}
 }
 
