@@ -125,7 +125,7 @@ class Customer extends CI_Controller {
 			}
 			
 			$this->load->helper('url');
-			redirect("customer/index",'refresh');
+			redirect("/",'refresh');
 		}
 		$this->template->load('customer', 'edit', $data);
 	}

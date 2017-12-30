@@ -33,7 +33,29 @@ if ( ! function_exists('test_method'))
         }
         return true;
     }
-  
+  	
+  	function createAllExistingCustomerDropDown($flag = true)
+  	{
+  		$sql = "SELECT id,name,companyname FROM customer order by companyname";
+		$ci=& get_instance();
+		$ci->load->database(); 	
+		$query = $ci->db->query($sql);
+		$extra ="";
+		if($flag) {
+			$extra = 'onchange="customer_selected('."'customer'".',this.value)"';
+		}
+		$dropdown = "<select id='customer'  class='form-control select-customer' name='customer' $extra><option value=0> Select Customer</option>";
+		
+		foreach($query->result() as $customer) {
+				$cname = ucwords($customer->name);
+				if($customer->companyname) {
+					$cname = ucwords($customer->companyname);
+				}
+				$dropdown .= "<option value='".$customer->id."'>".strtolower($cname)."</option>";
+		}
+		$dropdown .= '</select>';
+		return $dropdown;
+  	}
     
     function create_customer_dropdown($type,$flag=null) {
 		if($type == "customer") {

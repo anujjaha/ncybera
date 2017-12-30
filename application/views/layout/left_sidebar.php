@@ -141,6 +141,14 @@
                             </a>
                         </li>
                         <li>
+                            <a target="_blank" href="<?php echo base_url();?>customer/edit">
+                                <i class="fa fa-calendar"></i> <span>Add New Customer</span>
+                                <!--<small class="badge pull-right bg-red">
+                                <span id="show_customers"></span>
+                                </small>-->
+                            </a>
+                        </li>
+                        <li>
                             <a target="_blank" href="<?php echo base_url();?>dealer/vcustomers">
                                 <i class="fa fa-calendar"></i> <span>Voucher Customers</span>
                                 <!--<small class="badge pull-right bg-red">
@@ -193,6 +201,15 @@
                             <a href="#">
                                 <i class="fa fa-envelope"></i> <span>Inbox</span>
                                 <small class="badge pull-right bg-yellow">2</small>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="<?php echo base_url();?>book">
+                                <i class="fa fa-calendar"></i> <span>Sample Books</span>
+                                <!--<small class="badge pull-right bg-red">
+                                <span id="show_customers"></span>
+                                </small>-->
                             </a>
                         </li>
                         

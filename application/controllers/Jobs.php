@@ -32,6 +32,7 @@ class Jobs extends CI_Controller {
             $jobdata['advance'] = 0;
             $jobdata['due'] = $jobData->total;
             $jobdata['notes'] = $jobData->notes;
+            $jobdata['extra_notes'] = $jobData->extra_notes;
             $jobdata['receipt'] = '';
             $jobdata['voucher_number'] = '';
             $jobdata['bill_number'] = '';
@@ -131,7 +132,8 @@ class Jobs extends CI_Controller {
 		$data['heading']="Jobs";
 		$this->template->load('job', 'index', $data);
 	}
-	public function edit($job_id=null)
+
+public function edit($job_id=null)
 {
         $data['title']="Job - Cybera Print Art";
         $data['heading']="Jobs";
@@ -205,6 +207,7 @@ class Jobs extends CI_Controller {
                 $jobdata['advance'] = $this->input->post('advance');
                 $jobdata['due'] = $this->input->post('due');
                 $jobdata['notes'] = $this->input->post('notes');
+                $jobdata['extra_notes'] = $this->input->post('extra_notes');
                 $jobdata['receipt'] = $this->input->post('receipt');
                 $jobdata['voucher_number'] = $this->input->post('voucher_number');
                 $jobdata['bill_number'] = $this->input->post('bill_number');
@@ -425,6 +428,7 @@ class Jobs extends CI_Controller {
 				$jobdata['advance'] = $this->input->post('advance');
 				$jobdata['due'] = $this->input->post('due');
 				$jobdata['notes'] = $this->input->post('notes');
+        $jobdata['extra_notes'] = $this->input->post('extra_notes');
 				$jobdata['bill_number'] = $this->input->post('bill_number');
 				$jobdata['voucher_number'] = $this->input->post('voucher_number');
 				$jobdata['receipt'] = $this->input->post('receipt');
@@ -527,7 +531,7 @@ class Jobs extends CI_Controller {
 			$data['cutting_info'] = $this->job_model->get_cutting_details($job_id);
 			$data['transporter_info'] = $this->customer_model->getTransporterDetailsByCustomerId($job_data->customer_id);
 			
-			$this->template->load('job', 'print_job', $data);
+      $this->template->load('job', 'print_job', $data);
 		}
 	}
 

@@ -637,6 +637,16 @@ class Ajax extends CI_Controller {
 			echo "done";die;
 		}
 	}
+
+	public function ajax_book_delete()
+	{
+		if($this->input->post()) {
+			$id = $this->input->post('id');
+			$this->load->model('book_model');
+			$status = $this->book_model->deleteBook($id);
+			echo "done";die;
+		}
+	}
 	
 	public function ajax_task_delete() {
 		if($this->input->post()) {
@@ -1210,6 +1220,31 @@ class Ajax extends CI_Controller {
 			echo $sms_message;
 		}
 		return true;
+	}
+
+	public function get_customer_book_info()
+	{
+		if($this->input->post())
+		{
+			$customerId = $this->input->post('cutomerId');
+			
+			$this->load->model('book_model');
+
+			$status = $this->book_model->getBookInfoByCutomerId($customerId);
+
+			if($status)
+			{
+				echo json_encode(array(
+					'status' => true
+				));	
+				exit;
+			}
+		}
+	
+		echo json_encode(array(
+			'status' => false
+		));
+		die;	
 	}
 }
 

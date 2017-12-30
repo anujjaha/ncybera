@@ -372,8 +372,18 @@ $modified_by = $this->session->userdata['user_id'];
 	<?php $j++;} ?>
 	<tr>
 		<td rowspan="4" colspan="5">
-			Notes : <textarea name="notes" cols="120" rows="5"><?php echo $job_data->notes;?></textarea>
-		</td>
+        	<table>
+        			<tr>
+	        			<td>
+	        				Notes : <textarea name="notes" cols="60" rows="5"><?php echo $job_data->notes;?></textarea>
+	        			</td>
+	        			<td>
+	        				Extra Notes : <textarea name="extra_notes" style="background-color: pink;"  cols="60" rows="5"><?php echo $job_data->extra_notes;?></textarea>
+	        			</td>
+        			</tr>
+        	</table>
+        </td>
+
 		<td align="right">
 			Sub Total :
 		</td>

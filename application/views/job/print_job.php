@@ -54,6 +54,21 @@ function printDiv(divName) {
 		<h1>Print Job Details</h1>
 	</div>
 </div>
+
+<?php
+	if(strlen($job_data->extra_notes) > 0)
+	{
+?>
+<div class="row">
+	<div class="col-md-2 text-bold">
+	Extra Notes
+	</div>
+	<div class="col-md-10">
+		<?php echo $job_data->extra_notes;?>
+	</div>
+</div>
+<hr>
+<?php } ?>
 <div id="printJobTicket" style="height:8.3in; width:5.8in; font-size:8px; font-family:Arial, Helvetica, sans-serif;">
 <?php
 $created_info = get_user_by_param('id',$job_data->user_id);
@@ -151,8 +166,13 @@ if($customer_details->ctype == 1 )
 								<strong>Note :</strong>'.$job_data->notes.'
 								</span>
 							</td>
-						</tr>
-						<tr>
+						</tr>';
+
+						if($j == 0) {
+							$content .= '	
+							';
+						}
+						$content .= '<tr>
 							<td colspan="2">
 							<span style="font-size:9px;">
 								I/We have checked all content,color,material in the sample print.

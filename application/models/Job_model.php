@@ -437,14 +437,24 @@ class Job_model extends CI_Model {
 	
 	public function getJobsWithoutBill($customerId = null)
 	{
-		$billJobIds = "SELECT DISTINCT(job_id) from user_transactions where customer_id = ".$customerId." AND bill_number = ''";
-		$bQuery 	= $this->db->query($billJobIds);
+
+		$userTransactions = "SELECT job_id, bill_number from user_transactions where customer_id = ".$customerId." AND t_type = 'credit' ";
+		$bQuery 	= $this->db->query($userTransactions);
+		
 		$bResult	= $bQuery->result_array(); 
 		$response 	= array();
-		$jobIds 	= $this->getJobIds($bResult);
+		$jobIds 	= $this->getJobIdWithoutBill($bResult);
+		$withBill   = array();
 
-		
+		if(count($jobIds))
+		{
+
 		$withBill   = "SELECT DISTINCT(job_id) from user_transactions where customer_id = ".$customerId." AND job_id NOT IN (".implode(',', $jobIds).")";
+		}
+		else
+		{
+			$withBill   = "SELECT DISTINCT(job_id) from user_transactions where customer_id = ".$customerId;
+		}
 
 		$billQ 		= $this->db->query($withBill);
 		$billResult	= $billQ->result_array(); 
@@ -455,17 +465,36 @@ class Job_model extends CI_Model {
 
 		$query = $this->db->query($sql);
 		
-		$results = $query->result_array(); 
+		$results = $query->result_array();
 
+		$myData = array();
 		foreach($results as $result)
 		{
-			if(strlen($result['bill_number']) > 0 )
+
+
+			if(strlen($result['bill_number']) > 3)
 				continue;
 			
 			if(in_array($result['job_id'], $billIds))
 				continue;
 
-			$response[] = $result;
+			$myData[] = $result;
+		}
+	
+
+		return $myData;
+	}
+
+	public function getJobIdWithoutBill($records)
+	{
+		$response = array();
+
+		foreach($records as  $record)
+		{
+			if(strlen($record['bill_number'] > 1))
+			{
+				$response[] = $record['job_id'];
+			}
 		}
 
 		return $response;

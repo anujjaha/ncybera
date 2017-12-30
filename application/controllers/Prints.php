@@ -76,7 +76,7 @@ class Prints extends CI_Controller {
 				$is_cutting = $this->job_model->is_cutting($job_id);
 
 				if(! $is_cutting ) {
-					return job_complete_sms($job_id);
+					//return job_complete_sms($job_id);
 				}
 			}
 			

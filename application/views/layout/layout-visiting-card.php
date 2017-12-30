@@ -17,7 +17,7 @@
 		<td colspan="2" align="center">350 GSM Matt Card </td>
 		<td colspan="2" align="center">350 GSM Gloss Card </td>
 		<td colspan="2" align="center">350 GSM Matt/Gloss Laminated </td>
-		<td colspan="2" align="center">350 GSM Velvet Laminated </td>
+		<!-- <td colspan="2" align="center">350 GSM Velvet Laminated </td> -->
 	</tr>
 	
 	<tr>
@@ -34,8 +34,8 @@
 		<td> Single Side </td>
 		<td> Double Side </td>
 		
-		<td> Single Side </td>
-		<td> Double Side </td>
+		<!-- <td> Single Side </td>
+		<td> Double Side </td> -->
 		
 	</tr>
 	
@@ -90,7 +90,7 @@
 			</span>
 		</td>
 		 
-		<td>
+		<!-- <td>
 			<span class="price btn btn-primary gsmVelvet" data-price="700" data-card="350_GSM_VELVET_Laminated" data-type="SS">
 				700
 			</span>
@@ -99,7 +99,7 @@
 			<span class="price btn btn-primary gsmVelvet" data-price="700" data-card="350_GSM_VELVET_Laminated" data-type="FB">
 				700
 			</span>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr  class="rowQty" id="qty_192">
@@ -153,7 +153,7 @@
 			</span>
 		</td>
 		
-		<td>
+		<!-- <td>
 			<span class="price btn btn-primary gsmVelvet" data-price="1050" data-card="350_GSM_VELVET_Laminated" data-type="SS">
 				1050
 			</span>
@@ -162,7 +162,7 @@
 			<span class="price btn btn-primary gsmVelvet" data-price="1050" data-card="350_GSM_VELVET_Laminated" data-type="FB">
 				1050
 			</span>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr  class="rowQty" id="qty_288">
@@ -216,7 +216,7 @@
 			</span>
 		</td>
 		
-		<td>
+		<!-- <td>
 			<span class="price btn btn-primary gsmVelvet" data-price="1500" data-card="350_GSM_VELVET_Laminated" data-type="SS">
 				1500
 			</span>
@@ -225,7 +225,7 @@
 			<span class="price btn btn-primary gsmVelvet" data-price="1500" data-card="350_GSM_VELVET_Laminated" data-type="FB">
 				1500
 			</span>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr  class="rowQty" id="qty_500">
@@ -279,7 +279,7 @@
 			</span>
 		</td>
 		
-		<td>
+		<!-- <td>
 			<span class="price btn btn-primary gsmVelvet" data-price="2250" data-card="350_GSM_VELVET_Laminated" data-type="SS">
 				2250
 			</span>
@@ -288,7 +288,7 @@
 			<span class="price btn btn-primary gsmVelvet" data-price="2250" data-card="350_GSM_VELVET_Laminated" data-type="FB">
 				2250
 			</span>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr  class="rowQty"  id="qty_1000">
@@ -342,7 +342,7 @@
 			</span>
 		</td>
 		
-		<td>
+		<!-- <td>
 			<span class="price btn btn-primary gsmVelvet" data-price="3700" data-card="350_GSM_VELVET_Laminated" data-type="SS">
 				3700
 			</span>
@@ -351,7 +351,7 @@
 			<span class="price btn btn-primary gsmVelvet" data-price="3700" data-card="350_GSM_VELVET_Laminated" data-type="FB">
 				3700
 			</span>
-		</td>
+		</td> -->
 	</tr>
 </table>
 
