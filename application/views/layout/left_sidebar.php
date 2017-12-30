@@ -88,6 +88,11 @@
                                 <i class="fa fa-dashboard"></i> <span>New Job</span>
                             </a>
                         </li>
+                         <li class="active">
+                            <a target="_blank" href="<?php echo base_url();?>jobs/pending">
+                                <i class="fa fa-dashboard"></i> <span>All Pending Jobs</span>
+                            </a>
+                        </li>
                         <li>
                             <a target="_blank" href="<?php echo base_url();?>jobs">
                                 <i class="fa fa-envelope"></i> <span>Jobs</span>

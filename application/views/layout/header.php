@@ -18,7 +18,7 @@ function show_calculator()
 
 
 window.setInterval(function(){
-  check_notifications();
+  //check_notifications();
 }, 10000);
 
 function check_notifications() 

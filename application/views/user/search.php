@@ -290,6 +290,70 @@
                 });
             });
            
+            
+function update_status(id,value) {
+	var oTable = $('#example1').dataTable();
+	 $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/dealer/update_dealer_status/"+id+"/"+value, 
+         success: 
+              function(data){
+				  location.reload();
+			 }
+          });
+}
+function update_job_status(id, defaultstatus) {
+	
+	var setDefault = false;
+	
+	if(defaultstatus)
+	{
+		setDefault = true;
+	}
+	var value = $( "input:radio[name=jstatus]:checked" ).val();
+	var send_sms = $( "input:radio[name=send_sms]:checked" ).val();
+	var is_delivered = $( "input:radio[name=is_delivered]:checked" ).val();
+	var bill_number = $( "#bill_number").val();
+	var voucher_number = $( "#voucher_number").val();
+	var receipt = $( "#receipt").val();
+	
+	jQuery("#saveJobStatusBtn").attr('disabled', true);
+	
+	if(jQuery("#jobStatusTbl") && setDefault == false)
+	{
+		alert('Job Status Updated');
+		jQuery("#jobStatusTbl").hide();
+	}
+	
+	$.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/prints/update_job_status/"+id, 
+         data:{"j_id":id, "is_delivered": is_delivered,"j_status":value,"send_sms" : send_sms,"receipt":receipt,"bill_number":bill_number,"voucher_number":voucher_number},
+         success: 
+              function(data){
+				  console.log(data);
+				  if(setDefault)
+				  {
+					$.fancybox.close();
+                    location.reload();
+				  }
+							
+			 }
+          });
+}
+
+
+function show_job_status(job_id){
+    $.ajax({
+         type: "POST",
+         url: "<?php echo site_url();?>/ajax/ajax_jobstatus_history/"+job_id, 
+         success: 
+            function(data){
+                  jQuery("#job_status").html(data);
+            }
+          });
+}
+           
 function show_job_details(job_id){
     $.ajax({
          type: "POST",

@@ -11,6 +11,16 @@ class Jobs extends CI_Controller {
 		
 	}
 	
+	public function pending()
+   {
+     $this->load->model('job_model');
+     $data = array();
+     $data['jobs'] = $this->job_model->get_dashboard_pending_details();
+     $data['title']="Job - Cybera Print Art";
+     $data['heading']="Jobs";
+     $this->template->load('user', 'pending', $data);
+  }
+ 
 	public function copyjob($jobId = null)
 	{
 		if($jobId)
